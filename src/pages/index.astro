@@ -1,15 +1,108 @@
 ---
+import "../styles/theme/style.css"
+import Timeline from "../components/Timeline.astro"
+const lightgreen = "hsl(133, 47%, 55%)"
+
+// pass different props to Timeline depending on what is chosen in the nav
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Zelda Timelines</title>
+    </head>
+    <body>
+        <main>
+            <nav id="navbar">
+                <div class="title">
+                    <a href="/">Zelda timelines</a>
+                </div>
+                <!-- <div class="nav-items">
+                    <div>home</div>
+                    <div>about</div>
+                </div>
+                <div class="title">
+                    <a href="/">zelda timelines</a>
+                </div> -->
+            </nav>
+            <Timeline />
+        </main>
+        <style lang="scss" define:vars={{ lightgreen }} is:global>
+            #navbar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: hsl(151, 33%, 60%);
+                .title,
+                .nav-items {
+                    margin: 0.5rem 1rem;
+                }
+                .title {
+                    font-family: "triforcetriforce", sans-serif;
+                    padding-top: 0.25rem;
+                    font-size: 2.25rem;
+                    text-align: left;
+                    a {
+                        color: hsl(0, 84%, 71%);
+                        color: white;
+                        text-decoration: none;
+                    }
+                }
+                .nav-items {
+                    display: flex;
+                    font-size: 1.5rem;
+                    color: white;
+                }
+            }
+            #timeline {
+                font-family: "RocknRoll One", sans-serif;
+                // background-color: var(--lightgreen);
+                overflow: auto;
+
+                .visualization {
+                    cursor: move; /* fallback if grab cursor is unsupported */
+                    cursor: grab;
+                    cursor: -moz-grab;
+                    cursor: -webkit-grab;
+                    &:active {
+                        cursor: grabbing;
+                        cursor: -moz-grabbing;
+                        cursor: -webkit-grabbing;
+                    }
+                    .game {
+                        z-index: 2;
+                        cursor: pointer;
+                        transition: 0.15s;
+                        &:hover {
+                            fill: white;
+                            color: white;
+                            transform: scale(1.1);
+                            .icon,
+                            [astro-icon],
+                            .game-name {
+                                fill: white;
+                                color: white;
+                            }
+                        }
+                        .icon,
+                        [astro-icon],
+                        .game-name {
+                            fill: whitesmoke;
+                            color: whitesmoke;
+                            cursor: pointer;
+                        }
+                        .game-name {
+                            font-size: 1rem;
+                            word-wrap: break-word;
+                            user-select: none;
+                            fill: whitesmoke;
+                        }
+                    }
+                }
+            }
+        </style>
+    </body>
 </html>

@@ -1,0 +1,85 @@
+---
+import { Icon } from "astro-icon"
+import games from "../../public/data/games.json"
+import order_of_time from "../../public/data/order-of-time.json"
+import Details from "./Details.astro"
+
+const defaultSpacing = 250
+const width: number = (order_of_time.nodes.length + 2) * defaultSpacing
+const height: number = 500
+const { nodes } = order_of_time
+
+// change this to preact
+---
+
+<div id="timeline">
+    <svg class="visualization" width={width} height={height}>
+        <path
+            stroke="red"
+            stroke-width={4}
+            d={`
+                M${defaultSpacing * nodes.length} 
+                ${height / 2} 
+                H${defaultSpacing}
+            `}
+        >
+        </path>
+        {
+            nodes.map((node: any, n) => (
+                <g>
+                    <rect
+                        x={defaultSpacing * (n + 1) - 35}
+                        y={height / 2 - 50}
+                        height={140}
+                        width={140}
+                        fill="hsl(103, 33%, 72%)"
+                    />
+                    <g
+                        class="game"
+                        style={{
+                            transformOrigin: `
+                            ${defaultSpacing * (n + 1)}px  
+                            ${height / 2}px`,
+                        }}
+                    >
+                        <rect
+                            class="rect-for-hover"
+                            style={{
+                                transformOrigin: `
+                            ${defaultSpacing * (n + 1)}px  
+                            ${height / 2}px`,
+                            }}
+                            x={defaultSpacing * (n + 1) - 35}
+                            y={height / 2 - 50}
+                            height={140}
+                            width={140}
+                            fill="transparent"
+                        />
+                        <Icon
+                            name={node.filename}
+                            style={{
+                                transformOrigin: `
+                            ${defaultSpacing * (n + 1)}px  
+                            ${height / 2}px`,
+                            }}
+                            x={defaultSpacing * (n + 1)}
+                            width={80}
+                            title={node.name}
+                        />
+                        <text
+                            class="game-name"
+                            x={defaultSpacing * (n + 1) + 35}
+                            y={height / 2}
+                            dominant-baseline="middle"
+                            text-anchor="middle"
+                            dy={70}
+                        >
+                            {node.name}
+                        </text>
+                    </g>
+                </g>
+            ))
+        }
+    </svg>
+</div>
+<Details />

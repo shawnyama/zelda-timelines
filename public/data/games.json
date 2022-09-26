@@ -1,0 +1,136 @@
+{
+    "prime": [
+        {
+            "subtitle": "Skyward Sword",
+            "symbols": ["skyward-sword.svg"],
+            "systems": ["Wii", "Nintendo Switch"]
+        },
+        {
+            "subtitle": "Ocarina of Time",
+            "symbols": ["ocarina-of-time.svg"],
+            "systems": ["Nintendo 64", "Nintendo 3DS"]
+        },
+        {
+            "subtitle": "Majora's Mask",
+            "symbols": ["majoras-mask.svg"],
+            "systems": ["Nintendo 64", "Nintendo 3DS"]
+        },
+        {
+            "subtitle": "Hyrule Warriors",
+            "symbols": ["hyrule-warriors.svg"],
+            "systems": ["Wii U", "Nintendo 3DS", "Nintendo Switch"]
+        },
+        {
+            "subtitle": "Twilight Princess",
+            "symbols": ["twilight-princess.svg"],
+            "systems": ["GameCube", "Wii", "Wii U"]
+        },
+        {
+            "subtitle": "Link's Crosswbow Training",
+            "symbols": ["hyrule-warriors-legends.svg"],
+            "systems": ["Wii"]
+        },
+        {
+            "subtitle": "A Link to the Past",
+            "symbols": ["a-link-to-the-past.svg"],
+            "systems": ["Super Nintendo", "Game Boy Advance"]
+        }
+    ],
+    "diverged": [
+        {
+            "subtitle": "The Wind Waker",
+            "symbols": ["the-wind-waker.svg"],
+            "systems": ["GameCube", "Wii U"]
+        },
+        {
+            "subtitle": "Navi Trackers",
+            "symbols": ["hyrule-warriors-legends.svg"],
+            "systems": ["GameCube"]
+        },
+        {
+            "subtitle": "Phantom Hourglass",
+            "symbols": ["phantom-hourglass.svg"],
+            "systems": ["Nintendo DS"]
+        },
+        {
+            "subtitle": "Spirit Tracks",
+            "symbols": ["spirit-tracks.svg"],
+            "systems": ["Nintendo DS"]
+        },
+        {
+            "subtitle": "The Minish Cap",
+            "symbols": ["the-minish-cap.svg"],
+            "systems": ["Game Boy Advance"]
+        },
+        {
+            "subtitle": "Four Swords (Adventures)",
+            "symbols": ["four-swords-adventures.svg",
+                       "four-swords.svg"],
+            "systems": ["Game Boy Advance", "Nintendo DSi", "GameCube"]
+        }
+    ],
+    "converged": [
+        {
+            "subtitle": "Ancient Stone Tablets",
+            "symbols": ["hyrule-warriors-legends.svg"],
+            "systems": ["Super Nintendo Satellaview"]
+        },
+        {
+            "subtitle": "A Link Between Worlds",
+            "symbols": ["a-link-between-worlds.svg"],
+            "systems": ["Nintendo 3DS"]
+        },
+        {
+            "subtitle": "Cadence of Hyrule",
+            "symbols": ["cadence-of-hyrule.svg"],
+            "systems": ["Nintendo Switch"]
+        },
+        {
+            "subtitle": "Triforce Heroes",
+            "symbols": ["tri-force-heroes.svg"],
+            "systems": ["Nintendo 3DS"]
+        },
+        {
+            "subtitle": "Oracle of Seasons & Ages",
+            "symbols": ["oracle-of-seasons.svg",
+                       "oracle-of-ages.svg"],
+            "systems": ["Game Boy Color"]
+        },
+        
+        {
+            "subtitle": "Link's Awakening",
+            "symbols": ["links-awakening.svg"],
+            "systems": ["Game Boy", "Game Boy Color", "Nintendo Switch"]
+        },
+        {
+            "subtitle": "Zelda I",
+            "symbols": ["the-legend-of-zelda.svg"],
+            "systems": ["NES"]
+        },
+        {
+            "subtitle": "Zelda II: The Adventure of Link",
+            "symbols": ["the-adventure-of-link.svg"],
+            "systems": ["NES"]
+        },
+        {
+            "subtitle": "CDi Games & Cartoon",
+            "symbols": ["hyrule-warriors-legends.svg"],
+            "systems": ["Philips CDi"]
+        },
+        {
+            "subtitle": "Hyrule Warriors: Age of Calamity",
+            "symbols": ["age-of-calamity.svg"],
+            "systems": ["Nintendo Switch"]
+        },
+        {
+            "subtitle": "Breath of the Wild",
+            "symbols": ["breath-of-the-wild.svg"],
+            "systems": ["Wii U", "Nintendo Switch"]
+        },
+        {
+            "subtitle": "Breath of the Wild Sequel",
+            "symbols": ["breath-of-the-wild-sequel.svg"],
+            "systems": ["Nintendo Switch"]
+        }
+    ]
+}
