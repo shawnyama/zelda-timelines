@@ -1,6 +1,6 @@
 ---
 import "../styles/theme/style.css"
-import Timeline from "../components/Timeline.astro"
+import Timeline from "../components/Timeline"
 const lightgreen = "hsl(133, 47%, 55%)"
 
 // pass different props to Timeline depending on what is chosen in the nav
@@ -15,30 +15,30 @@ const lightgreen = "hsl(133, 47%, 55%)"
         <title>Zelda Timelines</title>
     </head>
     <body>
-        <main>
-            <nav id="navbar">
-                <div class="title">
-                    <a href="/">Zelda timelines</a>
-                </div>
-                <!-- <div class="nav-items">
+        <nav>
+            <div class="title">
+                <a href="/">Zelda timelines</a>
+            </div>
+            <!-- <div class="nav-items">
                     <div>home</div>
                     <div>about</div>
                 </div>
                 <div class="title">
                     <a href="/">zelda timelines</a>
                 </div> -->
-            </nav>
-            <Timeline />
+        </nav>
+        <main>
+            <Timeline client:visible />
         </main>
         <style lang="scss" define:vars={{ lightgreen }} is:global>
-            #navbar {
+            nav {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 background-color: hsl(151, 33%, 60%);
                 .title,
                 .nav-items {
-                    margin: 0.5rem 1rem;
+                    margin: 0.25rem 1rem;
                 }
                 .title {
                     font-family: "triforcetriforce", sans-serif;
@@ -57,48 +57,55 @@ const lightgreen = "hsl(133, 47%, 55%)"
                     color: white;
                 }
             }
-            #timeline {
+            main {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
                 font-family: "RocknRoll One", sans-serif;
                 // background-color: var(--lightgreen);
-                overflow: auto;
-
-                .visualization {
-                    cursor: move; /* fallback if grab cursor is unsupported */
-                    cursor: grab;
-                    cursor: -moz-grab;
-                    cursor: -webkit-grab;
-                    &:active {
-                        cursor: grabbing;
-                        cursor: -moz-grabbing;
-                        cursor: -webkit-grabbing;
-                    }
-                    .game {
-                        z-index: 2;
-                        cursor: pointer;
-                        transition: 0.15s;
-                        &:hover {
-                            fill: white;
-                            color: white;
-                            transform: scale(1.1);
+                .timeline-container {
+                    overflow: auto;
+                    overflow-y: hidden;
+                    height: 65%;
+                    align-content: center;
+                    .timeline {
+                        cursor: move; /* fallback if grab cursor is unsupported */
+                        cursor: grab;
+                        cursor: -moz-grab;
+                        cursor: -webkit-grab;
+                        &:active {
+                            cursor: grabbing;
+                            cursor: -moz-grabbing;
+                            cursor: -webkit-grabbing;
+                        }
+                        .game {
+                            z-index: 2;
+                            cursor: pointer;
+                            transition: 0.15s;
+                            &:hover {
+                                fill: white;
+                                color: white;
+                                transform: scale(1.1);
+                                .icon,
+                                [astro-icon],
+                                .game-name {
+                                    fill: white;
+                                    color: white;
+                                }
+                            }
                             .icon,
                             [astro-icon],
                             .game-name {
-                                fill: white;
-                                color: white;
+                                fill: whitesmoke;
+                                color: whitesmoke;
+                                cursor: pointer;
                             }
-                        }
-                        .icon,
-                        [astro-icon],
-                        .game-name {
-                            fill: whitesmoke;
-                            color: whitesmoke;
-                            cursor: pointer;
-                        }
-                        .game-name {
-                            font-size: 1rem;
-                            word-wrap: break-word;
-                            user-select: none;
-                            fill: whitesmoke;
+                            .game-name {
+                                font-size: 1rem;
+                                word-wrap: break-word;
+                                user-select: none;
+                                fill: whitesmoke;
+                            }
                         }
                     }
                 }

@@ -1,33 +1,23 @@
-# Astro Starter Kit: Minimal
+# Zelda Timelines
 
-```
-npm create astro@latest -- --template minimal
-```
+An interactive collection of official and fan-made Zelda Timelines. This will provide an easy way to visualize, absorb and compare the timelines all in one place. Perhaps new conclusions can be found?
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+## Timelines that will be added
+- [The official one](https://www.zelda.com/about/)
+    - Since fans are more familiar with this one I want to put a spin on this. I want every state of the official timeline to be in here. Imagine if there was a year meter that you can adjust and the timeline would show all the games in the timeline that were released by that year. It would be interesting to see how it evolved and ended up the way it is now.
+- [Triforce's](https://youtu.be/HPnvAt9bvAs)
+- [LoruleanHistorian/Instrutilus/Zelda Lore's](https://www.youtube.com/watch?v=7GAqIqYzqGQ)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+If I come across other timeline theories I'll be interested in adding them too.
 
-## 🚀 Project Structure
+## Tech Stack
+- Node.js 16
+- [Astro](https://astro.build/) + [Preact](https://preactjs.com/)
+- Potentially this [Zelda API](https://github.com/deliton/zelda-api) (lacks some games)
 
-Inside of your Astro project, you'll see the following folders and files:
+A split timeline visualization is a challenge. Right now I am attempting it with SVGs since it provides a lot of freedom. I tried other methods like tree diagrams and sankey using D3.js but they are limited in terms of functionality and styling. I am still very open to other approaches.
 
-```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
+## 🧞 Astro Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -39,7 +29,3 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`      | Preview your build locally, before deploying     |
 | `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
