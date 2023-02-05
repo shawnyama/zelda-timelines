@@ -1,4 +1,18 @@
-export const nodes = [
+type TimelinePlacement = {
+    branch: string, // May change this to a number later
+    placement: number
+}
+
+type GameData = {
+    name: string;
+    imageName: string;
+    isSpinOff?: boolean;
+    officialTimeline: TimelinePlacement;
+    triforceTimeline: TimelinePlacement;
+    loruleanTimeline: TimelinePlacement;
+}
+
+export const nodes: GameData[] = [
     {
         name: "Skyward Sword",
         imageName: "skyward-sword",
