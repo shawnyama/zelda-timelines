@@ -16,9 +16,6 @@
     "preact": "^10.11.0"
   },
   "devDependencies": {
-    "@svgr/core": "^6.5.1",
-    "sass": "^1.55.0",
-    "unplugin-auto-import": "^0.12.1",
-    "unplugin-icons": "^0.14.15"
+    "sass": "^1.55.0"
   }
 }
