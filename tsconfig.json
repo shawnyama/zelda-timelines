@@ -1,9 +1,3 @@
 {
-  "extends": "astro/tsconfigs/base",
-  "compilerOptions": {
-    "types": [
-      "unplugin-icons/types/astro",
-      "unplugin-icons/types/preact",
-    ]
-  }
+  "extends": "astro/tsconfigs/base"
 }

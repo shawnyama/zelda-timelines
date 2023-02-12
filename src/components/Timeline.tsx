@@ -1,9 +1,7 @@
 // import { h } from 'preact'
 import { useState } from "preact/hooks";
 import { nodes } from "../data/games";
-// import order_of_time from "../../public/data/order-of-time.json"
 import Game from "./Game";
-// import IconSkywardSword from '~icons/games/skyward-sword';
 
 const defaultSpacing: number = 250
 const width: number = (nodes.length + 2) * defaultSpacing
@@ -19,8 +17,14 @@ function Timeline() {
 
     return (
         <>
+
             <section class="timeline-container">
-                {/* <IconSkywardSword /> */}
+                {/* {nodes.map((node: any, n) => (
+                    <>
+                        <img class="game-icon" src={`../../../icons/${node.imageName}.svg`} alt="Game icon" />
+                        <span>{node.imageName}</span>
+                    </>
+                ))} */}
                 <svg class="timeline" width={width} height={"100%"}>
                     {
                         nodes.map((node: any, n) => (
@@ -51,14 +55,13 @@ function Timeline() {
                                         fill="transparent"
                                         onClick={() => setChosenGame({ name: node.name, imageName: node.imageName })}
                                     />
-                                    {/* <IconSkywardSword /> */}
-                                    {/*<Icon
-                                        name={node.imageName}
+                                    <image
+                                        href={`../../../icons/${node.imageName}.svg`}
+                                        alt="Game icon"
                                         x={defaultSpacing * (n + 1)}
-                                        y={0}
+                                        y={height / 2 - 40}
                                         width={80}
-                                        title={node.name}
-                                    /> */}
+                                    />
                                     <text
                                         class="game-name"
                                         x={defaultSpacing * (n + 1) + 35}
