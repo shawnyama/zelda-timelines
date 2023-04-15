@@ -1,63 +1,74 @@
+/*
+    How branch works:
+    -   Original timeline: 0
+    -   For every new split add 1
+    -   Odd branches go above, even branches are placed below the original timeline
+    -   If a timeline is converged add 0.1 to the merged branch
+    
+    How placement works:
+    -   Start at 1 at the beginning of a new branch then add 1
+*/ 
+
 type TimelinePlacement = {
-    branch: string, // May change this to a number later
+    branch: number, 
     placement: number
 }
 
-type GameData = {
+export type GameData = {
     name: string;
     imageName: string;
     isSpinOff?: boolean;
-    officialTimeline: TimelinePlacement;
-    triforceTimeline: TimelinePlacement;
-    loruleanTimeline: TimelinePlacement;
+    officialTimelinePlacement?: TimelinePlacement;
+    triforceTimelinePlacement?: TimelinePlacement;
+    loruleanTimelinePlacement?: TimelinePlacement;
 }
 
 export const nodes: GameData[] = [
     {
         name: "Skyward Sword",
         imageName: "skyward-sword",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Ocarina of Time",
         imageName: "ocarina-of-time",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 2,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Majora's Mask",
         imageName: "majoras-mask",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 3,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -65,33 +76,32 @@ export const nodes: GameData[] = [
         name: "Hyrule Warriors",
         imageName: "hyrule-warriors",
         isSpinOff: true,
-        officialTimeline: {
+        officialTimelinePlacement: {
             branch: null,
             placement: null,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 4,
         },
-        loruleanTimeline: {
+        loruleanTimelinePlacement: {
             branch: null,
             placement: null,
         }
     },
     {
         name: "Twilight Princess",
-        isSpinOff: true,
         imageName: "twilight-princess",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 5,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -99,48 +109,48 @@ export const nodes: GameData[] = [
         name: "Link's Crossbow Training",
         imageName: "links-crossbow-training",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 6
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "A Link to the Past",
         imageName: "a-link-to-the-past",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "prime",
+        triforceTimelinePlacement: {
+            branch: 0,
             placement: 7,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "The Wind Waker",
         imageName: "the-wind-waker",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "diverged",
+        triforceTimelinePlacement: {
+            branch: 1,
             placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -148,96 +158,96 @@ export const nodes: GameData[] = [
         name: "Navi Trackers",
         imageName: "mdi:triforce",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "diverged",
+        triforceTimelinePlacement: {
+            branch: 1,
             placement: 2,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Phantom Hourglass",
         imageName: "phantom-hourglass",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-             branch: "diverged",
+        triforceTimelinePlacement: {
+             branch: 1,
             placement: 3,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Spirit Tracks",
         imageName: "spirit-tracks",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-           branch: "diverged",
+        triforceTimelinePlacement: {
+           branch: 1,
             placement: 4,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "The Minish Cap",
         imageName: "the-minish-cap",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 5,
         },
-        triforceTimeline: {
-           branch: "diverged",
+        triforceTimelinePlacement: {
+           branch: 1,
             placement: 2,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Four Swords",
-        imageName: "four-swords-ds",
-        officialTimeline: {
-            branch: "prime",
+        imageName: "four-swords",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-           branch: "diverged",
+        triforceTimelinePlacement: {
+           branch: 1,
             placement: 6,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Four Swords Adventures",
         imageName: "four-swords-adventures",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "diverged",
+        triforceTimelinePlacement: {
+            branch: 1,
             placement: 7,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -245,32 +255,32 @@ export const nodes: GameData[] = [
         name: "Ancient Stone Tablets",
         imageName: "mdi:triforce",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "A Link Between Worlds",
         imageName: "a-link-between-worlds",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 2,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -278,112 +288,112 @@ export const nodes: GameData[] = [
         name: "Cadence of Hyrule",
         imageName: "cadence-of-hyrule",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 3,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Triforce Heroes",
         imageName: "triforce-heroes",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 4,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Oracle of Seasons",
         imageName: "oracle-of-seasons",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 5,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Oracle of Ages",
         imageName: "oracle-of-ages",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 6,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Link's Awakening",
         imageName: "links-awakening",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 7,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Zelda I",
         imageName: "the-legend-of-zelda",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 8,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Zelda II: The Adventure of Link",
         imageName: "the-adventure-of-link",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 9,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -391,32 +401,32 @@ export const nodes: GameData[] = [
         name: "CDi Games & Cartoon",
         imageName: "mdi:triforce",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 10,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Breath of the Wild",
         imageName: "breath-of-the-wild",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
-            placement: 11,
+        triforceTimelinePlacement: {
+            branch: 0.1,
+            placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
@@ -424,32 +434,32 @@ export const nodes: GameData[] = [
         name: "Hyrule Warriors: Age of Calamity",
         imageName: "age-of-calamity",
         isSpinOff: true,
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "diverged2",
+        triforceTimelinePlacement: {
+            branch: 1,
             placement: 1,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     },
     {
         name: "Tears of the Kingdom",
         imageName: "tears-of-the-kingdom",
-        officialTimeline: {
-            branch: "prime",
+        officialTimelinePlacement: {
+            branch: 0,
             placement: 1,
         },
-        triforceTimeline: {
-            branch: "converged",
+        triforceTimelinePlacement: {
+            branch: 0.1,
             placement: 12,
         },
-        loruleanTimeline: {
-            branch: "prime",
+        loruleanTimelinePlacement: {
+            branch: 0,
             placement: 1,
         }
     }

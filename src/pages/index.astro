@@ -28,7 +28,10 @@ const lightgreen = "hsl(133, 47%, 55%)"
                 </div> -->
         </nav>
         <main>
-            <Timeline client:visible />
+            <Timeline
+                client:visible
+                chosenTimeline={"triforceTimelinePlacement"}
+            />
         </main>
         <style lang="scss" define:vars={{ lightgreen }} is:global>
             nav {
