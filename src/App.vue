@@ -1,20 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { Timelines } from '@/data/games'
 import Navbar from '@/components/Navbar.vue'
 import Timeline from '@/components/Timeline.vue'
+
+const selectedTimeline = ref(
+  (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
+)
 </script>
 
 <template>
-  <main>
-    <navbar />
-    <timeline />
-  </main>
+  <navbar v-model:selectedTimeline="selectedTimeline" />
+  <timeline :selected-timeline="selectedTimeline" />
 </template>
-
-<style scoped>
-main {
-  display: flex;
-  flex: 1;
-  max-width: 100%;
-  flex-direction: column;
-}
-</style>

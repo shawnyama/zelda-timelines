@@ -1,201 +1,335 @@
-export enum TimelineNames {
+export enum Games {
+  SkywardSword = 'skyward-sword',
+  OcarinaOfTime = 'ocarina-of-time',
+  MajorasMask = 'majoras-mask',
+  HyruleWarriors = 'hyrule-warriors',
+  TwilightPrincess = 'twilight-princess',
+  LinksCrossbowTraining = 'links-crossbow-training',
+  ALinkToThePast = 'a-link-to-the-past',
+  AncientStoneTablets = 'ancient-stone-tablets',
+  TheWindWaker = 'the-wind-waker',
+  NaviTrackers = 'navi-trackers',
+  PhantomHourglass = 'phantom-hourglass',
+  SpiritTracks = 'spirit-tracks',
+  TheMinishCap = 'the-minish-cap',
+  FourSwords = 'four-swords',
+  FourSwordsAdventures = 'four-swords-adventures',
+  ALinkBetweenWorlds = 'a-link-between-worlds',
+  CadenceOfHyrule = 'cadence-of-hyrule',
+  TriforceHeroes = 'triforce-heroes',
+  OracleOfSeasons = 'oracle-of-seasons',
+  OracleOfAges = 'oracle-of-ages',
+  LinksAwakening = 'links-awakening',
+  TheLegendOfZelda = 'the-legend-of-zelda',
+  TheAdventureOfLink = 'the-adventure-of-link',
+  CDiGamesAndCartoon = 'cdi-games-and-cartoon',
+  AgeOfCalamity = 'age-of-calamity',
+  BreathOfTheWild = 'breath-of-the-wild',
+  TearsOfTheKingdom = 'tears-of-the-kingdom'
+}
+
+export enum Platform {
+  NES = 'Nintendo Entertainment System (NES)',
+  SNES = 'Super Nintendo (SNES)',
+  N64 = 'Nintendo 64',
+  GameCube = 'GameCube',
+  Wii = 'Wii',
+  WiiU = 'Wii U',
+  Switch = 'Nintendo Switch',
+  GB = 'Game Boy',
+  GBC = 'Game Boy Color',
+  GBA = 'Game Boy Advance',
+  DS = 'Nintendo DS',
+  Nintendo3DS = 'Nintendo 3DS',
+  PhillipsCDi = 'Phillips CD-i'
+}
+
+export enum Timelines {
   Official = 'official',
   Triforce = 'triforce',
   Lorulean = 'lorulean'
 }
 
 export type Link = {
-  source: string
-  target: string
+  source: Games
+  target: Games
+  label?: string
 }
 
-export type GameNode = {
-  name: string
+export type Node = {
+  id: Games
   title: string
   platform: string[]
+  releaseYear: number
   isSpinOff: boolean
 }
 
-export type GameLinks = {
-  official?: Link[]
-  triforce?: Link[]
-  lorulean?: Link[]
-}
-
-export const links: GameLinks = {
-  official: [
-    { source: 'skyward-sword', target: 'the-minish-cap' },
-    { source: 'the-minish-cap', target: 'four-swords' },
-    { source: 'four-swords', target: 'ocarina-of-time' },
-    { source: 'ocarina-of-time', target: 'twilight-princess' },
-    { source: 'ocarina-of-time', target: 'the-wind-waker' },
-    { source: 'ocarina-of-time', target: 'majoras-mask' },
-    { source: 'twilight-princess', target: 'four-swords-adventures' },
-    { source: 'four-swords-adventures', target: 'the-legend-of-zelda' },
-    { source: 'a-link-to-the-past', target: 'links-awakening' },
-    { source: 'links-awakening', target: 'a-link-between-worlds' },
-    { source: 'a-link-between-worlds', target: 'triforce-heroes' },
-    { source: 'the-legend-of-zelda', target: 'the-adventure-of-link' },
-    { source: 'the-adventure-of-link', target: 'a-link-to-the-past' },
-    { source: 'a-link-to-the-past', target: 'links-awakening' },
-    { source: 'links-awakening', target: 'a-link-between-worlds' },
-    { source: 'a-link-between-worlds', target: 'triforce-heroes' },
-    { source: 'the-legend-of-zelda', target: 'majoras-mask' },
-    { source: 'majoras-mask', target: 'twilight-princess' },
-    { source: 'twilight-princess', target: 'four-swords-adventures' },
-    { source: 'the-wind-waker', target: 'phantom-hourglass' },
-    { source: 'phantom-hourglass', target: 'spirit-tracks' },
-    { source: 'the-wind-waker', target: 'hyrule-warriors' },
-    { source: 'hyrule-warriors', target: 'cadence-of-hyrule' },
-    { source: 'cadence-of-hyrule', target: 'breath-of-the-wild' },
-    { source: 'breath-of-the-wild', target: 'age-of-calamity' },
-    { source: 'breath-of-the-wild', target: 'tears-of-the-kingdom' }
+export const links: {
+  [Timelines.Official]: Link[]
+  [Timelines.Triforce]: Link[]
+  [Timelines.Lorulean]: Link[]
+} = {
+  [Timelines.Official]: [
+    { source: Games.SkywardSword, target: Games.TheMinishCap },
+    { source: Games.TheMinishCap, target: Games.FourSwords },
+    { source: Games.FourSwords, target: Games.OcarinaOfTime },
+    { source: Games.OcarinaOfTime, target: Games.MajorasMask },
+    { source: Games.MajorasMask, target: Games.TwilightPrincess },
+    { source: Games.OcarinaOfTime, target: Games.TheWindWaker },
+    { source: Games.OcarinaOfTime, target: Games.ALinkToThePast },
+    { source: Games.TwilightPrincess, target: Games.FourSwordsAdventures },
+    { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
+    { source: Games.ALinkToThePast, target: Games.LinksAwakening },
+    { source: Games.LinksAwakening, target: Games.OracleOfAges },
+    { source: Games.OracleOfAges, target: Games.OracleOfSeasons },
+    { source: Games.OracleOfSeasons, target: Games.ALinkBetweenWorlds },
+    { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
+    { source: Games.TriforceHeroes, target: Games.TheLegendOfZelda },
+    { source: Games.TheWindWaker, target: Games.PhantomHourglass },
+    { source: Games.PhantomHourglass, target: Games.SpiritTracks },
+    { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
+    { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom }
+  ],
+  [Timelines.Triforce]: [
+    { source: Games.SkywardSword, target: Games.OcarinaOfTime },
+    { source: Games.OcarinaOfTime, target: Games.MajorasMask },
+    { source: Games.MajorasMask, target: Games.HyruleWarriors },
+    { source: Games.HyruleWarriors, target: Games.TwilightPrincess },
+    { source: Games.TwilightPrincess, target: Games.LinksCrossbowTraining },
+    { source: Games.LinksCrossbowTraining, target: Games.ALinkToThePast },
+    { source: Games.OcarinaOfTime, target: Games.TheWindWaker },
+    { source: Games.TheWindWaker, target: Games.NaviTrackers },
+    { source: Games.NaviTrackers, target: Games.PhantomHourglass },
+    { source: Games.PhantomHourglass, target: Games.SpiritTracks },
+    { source: Games.SpiritTracks, target: Games.TheMinishCap },
+    { source: Games.TheMinishCap, target: Games.FourSwords },
+    { source: Games.FourSwords, target: Games.FourSwordsAdventures },
+    { source: Games.FourSwordsAdventures, target: Games.ALinkToThePast },
+    { source: Games.ALinkToThePast, target: Games.AncientStoneTablets },
+    { source: Games.AncientStoneTablets, target: Games.ALinkBetweenWorlds },
+    { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
+    { source: Games.TriforceHeroes, target: Games.OracleOfAges },
+    { source: Games.OracleOfAges, target: Games.OracleOfSeasons },
+    { source: Games.OracleOfSeasons, target: Games.LinksAwakening },
+    { source: Games.LinksAwakening, target: Games.TheLegendOfZelda },
+    { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
+    { source: Games.TheAdventureOfLink, target: Games.CDiGamesAndCartoon },
+    { source: Games.CDiGamesAndCartoon, target: Games.BreathOfTheWild },
+    { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
+    { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom }
+  ],
+  [Timelines.Lorulean]: [
+    { source: Games.SkywardSword, target: Games.TheMinishCap },
+    { source: Games.TheMinishCap, target: Games.FourSwords },
+    { source: Games.FourSwords, target: Games.FourSwordsAdventures },
+    { source: Games.FourSwordsAdventures, target: Games.ALinkToThePast },
+    { source: Games.TheMinishCap, target: Games.OcarinaOfTime },
+    { source: Games.OcarinaOfTime, target: Games.MajorasMask },
+    { source: Games.MajorasMask, target: Games.TwilightPrincess },
+    { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
+    { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom },
+    { source: Games.OcarinaOfTime, target: Games.TheWindWaker },
+    { source: Games.TwilightPrincess, target: Games.BreathOfTheWild },
+    { source: Games.ALinkToThePast, target: Games.OracleOfAges },
+    { source: Games.OracleOfAges, target: Games.OracleOfSeasons },
+    { source: Games.OracleOfSeasons, target: Games.LinksAwakening },
+    { source: Games.LinksAwakening, target: Games.ALinkBetweenWorlds },
+    { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
+    { source: Games.TriforceHeroes, target: Games.TheLegendOfZelda },
+    { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
+    { source: Games.TheWindWaker, target: Games.PhantomHourglass },
+    { source: Games.PhantomHourglass, target: Games.SpiritTracks }
   ]
 }
 
-export const nodes: Record<string, GameNode> = {
-  'skyward-sword': {
+export const nodes: Node[] = [
+  {
     title: 'Skyward Sword',
-    name: 'skyward-sword',
-    platform: ['Wii', 'Nintendo Switch'],
+    id: Games.SkywardSword,
+    platform: [Platform.Wii],
+    releaseYear: 2011,
     isSpinOff: false
   },
-  'ocarina-of-time': {
+  {
     title: 'Ocarina of Time',
-    name: 'ocarina-of-time',
-    platform: ['Nintendo 64'],
+    id: Games.OcarinaOfTime,
+    platform: [Platform.N64],
+    releaseYear: 1998,
     isSpinOff: false
   },
-  'majoras-mask': {
+  {
     title: "Majora's Mask",
-    name: 'majoras-mask',
-    platform: ['Nintendo 64'],
+    id: Games.MajorasMask,
+    platform: [Platform.N64],
+    releaseYear: 2000,
     isSpinOff: false
   },
-  'hyrule-warriors': {
+  {
     title: 'Hyrule Warriors',
-    name: 'hyrule-warriors',
-    platform: ['Wii U', 'Nintendo 3DS', 'Nintendo Switch'],
+    id: Games.HyruleWarriors,
+    platform: [Platform.WiiU, Platform.Nintendo3DS, Platform.Switch],
+    releaseYear: 2014,
     isSpinOff: true
   },
-  'twilight-princess': {
+  {
     title: 'Twilight Princess',
-    name: 'twilight-princess',
-    platform: ['GameCube', 'Wii'],
+    id: Games.TwilightPrincess,
+    platform: [Platform.GameCube, Platform.Wii],
+    releaseYear: 2006,
     isSpinOff: false
   },
-  'links-crossbow-training': {
+  {
     title: "Link's Crossbow Training",
-    name: 'links-crossbow-training',
-    platform: ['Wii'],
+    id: Games.LinksCrossbowTraining,
+    platform: [Platform.Wii],
+    releaseYear: 2007,
     isSpinOff: true
   },
-  'a-link-to-the-past': {
+  {
     title: 'A Link to the Past',
-    name: 'a-link-to-the-past',
-    platform: ['Super Nintendo (SNES)'],
+    id: Games.ALinkToThePast,
+    platform: [Platform.SNES],
+    releaseYear: 1997,
     isSpinOff: false
   },
-  'the-wind-waker': {
+  {
+    title: 'Ancient Stone Tablets',
+    id: Games.AncientStoneTablets,
+    platform: [Platform.SNES],
+    releaseYear: 2007,
+    isSpinOff: true
+  },
+  {
     title: 'The Wind Waker',
-    name: 'the-wind-waker',
-    platform: ['GameCube'],
+    id: Games.TheWindWaker,
+    platform: [Platform.GameCube],
+    releaseYear: 2002,
     isSpinOff: false
   },
-  'mdi:triforce': {
+  {
     title: 'Navi Trackers',
-    name: 'mdi:triforce',
-    platform: ['GameCube'],
+    id: Games.NaviTrackers,
+    platform: [Platform.DS, Platform.GameCube],
+    releaseYear: 2004,
     isSpinOff: true
   },
-  'phantom-hourglass': {
+  {
     title: 'Phantom Hourglass',
-    name: 'phantom-hourglass',
-    platform: ['Nintendo DS'],
+    id: Games.PhantomHourglass,
+    platform: [Platform.DS],
+    releaseYear: 2007,
     isSpinOff: false
   },
-  'spirit-tracks': {
+  {
     title: 'Spirit Tracks',
-    name: 'spirit-tracks',
-    platform: ['Nintendo DS'],
+    id: Games.SpiritTracks,
+    platform: [Platform.DS],
+    releaseYear: 2009,
     isSpinOff: false
   },
-  'the-minish-cap': {
+  {
     title: 'The Minish Cap',
-    name: 'the-minish-cap',
-    platform: ['Game Boy Advance'],
+    id: Games.TheMinishCap,
+    platform: [Platform.GBA],
+    releaseYear: 2004,
     isSpinOff: false
   },
-  'four-swords': {
+  {
     title: 'Four Swords',
-    name: 'four-swords',
-    platform: ['Game Boy Advance'],
+    id: Games.FourSwords,
+    platform: [Platform.GBA],
+    releaseYear: 2002,
     isSpinOff: true
   },
-  'four-swords-adventures': {
+  {
     title: 'Four Swords Adventures',
-    name: 'four-swords-adventures',
-    platform: ['GameCube'],
+    id: Games.FourSwordsAdventures,
+    platform: [Platform.GameCube],
+    releaseYear: 2004,
     isSpinOff: true
   },
-  'a-link-between-worlds': {
+  {
     title: 'A Link Between Worlds',
-    name: 'a-link-between-worlds',
-    platform: ['Nintendo 3DS'],
+    id: Games.ALinkBetweenWorlds,
+    platform: [Platform.Nintendo3DS],
+    releaseYear: 2013,
     isSpinOff: true
   },
-  'cadence-of-hyrule': {
+  {
     title: 'Cadence of Hyrule',
-    name: 'cadence-of-hyrule',
-    platform: ['Nintendo Switch'],
+    id: Games.CadenceOfHyrule,
+    platform: [Platform.Switch],
+    releaseYear: 2019,
     isSpinOff: true
   },
-  'triforce-heroes': {
+  {
     title: 'Triforce Heroes',
-    name: 'triforce-heroes',
-    platform: ['Nintendo 3DS'],
+    id: Games.TriforceHeroes,
+    platform: [Platform.Nintendo3DS],
+    releaseYear: 2015,
     isSpinOff: true
   },
-  'oracle-of-seasons': {
+  {
     title: 'Oracle of Seasons',
-    name: 'oracle-of-seasons',
-    platform: ['Game Boy Color'],
+    id: Games.OracleOfSeasons,
+    platform: [Platform.GBC],
+    releaseYear: 2001,
     isSpinOff: true
   },
-  'oracle-of-ages': {
+  {
     title: 'Oracle of Ages',
-    name: 'oracle-of-ages',
-    platform: ['Game Boy Color'],
+    id: Games.OracleOfAges,
+    platform: [Platform.GBC],
+    releaseYear: 2001,
     isSpinOff: true
   },
-  'links-awakening': {
+  {
     title: "Link's Awakening",
-    name: 'links-awakening',
-    platform: ['Game Boy', 'Nintendo Switch'],
+    id: Games.LinksAwakening,
+    platform: [Platform.GB, Platform.Switch],
+    releaseYear: 1993,
     isSpinOff: false
   },
-  'the-legend-of-zelda': {
+  {
     title: 'Zelda I',
-    name: 'the-legend-of-zelda',
-    platform: ['Nintendo Entertainment System (NES)'],
+    id: Games.TheLegendOfZelda,
+    platform: [Platform.NES],
+    releaseYear: 1986,
     isSpinOff: false
   },
-  'the-adventure-of-link': {
+  {
     title: 'Zelda II: The Adventure of Link',
-    name: 'the-adventure-of-link',
-    platform: ['Nintendo Entertainment System (NES)'],
+    id: Games.TheAdventureOfLink,
+    platform: [Platform.NES],
+    releaseYear: 1987,
     isSpinOff: false
   },
-  'age-of-calamity': {
-    title: 'Hyrule Warriors: Age of Calamity',
-    name: 'age-of-calamity',
-    platform: ['Nintendo Switch'],
+  {
+    title: 'CDi Games and Cartoon',
+    id: Games.CDiGamesAndCartoon,
+    platform: [Platform.PhillipsCDi],
+    releaseYear: 1989,
     isSpinOff: true
   },
-  'tears-of-the-kingdom': {
+  {
+    title: 'Hyrule Warriors: Age of Calamity',
+    id: Games.AgeOfCalamity,
+    platform: [Platform.Switch],
+    releaseYear: 2020,
+    isSpinOff: true
+  },
+  {
+    title: 'Breath of the Wild',
+    id: Games.BreathOfTheWild,
+    platform: [Platform.Switch],
+    releaseYear: 2017,
+    isSpinOff: false
+  },
+  {
     title: 'Tears of the Kingdom',
-    name: 'tears-of-the-kingdom',
-    platform: ['Nintendo Switch'],
+    id: Games.TearsOfTheKingdom,
+    platform: [Platform.Switch],
+    releaseYear: 2023,
     isSpinOff: false
   }
-}
+]

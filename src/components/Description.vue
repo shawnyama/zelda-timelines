@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { GameNode } from '@/data/games'
+import type { Node } from '@/data/games'
 
 const props = defineProps<{
-  game: GameNode | null
+  game: Node | null
 }>()
 
 const img = ref<HTMLImageElement | null>(null)
 
 const imageUrl = computed(() =>
-  props.game
-    ? new URL(`../assets/cover-art/${props.game.name}.jpg`, import.meta.url).href
-    : undefined
+  props.game ? new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href : undefined
 )
 
 const imgOrientation = computed(() =>
@@ -20,34 +18,35 @@ const imgOrientation = computed(() =>
 </script>
 
 <template>
-  <main>
+  <aside>
     <section>
-      <img :class="imgOrientation" ref="img" :src="imageUrl" />
-      <ul>
+      <img :class="imgOrientation" ref="img" :src="imageUrl" alt="Box art" />
+      <!-- <ul>
         <li>console icons</li>
-      </ul>
+      </ul> -->
     </section>
     <article>
+      <h3>{{ game?.title }}</h3>
       <div v-if="img">{{ img.width }}<br />{{ img.height }}</div>
     </article>
-  </main>
+  </aside>
 </template>
 
 <style scoped>
-main {
-  /* display: flex;
-  align-items: center; */
+aside {
+  display: flex;
+  align-items: center;
+  border: 1px solid red;
+  /* max-height: 40%; */
+  height: 40%;
   padding: 0.5rem;
-  height: 35%;
-  max-height: 35%;
-  overflow: scroll;
-  outline: 1px solid black;
+  /* box-sizing: content-box; */
 }
 
 section {
   display: flex;
   gap: 0.5rem;
-  height: 100%;
+  /* height: 100%; */
 }
 
 article {
@@ -59,9 +58,10 @@ img {
   /* max-height: 18rem; 
   this shouldn't overflow
   */
-  max-width: 50rem;
-  height: auto;
-  width: auto;
+  /* max-width: 50rem; */
+  height: 15rem;
+  /* height: auto;
+  width: auto; */
 }
 
 .landscape {

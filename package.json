@@ -12,7 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "vue": "^3.2.47"
+    "endent": "^2.1.0",
+    "vue": "^3.2.47",
+    "vue-mermaid-string": "^4.0.70"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
