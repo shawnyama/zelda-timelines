@@ -13,4 +13,5 @@ If I come across other timeline theories I'll be interested in adding them too.
 ## Tech Stack
 - Node 18
 - [Vue 3](https://vuejs.org/)
+- [Mermaid](https://github.com/dword-design/vue-mermaid-string)
 - Potentially this [Zelda API](https://github.com/deliton/zelda-api) (lacks some games)

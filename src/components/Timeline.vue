@@ -5,6 +5,7 @@ import endent from 'endent'
 import Description from './Description.vue'
 import { nodes, links, Timelines, Games } from '@/data/games'
 import type { Node, Link } from '@/data/games'
+import skywardSwordIcon from '@/assets/icons/skyward-sword.svg'
 
 const props = defineProps<{
   selectedTimeline: Timelines
@@ -17,9 +18,9 @@ const orientation = 'LR'
 const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
-  const generateNode = ({ id, title }: Node) => {
-    return `${id}[${title}]`
-  }
+  const generateNode = ({ id, title }: Node) => id
+  // endent`${id}[<img :src="skywardSwordIcon" alt='Icon' width='40' height='80'/><div>${title}</div>]`
+
   const generateLink = ({ source, target, label }: Link) =>
     `${source} -->${!!label ? `|${label}|` : ''} ${target}`
 
@@ -66,6 +67,7 @@ function selectGame(nodeId: Games) {
       </div> -->
     </section>
     <description :game="selectedGame" />
+    <img :src="skywardSwordIcon" alt="Icon" width="40" height="80" />
   </main>
 </template>
 
