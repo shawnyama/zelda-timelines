@@ -37,10 +37,28 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2 {
+    font-family: 'triforcetriforce', sans-serif;
+}
+
 h1 {
     font-size: 3rem;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 2rem; 
+}
+
+button {
+    border: none;
+    font-family: 'hylia_serif_betaregular';
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+button.icon {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 2rem;
+    font-size: 1.25rem;
 }
