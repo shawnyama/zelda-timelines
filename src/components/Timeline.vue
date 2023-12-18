@@ -6,7 +6,6 @@ import endent from 'endent'
 import Description from './Description.vue'
 import { nodes, links, Timelines, Games } from '@/data/games'
 import type { Node, Link } from '@/data/games'
-import skywardSwordIcon from '@/assets/icons/skyward-sword.svg'
 
 const props = defineProps<{
   selectedTimeline: Timelines
@@ -21,11 +20,11 @@ const orientation = 'LR'
 const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
-  const generateNode = ({ id, title }: Node) => id
-  // endent`${id}[<img :src="skywardSwordIcon" alt='Icon' width='40' height='80'/><div>${title}</div>]`
+  const generateNode = ({ id, title }: Node) =>
+    endent`${id}[<img src='http://localhost:5173/src/assets/icons/${id}.svg' alt='Icon' width='120' height='120'></img><h3 class='title'>${title}</h3>]`
 
   const generateLink = ({ source, target, label }: Link) =>
-    `${source} -->${!!label ? `|${label}|` : ''} ${target}`
+    `${source} ======${!!label ? `|${label}|` : ''} ${target}`
 
   const generateClick = ({ id }: Node) => `click ${id}`
 
@@ -38,13 +37,23 @@ function generateDiagram() {
       year.value >= releaseYear
   )
 
-  const diagram = endent`flowchart ${orientation}
+  const diagram = endent`%%{
+    init: {
+      'theme': 'base',
+      'themeVariables': {
+        'primaryColor': 'transparent',
+        'primaryBorderColor': 'transparent',
+        'lineColor': 'darkred'
+      }
+    }
+  }%%
+  flowchart ${orientation}
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineLinks.map(generateLink).join('\n ')}
   ${nodesToDisplay.map(generateClick).join('\n ')}
   `
-  // console.log(nodesToDisplay)
-  // console.log(diagram)
+  console.log(nodesToDisplay)
+  console.log(diagram)
 
   return diagram
 }
@@ -58,6 +67,8 @@ function selectGame(nodeId: Games) {
 //   height.value = mermaidContainer.value?.clientHeight ?? 0
 // })
 
+const diagramPadding = 150
+
 onMounted(() => {
   const width = mermaidContainer.value?.clientWidth ?? 0
   const height = mermaidContainer.value?.clientHeight ?? 0
@@ -67,12 +78,12 @@ onMounted(() => {
   // console.log(width.value, height.value, mermaidContainer.value)
   const svg = d3.select('.mermaid > svg').style('height', height)
   const inner = svg.select('g')
-  console.log(inner)
+  console.log(inner, svg)
   const zoom = d3
     .zoom()
     .translateExtent([
-      [-100, -height + 100],
-      [width * 2 + 100, height + 100]
+      [-diagramPadding, -height + diagramPadding],
+      [Infinity, height + diagramPadding] // x1 may have to vary depending on width of diagram
     ])
     .scaleExtent([1, 5])
     .on('zoom', (event) => {
@@ -88,7 +99,6 @@ onMounted(() => {
       <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
     </section>
     <description :game="selectedGame" />
-    <!-- <img :src="skywardSwordIcon" alt="Icon" width="40" height="80" /> -->
   </main>
 </template>
 
@@ -110,13 +120,33 @@ li {
 section {
   display: flex;
   flex: 1;
+  height: 60%;
+}
+
+:deep(foreignObject) {
+  /* width: 300px;
+  height: 300px; */
+  overflow: visible;
+}
+
+:deep(foreignObject:hover h3.title) {
+  color: red;
+}
+
+:deep(h3.title) {
+  font-family: 'Franklin Gothic', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  text-wrap: wrap;
 }
 
 .mermaid {
   display: flex;
   align-items: center;
   flex: 1;
-  overflow: auto;
+  overflow: none;
   cursor: grab;
 
   &:active {
@@ -124,8 +154,6 @@ section {
   }
 
   & > svg {
-    background-color: red;
-    min-height: 400px;
   }
 }
 </style>

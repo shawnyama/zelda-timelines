@@ -42,13 +42,13 @@ nav {
   position: relative;
   display: inline-block;
 
-  > * {
+  & > * {
     font-family: 'triforcetriforce', sans-serif;
     font-size: 2.5rem;
     cursor: pointer;
   }
 
-  > button {
+  & > button {
     padding-top: 0.25rem;
     background-color: transparent;
     color: white;
@@ -65,12 +65,12 @@ nav {
   &:hover .options-container {
     display: block;
 
-    > ul {
+    & > ul {
       animation: fade-in 0.2s ease-in-out; /* Add fadeIn animation */
     }
   }
 
-  .options-container {
+  & .options-container {
     display: none;
     position: absolute;
     /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
@@ -78,14 +78,14 @@ nav {
     left: 50%;
     transform: translateX(-50%);
 
-    > ul {
+    & > ul {
       margin-top: 0.5rem;
       border-radius: 1rem;
       padding: 0.5rem;
       background-color: var(--green);
       min-width: 30vw;
 
-      > li {
+      & > li {
         color: white;
         text-decoration: none;
         text-align: center;
