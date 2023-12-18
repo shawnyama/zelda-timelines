@@ -86,7 +86,7 @@ export const links: {
     { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
     { source: Games.TriforceHeroes, target: Games.TheLegendOfZelda },
     { source: Games.TheWindWaker, target: Games.PhantomHourglass },
-    { source: Games.PhantomHourglass, target: Games.SpiritTracks },
+    { source: Games.PhantomHourglass, target: Games.SpiritTracks }, 
     { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
     { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom }
   ],

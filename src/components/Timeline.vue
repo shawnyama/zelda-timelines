@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
+import * as d3 from 'd3'
 import endent from 'endent'
 import Description from './Description.vue'
 import { nodes, links, Timelines, Games } from '@/data/games'
@@ -10,6 +11,8 @@ import skywardSwordIcon from '@/assets/icons/skyward-sword.svg'
 const props = defineProps<{
   selectedTimeline: Timelines
 }>()
+
+const mermaidContainer = ref()
 
 const year = ref(new Date().getFullYear())
 const selectedGame = ref<Node | null>(null)
@@ -35,13 +38,13 @@ function generateDiagram() {
       year.value >= releaseYear
   )
 
-  const diagram = endent`flowchart ${orientation} 
+  const diagram = endent`flowchart ${orientation}
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineLinks.map(generateLink).join('\n ')}
   ${nodesToDisplay.map(generateClick).join('\n ')}
   `
   // console.log(nodesToDisplay)
-  console.log(diagram)
+  // console.log(diagram)
 
   return diagram
 }
@@ -49,25 +52,43 @@ function generateDiagram() {
 function selectGame(nodeId: Games) {
   selectedGame.value = nodes.find(({ id }) => id === nodeId) ?? null
 }
+
+// const resizeObserver = new ResizeObserver(() => {
+//   width.value = mermaidContainer.value?.clientWidth ?? 0
+//   height.value = mermaidContainer.value?.clientHeight ?? 0
+// })
+
+onMounted(() => {
+  const width = mermaidContainer.value?.clientWidth ?? 0
+  const height = mermaidContainer.value?.clientHeight ?? 0
+
+  // Apply pan/zoom
+  // if (mermaidContainer.value) resizeObserver.observe(mermaidContainer.value)
+  // console.log(width.value, height.value, mermaidContainer.value)
+  const svg = d3.select('.mermaid > svg').style('height', height)
+  const inner = svg.select('g')
+  console.log(inner)
+  const zoom = d3
+    .zoom()
+    .translateExtent([
+      [-100, -height + 100],
+      [width * 2 + 100, height + 100]
+    ])
+    .scaleExtent([1, 5])
+    .on('zoom', (event) => {
+      inner.attr('transform', event.transform)
+    })
+  svg.call(zoom as any).on('dblclick.zoom', null)
+})
 </script>
 
 <template>
   <main>
-    <section>
-      <!-- 
-        <ul>
-        <li v-for="({ name }, key) in nodes" :key="key" @click="selectedGame = nodes[key]">
-        {{ name }}
-      </li> 
-    </ul>-->
+    <section ref="mermaidContainer">
       <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
-      <!-- <div>
-        <input type="range" min="1986" :max="new Date().getFullYear()" v-model="year" />
-        <input type="number" min="1986" :max="new Date().getFullYear()" v-model="year" />
-      </div> -->
     </section>
     <description :game="selectedGame" />
-    <img :src="skywardSwordIcon" alt="Icon" width="40" height="80" />
+    <!-- <img :src="skywardSwordIcon" alt="Icon" width="40" height="80" /> -->
   </main>
 </template>
 
@@ -86,14 +107,25 @@ li {
   cursor: pointer;
 }
 
-.mermaid {
-  height: 100%;
+section {
   display: flex;
-  align-items: center;
+  flex: 1;
 }
 
-section {
+.mermaid {
+  display: flex;
+  align-items: center;
   flex: 1;
   overflow: auto;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & > svg {
+    background-color: red;
+    min-height: 400px;
+  }
 }
 </style>
