@@ -2,21 +2,30 @@
   <nav>
     <h2>Zelda timelines</h2>
     <div class="dropdown">
-      <button>{{ selectedTimeline }}</button>
+      <button>
+        <img :src="caret" alt="caret-icon" />
+        <span>{{ selectedTimeline }}</span>
+        <img :src="caret" alt="caret-icon" />
+      </button>
       <div class="options-container">
         <ul>
           <li v-for="timeline in Timelines" :value="timeline" @click="selectNewTimeline(timeline)">
-            {{ timeline }}
+            <img :src="caret" alt="caret-icon" />
+            <div>{{ timeline }}</div>
           </li>
         </ul>
       </div>
     </div>
-    <button class="icon">?</button>
+    <div class="btn-group">
+      <button class="icon">?</button>
+    </div>
   </nav>
 </template>
 
 <script setup lang="ts">
 import { Timelines } from '@/data/games'
+import caret from '@/assets/icons/caret-left.svg'
+
 defineProps<{ selectedTimeline: Timelines }>()
 const emit = defineEmits(['update:selectedTimeline'])
 
@@ -32,10 +41,22 @@ function selectNewTimeline(timeline: Timelines) {
 nav {
   background-color: var(--green);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   color: white;
   padding: 0 0.5rem;
+
+  & > * {
+    flex: 1;
+    display: flex;
+  }
+
+  & > .dropdown {
+    justify-content: center;
+  }
+
+  & > .btn-group {
+    justify-content: end;
+  }
 }
 
 .dropdown {
@@ -43,8 +64,9 @@ nav {
   display: inline-block;
 
   & > * {
-    font-family: 'triforcetriforce', sans-serif;
-    font-size: 2.5rem;
+    font-family: 'triforce', sans-serif;
+    /* font-style: italic; */
+    font-size: 2.25rem;
     cursor: pointer;
   }
 
@@ -56,6 +78,14 @@ nav {
     background-color: transparent;
     border: 0;
     color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    & > img {
+      height: 1.25rem;
+      rotate: -90deg;
+    }
 
     &:hover {
       /* do some fancy gradient thing or darker color? */
@@ -63,6 +93,7 @@ nav {
   }
 
   &:hover .options-container {
+    margin-top: 3rem;
     display: block;
 
     & > ul {
@@ -73,12 +104,12 @@ nav {
   & .options-container {
     display: none;
     position: absolute;
-    /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
     z-index: 1;
     left: 50%;
     transform: translateX(-50%);
 
     & > ul {
+      /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
       margin-top: 0.5rem;
       border-radius: 1rem;
       padding: 0.5rem;
@@ -90,8 +121,17 @@ nav {
         text-decoration: none;
         text-align: center;
         display: block;
+        position: relative;
         padding: 0.5rem 0.5rem 0.25rem 0.5rem;
         border-radius: 0.75rem;
+
+        & > img {
+          display: none;
+          position: absolute;
+          scale: 0.75;
+          rotate: 180deg;
+          bottom: 0.2rem;
+        }
 
         &:not(:first-child):not(:last-child) {
           margin: 0.5rem 0;
@@ -99,6 +139,12 @@ nav {
 
         &:hover {
           background-color: var(--dark-green);
+
+          & > img {
+            display: block;
+            animation: arrow-animation 1s;
+            animation-iteration-count: infinite;
+          }
         }
       }
     }
@@ -113,6 +159,18 @@ nav {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes arrow-animation {
+  0% {
+    left: 7px;
+  }
+  50% {
+    left: 12px;
+  }
+  100% {
+    left: 7px;
   }
 }
 </style>

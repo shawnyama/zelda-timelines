@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="42px" viewBox="0 0 30 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>nav-arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="nav-arrow" fill-rule="nonzero" fill="#ffffff">
+            <g id="Switcher-Right-Arrow" transform="translate(15.000000, 21.000000) scale(-1, 1) translate(-15.000000, -21.000000) ">
+                <path d="M0,0.215563375 L0,41.6630173 L29.323816,20.9338353 L0,0.215563375 Z M3.02452668,6.07428482 L24.0552857,20.9338353 L3.02452668,35.7988408 L3.02452668,6.07428482 Z" id="Fill-1"></path>
+                <polygon id="Fill-2" points="6.34229152 29.4396187 18.3726445 20.9351991 6.34229152 12.438962"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

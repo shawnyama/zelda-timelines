@@ -1,64 +1,73 @@
 @import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
 
 @font-face {
-    font-family: 'hylia_serif_betaregular';
-    src: url('../fonts/hyliaserifbeta-regular-webfont.woff2') format('woff2'),
-        url('../fonts/hyliaserifbeta-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: hylia_serif;
+  src: url('../fonts/hyliaserifbeta-regular-webfont.woff2') format('woff2'),
+    url('../fonts/hyliaserifbeta-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'triforcetriforce';
-    src: url('../fonts/triforce-webfont.woff2') format('woff2'),
-        url('../fonts/triforce-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: triforce;
+  src: url('../fonts/triforce-webfont.woff2') format('woff2'),
+    url('../fonts/triforce-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: hylian_symbols;
+  src: url('../fonts/hylian-symbols.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 :root {
-    --green: hsl(151, 33%, 60%);
-    --light-green: hsl(103, 33%, 72%);
-    --dark-green: hsl(168, 57%, 26%);
-    --coral-red: rgb(255, 109, 96);
+  --green: hsl(151, 33%, 60%);
+  --light-green: hsl(103, 33%, 72%);
+  --dark-green: hsl(168, 57%, 26%);
+  --coral-red: rgb(255, 109, 96);
 }
 
-html, body {
-    overflow: hidden; 
-    height: 100vh; 
+html,
+body {
+  overflow: hidden;
+  height: 100vh;
 }
 
 body {
-    display: flex; 
-    flex-direction: column;
-    font-family: "RocknRoll One", sans-serif;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  font-family: 'RocknRoll One', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2 {
-    font-family: 'triforcetriforce', sans-serif;
+h1,
+h2 {
+  font-family: 'triforce', sans-serif;
 }
 
 h1 {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
 h2 {
-    font-size: 2rem; 
+  font-size: 2rem;
 }
 
 button {
-    border: none;
-    font-family: 'hylia_serif_betaregular';
-    padding: 0.25rem 0.5rem;
-    cursor: pointer;
+  border: none;
+  font-family: 'hylia_serif_betaregular';
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
 }
 
 button.icon {
-    height: 2rem;
-    width: 2rem;
-    border-radius: 2rem;
-    font-size: 1.25rem;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2rem;
+  font-size: 1.25rem;
 }

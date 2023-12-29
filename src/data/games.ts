@@ -47,7 +47,8 @@ export enum Platform {
 export enum Timelines {
   Official = 'official',
   Triforce = 'triforce',
-  Lorulean = 'lorulean'
+  Lorulean = 'lorulean',
+  Geekery = 'geekery'
 }
 
 export type Link = {
@@ -68,6 +69,7 @@ export const links: {
   [Timelines.Official]: Link[]
   [Timelines.Triforce]: Link[]
   [Timelines.Lorulean]: Link[]
+  [Timelines.Geekery]: Link[]
 } = {
   [Timelines.Official]: [
     { source: Games.SkywardSword, target: Games.TheMinishCap },
@@ -139,7 +141,28 @@ export const links: {
     { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
     { source: Games.TheWindWaker, target: Games.PhantomHourglass },
     { source: Games.PhantomHourglass, target: Games.SpiritTracks }
-  ]
+  ],
+  [Timelines.Geekery]: [
+    { source: Games.SkywardSword, target: Games.TheMinishCap },
+    { source: Games.TheMinishCap, target: Games.FourSwords },
+    { source: Games.FourSwords, target: Games.OcarinaOfTime },
+    { source: Games.OcarinaOfTime, target: Games.MajorasMask },
+    { source: Games.MajorasMask, target: Games.TwilightPrincess },
+    { source: Games.OcarinaOfTime, target: Games.TheWindWaker },
+    { source: Games.OcarinaOfTime, target: Games.ALinkToThePast },
+    { source: Games.TwilightPrincess, target: Games.FourSwordsAdventures },
+    { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
+    { source: Games.ALinkToThePast, target: Games.LinksAwakening },
+    { source: Games.LinksAwakening, target: Games.OracleOfAges },
+    { source: Games.OracleOfAges, target: Games.OracleOfSeasons },
+    { source: Games.OracleOfSeasons, target: Games.ALinkBetweenWorlds },
+    { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
+    { source: Games.SpiritTracks, target: Games.TheLegendOfZelda },
+    { source: Games.TheWindWaker, target: Games.PhantomHourglass },
+    { source: Games.PhantomHourglass, target: Games.SpiritTracks }, 
+    { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
+    { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom }
+  ],
 }
 
 export const nodes: Node[] = [

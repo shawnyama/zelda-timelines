@@ -36,7 +36,7 @@ const imgOrientation = computed(() =>
 aside {
   display: flex;
   align-items: center;
-  border: 1px solid red;
+  outline: 1px solid red;
   /* max-height: 40%; */
   height: 40%;
   padding: 0.5rem;
