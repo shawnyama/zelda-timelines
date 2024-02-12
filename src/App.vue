@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Timelines } from '@/data/games'
+import { Timelines } from '@/data/timelines'
 import Navbar from '@/components/Navbar.vue'
 import Timeline from '@/components/Timeline.vue'
 

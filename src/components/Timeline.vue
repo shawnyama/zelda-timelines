@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
 import Description from './Description.vue'
-import { nodes, links, Timelines, Games } from '@/data/games'
-import type { Node, Link } from '@/data/games'
+import { nodes, Games } from '@/data/games'
+import { links, Timelines } from '@/data/timelines'
+import { LinkDesigns } from '@/data/link-designs'
+import type { Node } from '@/data/games'
+import type { Link } from '@/data/timelines'
 
 const props = defineProps<{
   selectedTimeline: Timelines
@@ -27,17 +30,33 @@ function generateDiagram() {
   isDrawingDiagram.value = true
 
   const generateNode = ({ id, title }: Node) => {
-    const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
-    if (!imagePath.includes('undefined')) {
-      return endent`${id}[<img src='${imagePath}' alt='Icon' width='120' height='120'></img><h3 class='title'>${title}</h3>]`
+    // Check if id is a game
+    if (Object.values(Games).includes(id as Games)) {
+      const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
+      // FIXME: Make the divs generated here the same width
+      if (!imagePath.includes('undefined')) {
+        return endent`${id}[<img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3>]`
+      }
+      return endent`${id}[<div class='fallback-icon'>k</div><h3 class='fallback-title'>${title}</h3>]`
     }
-    return endent`${id}[<div class='fallback-icon'>k</div><h3 class='fallback-title'>${title}</h3>]`
+    console.log('s')
+    return endent`${id}("${id}")`
   }
 
-  const linkDesign = '======'
+  const generateLink = ({ source, target, label, linkDesign, distance }: Link) => {
+    const defaultLinkDesign = LinkDesigns.Thick
+    const defaultDistance = 3
 
-  const generateLink = ({ source, target, label }: Link) =>
-    `${source} ${linkDesign}${!!label ? `|${label}|` : ''} ${target}`
+    linkDesign = linkDesign ? linkDesign : defaultLinkDesign
+    distance = distance ? distance : defaultDistance
+
+    const link =
+      linkDesign === LinkDesigns.Dotted
+        ? `-${linkDesign.repeat(distance)}-`
+        : linkDesign.repeat(distance)
+
+    return `${source} ${link}${!!label ? `|${label}|` : ''} ${target}`
+  }
 
   const generateClick = ({ id }: Node) => `click ${id}`
 
@@ -113,12 +132,9 @@ const resizeObserver = new ResizeObserver(() => {
 
 watch(
   () => props.selectedTimeline,
-  () => {
-    // FIXME: It seems like something has to be waited for in order for the zoom to be applied properly
-    // Maybe related to waiting for the diagram to be drawn?
-    setTimeout(() => {
-      updateDimensions()
-    }, 1)
+  async () => {
+    await nextTick()
+    updateDimensions()
     console.log('switch to', props.selectedTimeline, 'timeline')
   }
 )
@@ -161,8 +177,6 @@ section {
 }
 
 :deep(foreignObject) {
-  /* width: 300px;
-  height: 300px; */
   overflow: visible;
 }
 
@@ -172,11 +186,11 @@ section {
 
 :deep(h3.title),
 :deep(h3.fallback-title) {
-  font-family: 'Franklin Gothic', sans-serif;
+  font-family: 'Spectral', serif;
   font-weight: bold;
   font-style: italic;
   margin-top: 0.5rem;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   text-wrap: wrap;
 }
 

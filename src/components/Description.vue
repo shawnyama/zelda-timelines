@@ -1,33 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import type { Node } from '@/data/games'
+import Gamebox from './Gamebox.vue'
 
 const props = defineProps<{
   game: Node | null
 }>()
-
-const img = ref<HTMLImageElement | null>(null)
-
-const imageUrl = computed(() =>
-  props.game ? new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href : undefined
-)
-
-const imgOrientation = computed(() =>
-  img.value && img.value.width < img.value.height ? 'landscape' : 'portrait'
-)
 </script>
 
 <template>
   <aside>
-    <section>
-      <img :class="imgOrientation" ref="img" :src="imageUrl" alt="Box art" />
-      <!-- <ul>
-        <li>console icons</li>
-      </ul> -->
-    </section>
+    <Gamebox :game="props.game" />
+    <section>console icons</section>
     <article>
       <h3>{{ game?.title }}</h3>
-      <div v-if="img">{{ img.width }}<br />{{ img.height }}</div>
+      <!-- <div v-if="img">{{ img.width }}<br />{{ img.height }}</div> -->
     </article>
   </aside>
 </template>

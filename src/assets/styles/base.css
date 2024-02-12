@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Spectral&display=swap');
 
 @font-face {
   font-family: hylia_serif;
@@ -39,7 +39,7 @@ body {
 body {
   display: flex;
   flex-direction: column;
-  font-family: 'RocknRoll One', sans-serif;
+  font-family: 'Spectral', serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,7 +60,7 @@ h2 {
 
 button {
   border: none;
-  font-family: 'hylia_serif_betaregular';
+  font-family: 'hylia_serif';
   padding: 0.25rem 0.5rem;
   cursor: pointer;
 }

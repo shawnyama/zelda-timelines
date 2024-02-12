@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { Timelines } from '@/data/games'
+import { Timelines } from '@/data/timelines'
 import caret from '@/assets/icons/caret-left.svg'
 
 defineProps<{ selectedTimeline: Timelines }>()

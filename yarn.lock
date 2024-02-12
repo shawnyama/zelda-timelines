@@ -2285,10 +2285,10 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
 
-nanoid@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
-  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
+nanoid@^5.0.4:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.0.5.tgz#5112efb5c0caf4fc80680d66d303c65233a79fdd"
+  integrity sha512-/Veqm+QKsyMY3kqi4faWplnY1u+VuKO3dD2binyPIybP31DRO29bPF+1mszgLnrR2KqSLceFLBNw0zmvDzN1QQ==
 
 natural-compare-lite@^1.4.0:
   version "1.4.0"
@@ -2743,9 +2743,9 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
 stylis@^4.0.10:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.3.0.tgz#abe305a669fc3d8777e10eefcfc73ad861c5588c"
-  integrity sha512-E87pIogpwUsUwXw7dNyU4QDjdgVMy52m+XEOPEKUn161cCzWjjhPSQhByfd1CcNvrOLnXQ6OnnZDwnJrz/Z4YQ==
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.3.1.tgz#ed8a9ebf9f76fe1e12d462f5cc3c4c980b23a7eb"
+  integrity sha512-EQepAV+wMsIaGVGX1RECzgrcqRRU/0sYOHkeLsZ3fzHaHXZy4DaOOX0vOlGQdlsjkh3mFHAIlVimpwAs4dslyQ==
 
 supports-color@^5.3.0:
   version "5.5.0"
@@ -2871,13 +2871,13 @@ vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-mermaid-string@^4.0.70:
-  version "4.0.70"
-  resolved "https://registry.yarnpkg.com/vue-mermaid-string/-/vue-mermaid-string-4.0.70.tgz#04b84d78b0baf641273949f3fcdb01bdafdf583d"
-  integrity sha512-gyyRJtnNAMvJz88ycp+tnx7zsNqXMApEYEJvByAXlnZ6SMK8FjVl0S4gM6Oq0FytaXbKmbQrOkOi3rHxT8qCKA==
+vue-mermaid-string@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/vue-mermaid-string/-/vue-mermaid-string-5.0.0.tgz#487271fbe241fcb0fa58c7d9ceff121f84eb6a74"
+  integrity sha512-viKSYRJByw3FnvbOi9GQPpeZds+MtfafSVfN3uYyMMlBNil8Iqcuk1H8sPqWyKFAAU3Pu8vIE+akdTJZvY1BuQ==
   dependencies:
     mermaid "^8.8.3"
-    nanoid "^4.0.0"
+    nanoid "^5.0.4"
 
 vue-template-compiler@^2.7.14:
   version "2.7.14"
