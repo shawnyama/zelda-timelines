@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Node } from '@/data/games'
+import type { GameNode } from '@/data/games'
 import Gamebox from './Gamebox.vue'
 
 const props = defineProps<{
-  game: Node | null
+  game: GameNode | null
 }>()
 </script>
 

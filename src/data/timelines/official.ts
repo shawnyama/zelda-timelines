@@ -1,31 +1,75 @@
-import { Games } from '../games'
-// import { Events } from '../events'
+import { GameIds, Events, Eras, TimeSplitEvents } from '../events'
 import { LinkDesigns } from '../link-designs'
 
 export const official = [
-  //   { source: Events.TheCreationOfTheLandAndSky, target: Games.SkywardSword }, // Need to make compatible Node
-  { source: Games.SkywardSword, target: Games.TheMinishCap },
-  { source: Games.TheMinishCap, target: Games.FourSwords },
-  { source: Games.FourSwords, target: Games.OcarinaOfTime },
-  { source: Games.OcarinaOfTime, target: Games.MajorasMask },
-  { source: Games.MajorasMask, target: Games.TwilightPrincess },
-  { source: Games.OcarinaOfTime, target: Games.TheWindWaker },
-  { source: Games.OcarinaOfTime, target: Games.ALinkToThePast },
-  { source: Games.TwilightPrincess, target: Games.FourSwordsAdventures },
   {
-    source: Games.FourSwordsAdventures,
-    target: Games.BreathOfTheWild,
-    linkDesign: LinkDesigns.Dotted
+    source: Events.TheCreationOfTheLandAndSky,
+    target: GameIds.SkywardSword,
+    subgraphStart: Eras.EraOfMyth
   },
-  { source: Games.TheLegendOfZelda, target: Games.TheAdventureOfLink },
-  { source: Games.ALinkToThePast, target: Games.LinksAwakening },
-  { source: Games.LinksAwakening, target: Games.OracleOfAges },
-  { source: Games.OracleOfAges, target: Games.OracleOfSeasons },
-  { source: Games.OracleOfSeasons, target: Games.ALinkBetweenWorlds },
-  { source: Games.ALinkBetweenWorlds, target: Games.TriforceHeroes },
-  { source: Games.TriforceHeroes, target: Games.TheLegendOfZelda },
-  { source: Games.TheWindWaker, target: Games.PhantomHourglass },
-  { source: Games.PhantomHourglass, target: Games.SpiritTracks },
-  { source: Games.BreathOfTheWild, target: Games.AgeOfCalamity },
-  { source: Games.BreathOfTheWild, target: Games.TearsOfTheKingdom }
+  { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
+  { source: Events.TheSacredRealmIsSealed, target: GameIds.TheMinishCap },
+  { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
+  { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
+  { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime },
+  {
+    source: GameIds.OcarinaOfTime,
+    target: Events.TheHeroIsTriumphant
+  },
+  {
+    source: Events.TheHeroIsTriumphant,
+    target: Events.TheSacredRealmRemainsProtected,
+    subgraphStart: TimeSplitEvents.TheHeroIsTriumphant
+  },
+  { source: Events.TheHeroIsTriumphant, target: Events.GanondorfIsSealed },
+  { source: Events.GanondorfIsSealed, target: GameIds.TheWindWaker },
+  { source: GameIds.TheWindWaker, target: GameIds.PhantomHourglass },
+  { source: GameIds.PhantomHourglass, target: Events.NewContinentDiscovered },
+  { source: Events.NewContinentDiscovered, target: Events.ANewHyruleKingdomIsFounded },
+  { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
+  { source: Events.TheSacredRealmRemainsProtected, target: GameIds.MajorasMask },
+  { source: GameIds.MajorasMask, target: Events.TheDemonThiefGanondorfIsExecuted },
+  { source: Events.TheDemonThiefGanondorfIsExecuted, target: GameIds.TwilightPrincess },
+  { source: GameIds.TwilightPrincess, target: GameIds.FourSwordsAdventures, subgraphEnd: 1 },
+  {
+    source: GameIds.OcarinaOfTime,
+    target: Events.TheHeroIsDefeated
+  },
+  {
+    source: Events.TheHeroIsDefeated,
+    target: Events.TheImprisoningWar,
+    subgraphStart: TimeSplitEvents.Downfall
+  },
+  { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
+  { source: GameIds.ALinkToThePast, target: GameIds.LinksAwakening },
+  { source: GameIds.LinksAwakening, target: GameIds.OracleOfAges },
+  { source: GameIds.OracleOfAges, target: GameIds.OracleOfSeasons },
+  { source: GameIds.OracleOfSeasons, target: GameIds.ALinkBetweenWorlds },
+  { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes },
+  { source: GameIds.TriforceHeroes, target: Events.TheMonarchsOfHyruleUseTheTriforce },
+  { source: Events.TheMonarchsOfHyruleUseTheTriforce, target: Events.TheTragedyOfPrincessZeldaI },
+  {
+    source: Events.TheTragedyOfPrincessZeldaI,
+    target: GameIds.TheLegendOfZelda
+  },
+  { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, subgraphEnd: 2 },
+  {
+    source: GameIds.AgeOfCalamity,
+    target: Events.TerrakoGoesBackInTime,
+    subgraphStart: Eras.EraOfTheWilds
+  },
+  { source: Events.TheGreatCalamity, target: Events.TerrakoGoesBackInTime },
+
+  { source: Events.TerrakoGoesBackInTime, target: GameIds.BreathOfTheWild },
+  {
+    source: GameIds.BreathOfTheWild,
+    target: GameIds.TearsOfTheKingdom,
+    subgraphEnd: 1
+  },
+  {
+    source: Eras.EraOfMyth,
+    target: Eras.EraOfTheWilds,
+    linkDesign: LinkDesigns.Dotted,
+    distance: 5
+  }
 ]

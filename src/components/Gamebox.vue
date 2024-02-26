@@ -9,10 +9,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { Node } from '@/data/games'
+import type { GameNode } from '@/data/games'
 
 const props = defineProps<{
-  game: Node | null
+  game: GameNode | null
 }>()
 
 const img = ref<HTMLImageElement | null>(null)

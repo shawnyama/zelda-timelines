@@ -1,3 +1,33 @@
+export enum GameIds {
+  SkywardSword = 'skyward-sword',
+  OcarinaOfTime = 'ocarina-of-time',
+  MajorasMask = 'majoras-mask',
+  HyruleWarriors = 'hyrule-warriors',
+  TwilightPrincess = 'twilight-princess',
+  LinksCrossbowTraining = 'links-crossbow-training',
+  ALinkToThePast = 'a-link-to-the-past',
+  AncientStoneTablets = 'ancient-stone-tablets',
+  TheWindWaker = 'the-wind-waker',
+  NaviTrackers = 'navi-trackers',
+  PhantomHourglass = 'phantom-hourglass',
+  SpiritTracks = 'spirit-tracks',
+  TheMinishCap = 'the-minish-cap',
+  FourSwords = 'four-swords',
+  FourSwordsAdventures = 'four-swords-adventures',
+  ALinkBetweenWorlds = 'a-link-between-worlds',
+  CadenceOfHyrule = 'cadence-of-hyrule',
+  TriforceHeroes = 'triforce-heroes',
+  OracleOfSeasons = 'oracle-of-seasons',
+  OracleOfAges = 'oracle-of-ages',
+  LinksAwakening = 'links-awakening',
+  TheLegendOfZelda = 'the-legend-of-zelda',
+  TheAdventureOfLink = 'the-adventure-of-link',
+  CDiGameIdsAndCartoon = 'cdi-GameIds-and-cartoon',
+  AgeOfCalamity = 'age-of-calamity',
+  BreathOfTheWild = 'breath-of-the-wild',
+  TearsOfTheKingdom = 'tears-of-the-kingdom'
+}
+
 export enum Events {
   TheCreationOfTheLandAndSky = 'The Creation of the Land and Sky',
   TheAncientBattleAndTheReincanationOfTheGodessHylia = 'The Ancient Battle and the Reincanation of the Godess Hylia',
@@ -26,14 +56,23 @@ export enum Events {
   HyruleIsSealedAndThenFlooded = 'Hyrule is Sealed and then Flooded',
   NewContinentDiscovered = 'New Continent Discovered',
   ANewHyruleKingdomIsFounded = 'A New Hyrule Kingdom is Founded',
-  DemonKingMalladusIsRessurected = 'Demon King Malladus is Ressurected'
+  DemonKingMalladusIsRessurected = 'Demon King Malladus is Ressurected',
+  // Other
+  TheGreatCalamity = 'The Great Calamity',
+  TerrakoGoesBackInTime = 'Terrako Goes Back in Time',
+  // Timesplit events
+  TheHeroIsTriumphant = 'The Hero is Triumphant',
+  TheHeroIsDefeated = 'The Hero is Defeated'
 }
 
 export enum TimeSplitEvents {
   Divergence = 'Divergence',
-  Convergence = 'Convergence'
+  Convergence = 'Convergence',
+  TheHeroIsTriumphant = 'T',
+  Downfall = 'Downfall'
 }
 
 export enum Eras {
-  EraOfMyth = 'Era of Myth'
+  EraOfMyth = 'Era of Myth',
+  EraOfTheWilds = 'Era of the Wilds'
 }

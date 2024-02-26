@@ -4,10 +4,12 @@ import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
 import Description from './Description.vue'
-import { nodes, Games } from '@/data/games'
+import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import { LinkDesigns } from '@/data/link-designs'
-import type { Node } from '@/data/games'
+import { GameIds } from '@/data/events'
+import type { Events, TimeSplitEvents, Eras } from '@/data/events'
+import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
 
 const props = defineProps<{
@@ -21,17 +23,15 @@ const mermaidContainer = ref()
 
 const year = ref(new Date().getFullYear())
 const isDrawingDiagram = ref(false)
-const selectedGame = ref<Node | null>(null)
+const selectedGame = ref<GameNode | null>(null)
 const orientation = 'LR'
 
 const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
-  isDrawingDiagram.value = true
-
   const generateNode = ({ id, title }: Node) => {
     // Check if id is a game
-    if (Object.values(Games).includes(id as Games)) {
+    if (Object.values(GameIds).includes(id as GameIds)) {
       const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
       // FIXME: Make the divs generated here the same width
       if (!imagePath.includes('undefined')) {
@@ -39,35 +39,67 @@ function generateDiagram() {
       }
       return endent`${id}[<div class='fallback-icon'>k</div><h3 class='fallback-title'>${title}</h3>]`
     }
-    console.log('s')
-    return endent`${id}("${id}")`
+    return endent`${id}[<h4 class='title'>${title}</h4>]`
   }
 
-  const generateLink = ({ source, target, label, linkDesign, distance }: Link) => {
-    const defaultLinkDesign = LinkDesigns.Thick
-    const defaultDistance = 3
-
-    linkDesign = linkDesign ? linkDesign : defaultLinkDesign
-    distance = distance ? distance : defaultDistance
+  const generateLink = ({
+    source,
+    target,
+    label,
+    linkDesign = LinkDesigns.Thick,
+    distance = 0,
+    subgraphStart,
+    subgraphEnd
+  }: Link) => {
+    distance += 3 // Minimum required for mermaid to render is 3
 
     const link =
       linkDesign === LinkDesigns.Dotted
-        ? `-${linkDesign.repeat(distance)}-`
+        ? `-${linkDesign.repeat(distance - 2)}-`
         : linkDesign.repeat(distance)
 
-    return `${source} ${link}${!!label ? `|${label}|` : ''} ${target}`
+    let connection = `${source.replace(/\s+/g, '')} ${link}${
+      !!label ? `|${label}|` : ''
+    } ${target.replace(/\s+/g, '')}`
+
+    if (subgraphStart) {
+      connection = `subgraph ${subgraphStart.replace(
+        /\s+/g,
+        ''
+      )}\ndirection ${orientation}\n${connection}`
+      console.log(connection)
+    }
+    if (subgraphEnd) {
+      for (let i = 0; i < subgraphEnd; i++) {
+        connection = `${connection}\nend`
+      }
+    }
+
+    return connection
   }
 
-  const generateClick = ({ id }: Node) => `click ${id}`
+  const generateClick = ({ id }: GameNode) => `click ${id}`
+
+  isDrawingDiagram.value = true
 
   // Remove nodes that aren't used in links
   const timelineLinks = links[props.selectedTimeline]
-  const nodesToDisplay = nodes.filter(
-    ({ id, releaseYear }) =>
-      (timelineLinks.map(({ source }) => source).includes(id) ||
-        timelineLinks.map(({ target }) => target).includes(id)) &&
-      year.value >= releaseYear
+
+  // Hold all events, games, etc. that are in the timeline
+  const timelineContent = Array.from(
+    new Set(timelineLinks.map(({ source, target }) => [source, target]).flat())
   )
+  const gameContent = timelineContent.filter((id) => Object.values(GameIds).includes(id as GameIds))
+  const eventContent = timelineContent.filter((id) => !gameContent.includes(id))
+  // Collect game nodes that belong in the timeline
+  const gameNodesToDisplay: GameNode[] = gameNodes.filter(
+    ({ id, releaseYear }) => gameContent.includes(id as GameIds) && year.value >= releaseYear
+  )
+  // Insert event nodes that belong in the timeline
+  const eventNodesToDisplay: Node[] = []
+  eventContent.forEach((id) => eventNodesToDisplay.push({ id: id.replace(/\s+/g, ''), title: id }))
+
+  const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 
   const diagram = endent`%%{
     init: {
@@ -82,17 +114,18 @@ function generateDiagram() {
   flowchart ${orientation}
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineLinks.map(generateLink).join('\n ')}
-  ${nodesToDisplay.map(generateClick).join('\n ')}
+  ${gameNodesToDisplay.map(generateClick).join('\n ')}
   `
-  // console.log(nodesToDisplay)
-  // console.log(diagram)
+  // Game nodes are only clickable for now
+
+  console.log(diagram)
 
   isDrawingDiagram.value = false
   return diagram
 }
 
-function selectGame(nodeId: Games) {
-  selectedGame.value = nodes.find(({ id }) => id === nodeId) ?? null
+function selectGame(nodeId: GameIds) {
+  selectedGame.value = gameNodes.find(({ id }) => id === nodeId) ?? null
 }
 
 const diagramPadding = 150
@@ -190,7 +223,7 @@ section {
   font-weight: bold;
   font-style: italic;
   margin-top: 0.5rem;
-  font-size: 1.75rem;
+  font-size: 2rem;
   text-wrap: wrap;
 }
 
@@ -202,6 +235,16 @@ section {
   font-family: 'hylian_symbols';
   font-size: 11rem;
   color: white;
+}
+
+:deep(h4.title) {
+  font-family: 'Spectral', serif;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  width: 16rem;
+  text-wrap: wrap;
 }
 
 .mermaid {

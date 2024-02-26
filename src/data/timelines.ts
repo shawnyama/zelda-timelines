@@ -1,6 +1,5 @@
-import type { Games } from './games'
 import type { LinkDesigns } from './link-designs'
-import type { Events, TimeSplitEvents, Eras } from './events'
+import type { GameIds, Events, TimeSplitEvents, Eras } from './events'
 import { official } from './timelines/official'
 import { triforce } from './timelines/triforce'
 import { lorulean } from './timelines/lorulean'
@@ -14,8 +13,10 @@ export enum Timelines {
 }
 
 export type Link = {
-  source: Games | Events | TimeSplitEvents | Eras
-  target: Games | Events | TimeSplitEvents | Eras
+  source: GameIds | Events | TimeSplitEvents | Eras
+  target: GameIds | Events | TimeSplitEvents | Eras
+  subgraphStart?: GameIds | Events | TimeSplitEvents | Eras
+  subgraphEnd?: number
   label?: string
   linkDesign?: LinkDesigns
   distance?: number
