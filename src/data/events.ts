@@ -65,6 +65,8 @@ export enum Events {
   TheHeroIsDefeated = 'The Hero is Defeated'
 }
 
+// Figure how you want to use these enums subgrpahs or nodes?
+// Consider renaming these enums too
 export enum TimeSplitEvents {
   Divergence = 'Divergence',
   Convergence = 'Convergence',

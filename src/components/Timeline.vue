@@ -35,9 +35,9 @@ function generateDiagram() {
       const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
       // FIXME: Make the divs generated here the same width
       if (!imagePath.includes('undefined')) {
-        return endent`${id}[<img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3>]`
+        return endent`${id}[<img class='${id}' src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3>]`
       }
-      return endent`${id}[<div class='fallback-icon'>k</div><h3 class='fallback-title'>${title}</h3>]`
+      return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
     }
     return endent`${id}[<h4 class='title'>${title}</h4>]`
   }
@@ -67,7 +67,7 @@ function generateDiagram() {
         /\s+/g,
         ''
       )}\ndirection ${orientation}\n${connection}`
-      console.log(connection)
+      // console.log(connection)
     }
     if (subgraphEnd) {
       for (let i = 0; i < subgraphEnd; i++) {
@@ -118,14 +118,18 @@ function generateDiagram() {
   `
   // Game nodes are only clickable for now
 
-  console.log(diagram)
+  // console.log(diagram)
 
   isDrawingDiagram.value = false
   return diagram
 }
 
-function selectGame(nodeId: GameIds) {
-  selectedGame.value = gameNodes.find(({ id }) => id === nodeId) ?? null
+function selectGame(gameId: GameIds) {
+  selectedGame.value = gameNodes.find(({ id }) => id === gameId) ?? null
+  // Apply spin animation to icon
+  const gameIcon = mermaidContainer.value.querySelector(`.${gameId}`)
+  gameIcon.classList.add('spin-on-game-select')
+  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
 const diagramPadding = 150
@@ -213,8 +217,21 @@ section {
   overflow: visible;
 }
 
+:deep(foreignObject *) {
+  transition: 0.2s;
+}
+
+:deep(foreignObject:hover img) {
+  scale: 1.05;
+  transform: translateY(-1rem);
+}
+
+:deep(foreignObject .spin-on-game-select) {
+  animation: spin 0.3s linear 2, returnToOrigin 0.2s linear 1;
+  animation-delay: 0s, 0.6s;
+}
+
 :deep(foreignObject:hover h3) {
-  color: red;
 }
 
 :deep(h3.title),
@@ -265,5 +282,30 @@ section {
   /* & :deep(svg > g > .root > .nodes > g) {
     width: 100px;
   } */
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    transform: rotateY(0deg) scale(1.05) translateY(-1rem);
+  }
+  25% {
+    transform: rotateY(90deg) scale(1.05) translateY(-1rem);
+  }
+  50% {
+    transform: rotateY(180deg) scale(1.05) translateY(-1rem);
+  }
+  75% {
+    transform: rotateY(270deg) scale(1.05) translateY(-1rem);
+  }
+}
+
+@keyframes returnToOrigin {
+  0% {
+    transform: rotateY(360deg) scale(1.05);
+  }
+  100% {
+    transform: rotateY(0deg) scale(1) translateY(0);
+  }
 }
 </style>

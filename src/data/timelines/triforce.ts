@@ -1,21 +1,27 @@
-import { GameIds } from '../events'
+import { GameIds, Events, Eras, TimeSplitEvents } from '../events'
+import { LinkDesigns } from '../link-designs'
 
 export const triforce = [
-  { source: GameIds.SkywardSword, target: GameIds.OcarinaOfTime, distance: 8 },
+  { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
+  { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
+  { source: Events.TheSacredRealmIsSealed, target: Events.HyruleanCivilWar },
+  { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime },
   { source: GameIds.OcarinaOfTime, target: GameIds.MajorasMask },
   { source: GameIds.MajorasMask, target: GameIds.HyruleWarriors },
   { source: GameIds.HyruleWarriors, target: GameIds.TwilightPrincess },
   { source: GameIds.TwilightPrincess, target: GameIds.LinksCrossbowTraining },
-  { source: GameIds.LinksCrossbowTraining, target: GameIds.ALinkToThePast, distance: 5 },
-  { source: GameIds.OcarinaOfTime, target: GameIds.TheWindWaker },
+  { source: GameIds.LinksCrossbowTraining, target: GameIds.ALinkToThePast },
+  { source: GameIds.ALinkToThePast, target: TimeSplitEvents.Convergence },
+  { source: GameIds.OcarinaOfTime, target: TimeSplitEvents.Divergence },
+  { source: TimeSplitEvents.Divergence, target: GameIds.TheWindWaker },
   { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers },
   { source: GameIds.NaviTrackers, target: GameIds.PhantomHourglass },
   { source: GameIds.PhantomHourglass, target: GameIds.SpiritTracks },
   { source: GameIds.SpiritTracks, target: GameIds.TheMinishCap },
   { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
   { source: GameIds.FourSwords, target: GameIds.FourSwordsAdventures },
-  { source: GameIds.FourSwordsAdventures, target: GameIds.ALinkToThePast },
-  { source: GameIds.ALinkToThePast, target: GameIds.AncientStoneTablets },
+  { source: GameIds.FourSwordsAdventures, target: TimeSplitEvents.Convergence },
+  { source: TimeSplitEvents.Convergence, target: GameIds.AncientStoneTablets },
   { source: GameIds.AncientStoneTablets, target: GameIds.ALinkBetweenWorlds },
   { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes },
   { source: GameIds.TriforceHeroes, target: GameIds.OracleOfAges },
@@ -24,7 +30,7 @@ export const triforce = [
   { source: GameIds.LinksAwakening, target: GameIds.TheLegendOfZelda },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink },
   { source: GameIds.TheAdventureOfLink, target: GameIds.CDiGameIdsAndCartoon },
-  { source: GameIds.CDiGameIdsAndCartoon, target: GameIds.BreathOfTheWild, distance: 30 },
+  { source: GameIds.CDiGameIdsAndCartoon, target: GameIds.BreathOfTheWild },
   { source: GameIds.BreathOfTheWild, target: GameIds.AgeOfCalamity },
   { source: GameIds.BreathOfTheWild, target: GameIds.TearsOfTheKingdom }
 ]
