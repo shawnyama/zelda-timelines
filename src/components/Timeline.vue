@@ -13,6 +13,7 @@
     </section>
     <description :game="selectedGame" :orientation="orientation" />
   </main>
+  <about-modal v-if="showAboutModal" @toggle-about-modal="toggleAboutModal" />
 </template>
 
 <script setup lang="ts">
@@ -22,7 +23,7 @@ import * as d3 from 'd3'
 import endent from 'endent'
 import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
-
+import AboutModal from './AboutModal.vue'
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import { LinkDesigns } from '@/data/link-designs'
@@ -164,7 +165,7 @@ function selectGame(gameId: GameIds) {
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
-const diagramPadding = 150
+const diagramPadding = 200
 
 function updateDimensions() {
   width = window.innerWidth
@@ -226,33 +227,44 @@ onMounted(() => {
 main {
   display: flex;
   background-color: var(--light-green);
-  flex-direction: column;
-
   &.TB {
-    flex-direction: row;
     & > section {
-      width: 60%;
+      width: 60vw;
     }
   }
-
   &.LR {
+    flex-direction: column;
     & > section {
-      height: 60%;
+      height: 65vh;
     }
   }
 
   & > section {
     display: flex;
     position: relative;
-    flex: 1;
-  }
-}
 
-li {
-  margin: 0.25rem;
-  padding: 0.25rem;
-  background-color: burlywood;
-  cursor: pointer;
+    & > .mermaid {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      /* height: 100vh;
+      width: 100vw; */
+      overflow: none;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+
+      /*  & > :deep(svg) {
+   max-height: 100%;
+  } */
+
+      /* & :deep(svg > g > .root > .nodes > g) {
+    width: 100px;
+  } */
+    }
+  }
 }
 
 :deep(foreignObject) {
@@ -304,26 +316,6 @@ li {
   font-size: 1.5rem;
   width: 16rem;
   text-wrap: wrap;
-}
-
-.mermaid {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  overflow: none;
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  & > :deep(svg) {
-    /* max-height: 100%; */
-  }
-
-  /* & :deep(svg > g > .root > .nodes > g) {
-    width: 100px;
-  } */
 }
 
 @keyframes spin {

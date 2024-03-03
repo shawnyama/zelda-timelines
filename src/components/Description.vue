@@ -21,28 +21,32 @@ defineProps<{
       </section>
       <article>
         <h1>{{ game.title }}</h1>
-        <p></p></article
-    ></template>
+        <p></p>
+      </article>
+    </template>
   </aside>
 </template>
 
 <style scoped>
 aside {
   z-index: 1;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
-  outline: 1px solid red;
+  margin: 0.5rem;
   padding: 0.5rem;
-  background-color: var(--description-bg);
+  background-color: var(--navbar-bg);
   backdrop-filter: blur(2px);
 
   &.TB {
     flex-direction: column;
-    width: 40%;
+    width: 40vw;
+    margin-left: 0;
   }
-
   &.LR {
-    height: 40%;
+    height: 35vh;
+    margin-top: 0;
+    transform: translateY(-1.5rem);
   }
 }
 
@@ -70,10 +74,5 @@ img {
   height: 15rem;
   /* height: auto;
   width: auto; */
-}
-
-.landscape {
-  /* max-height: 30rem;
-  max-width: 18rem; */
 }
 </style>

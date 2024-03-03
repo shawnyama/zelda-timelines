@@ -1,11 +1,17 @@
 <template>
   <h2>Zelda timelines</h2>
   <div class="dropdown">
-    <button>
-      <img :src="caret" alt="caret-icon" />
+    <div class="selected-timeline">
+      <div class="gear-group">
+        <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
+        <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
+      </div>
       <span>{{ selectedTimeline }}</span>
-      <img :src="caret" alt="caret-icon" />
-    </button>
+      <div class="gear-group">
+        <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
+        <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
+      </div>
+    </div>
     <div class="options-container">
       <ul>
         <li v-for="timeline in Timelines" :value="timeline" @click="selectNewTimeline(timeline)">
@@ -19,11 +25,11 @@
     <Button @click="emit('toggle-about-modal')">
       <Icon icon="ph:info-bold" height="1.75rem" />
     </Button>
-    <Button @click="emit('toggle-orientation')">
-      <Icon :icon="orientationIcon" height="1.75rem" />
-    </Button>
     <Button @click="emit('toggle-theme')">
       <Icon :icon="themeIcon" height="1.75rem" />
+    </Button>
+    <Button @click="emit('toggle-orientation')">
+      <Icon :icon="orientationIcon" height="1.75rem" />
     </Button>
   </div>
 </template>
@@ -61,9 +67,9 @@ h2,
 .btn-group {
   position: absolute;
   z-index: 1;
-  background-color: var(--navbar-bg);
   backdrop-filter: blur(2px);
-  margin: 0.25rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 /* nav {
@@ -71,10 +77,15 @@ h2,
   color: white;
   padding: 0 0.5rem;
   width: 100%; */
+h2 {
+  color: var(--dark-green);
+  padding: 0.25rem;
+  pointer-events: none;
+}
 
 .btn-group {
+  background-color: var(--navbar-bg);
   right: 0;
-  border-radius: 0.5rem;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -84,6 +95,8 @@ h2,
 }
 
 .dropdown {
+  background-color: var(--navbar-bg);
+  width: 20rem;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -97,8 +110,10 @@ h2,
     cursor: pointer;
   }
 
-  & > button {
-    padding-top: 0.25rem;
+  & > .selected-timeline {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
     background-color: transparent;
     color: white;
     overflow: visible;
@@ -109,21 +124,46 @@ h2,
     align-items: center;
     gap: 0.75rem;
 
-    & > img {
-      height: 1.25rem;
-      rotate: -90deg;
+    & > * {
+      padding: 0 1rem;
     }
 
-    &:hover {
-      /* do some fancy gradient thing or darker color? */
+    & > .gear-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark-green);
+
+      &:last-child {
+        flex-direction: row-reverse;
+      }
+
+      & > *:first-child {
+        animation: rotate-animation 3s linear infinite;
+        margin-bottom: 0.6rem;
+      }
+      & > *:last-child {
+        animation: rotate-ccw-animation 3s linear infinite;
+      }
     }
   }
 
-  &:hover .options-container {
-    display: block;
+  &:hover {
+    & .gear-group {
+      & > *:first-child {
+        animation: rotate-animation 1.25s linear infinite;
+      }
+      & > *:last-child {
+        animation: rotate-ccw-animation 1.25s linear infinite;
+      }
+    }
 
-    & > ul {
-      animation: fade-in 0.2s ease-in-out; /* Add fadeIn animation */
+    & .options-container {
+      display: block;
+
+      & > ul {
+        animation: fade-in 0.2s ease-in-out; /* Add fadeIn animation */
+      }
     }
   }
 
@@ -140,7 +180,7 @@ h2,
       border-radius: 1rem;
       padding: 0.5rem;
       background-color: var(--green);
-      min-width: 30vw;
+      width: 25rem;
 
       & > li {
         color: white;
@@ -154,7 +194,7 @@ h2,
         & > img {
           display: none;
           position: absolute;
-          scale: 0.75;
+          scale: 0.7;
           rotate: 180deg;
           bottom: 0.2rem;
         }
@@ -168,6 +208,7 @@ h2,
 
           & > img {
             display: block;
+            margin-left: 0.25rem;
             animation: arrow-animation 1s;
             animation-iteration-count: infinite;
           }
@@ -197,6 +238,24 @@ h2,
   }
   100% {
     left: 7px;
+  }
+}
+
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-ccw-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
 </style>

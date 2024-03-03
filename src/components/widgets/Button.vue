@@ -31,5 +31,6 @@ button {
   cursor: pointer;
   vertical-align: middle;
   line-height: 1;
+  color: var(--dark-green);
 }
 </style>
