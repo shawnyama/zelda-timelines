@@ -1,31 +1,51 @@
 <template>
-  <nav>
-    <h2>Zelda timelines</h2>
-    <div class="dropdown">
-      <button>
-        <img :src="caret" alt="caret-icon" />
-        <span>{{ selectedTimeline }}</span>
-        <img :src="caret" alt="caret-icon" />
-      </button>
-      <div class="options-container">
-        <ul>
-          <li v-for="timeline in Timelines" :value="timeline" @click="selectNewTimeline(timeline)">
-            <img :src="caret" alt="caret-icon" />
-            <div>{{ timeline }}</div>
-          </li>
-        </ul>
-      </div>
+  <h2>Zelda timelines</h2>
+  <div class="dropdown">
+    <button>
+      <img :src="caret" alt="caret-icon" />
+      <span>{{ selectedTimeline }}</span>
+      <img :src="caret" alt="caret-icon" />
+    </button>
+    <div class="options-container">
+      <ul>
+        <li v-for="timeline in Timelines" :value="timeline" @click="selectNewTimeline(timeline)">
+          <img :src="caret" alt="caret-icon" />
+          <div>{{ timeline }}</div>
+        </li>
+      </ul>
     </div>
-    <div class="btn-group"></div>
-  </nav>
+  </div>
+  <div class="btn-group">
+    <Button @click="emit('toggle-about-modal')">
+      <Icon icon="ph:info-bold" height="1.75rem" />
+    </Button>
+    <Button @click="emit('toggle-orientation')">
+      <Icon :icon="orientationIcon" height="1.75rem" />
+    </Button>
+    <Button @click="emit('toggle-theme')">
+      <Icon :icon="themeIcon" height="1.75rem" />
+    </Button>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Timelines } from '@/data/timelines'
+import Button from './widgets/Button.vue'
+import { Icon } from '@iconify/vue'
 import caret from '@/assets/icons/caret-left.svg'
 
-defineProps<{ selectedTimeline: Timelines }>()
-const emit = defineEmits(['update:selectedTimeline'])
+const props = defineProps<{ selectedTimeline: Timelines; orientation: string; themeIcon: string }>()
+const emit = defineEmits([
+  'update:selectedTimeline',
+  'toggle-orientation',
+  'toggle-theme',
+  'toggle-about-modal'
+])
+
+const orientationIcon = computed(() =>
+  props.orientation === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
+)
 
 function selectNewTimeline(timeline: Timelines) {
   emit('update:selectedTimeline', timeline)
@@ -36,30 +56,38 @@ function selectNewTimeline(timeline: Timelines) {
 <style scoped>
 /**Use down button from zelda textboxes or those ticks that you see on the edges around options */
 
-nav {
-  background-color: var(--green);
+h2,
+.dropdown,
+.btn-group {
+  position: absolute;
+  z-index: 1;
+  background-color: var(--navbar-bg);
+  backdrop-filter: blur(2px);
+  margin: 0.25rem;
+}
+
+/* nav {
   display: flex;
-  align-items: center;
   color: white;
   padding: 0 0.5rem;
+  width: 100%; */
 
-  & > * {
-    flex: 1;
-    display: flex;
-  }
-
-  & > .dropdown {
-    justify-content: center;
-  }
-
-  & > .btn-group {
-    gap: 0.5rem;
-    justify-content: end;
-  }
+.btn-group {
+  right: 0;
+  border-radius: 0.5rem;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  justify-content: end;
 }
 
 .dropdown {
-  position: relative;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
   display: inline-block;
 
   & > * {
@@ -92,7 +120,6 @@ nav {
   }
 
   &:hover .options-container {
-    margin-top: 2.75rem;
     display: block;
 
     & > ul {

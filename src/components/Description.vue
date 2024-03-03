@@ -28,10 +28,13 @@ defineProps<{
 
 <style scoped>
 aside {
+  z-index: 1;
   display: flex;
   align-items: center;
   outline: 1px solid red;
   padding: 0.5rem;
+  background-color: var(--description-bg);
+  backdrop-filter: blur(2px);
 
   &.TB {
     flex-direction: column;
@@ -60,7 +63,7 @@ h1 {
 
 img {
   border-radius: 3px;
-  /* max-height: 18rem; 
+  /* max-height: 18rem;
   this shouldn't overflow
   */
   /* max-width: 50rem; */

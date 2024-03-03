@@ -1,17 +1,14 @@
 <template>
   <main :class="orientation">
     <section ref="mermaidContainer">
-      <div class="btn-group">
-        <Button @click="showAboutModal = !showAboutModal">
-          <Icon icon="ph:info-bold" height="1.75rem" />
-        </Button>
-        <Button @click="toggleOrientation">
-          <Icon :icon="orientationIcon" height="1.75rem" />
-        </Button>
-        <Button @click="toggleTheme">
-          <Icon :icon="themeIcon" height="1.75rem" />
-        </Button>
-      </div>
+      <navbar
+        v-model:selectedTimeline="selectedTimeline"
+        :orientation="orientation"
+        :theme-icon="themeIcon"
+        @toggle-about-modal="toggleAboutModal"
+        @toggle-orientation="toggleOrientation"
+        @toggle-theme="toggleTheme"
+      />
       <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
     </section>
     <description :game="selectedGame" :orientation="orientation" />
@@ -19,12 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, nextTick, computed } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
+import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
-import Button from './widgets/Button.vue'
+
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import { LinkDesigns } from '@/data/link-designs'
@@ -32,16 +30,15 @@ import { GameIds } from '@/data/events'
 import type { Events, TimeSplitEvents, Eras } from '@/data/events'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
-import { Icon } from '@iconify/vue'
-
-const props = defineProps<{
-  selectedTimeline: Timelines
-}>()
 
 let width = 0
 let height = 0
 
 const mermaidContainer = ref()
+
+const selectedTimeline = ref(
+  (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
+)
 
 const year = ref(new Date().getFullYear())
 const isDrawingDiagram = ref(false)
@@ -51,9 +48,10 @@ const showAboutModal = ref(false)
 
 // Icon buttons
 const themeIcon = ref('ph:sun-bold')
-const orientationIcon = computed(() =>
-  orientation.value === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
-)
+
+function toggleAboutModal() {
+  showAboutModal.value = !showAboutModal.value
+}
 function toggleTheme() {
   themeIcon.value = themeIcon.value === 'ph:sun-bold' ? 'ph:moon-bold' : 'ph:sun-bold'
 }
@@ -117,7 +115,7 @@ function generateDiagram() {
   isDrawingDiagram.value = true
 
   // Remove nodes that aren't used in links
-  const timelineLinks = links[props.selectedTimeline]
+  const timelineLinks = links[selectedTimeline.value]
 
   // Hold all events, games, etc. that are in the timeline
   const timelineContent = Array.from(
@@ -169,8 +167,8 @@ function selectGame(gameId: GameIds) {
 const diagramPadding = 150
 
 function updateDimensions() {
-  width = mermaidContainer.value?.clientWidth ?? window.innerWidth
-  height = mermaidContainer.value?.clientHeight ?? window.innerHeight
+  width = window.innerWidth
+  height = window.innerHeight
 
   // Apply pan/zoom
   const svg = d3.select('.mermaid > svg').attr('height', height) //.style('height', height)
@@ -197,7 +195,7 @@ function updateDimensions() {
   svg.call(zoom as any).on('dblclick.zoom', null)
   svg.call(zoom.transform as any, d3.zoomIdentity.scale(2).translate(diagramPadding, height / 10)) // Initial position
 
-  // console.log(props.selectedTimeline,svg)
+  // console.log(selectedTimeline.value,svg)
   console.log(width, height)
 }
 
@@ -209,11 +207,11 @@ const resizeObserver = new ResizeObserver(() => {
 })
 
 watch(
-  () => props.selectedTimeline,
+  () => selectedTimeline.value,
   async () => {
     await nextTick()
     updateDimensions()
-    console.log('switch to', props.selectedTimeline, 'timeline')
+    console.log('switch to', selectedTimeline.value, 'timeline')
   }
 )
 
@@ -229,7 +227,6 @@ main {
   display: flex;
   background-color: var(--light-green);
   flex-direction: column;
-  height: calc(100vh - 30px);
 
   &.TB {
     flex-direction: row;
@@ -248,18 +245,6 @@ main {
     display: flex;
     position: relative;
     flex: 1;
-
-    & > .btn-group {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      margin: 0.5rem;
-      border: 1px solid var(--dark-green);
-      border-radius: 0.5rem;
-      height: fit-content;
-    }
   }
 }
 
