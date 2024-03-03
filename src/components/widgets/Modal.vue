@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <section>
+  <div @click="emit('close')">
+    <section @click.stop>
       <header>
         <Button @click="emit('close')">
           <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />
@@ -22,7 +22,7 @@ const emit = defineEmits(['close'])
 div {
   position: fixed;
   z-index: 2;
-  padding-top: 5rem;
+  padding-top: 1rem;
   left: 0;
   top: 0;
   width: 100%;
@@ -35,8 +35,8 @@ section {
   margin: auto;
   padding: 0.5rem;
   width: 50vw;
-  min-width: 40rem;
-  background-color: var(--navbar-bg);
+  min-width: 50rem;
+  background-color: var(--description-bg);
   border-radius: 0.5rem;
 }
 
