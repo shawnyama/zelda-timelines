@@ -16,9 +16,7 @@
         </ul>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="icon">?</button>
-    </div>
+    <div class="btn-group"></div>
   </nav>
 </template>
 
@@ -55,6 +53,7 @@ nav {
   }
 
   & > .btn-group {
+    gap: 0.5rem;
     justify-content: end;
   }
 }
@@ -93,7 +92,7 @@ nav {
   }
 
   &:hover .options-container {
-    margin-top: 3rem;
+    margin-top: 2.75rem;
     display: block;
 
     & > ul {

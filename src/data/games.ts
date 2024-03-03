@@ -176,7 +176,7 @@ export const gameNodes: GameNode[] = [
     isSpinOff: false
   },
   {
-    title: 'CDi GameIds and Cartoon',
+    title: 'CDi Games and Cartoon',
     id: GameIds.CDiGameIdsAndCartoon,
     platforms: [Platforms.PhillipsCDi],
     releaseYear: 1989,
@@ -192,7 +192,7 @@ export const gameNodes: GameNode[] = [
   {
     title: 'Breath of the Wild',
     id: GameIds.BreathOfTheWild,
-    platforms: [Platforms.Switch],
+    platforms: [Platforms.WiiU, Platforms.Switch],
     releaseYear: 2017,
     isSpinOff: false
   },

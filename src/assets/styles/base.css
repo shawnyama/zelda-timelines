@@ -57,17 +57,3 @@ h1 {
 h2 {
   font-size: 2rem;
 }
-
-button {
-  border: none;
-  font-family: 'hylia_serif';
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-}
-
-button.icon {
-  height: 2rem;
-  width: 2rem;
-  border-radius: 2rem;
-  font-size: 1.25rem;
-}

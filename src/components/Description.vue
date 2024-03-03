@@ -2,19 +2,27 @@
 import type { GameNode } from '@/data/games'
 import Gamebox from './Gamebox.vue'
 
-const props = defineProps<{
+defineProps<{
   game: GameNode | null
+  orientation: string
 }>()
 </script>
 
 <template>
-  <aside>
-    <Gamebox :game="props.game" />
-    <section>console icons</section>
-    <article>
-      <h3>{{ game?.title }}</h3>
-      <!-- <div v-if="img">{{ img.width }}<br />{{ img.height }}</div> -->
-    </article>
+  <aside :class="orientation">
+    <template v-if="game">
+      <section>
+        <Gamebox :game="game" />
+        <ul>
+          <li v-for="(platform, index) in game.platforms" :key="index">
+            {{ platform }}
+          </li>
+        </ul>
+      </section>
+      <article>
+        <h1>{{ game.title }}</h1>
+        <p></p></article
+    ></template>
   </aside>
 </template>
 
@@ -23,10 +31,16 @@ aside {
   display: flex;
   align-items: center;
   outline: 1px solid red;
-  /* max-height: 40%; */
-  height: 40%;
   padding: 0.5rem;
-  /* box-sizing: content-box; */
+
+  &.TB {
+    flex-direction: column;
+    width: 40%;
+  }
+
+  &.LR {
+    height: 40%;
+  }
 }
 
 section {
@@ -36,7 +50,12 @@ section {
 }
 
 article {
+  flex: 1;
   /* width: 75%; */
+}
+
+h1 {
+  font-family: 'hylia_serif', sans-serif;
 }
 
 img {

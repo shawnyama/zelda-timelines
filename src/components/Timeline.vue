@@ -1,9 +1,30 @@
+<template>
+  <main :class="orientation">
+    <section ref="mermaidContainer">
+      <div class="btn-group">
+        <Button @click="showAboutModal = !showAboutModal">
+          <Icon icon="ph:info-bold" height="1.75rem" />
+        </Button>
+        <Button @click="toggleOrientation">
+          <Icon :icon="orientationIcon" height="1.75rem" />
+        </Button>
+        <Button @click="toggleTheme">
+          <Icon :icon="themeIcon" height="1.75rem" />
+        </Button>
+      </div>
+      <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
+    </section>
+    <description :game="selectedGame" :orientation="orientation" />
+  </main>
+</template>
+
 <script setup lang="ts">
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted, nextTick, computed } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
 import Description from './Description.vue'
+import Button from './widgets/Button.vue'
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import { LinkDesigns } from '@/data/link-designs'
@@ -11,6 +32,7 @@ import { GameIds } from '@/data/events'
 import type { Events, TimeSplitEvents, Eras } from '@/data/events'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
+import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
   selectedTimeline: Timelines
@@ -24,7 +46,20 @@ const mermaidContainer = ref()
 const year = ref(new Date().getFullYear())
 const isDrawingDiagram = ref(false)
 const selectedGame = ref<GameNode | null>(null)
-const orientation = 'LR'
+const orientation = ref('LR')
+const showAboutModal = ref(false)
+
+// Icon buttons
+const themeIcon = ref('ph:sun-bold')
+const orientationIcon = computed(() =>
+  orientation.value === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
+)
+function toggleTheme() {
+  themeIcon.value = themeIcon.value === 'ph:sun-bold' ? 'ph:moon-bold' : 'ph:sun-bold'
+}
+function toggleOrientation() {
+  orientation.value = orientation.value === 'LR' ? 'TB' : 'LR'
+}
 
 const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
@@ -63,10 +98,9 @@ function generateDiagram() {
     } ${target.replace(/\s+/g, '')}`
 
     if (subgraphStart) {
-      connection = `subgraph ${subgraphStart.replace(
-        /\s+/g,
-        ''
-      )}\ndirection ${orientation}\n${connection}`
+      connection = endent`
+      subgraph ${subgraphStart.replace(/\s+/g, '')}
+      direction ${orientation.value}\n${connection}`
       // console.log(connection)
     }
     if (subgraphEnd) {
@@ -111,7 +145,7 @@ function generateDiagram() {
       }
     }
   }%%
-  flowchart ${orientation}
+  flowchart ${orientation.value}
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineLinks.map(generateLink).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
@@ -141,13 +175,20 @@ function updateDimensions() {
   // Apply pan/zoom
   const svg = d3.select('.mermaid > svg').attr('height', height) //.style('height', height)
   const inner = svg.select('g')
+  const translateExtent =
+    orientation.value === 'LR'
+      ? [
+          [-diagramPadding, -height + diagramPadding],
+          [Infinity, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
+        ]
+      : [
+          [-width + diagramPadding, -diagramPadding],
+          [width * 2 + diagramPadding, Infinity]
+        ]
 
   const zoom = d3
     .zoom()
-    .translateExtent([
-      [-diagramPadding, -height + diagramPadding],
-      [Infinity, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
-    ])
+    .translateExtent(translateExtent as any)
     .scaleExtent([1, 5])
     .on('zoom', (event) => {
       inner.attr('transform', event.transform)
@@ -183,21 +224,43 @@ onMounted(() => {
 })
 </script>
 
-<template>
-  <main>
-    <section ref="mermaidContainer">
-      <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
-    </section>
-    <description :game="selectedGame" />
-  </main>
-</template>
-
 <style scoped>
 main {
   display: flex;
   background-color: var(--light-green);
   flex-direction: column;
   height: calc(100vh - 30px);
+
+  &.TB {
+    flex-direction: row;
+    & > section {
+      width: 60%;
+    }
+  }
+
+  &.LR {
+    & > section {
+      height: 60%;
+    }
+  }
+
+  & > section {
+    display: flex;
+    position: relative;
+    flex: 1;
+
+    & > .btn-group {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      margin: 0.5rem;
+      border: 1px solid var(--dark-green);
+      border-radius: 0.5rem;
+      height: fit-content;
+    }
+  }
 }
 
 li {
@@ -205,12 +268,6 @@ li {
   padding: 0.25rem;
   background-color: burlywood;
   cursor: pointer;
-}
-
-section {
-  display: flex;
-  flex: 1;
-  height: 60%;
 }
 
 :deep(foreignObject) {
@@ -227,8 +284,8 @@ section {
 }
 
 :deep(foreignObject .spin-on-game-select) {
-  animation: spin 0.3s linear 2, returnToOrigin 0.2s linear 1;
-  animation-delay: 0s, 0.6s;
+  animation: spin 0.25s linear 2, endSpin 0.2s linear 1;
+  animation-delay: 0s, 0.5s;
 }
 
 :deep(foreignObject:hover h3) {
@@ -300,7 +357,7 @@ section {
   }
 }
 
-@keyframes returnToOrigin {
+@keyframes endSpin {
   0% {
     transform: rotateY(360deg) scale(1.05);
   }
