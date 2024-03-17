@@ -200,10 +200,6 @@ h2 {
           bottom: 0.2rem;
         }
 
-        &:not(:first-child):not(:last-child) {
-          margin: 0.5rem 0;
-        }
-
         &:hover {
           background-color: var(--dark-green);
 
