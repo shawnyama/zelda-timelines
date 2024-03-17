@@ -89,6 +89,13 @@ video {
   vertical-align: baseline;
 }
 
+ul {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,

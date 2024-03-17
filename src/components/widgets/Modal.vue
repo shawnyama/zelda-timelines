@@ -2,11 +2,14 @@
   <div @click="emit('close')">
     <section @click.stop>
       <header>
-        <Button @click="emit('close')">
+        <code>{{ title }}</code>
+        <Button @click="emit('close')" text>
           <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />
         </Button>
       </header>
-      <slot />
+      <main>
+        <slot />
+      </main>
     </section>
   </div>
 </template>
@@ -14,6 +17,10 @@
 <script setup lang="ts">
 import Button from './Button.vue'
 import { Icon } from '@iconify/vue'
+
+defineProps<{
+  title: string
+}>()
 
 const emit = defineEmits(['close'])
 </script>
@@ -33,7 +40,6 @@ div {
 
 section {
   margin: auto;
-  padding: 0.5rem;
   width: 50vw;
   min-width: 50rem;
   background-color: var(--description-bg);
@@ -42,6 +48,22 @@ section {
 
 header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--green);
+  padding: 0.25rem 0.5rem;
+  padding-left: 1rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+main {
+  padding: 1rem;
+  max-height: 80vh;
+  overflow: auto;
+  font-size: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 </style>

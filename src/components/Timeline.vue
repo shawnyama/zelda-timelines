@@ -292,7 +292,7 @@ main {
 :deep(h3.fallback-title) {
   font-family: 'Spectral', serif;
   font-weight: bold;
-  font-style: italic;
+  /* font-style: italic; */
   margin-top: 0.5rem;
   font-size: 2rem;
   text-wrap: wrap;

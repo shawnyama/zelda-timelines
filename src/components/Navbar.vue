@@ -102,6 +102,7 @@ h2 {
   transform: translateX(-50%);
   justify-content: center;
   display: inline-block;
+  border-radius: 2rem;
 
   & > * {
     font-family: 'triforce', sans-serif;
@@ -112,7 +113,7 @@ h2 {
 
   & > .selected-timeline {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     padding-top: 0.5rem;
     background-color: transparent;
     color: white;
@@ -125,7 +126,7 @@ h2 {
     gap: 0.75rem;
 
     & > * {
-      padding: 0 1rem;
+      padding: 0 0.5rem;
     }
 
     & > .gear-group {

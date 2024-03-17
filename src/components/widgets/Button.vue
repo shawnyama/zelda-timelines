@@ -1,21 +1,14 @@
 <template>
-  <button><slot /></button>
+  <button :class="{ text, rounded, outlined }">
+    <slot />
+  </button>
 </template>
 
 <script setup lang="ts">
 defineProps<{
   rounded?: boolean
   outlined?: boolean
-  color?:
-    | 'primary'
-    | 'secondary'
-    | 'danger'
-    | 'warning'
-    | 'success'
-    | 'info'
-    | 'light'
-    | 'dark'
-    | 'link'
+  text?: boolean
 }>()
 </script>
 
@@ -32,5 +25,21 @@ button {
   vertical-align: middle;
   line-height: 1;
   color: var(--dark-green);
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  &.text {
+    background-color: transparent;
+  }
+
+  &.outlined {
+    border: 1px solid var(--dark-green);
+  }
+
+  &.rounded {
+    border-radius: 5rem;
+  }
 }
 </style>
