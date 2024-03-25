@@ -12,17 +12,18 @@ defineProps<{
   <aside :class="orientation">
     <template v-if="game">
       <section>
-        <Gamebox :game="game" />
         <ul>
           <li v-for="(platform, index) in game.platforms" :key="index">
             {{ platform }}
           </li>
         </ul>
       </section>
+
       <article>
         <h1>{{ game.title }}</h1>
         <p></p>
       </article>
+      <Gamebox :game="game" :selected-platform="game.platforms[0]" />
     </template>
   </aside>
 </template>
@@ -57,7 +58,7 @@ section {
 }
 
 article {
-  flex: 1;
+  /* flex: 1; */
   /* width: 75%; */
 }
 

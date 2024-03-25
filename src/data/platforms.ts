@@ -14,37 +14,52 @@ export enum Platforms {
   PhillipsCDi = 'Phillips CD-i'
 }
 
-export const gameBoxDimensions = {
+// interface BoxDimensions {
+//   width: number
+//   height: number
+//   depth: number
+// }
+
+// type GameBoxDimesions = { [platforms in Platforms]: BoxDimensions }
+
+export const gameBoxDimensions: any = {
   [Platforms.Wii]: {
-    width: 420,
+    width: 200,
     height: 300,
-    front: {
-      width: 200,
-      height: 100
-    },
-    spine: {
-      width: 20,
-      height: 100
-    },
-    back: {
-      width: 200,
-      height: 100
-    }
+    depth: 20
+  },
+  [Platforms.WiiU]: {
+    width: 200,
+    height: 300,
+    depth: 20
+  },
+  [Platforms.Nintendo3DS]: {
+    width: 200,
+    height: 200,
+    depth: 20
   },
   [Platforms.N64]: {
     width: 300,
     height: 200,
-    front: {
-      width: 100,
-      height: 100
-    },
-    spine: {
-      width: 20,
-      height: 20
-    },
-    back: {
-      width: 100,
-      height: 100
-    }
+    depth: 80
+  },
+  [Platforms.SNES]: {
+    width: 300,
+    height: 200,
+    depth: 80
+  },
+  [Platforms.NES]: {
+    width: 200,
+    height: 300,
+    depth: 20
   }
+}
+
+export const gameBoxColors: any = {
+  [Platforms.Wii]: 'white',
+  [Platforms.WiiU]: 'blue',
+  [Platforms.N64]: 'yellow',
+  [Platforms.SNES]: 'black',
+  [Platforms.NES]: 'beige',
+  [Platforms.Nintendo3DS]: 'white'
 }

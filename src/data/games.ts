@@ -8,7 +8,7 @@ export interface Node {
 }
 
 export interface GameNode extends Node {
-  platforms: string[]
+  platforms: Platforms[]
   releaseYear: number
   isSpinOff: boolean
 }
