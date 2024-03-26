@@ -1,24 +1,20 @@
 <template>
   <section>
-    <div ref="img" class="game-box">
+    <div ref="img" class="game-box" :class="{ 'spine-on-bottom': isSpineOnBottom }">
       <div class="top">Top</div>
       <div class="bottom">Bottom</div>
       <div class="left">Left</div>
       <div class="right">Right</div>
       <div class="front">Front</div>
       <div class="back">Back</div>
-      <!-- <div :style="backStyle">back</div> -->
-      <!-- <div :style="spineStyle">spine</div> -->
-      <!-- <div :style="frontStyle">front</div> -->
     </div>
   </section>
-  <!-- <img :class="imgOrientation"  :src="imageUrl" alt="Box art" /> -->
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { GameNode } from '@/data/games'
-import { Platforms, gameBoxDimensions, gameBoxColors } from '@/data/platforms'
+import { Platforms, gameBoxDimensions, gameBoxColors, spineOnBottom } from '@/data/platforms'
 
 const props = defineProps<{
   game: GameNode | null
@@ -36,6 +32,7 @@ const height = computed(() => `${gameBoxDimensions[props.selectedPlatform].heigh
 const width = computed(() => `${gameBoxDimensions[props.selectedPlatform].width}px` ?? '200px')
 const depth = computed(() => `${gameBoxDimensions[props.selectedPlatform].depth}px` ?? '200px')
 const boxColor = computed(() => gameBoxColors[props.selectedPlatform] ?? 'darkgrey')
+const isSpineOnBottom = computed(() => spineOnBottom.includes(props.selectedPlatform))
 </script>
 
 <style scoped>
@@ -53,46 +50,74 @@ section {
   /* Comment the below line for debugging */
   color: transparent;
 
+  /* Image configuration */
+  & > .front,
+  & > .back,
+  &:not(.spine-on-bottom) > .left,
+  &.spine-on-bottom > .bottom {
+    background-image: v-bind(imageUrl);
+  }
+  &:not(.spine-on-bottom) {
+    & > .front {
+      background-position: bottom right;
+    }
+    & > .back {
+      background-position: top left;
+    }
+    & > .left {
+      background-position: top;
+    }
+    & > .front,
+    & > .back,
+    & > .left {
+      background-size: calc(v-bind(width) * 2 + v-bind(depth)) v-bind(height);
+    }
+  }
+  &.spine-on-bottom {
+    & > .front {
+      background-position: top left;
+    }
+    & > .back {
+      background-position: bottom right;
+    }
+    & > .bottom {
+      background-position: left;
+    }
+    & > .front,
+    & > .back,
+    & > .bottom {
+      background-size: v-bind(width) calc(v-bind(height) * 2 + v-bind(depth));
+    }
+  }
+
+  /* General */
   & > div {
-    /* width: v-bind(width);
-    height: v-bind(height); */
-    background: v-bind(boxColor);
-    /* border: 1px solid black; */
+    background-color: v-bind(boxColor);
     position: absolute;
-    /* opacity: 0.5; */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-
-    /* 
-    transform-origin: 0 0;
+    /* border: 1px solid black; */
+    /* opacity: 0.5; */
+    /*
     margin-left: 100px; half of the width of the box
     backface-visibility: hidden; */
 
-    &.front,
-    &.back,
-    &.left {
-      background-image: v-bind(imageUrl);
-    }
+    /* Transformations */
     &.front {
       transform: translateZ(calc(v-bind(depth) / 2));
-      background-position: calc((v-bind(width) + v-bind(depth)) * -1) 0;
     }
     &.back {
       transform: rotateY(180deg) translateZ(calc(v-bind(depth) / 2));
-      background-position: 0 0;
     }
     &.front,
     &.back {
       width: v-bind(width);
       height: v-bind(height);
-      background-size: calc(v-bind(width) * 2 + v-bind(depth)) v-bind(height);
     }
     &.left {
       transform: rotateY(-90deg) translateZ(calc(v-bind(width) / 2));
-      background-size: calc(v-bind(width) * 2 + v-bind(depth)) v-bind(height);
-      background-position: calc(v-bind(width) * -1) 0;
     }
     &.right {
       transform: rotateY(90deg) translateZ(calc(v-bind(width) / 2));

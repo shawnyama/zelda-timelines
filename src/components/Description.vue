@@ -10,7 +10,8 @@ defineProps<{
 
 <template>
   <aside :class="orientation">
-    <template v-if="game">
+    <template v-if="game"
+      ><Gamebox :game="game" :selected-platform="game.platforms[0]" />
       <section>
         <ul>
           <li v-for="(platform, index) in game.platforms" :key="index">
@@ -23,7 +24,6 @@ defineProps<{
         <h1>{{ game.title }}</h1>
         <p></p>
       </article>
-      <Gamebox :game="game" :selected-platform="game.platforms[0]" />
     </template>
   </aside>
 </template>
