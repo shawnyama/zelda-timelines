@@ -17,7 +17,5 @@ export const geekery = [
   { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes },
   { source: GameIds.SpiritTracks, target: GameIds.TheLegendOfZelda },
   { source: GameIds.TheWindWaker, target: GameIds.PhantomHourglass },
-  { source: GameIds.PhantomHourglass, target: GameIds.SpiritTracks },
-  { source: GameIds.BreathOfTheWild, target: GameIds.AgeOfCalamity },
-  { source: GameIds.BreathOfTheWild, target: GameIds.TearsOfTheKingdom }
+  { source: GameIds.PhantomHourglass, target: GameIds.SpiritTracks }
 ]

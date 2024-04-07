@@ -76,7 +76,10 @@ aside {
   }
   &.LR {
     height: var(--description-height);
-    margin: 0 auto 0.5rem auto;
+    margin: 0.5rem;
+    margin-top: 0;
+    width: fit-content;
+    align-self: center;
   }
 
   & > section {

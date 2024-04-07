@@ -28,6 +28,9 @@
     <Button @click="emit('toggle-theme')" icon>
       <Icon :icon="themeIcon" height="1.75rem" />
     </Button>
+    <Button @click="emit('reset-view')" icon>
+      <Icon icon="ph:crosshair-bold" height="1.75rem" />
+    </Button>
     <Button @click="emit('toggle-orientation')" icon>
       <Icon :icon="orientationIcon" height="1.75rem" />
     </Button>
@@ -46,7 +49,8 @@ const emit = defineEmits([
   'update:selectedTimeline',
   'toggle-orientation',
   'toggle-theme',
-  'toggle-about-modal'
+  'toggle-about-modal',
+  'reset-view'
 ])
 
 const orientationIcon = computed(() =>

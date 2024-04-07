@@ -8,7 +8,6 @@ export const lorulean = [
   { source: GameIds.TheMinishCap, target: GameIds.OcarinaOfTime },
   { source: GameIds.OcarinaOfTime, target: GameIds.MajorasMask },
   { source: GameIds.MajorasMask, target: GameIds.TwilightPrincess },
-  { source: GameIds.BreathOfTheWild, target: GameIds.AgeOfCalamity },
   { source: GameIds.BreathOfTheWild, target: GameIds.TearsOfTheKingdom },
   { source: GameIds.OcarinaOfTime, target: GameIds.TheWindWaker },
   { source: GameIds.TwilightPrincess, target: GameIds.BreathOfTheWild },

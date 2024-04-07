@@ -8,6 +8,7 @@
         @toggle-about-modal="toggleAboutModal"
         @toggle-orientation="toggleOrientation"
         @toggle-theme="toggleTheme"
+        @reset-view="updateDimensions"
       />
       <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
     </section>
@@ -166,6 +167,7 @@ function selectGame(gameId: GameIds) {
 }
 
 const diagramPadding = 400
+const scaleMin = 0.75
 
 function updateDimensions() {
   width = window.innerWidth
@@ -190,28 +192,34 @@ function updateDimensions() {
   const zoom = d3
     .zoom()
     .translateExtent(translateExtent as any)
-    .scaleExtent([1, 5])
+    .scaleExtent([scaleMin, 5])
     .on('zoom', (event) => {
       timelineGroup.attr('transform', event.transform)
     })
 
   svg.call(zoom as any).on('dblclick.zoom', null)
 
-  // Calculate the scale to fit the g element in the top half of the svg
-  // const scale = Math.min(
-  //   width / timelineBBox.width, // scale based on width
-  //   height / 2 / timelineBBox.height // scale based on half of height
-  // )
+  // Determine initial position and scale
+  // Scale based on width
+  let scale =
+    orientation.value === 'LR'
+      ? timelineBBox.width / (width * 2.5) // FIXME: What if timeline is shorter than window width
+      : timelineBBox.height / (height * 2.5)
+  if (scale < scaleMin) scale = scaleMin
 
-  const scale = 1
+  const xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
+  const yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram
 
   // Calculate the translate to center the g element in the top half of the svg
-  const translate = [-timelineBBox.x * scale, -timelineBBox.y * scale]
+  const translate = [xTranslate, yTranslate]
 
-  console.log(scale, translate)
+  // Apply the transform
+  svg.call(
+    zoom.transform as any,
+    d3.zoomIdentity.scale(scale).translate(translate[0], translate[1])
+  )
 
-  svg.call(zoom.transform as any, d3.zoomIdentity.scale(1).translate(translate[0], translate[1])) // Initial position
-
+  // console.log(scale, translate)
   // console.log(selectedTimeline.value,svg)
   // console.log(width, height)
 }
