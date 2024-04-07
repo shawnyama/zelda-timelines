@@ -29,7 +29,7 @@ import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import { LinkDesigns } from '@/data/link-designs'
 import { GameIds } from '@/data/events'
-import type { Events, TimeSplitEvents, Eras } from '@/data/events'
+// import type { Events, TimeSplitEvents, Eras } from '@/data/events'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
 
@@ -41,11 +41,11 @@ const mermaidContainer = ref()
 const selectedTimeline = ref(
   (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
 )
+const orientation = ref(localStorage.getItem('orientation') ?? 'LR')
 
 const year = ref(new Date().getFullYear())
 const isDrawingDiagram = ref(false)
 const selectedGame = ref<GameNode | null>(null)
-const orientation = ref('LR')
 const showAboutModal = ref(false)
 
 // Icon buttons
@@ -59,6 +59,7 @@ function toggleTheme() {
 }
 function toggleOrientation() {
   orientation.value = orientation.value === 'LR' ? 'TB' : 'LR'
+  localStorage.setItem('orientation', orientation.value)
 }
 
 const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
@@ -174,7 +175,7 @@ function updateDimensions() {
   height = window.innerHeight
 
   // Apply pan/zoom
-  const svg = d3.select('.mermaid > svg').attr('height', height) //.style('height', height)
+  const svg = d3.select('.mermaid > svg').attr('height', height).style('max-width', '100%')
   const timelineGroup = svg.select('g')
   const timelineBBox = (timelineGroup?.node() as any).getBBox()
 
@@ -200,24 +201,26 @@ function updateDimensions() {
   svg.call(zoom as any).on('dblclick.zoom', null)
 
   // Determine initial position and scale
-  // Scale based on width
-  let scale =
-    orientation.value === 'LR'
-      ? timelineBBox.width / (width * 2.5) // FIXME: What if timeline is shorter than window width
-      : timelineBBox.height / (height * 2.5)
-  if (scale < scaleMin) scale = scaleMin
+  let scale = 1
+  let xTranslate = 0
+  let yTranslate = 0
 
-  const xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
-  const yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram
+  if (orientation.value === 'LR') {
+    scale = timelineBBox.width / (width * 2.5)
+    if (scale < scaleMin) scale = scaleMin
 
-  // Calculate the translate to center the g element in the top half of the svg
-  const translate = [xTranslate, yTranslate]
+    xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
+    yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
+  } else if (orientation.value === 'TB') {
+    scale = timelineBBox.height / (height * 2.5)
+    if (scale < scaleMin) scale = scaleMin
+
+    xTranslate = mermaidContainer.value.clientWidth / 2 - timelineBBox.width / 2 // FIXME: This is a temporary hacky way to center the diagram
+    yTranslate = diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
+  }
 
   // Apply the transform
-  svg.call(
-    zoom.transform as any,
-    d3.zoomIdentity.scale(scale).translate(translate[0], translate[1])
-  )
+  svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
 
   // console.log(scale, translate)
   // console.log(selectedTimeline.value,svg)
@@ -280,10 +283,6 @@ main {
 
       &:active {
         cursor: grabbing;
-      }
-
-      & > :deep(svg) {
-        /* max-width: 100% !important; ADD THIS INTO DIAGRAM GENERATION*/
       }
 
       /* & :deep(svg > g > .root > .nodes > g) {
