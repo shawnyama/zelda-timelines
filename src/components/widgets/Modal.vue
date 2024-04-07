@@ -3,7 +3,7 @@
     <section @click.stop>
       <header>
         <code>{{ title }}</code>
-        <Button @click="emit('close')" text>
+        <Button @click="emit('close')" text icon>
           <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />
         </Button>
       </header>

@@ -4,16 +4,17 @@
   font-family: hylia_serif;
   src: url('../fonts/hyliaserifbeta-regular-webfont.woff2') format('woff2'),
     url('../fonts/hyliaserifbeta-regular-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
 }
 
 @font-face {
   font-family: triforce;
   src: url('../fonts/triforce-webfont.woff2') format('woff2'),
     url('../fonts/triforce-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+}
+
+@font-face {
+  font-family: calamity;
+  src: url('../fonts/Calamity-Bold.otf') format('opentype');
 }
 
 @font-face {
@@ -30,6 +31,9 @@
   --light-green: hsl(103, 33%, 72%);
   --dark-green: hsl(168, 57%, 26%);
   --coral-red: rgb(255, 109, 96);
+
+  --description-height: 22rem;
+  --timeline-height-LR: calc(100vh - var(--description-height) - 0.5rem);
 }
 
 html,
@@ -54,7 +58,7 @@ h3 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2.25rem;
 }
 
 h2 {

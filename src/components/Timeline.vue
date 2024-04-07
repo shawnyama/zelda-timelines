@@ -126,7 +126,7 @@ function generateDiagram() {
   const eventContent = timelineContent.filter((id) => !gameContent.includes(id))
   // Collect game nodes that belong in the timeline
   const gameNodesToDisplay: GameNode[] = gameNodes.filter(
-    ({ id, releaseYear }) => gameContent.includes(id as GameIds) && year.value >= releaseYear
+    ({ id, releases }) => gameContent.includes(id as GameIds) && year.value >= releases[0].year
   )
   // Insert event nodes that belong in the timeline
   const eventNodesToDisplay: Node[] = []
@@ -165,7 +165,7 @@ function selectGame(gameId: GameIds) {
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
-const diagramPadding = 200
+const diagramPadding = 400
 
 function updateDimensions() {
   width = window.innerWidth
@@ -173,16 +173,18 @@ function updateDimensions() {
 
   // Apply pan/zoom
   const svg = d3.select('.mermaid > svg').attr('height', height) //.style('height', height)
-  const inner = svg.select('g')
+  const timelineGroup = svg.select('g')
+  const timelineBBox = (timelineGroup?.node() as any).getBBox()
+
   const translateExtent =
     orientation.value === 'LR'
       ? [
           [-diagramPadding, -height + diagramPadding],
-          [Infinity, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
+          [timelineBBox.width + diagramPadding, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
         ]
       : [
           [-width + diagramPadding, -diagramPadding],
-          [width * 2 + diagramPadding, Infinity]
+          [width * 2 + diagramPadding, timelineBBox.height + diagramPadding]
         ]
 
   const zoom = d3
@@ -190,14 +192,28 @@ function updateDimensions() {
     .translateExtent(translateExtent as any)
     .scaleExtent([1, 5])
     .on('zoom', (event) => {
-      inner.attr('transform', event.transform)
+      timelineGroup.attr('transform', event.transform)
     })
 
   svg.call(zoom as any).on('dblclick.zoom', null)
-  svg.call(zoom.transform as any, d3.zoomIdentity.scale(2).translate(diagramPadding, height / 10)) // Initial position
+
+  // Calculate the scale to fit the g element in the top half of the svg
+  // const scale = Math.min(
+  //   width / timelineBBox.width, // scale based on width
+  //   height / 2 / timelineBBox.height // scale based on half of height
+  // )
+
+  const scale = 1
+
+  // Calculate the translate to center the g element in the top half of the svg
+  const translate = [-timelineBBox.x * scale, -timelineBBox.y * scale]
+
+  console.log(scale, translate)
+
+  svg.call(zoom.transform as any, d3.zoomIdentity.scale(1).translate(translate[0], translate[1])) // Initial position
 
   // console.log(selectedTimeline.value,svg)
-  console.log(width, height)
+  // console.log(width, height)
 }
 
 const resizeObserver = new ResizeObserver(() => {
@@ -217,6 +233,7 @@ watch(
 )
 
 onMounted(() => {
+  selectedGame.value = gameNodes[0] // Default selected game
   if (mermaidContainer.value) {
     resizeObserver.observe(mermaidContainer.value)
   }
@@ -227,6 +244,7 @@ onMounted(() => {
 main {
   display: flex;
   background-color: var(--light-green);
+
   &.TB {
     & > section {
       width: 60vw;
@@ -235,11 +253,12 @@ main {
   &.LR {
     flex-direction: column;
     & > section {
-      height: 65vh;
+      height: var(--timeline-height-LR);
     }
   }
 
   & > section {
+    box-sizing: border-box;
     display: flex;
     position: relative;
 
@@ -247,18 +266,17 @@ main {
       display: flex;
       align-items: center;
       flex: 1;
-      /* height: 100vh;
-      width: 100vw; */
-      overflow: none;
+      height: 100vh;
+      width: 100vw;
       cursor: grab;
 
       &:active {
         cursor: grabbing;
       }
 
-      /*  & > :deep(svg) {
-   max-height: 100%;
-  } */
+      & > :deep(svg) {
+        /* max-width: 100% !important; ADD THIS INTO DIAGRAM GENERATION*/
+      }
 
       /* & :deep(svg > g > .root > .nodes > g) {
     width: 100px;
@@ -292,7 +310,6 @@ main {
 :deep(h3.fallback-title) {
   font-family: 'Spectral', serif;
   font-weight: bold;
-  /* font-style: italic; */
   margin-top: 0.5rem;
   font-size: 2rem;
   text-wrap: wrap;

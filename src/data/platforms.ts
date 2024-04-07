@@ -10,15 +10,25 @@ export enum Platforms {
   GBC = 'Game Boy Color',
   GBA = 'Game Boy Advance',
   DS = 'Nintendo DS',
-  Nintendo3DS = 'Nintendo 3DS',
-  PhillipsCDi = 'Phillips CD-i'
+  N3DS = 'Nintendo 3DS',
+  CDi = 'Phillips CD-i'
 }
 
 export const gameBoxDimensions: any = {
-  [Platforms.Switch]: {
-    width: 165,
+  [Platforms.NES]: {
+    width: 210,
     height: 300,
-    depth: 20
+    depth: 40
+  },
+  [Platforms.SNES]: {
+    width: 300,
+    height: 207,
+    depth: 50
+  },
+  [Platforms.N64]: {
+    width: 300,
+    height: 207,
+    depth: 50
   },
   [Platforms.GameCube]: {
     width: 200,
@@ -35,9 +45,24 @@ export const gameBoxDimensions: any = {
     height: 300,
     depth: 20
   },
-  [Platforms.Nintendo3DS]: {
-    width: 200,
-    height: 200,
+  [Platforms.Switch]: {
+    width: 165,
+    height: 300,
+    depth: 20
+  },
+  [Platforms.GB]: {
+    width: 165,
+    height: 300,
+    depth: 20
+  },
+  [Platforms.GBC]: {
+    width: 165,
+    height: 300,
+    depth: 20
+  },
+  [Platforms.GBA]: {
+    width: 165,
+    height: 300,
     depth: 20
   },
   [Platforms.DS]: {
@@ -45,32 +70,32 @@ export const gameBoxDimensions: any = {
     height: 200,
     depth: 20
   },
-  [Platforms.N64]: {
-    width: 300,
-    height: 207,
-    depth: 50
+  [Platforms.N3DS]: {
+    width: 200,
+    height: 200,
+    depth: 20
   },
-  [Platforms.SNES]: {
-    width: 300,
-    height: 207,
-    depth: 50
-  },
-  [Platforms.NES]: {
-    width: 210,
-    height: 300,
-    depth: 40
+  [Platforms.CDi]: {
+    width: 200,
+    height: 200,
+    depth: 20
   }
 }
 
 export const gameBoxColors: any = {
+  [Platforms.NES]: 'rgb(181, 151, 94)',
+  [Platforms.SNES]: '#2C2C2C',
+  [Platforms.N64]: 'grey',
   [Platforms.GameCube]: '#1d1d1d',
   [Platforms.Wii]: 'white',
   [Platforms.WiiU]: '#009ACD',
-  [Platforms.N64]: 'grey',
-  [Platforms.SNES]: '#2C2C2C',
-  [Platforms.NES]: 'rgb(181, 151, 94)',
-  [Platforms.Nintendo3DS]: 'white',
-  [Platforms.Switch]: 'rgba(211, 211, 211, 0.5)'
+  [Platforms.Switch]: 'rgba(211, 211, 211, 0.5)',
+  [Platforms.GB]: 'white',
+  [Platforms.GBC]: 'white',
+  [Platforms.GBA]: 'white',
+  [Platforms.DS]: 'grey',
+  [Platforms.N3DS]: 'white',
+  [Platforms.CDi]: 'white'
 }
 
 export const spineOnBottom = [Platforms.N64, Platforms.SNES]

@@ -1,6 +1,12 @@
 <template>
-  <section>
-    <div ref="img" class="game-box" :class="{ 'spine-on-bottom': isSpineOnBottom }">
+  <figure>
+    <div
+      ref="img"
+      class="game-box"
+      :class="{ 'spine-on-bottom': isSpineOnBottom }"
+      @mouseenter="startRotate"
+      @mousemove="rotate"
+    >
       <div class="top">Top</div>
       <div class="bottom">Bottom</div>
       <div class="left">Left</div>
@@ -8,7 +14,7 @@
       <div class="front">Front</div>
       <div class="back">Back</div>
     </div>
-  </section>
+  </figure>
 </template>
 
 <script setup lang="ts">
@@ -33,22 +39,49 @@ const width = computed(() => `${gameBoxDimensions[props.selectedPlatform].width}
 const depth = computed(() => `${gameBoxDimensions[props.selectedPlatform].depth}px` ?? '200px')
 const boxColor = computed(() => gameBoxColors[props.selectedPlatform] ?? 'darkgrey')
 const isSpineOnBottom = computed(() => spineOnBottom.includes(props.selectedPlatform))
+
+// let startX = 0
+// let startY = 0
+// let x = 0
+// let y = 0
+
+function startRotate(event: MouseEvent) {
+  // startX = event.clientX - x
+  // startY = event.clientY - y
+}
+
+function rotate(event: MouseEvent) {
+  // if (event.buttons !== 1 || !img.value) return // Only rotate when left mouse button is pressed
+  // x = event.clientX - startX
+  // y = event.clientY - startY
+  // img.value.style.transform = `rotateY(${x / 5}deg) rotateX(${y / 5}deg)`
+}
 </script>
 
 <style scoped>
-section {
-  perspective: 1000px;
-  width: v-bind(width);
-  height: v-bind(height);
+figure {
+  perspective: 1200px;
+  display: flex;
+  margin-left: 1rem;
+  min-width: v-bind(width);
+  min-height: v-bind(height);
 }
 
 .game-box {
   position: relative;
   transform-style: preserve-3d;
   transform: rotate3d(1, 1, 0, 35deg);
-  /* perspective-origin: center; */
+  animation: float 3s ease-in-out infinite;
+  transform-origin: center;
+  perspective-origin: center;
+  cursor: grab;
+  user-select: none;
   /* Comment the below line for debugging */
   color: transparent;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   /* Image configuration */
   & > .front,
@@ -140,6 +173,18 @@ section {
       width: v-bind(width);
       height: v-bind(depth);
     }
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate3d(0, -10px, 0) rotate3d(1, 1, 0, 35deg);
+  }
+  50% {
+    transform: translate3d(0, -20px, 0) rotate3d(1, 1, 0, 35deg);
+  }
+  100% {
+    transform: translate3d(0, -10px, 0) rotate3d(1, 1, 0, 35deg);
   }
 }
 </style>

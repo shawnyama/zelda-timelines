@@ -22,7 +22,7 @@ export enum GameIds {
   LinksAwakening = 'links-awakening',
   TheLegendOfZelda = 'the-legend-of-zelda',
   TheAdventureOfLink = 'the-adventure-of-link',
-  CDiGameIdsAndCartoon = 'cdi-GameIds-and-cartoon',
+  CDiGamesAndCartoon = 'cdi-games-and-cartoon',
   AgeOfCalamity = 'age-of-calamity',
   BreathOfTheWild = 'breath-of-the-wild',
   TearsOfTheKingdom = 'tears-of-the-kingdom'

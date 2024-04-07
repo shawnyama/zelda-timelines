@@ -22,13 +22,13 @@
     </div>
   </div>
   <div class="btn-group">
-    <Button @click="emit('toggle-about-modal')">
+    <Button @click="emit('toggle-about-modal')" icon>
       <Icon icon="ph:info-bold" height="1.75rem" />
     </Button>
-    <Button @click="emit('toggle-theme')">
+    <Button @click="emit('toggle-theme')" icon>
       <Icon :icon="themeIcon" height="1.75rem" />
     </Button>
-    <Button @click="emit('toggle-orientation')">
+    <Button @click="emit('toggle-orientation')" icon>
       <Icon :icon="orientationIcon" height="1.75rem" />
     </Button>
   </div>

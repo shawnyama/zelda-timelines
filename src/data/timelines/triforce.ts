@@ -29,8 +29,8 @@ export const triforce = [
   { source: GameIds.OracleOfSeasons, target: GameIds.LinksAwakening },
   { source: GameIds.LinksAwakening, target: GameIds.TheLegendOfZelda },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink },
-  { source: GameIds.TheAdventureOfLink, target: GameIds.CDiGameIdsAndCartoon },
-  { source: GameIds.CDiGameIdsAndCartoon, target: GameIds.BreathOfTheWild },
+  { source: GameIds.TheAdventureOfLink, target: GameIds.CDiGamesAndCartoon },
+  { source: GameIds.CDiGamesAndCartoon, target: GameIds.BreathOfTheWild },
   { source: GameIds.BreathOfTheWild, target: GameIds.AgeOfCalamity },
   { source: GameIds.BreathOfTheWild, target: GameIds.TearsOfTheKingdom }
 ]
