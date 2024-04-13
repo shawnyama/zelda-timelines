@@ -14,7 +14,11 @@
     </div>
     <div class="options-container">
       <ul>
-        <li v-for="timeline in Timelines" :value="timeline" @click="selectNewTimeline(timeline)">
+        <li
+          v-for="timeline in Timelines"
+          :value="timeline"
+          @click="emit('select-timeline', timeline)"
+        >
           <img :src="caret" alt="caret-icon" />
           <div>{{ timeline }}</div>
         </li>
@@ -46,7 +50,7 @@ import caret from '@/assets/icons/caret-left.svg'
 
 const props = defineProps<{ selectedTimeline: Timelines; orientation: string; themeIcon: string }>()
 const emit = defineEmits([
-  'update:selectedTimeline',
+  'select-timeline',
   'toggle-orientation',
   'toggle-theme',
   'toggle-about-modal',
@@ -56,11 +60,6 @@ const emit = defineEmits([
 const orientationIcon = computed(() =>
   props.orientation === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
 )
-
-function selectNewTimeline(timeline: Timelines) {
-  emit('update:selectedTimeline', timeline)
-  localStorage.setItem('selectedTimeline', timeline)
-}
 </script>
 
 <style scoped>

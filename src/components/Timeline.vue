@@ -2,9 +2,10 @@
   <main :class="orientation">
     <section ref="mermaidContainer">
       <navbar
-        v-model:selectedTimeline="selectedTimeline"
+        :selectedTimeline="selectedTimeline"
         :orientation="orientation"
         :theme-icon="themeIcon"
+        @select-timeline="selectTimeline"
         @toggle-about-modal="toggleAboutModal"
         @toggle-orientation="toggleOrientation"
         @toggle-theme="toggleTheme"
@@ -18,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
@@ -41,6 +42,7 @@ const mermaidContainer = ref()
 const selectedTimeline = ref(
   (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
 )
+
 const orientation = ref(localStorage.getItem('orientation') ?? 'LR')
 
 const year = ref(new Date().getFullYear())
@@ -170,7 +172,9 @@ function selectGame(gameId: GameIds) {
 const diagramPadding = 400
 const scaleMin = 0.75
 
-function updateDimensions() {
+async function updateDimensions() {
+  await nextTick()
+
   width = window.innerWidth
   height = window.innerHeight
 
@@ -234,20 +238,49 @@ const resizeObserver = new ResizeObserver(() => {
   console.log('window resize')
 })
 
+function selectTimeline(timeline: Timelines) {
+  selectedTimeline.value = timeline
+}
+
 watch(
   () => selectedTimeline.value,
-  async () => {
-    await nextTick()
+  () => {
+    history.pushState(
+      { selectedTimeline: selectedTimeline.value },
+      selectedTimeline.value,
+      `/zelda-timelines/${selectedTimeline.value}`
+    )
+    localStorage.setItem('selectedTimeline', selectedTimeline.value)
+
     updateDimensions()
     console.log('switch to', selectedTimeline.value, 'timeline')
+    console.log(history)
   }
 )
 
 onMounted(() => {
-  selectedGame.value = gameNodes[0] // Default selected game
+  // If URL has a timeline, select it
+  // Otherwise, fallback to last timeline in local storage/default timeline
+  const url = new URL(window.location.href)
+  const timelineString = url.pathname.split('/')[2]
+  const timeline = Object.values(Timelines).includes(timelineString as Timelines)
+    ? (timelineString as Timelines)
+    : selectedTimeline.value
+  selectTimeline(timeline)
+  // Initialize/insure timeline route
+  history.replaceState({ selectedTimeline: timeline }, timeline, `/zelda-timelines/${timeline}`)
+
+  // Default selected game is first game in the timeline
+  selectedGame.value = gameNodes[0]
+  // Observe mermaid container for resizing
   if (mermaidContainer.value) {
     resizeObserver.observe(mermaidContainer.value)
   }
+})
+
+// Listen for browser back/forward navigation
+window.addEventListener('popstate', (event) => {
+  if (event.state.selectedTimeline) selectTimeline(event.state.selectedTimeline)
 })
 </script>
 
