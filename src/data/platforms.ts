@@ -14,72 +14,63 @@ export enum Platforms {
   CDi = 'Phillips CD-i'
 }
 
+// Box dimensions in millimiters
+const NESBoxDimensions = {
+  width: 128,
+  height: 179,
+  depth: 24
+}
+
+const SNESN64BoxDimensions = {
+  width: 182,
+  height: 133,
+  depth: 25
+}
+
+const GameCubeBoxDimensions = {
+  width: 107,
+  height: 149,
+  depth: 17
+}
+
+const WiiBoxDimensions = {
+  width: 135,
+  height: 190,
+  depth: 15
+}
+
+const SwitchBoxDimensions = {
+  width: 104,
+  height: 169,
+  depth: 10
+}
+
+const DSBoxDimensions = {
+  width: 135,
+  height: 122,
+  depth: 15
+}
+
+const N3DSBoxDimensions = {
+  width: 135,
+  height: 122,
+  depth: 12
+}
+
 export const gameBoxDimensions: any = {
-  [Platforms.NES]: {
-    width: 210,
-    height: 300,
-    depth: 40
-  },
-  [Platforms.SNES]: {
-    width: 300,
-    height: 207,
-    depth: 50
-  },
-  [Platforms.N64]: {
-    width: 300,
-    height: 207,
-    depth: 50
-  },
-  [Platforms.GameCube]: {
-    width: 200,
-    height: 300,
-    depth: 20
-  },
-  [Platforms.Wii]: {
-    width: 200,
-    height: 300,
-    depth: 20
-  },
-  [Platforms.WiiU]: {
-    width: 200,
-    height: 300,
-    depth: 20
-  },
-  [Platforms.Switch]: {
-    width: 165,
-    height: 300,
-    depth: 20
-  },
-  [Platforms.GB]: {
-    width: 165,
-    height: 300,
-    depth: 20
-  },
-  [Platforms.GBC]: {
-    width: 200,
-    height: 200,
-    depth: 20
-  },
-  [Platforms.GBA]: {
-    width: 200,
-    height: 200,
-    depth: 20
-  },
-  [Platforms.DS]: {
-    width: 200,
-    height: 200,
-    depth: 20
-  },
-  [Platforms.N3DS]: {
-    width: 200,
-    height: 200,
-    depth: 20
-  },
-  [Platforms.CDi]: {
-    width: 200,
-    height: 200,
-    depth: 20
-  }
+  [Platforms.NES]: NESBoxDimensions,
+  [Platforms.SNES]: SNESN64BoxDimensions,
+  [Platforms.N64]: SNESN64BoxDimensions,
+  [Platforms.GameCube]: GameCubeBoxDimensions,
+  [Platforms.Wii]: WiiBoxDimensions,
+  [Platforms.WiiU]: WiiBoxDimensions,
+  [Platforms.Switch]: SwitchBoxDimensions,
+  [Platforms.GB]: DSBoxDimensions,
+  [Platforms.GBC]: DSBoxDimensions,
+  [Platforms.GBA]: DSBoxDimensions,
+  [Platforms.DS]: DSBoxDimensions,
+  [Platforms.N3DS]: N3DSBoxDimensions,
+  [Platforms.CDi]: DSBoxDimensions
 }
 
 export const gameBoxColors: any = {

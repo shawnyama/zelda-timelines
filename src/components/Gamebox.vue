@@ -57,9 +57,9 @@ const imagePath = computed(() =>
   props.game ? new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href : ''
 )
 
-const height = computed(() => gameBoxDimensions[props.selectedPlatform].height ?? 200)
-const width = computed(() => gameBoxDimensions[props.selectedPlatform].width ?? 200)
-const depth = computed(() => gameBoxDimensions[props.selectedPlatform].depth ?? 200)
+const height = computed(() => gameBoxDimensions[props.selectedPlatform].height * 1.5 ?? 200)
+const width = computed(() => gameBoxDimensions[props.selectedPlatform].width * 1.5 ?? 200)
+const depth = computed(() => gameBoxDimensions[props.selectedPlatform].depth * 1.5 ?? 200)
 const heightCSS = computed(() => `${height.value}px`)
 const widthCSS = computed(() => `${width.value}px`)
 const depthCSS = computed(() => `${depth.value}px`)
@@ -119,12 +119,11 @@ figure {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    /* outline: 1px solid black; */
+    /* outline: 1px solid red; */
     /* opacity: 0.5; */
 
     /* Image configuration */
     & img {
-      object-fit: cover;
       -webkit-user-drag: none;
     }
     &.front > img {
@@ -133,12 +132,6 @@ figure {
     &.back > img {
       object-position: bottom left;
       height: calc(v-bind(heightCSS));
-    }
-    &.left > img {
-      height: v-bind(heightCSS);
-    }
-    &.bottom > img {
-      height: v-bind(depthCSS);
     }
 
     /* Transformations */
