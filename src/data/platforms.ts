@@ -56,13 +56,13 @@ export const gameBoxDimensions: any = {
     depth: 20
   },
   [Platforms.GBC]: {
-    width: 165,
-    height: 300,
+    width: 200,
+    height: 200,
     depth: 20
   },
   [Platforms.GBA]: {
-    width: 165,
-    height: 300,
+    width: 200,
+    height: 200,
     depth: 20
   },
   [Platforms.DS]: {
@@ -91,9 +91,9 @@ export const gameBoxColors: any = {
   [Platforms.WiiU]: '#009ACD',
   [Platforms.Switch]: 'rgba(211, 211, 211, 0.5)',
   [Platforms.GB]: 'white',
-  [Platforms.GBC]: 'white',
-  [Platforms.GBA]: 'white',
-  [Platforms.DS]: 'grey',
+  [Platforms.GBC]: '#1d1d1d',
+  [Platforms.GBA]: '#1d1d1d',
+  [Platforms.DS]: '#1d1d1d',
   [Platforms.N3DS]: 'white',
   [Platforms.CDi]: 'white'
 }

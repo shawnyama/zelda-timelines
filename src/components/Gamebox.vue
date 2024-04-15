@@ -1,18 +1,41 @@
 <template>
   <figure>
-    <div
-      ref="img"
-      class="game-box"
-      :class="{ 'spine-on-bottom': isSpineOnBottom }"
-      @mouseenter="startRotate"
-      @mousemove="rotate"
-    >
-      <div class="top">Top</div>
-      <div class="bottom">Bottom</div>
-      <div class="left">Left</div>
-      <div class="right">Right</div>
-      <div class="front">Front</div>
-      <div class="back">Back</div>
+    <div ref="img" class="game-box">
+      <div class="top" />
+      <div class="bottom">
+        <Image
+          v-if="isSpineOnBottom"
+          :src="imagePath"
+          alt="Spine"
+          layout="fixed"
+          :height="depth"
+          :width="width"
+        />
+      </div>
+      <div class="left">
+        <Image
+          v-if="!isSpineOnBottom"
+          :src="imagePath"
+          alt="Spine"
+          layout="fixed"
+          :height="height"
+          :width="depth"
+        />
+      </div>
+      <div class="right" />
+      <div class="front">
+        <Image
+          :src="imagePath"
+          alt="Front"
+          layout="fixed"
+          :height="height"
+          :width="width"
+          :priority="true"
+        />
+      </div>
+      <div class="back">
+        <Image :src="imagePath" alt="Back" layout="fixed" :height="height" :width="width" />
+      </div>
     </div>
   </figure>
 </template>
@@ -21,6 +44,7 @@
 import { computed, ref } from 'vue'
 import type { GameNode } from '@/data/games'
 import { Platforms, gameBoxDimensions, gameBoxColors, spineOnBottom } from '@/data/platforms'
+import { Image } from '@unpic/vue'
 
 const props = defineProps<{
   game: GameNode | null
@@ -29,33 +53,37 @@ const props = defineProps<{
 
 const img = ref<HTMLImageElement | null>(null)
 
-const imageUrl = computed(() =>
-  props.game
-    ? `url(${new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href}`
-    : `url()`
+const imagePath = computed(() =>
+  props.game ? new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href : ''
 )
-const height = computed(() => `${gameBoxDimensions[props.selectedPlatform].height}px` ?? '200px')
-const width = computed(() => `${gameBoxDimensions[props.selectedPlatform].width}px` ?? '200px')
-const depth = computed(() => `${gameBoxDimensions[props.selectedPlatform].depth}px` ?? '200px')
+
+const height = computed(() => gameBoxDimensions[props.selectedPlatform].height ?? 200)
+const width = computed(() => gameBoxDimensions[props.selectedPlatform].width ?? 200)
+const depth = computed(() => gameBoxDimensions[props.selectedPlatform].depth ?? 200)
+const heightCSS = computed(() => `${height.value}px`)
+const widthCSS = computed(() => `${width.value}px`)
+const depthCSS = computed(() => `${depth.value}px`)
 const boxColor = computed(() => gameBoxColors[props.selectedPlatform] ?? 'darkgrey')
 const isSpineOnBottom = computed(() => spineOnBottom.includes(props.selectedPlatform))
 
+/* TODO: Box rotation on drag? */
+// @mouseenter="startRotate" @mousemove="rotate"
 // let startX = 0
 // let startY = 0
 // let x = 0
 // let y = 0
 
-function startRotate(event: MouseEvent) {
-  // startX = event.clientX - x
-  // startY = event.clientY - y
-}
+// function startRotate(event: MouseEvent) {
+//   startX = event.clientX - x
+//   startY = event.clientY - y
+// }
 
-function rotate(event: MouseEvent) {
-  // if (event.buttons !== 1 || !img.value) return // Only rotate when left mouse button is pressed
-  // x = event.clientX - startX
-  // y = event.clientY - startY
-  // img.value.style.transform = `rotateY(${x / 5}deg) rotateX(${y / 5}deg)`
-}
+// function rotate(event: MouseEvent) {
+//   if (event.buttons !== 1 || !img.value) return // Only rotate when left mouse button is pressed
+//   x = event.clientX - startX
+//   y = event.clientY - startY
+//   img.value.style.transform = `rotateY(${x / 5}deg) rotateX(${y / 5}deg)`
+// }
 </script>
 
 <style scoped>
@@ -63,8 +91,8 @@ figure {
   perspective: 1200px;
   display: flex;
   margin-left: 1rem;
-  min-width: v-bind(width);
-  min-height: v-bind(height);
+  min-width: v-bind(widthCSS);
+  min-height: v-bind(heightCSS);
 }
 
 .game-box {
@@ -74,54 +102,14 @@ figure {
   animation: float 3s ease-in-out infinite;
   transform-origin: center;
   perspective-origin: center;
-  cursor: grab;
+  /* cursor: grab; */
   user-select: none;
   /* Comment the below line for debugging */
   color: transparent;
 
-  &:active {
+  /* &:active {
     cursor: grabbing;
-  }
-
-  /* Image configuration */
-  & > .front,
-  & > .back,
-  &:not(.spine-on-bottom) > .left,
-  &.spine-on-bottom > .bottom {
-    background-image: v-bind(imageUrl);
-  }
-  &:not(.spine-on-bottom) {
-    & > .front {
-      background-position: bottom right;
-    }
-    & > .back {
-      background-position: top left;
-    }
-    & > .left {
-      background-position: top;
-    }
-    & > .front,
-    & > .back,
-    & > .left {
-      background-size: calc(v-bind(width) * 2 + v-bind(depth)) v-bind(height);
-    }
-  }
-  &.spine-on-bottom {
-    & > .front {
-      background-position: top left;
-    }
-    & > .back {
-      background-position: bottom right;
-    }
-    & > .bottom {
-      background-position: left;
-    }
-    & > .front,
-    & > .back,
-    & > .bottom {
-      background-size: v-bind(width) calc(v-bind(height) * 2 + v-bind(depth));
-    }
-  }
+  } */
 
   /* General */
   & > div {
@@ -131,47 +119,63 @@ figure {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    /* border: 1px solid black; */
+    /* outline: 1px solid black; */
     /* opacity: 0.5; */
-    /*
-    margin-left: 100px; half of the width of the box
-    backface-visibility: hidden; */
+
+    /* Image configuration */
+    & img {
+      object-fit: cover;
+      -webkit-user-drag: none;
+    }
+    &.front > img {
+      object-position: top right;
+    }
+    &.back > img {
+      object-position: bottom left;
+      height: calc(v-bind(heightCSS));
+    }
+    &.left > img {
+      height: v-bind(heightCSS);
+    }
+    &.bottom > img {
+      height: v-bind(depthCSS);
+    }
 
     /* Transformations */
     &.front {
-      transform: translateZ(calc(v-bind(depth) / 2));
+      transform: translateZ(calc(v-bind(depthCSS) / 2));
     }
     &.back {
-      transform: rotateY(180deg) translateZ(calc(v-bind(depth) / 2));
+      transform: rotateY(180deg) translateZ(calc(v-bind(depthCSS) / 2));
     }
     &.front,
     &.back {
-      width: v-bind(width);
-      height: v-bind(height);
+      width: v-bind(widthCSS);
+      height: v-bind(heightCSS);
     }
     &.left {
-      transform: rotateY(-90deg) translateZ(calc(v-bind(width) / 2));
+      transform: rotateY(-90deg) translateZ(calc(v-bind(widthCSS) / 2));
     }
     &.right {
-      transform: rotateY(90deg) translateZ(calc(v-bind(width) / 2));
+      transform: rotateY(90deg) translateZ(calc(v-bind(widthCSS) / 2));
     }
     &.left,
     &.right {
-      left: calc(v-bind(width) / 2 - v-bind(depth) / 2);
-      width: v-bind(depth);
-      height: v-bind(height);
+      left: calc(v-bind(widthCSS) / 2 - v-bind(depthCSS) / 2);
+      width: v-bind(depthCSS);
+      height: v-bind(heightCSS);
     }
     &.top {
-      transform: rotateX(90deg) translateZ(calc(v-bind(height) / 2));
+      transform: rotateX(90deg) translateZ(calc(v-bind(heightCSS) / 2));
     }
     &.bottom {
-      transform: rotateX(-90deg) translateZ(calc(v-bind(height) / 2));
+      transform: rotateX(-90deg) translateZ(calc(v-bind(heightCSS) / 2));
     }
     &.top,
     &.bottom {
-      top: calc(v-bind(height) / 2 - v-bind(depth) / 2);
-      width: v-bind(width);
-      height: v-bind(depth);
+      top: calc(v-bind(heightCSS) / 2 - v-bind(depthCSS) / 2);
+      width: v-bind(widthCSS);
+      height: v-bind(depthCSS);
     }
   }
 }
