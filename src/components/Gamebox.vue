@@ -53,9 +53,16 @@ const props = defineProps<{
 
 const img = ref<HTMLImageElement | null>(null)
 
-const imagePath = computed(() =>
-  props.game ? new URL(`../assets/cover-art/${props.game.id}.jpg`, import.meta.url).href : ''
-)
+const imagePath = computed(() => {
+  if (props.game) {
+    const fileTypes = ['jpg', 'webp']
+    for (const fileType of fileTypes) {
+      const path = new URL(`../assets/cover-art/${props.game.id}.${fileType}`, import.meta.url).href
+      if (!path.endsWith('undefined')) return path
+    }
+  }
+  return ''
+})
 
 const height = computed(() => gameBoxDimensions[props.selectedPlatform].height * 1.5 ?? 200)
 const width = computed(() => gameBoxDimensions[props.selectedPlatform].width * 1.5 ?? 200)

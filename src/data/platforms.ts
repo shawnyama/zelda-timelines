@@ -27,13 +27,7 @@ const SNESN64BoxDimensions = {
   depth: 25
 }
 
-const GameCubeBoxDimensions = {
-  width: 107,
-  height: 149,
-  depth: 17
-}
-
-const WiiBoxDimensions = {
+const DiscBoxDimensions = {
   width: 135,
   height: 190,
   depth: 15
@@ -61,9 +55,9 @@ export const gameBoxDimensions: any = {
   [Platforms.NES]: NESBoxDimensions,
   [Platforms.SNES]: SNESN64BoxDimensions,
   [Platforms.N64]: SNESN64BoxDimensions,
-  [Platforms.GameCube]: GameCubeBoxDimensions,
-  [Platforms.Wii]: WiiBoxDimensions,
-  [Platforms.WiiU]: WiiBoxDimensions,
+  [Platforms.GameCube]: DiscBoxDimensions,
+  [Platforms.Wii]: DiscBoxDimensions,
+  [Platforms.WiiU]: DiscBoxDimensions,
   [Platforms.Switch]: SwitchBoxDimensions,
   [Platforms.GB]: DSBoxDimensions,
   [Platforms.GBC]: DSBoxDimensions,
@@ -81,7 +75,7 @@ export const gameBoxColors: any = {
   [Platforms.Wii]: 'white',
   [Platforms.WiiU]: '#009ACD',
   [Platforms.Switch]: 'rgba(211, 211, 211, 0.5)',
-  [Platforms.GB]: 'white',
+  [Platforms.GB]: '#1d1d1d',
   [Platforms.GBC]: '#1d1d1d',
   [Platforms.GBA]: '#1d1d1d',
   [Platforms.DS]: '#1d1d1d',
