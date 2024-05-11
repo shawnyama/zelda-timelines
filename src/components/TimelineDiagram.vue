@@ -1,21 +1,7 @@
 <template>
-  <main :class="orientation">
-    <section ref="mermaidContainer">
-      <navbar
-        :selectedTimeline="selectedTimeline"
-        :orientation="orientation"
-        :theme-icon="themeIcon"
-        @select-timeline="selectTimeline"
-        @toggle-about-modal="toggleAboutModal"
-        @toggle-orientation="toggleOrientation"
-        @toggle-theme="toggleTheme"
-        @reset-view="updateDimensions"
-      />
-      <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
-    </section>
-    <description :game="selectedGame" :orientation="orientation" />
-  </main>
-  <about-modal v-if="showAboutModal" @toggle-about-modal="toggleAboutModal" />
+  <div ref="mermaidContainer">
+    <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,48 +9,31 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
-import Navbar from '@/components/Navbar.vue'
-import Description from './Description.vue'
-import AboutModal from './AboutModal.vue'
+import { GameIds } from '@/data/events'
+import { LinkDesigns } from '@/data/link-designs'
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
-import { LinkDesigns } from '@/data/link-designs'
-import { GameIds } from '@/data/events'
-// import type { Events, TimeSplitEvents, Eras } from '@/data/events'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
+// import type { Events, TimeSplitEvents, Eras } from '@/data/events'
 
+const props = defineProps<{
+  selectedGame: GameNode | null
+  selectedTimeline: Timelines
+  orientation: 'LR' | 'TB'
+  year: number
+}>()
+
+const emit = defineEmits(['select-game'])
+
+const diagramPadding = 400
+const scaleMin = 0.75
 let width = 0
 let height = 0
 
 const mermaidContainer = ref()
 
-const selectedTimeline = ref(
-  (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
-)
-
-const orientation = ref(localStorage.getItem('orientation') ?? 'LR')
-
-const year = ref(new Date().getFullYear())
-const isDrawingDiagram = ref(false)
-const selectedGame = ref<GameNode | null>(null)
-const showAboutModal = ref(false)
-
-// Icon buttons
-const themeIcon = ref('ph:sun-bold')
-
-function toggleAboutModal() {
-  showAboutModal.value = !showAboutModal.value
-}
-function toggleTheme() {
-  themeIcon.value = themeIcon.value === 'ph:sun-bold' ? 'ph:moon-bold' : 'ph:sun-bold'
-}
-function toggleOrientation() {
-  orientation.value = orientation.value === 'LR' ? 'TB' : 'LR'
-  localStorage.setItem('orientation', orientation.value)
-}
-
-const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
+// const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
   const generateNode = ({ id, title }: Node) => {
@@ -103,7 +72,7 @@ function generateDiagram() {
     if (subgraphStart) {
       connection = endent`
       subgraph ${subgraphStart.replace(/\s+/g, '')}
-      direction ${orientation.value}\n${connection}`
+      direction ${props.orientation}\n${connection}`
       // console.log(connection)
     }
     if (subgraphEnd) {
@@ -117,10 +86,8 @@ function generateDiagram() {
 
   const generateClick = ({ id }: GameNode) => `click ${id}`
 
-  isDrawingDiagram.value = true
-
   // Remove nodes that aren't used in links
-  const timelineLinks = links[selectedTimeline.value]
+  const timelineLinks = links[props.selectedTimeline]
 
   // Hold all events, games, etc. that are in the timeline
   const timelineContent = Array.from(
@@ -130,7 +97,7 @@ function generateDiagram() {
   const eventContent = timelineContent.filter((id) => !gameContent.includes(id))
   // Collect game nodes that belong in the timeline
   const gameNodesToDisplay: GameNode[] = gameNodes.filter(
-    ({ id, releases }) => gameContent.includes(id as GameIds) && year.value >= releases[0].year
+    ({ id, releases }) => gameContent.includes(id as GameIds) && props.year >= releases[0].year
   )
   // Insert event nodes that belong in the timeline
   const eventNodesToDisplay: Node[] = []
@@ -148,7 +115,7 @@ function generateDiagram() {
       }
     }
   }%%
-  flowchart ${orientation.value}
+  flowchart ${props.orientation}
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineLinks.map(generateLink).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
@@ -157,20 +124,16 @@ function generateDiagram() {
 
   // console.log(diagram)
 
-  isDrawingDiagram.value = false
   return diagram
 }
 
 function selectGame(gameId: GameIds) {
-  selectedGame.value = gameNodes.find(({ id }) => id === gameId) ?? null
+  emit('select-game', gameNodes.find(({ id }) => id === gameId) ?? null)
   // Apply spin animation to icon
   const gameIcon = mermaidContainer.value.querySelector(`.${gameId}`)
   gameIcon.classList.add('spin-on-game-select')
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
-
-const diagramPadding = 400
-const scaleMin = 0.75
 
 async function updateDimensions() {
   await nextTick()
@@ -184,7 +147,7 @@ async function updateDimensions() {
   const timelineBBox = (timelineGroup?.node() as any).getBBox()
 
   const translateExtent =
-    orientation.value === 'LR'
+    props.orientation === 'LR'
       ? [
           [-diagramPadding, -height + diagramPadding],
           [timelineBBox.width + diagramPadding, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
@@ -209,13 +172,13 @@ async function updateDimensions() {
   let xTranslate = 0
   let yTranslate = 0
 
-  if (orientation.value === 'LR') {
+  if (props.orientation === 'LR') {
     scale = timelineBBox.width / (width * 2.5)
     if (scale < scaleMin) scale = scaleMin
 
     xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
     yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
-  } else if (orientation.value === 'TB') {
+  } else if (props.orientation === 'TB') {
     scale = timelineBBox.height / (height * 2.5)
     if (scale < scaleMin) scale = scaleMin
 
@@ -227,102 +190,35 @@ async function updateDimensions() {
   svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
 
   // console.log(scale, translate)
-  // console.log(selectedTimeline.value,svg)
+  // console.log(props.selectedTimeline,svg)
   // console.log(width, height)
 }
+defineExpose({ updateDimensions })
 
-const resizeObserver = new ResizeObserver(() => {
-  // This may sometimes run when the selectedTimeline changes
-  // However this is meant for window resize
-  updateDimensions()
-  console.log('window resize')
-})
+// Update dimensions when timeline changes
+watch(() => props.selectedTimeline, updateDimensions)
 
-function selectTimeline(timeline: Timelines) {
-  selectedTimeline.value = timeline
-}
-
-watch(
-  () => selectedTimeline.value,
-  () => {
-    history.pushState(
-      { selectedTimeline: selectedTimeline.value },
-      selectedTimeline.value,
-      `/zelda-timelines/${selectedTimeline.value}`
-    )
-    localStorage.setItem('selectedTimeline', selectedTimeline.value)
-
-    updateDimensions()
-    console.log('switch to', selectedTimeline.value, 'timeline')
-    console.log(history)
-  }
-)
-
-onMounted(() => {
-  // If URL has a timeline, select it
-  // Otherwise, fallback to last timeline in local storage/default timeline
-  const url = new URL(window.location.href)
-  const timelineString = url.pathname.split('/')[2]
-  const timeline = Object.values(Timelines).includes(timelineString as Timelines)
-    ? (timelineString as Timelines)
-    : selectedTimeline.value
-  selectTimeline(timeline)
-  // Initialize/insure timeline route
-  history.replaceState({ selectedTimeline: timeline }, timeline, `/zelda-timelines/${timeline}`)
-
-  // Default selected game is first game in the timeline
-  selectedGame.value = gameNodes[0]
-  // Observe mermaid container for resizing
-  if (mermaidContainer.value) {
-    resizeObserver.observe(mermaidContainer.value)
-  }
-})
-
-// Listen for browser back/forward navigation
-window.addEventListener('popstate', (event) => {
-  if (event.state.selectedTimeline) selectTimeline(event.state.selectedTimeline)
-})
+// Update dimensions when window resizes, might sometimes run when the selectedTimeline changes
+const resizeObserver = new ResizeObserver(updateDimensions)
+onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
 </script>
 
 <style scoped>
-main {
+.mermaid {
   display: flex;
-  background-color: var(--light-green);
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+  width: 100vw;
+  cursor: grab;
 
-  &.TB {
-    & > section {
-      width: 60vw;
-    }
-  }
-  &.LR {
-    flex-direction: column;
-    & > section {
-      height: var(--timeline-height-LR);
-    }
+  &:active {
+    cursor: grabbing;
   }
 
-  & > section {
-    box-sizing: border-box;
-    display: flex;
-    position: relative;
-
-    & > .mermaid {
-      display: flex;
-      align-items: center;
-      flex: 1;
-      height: 100vh;
-      width: 100vw;
-      cursor: grab;
-
-      &:active {
-        cursor: grabbing;
-      }
-
-      /* & :deep(svg > g > .root > .nodes > g) {
+  /* & :deep(svg > g > .root > .nodes > g) {
     width: 100px;
   } */
-    }
-  }
 }
 
 :deep(foreignObject) {

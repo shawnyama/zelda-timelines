@@ -54,13 +54,10 @@ export const official = [
   },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, subgraphEnd: 2 },
   {
-    source: GameIds.AgeOfCalamity,
-    target: Events.TerrakoGoesBackInTime,
+    source: Events.TheGreatCalamity,
+    target: GameIds.BreathOfTheWild,
     subgraphStart: Eras.EraOfTheWilds
   },
-  { source: Events.TheGreatCalamity, target: Events.TerrakoGoesBackInTime },
-
-  { source: Events.TerrakoGoesBackInTime, target: GameIds.BreathOfTheWild },
   {
     source: GameIds.BreathOfTheWild,
     target: GameIds.TearsOfTheKingdom,
