@@ -1,6 +1,6 @@
 <template>
   <h2>Zelda timelines</h2>
-  <div class="dropdown">
+  <nav class="dropdown">
     <div class="selected-timeline">
       <div class="gear-group">
         <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
@@ -24,7 +24,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
   <div class="btn-group">
     <Button @click="emit('toggle-about-modal')" icon>
       <Icon icon="ph:info-bold" height="1.75rem" />

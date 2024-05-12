@@ -26,11 +26,6 @@ const props = defineProps<{
 
 const emit = defineEmits(['select-game'])
 
-const diagramPadding = 400
-const scaleMin = 0.75
-let width = 0
-let height = 0
-
 const mermaidContainer = ref()
 
 // const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
@@ -135,28 +130,43 @@ function selectGame(gameId: GameIds) {
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
+// Diagram positioning and scaling
+const diagramPadding = 400
+const scaleMin = 0.75
+let width = 0
+let height = 0
 async function updateDimensions() {
   await nextTick()
 
+  // Get window dimensions
   width = window.innerWidth
   height = window.innerHeight
-
-  // Apply pan/zoom
+  // Get the svg container and the attributes of its first group which contains the timeline diagram
   const svg = d3.select('.mermaid > svg').attr('height', height).style('max-width', '100%')
   const timelineGroup = svg.select('g')
   const timelineBBox = (timelineGroup?.node() as any).getBBox()
 
+  // Determine dimensions of the viewport
+  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
+    [x0, y0],
+    [x1, y1]
+  ]
   const translateExtent =
     props.orientation === 'LR'
-      ? [
-          [-diagramPadding, -height + diagramPadding],
-          [timelineBBox.width + diagramPadding, height * 2 + diagramPadding] // x1 may have to vary depending on width of diagram
-        ]
-      : [
-          [-width + diagramPadding, -diagramPadding],
-          [width * 2 + diagramPadding, timelineBBox.height + diagramPadding]
-        ]
+      ? setTranslateExtent(
+          -diagramPadding,
+          -height + diagramPadding,
+          timelineBBox.width + diagramPadding,
+          height * 2 + diagramPadding
+        )
+      : setTranslateExtent(
+          -width + diagramPadding,
+          -diagramPadding,
+          width * 2 + diagramPadding,
+          timelineBBox.height + diagramPadding
+        )
 
+  // Apply pan/zoom behaviour
   const zoom = d3
     .zoom()
     .translateExtent(translateExtent as any)
@@ -164,34 +174,34 @@ async function updateDimensions() {
     .on('zoom', (event) => {
       timelineGroup.attr('transform', event.transform)
     })
-
   svg.call(zoom as any).on('dblclick.zoom', null)
 
-  // Determine initial position and scale
+  // Determine then apply initial position and scale
   let scale = 1
   let xTranslate = 0
   let yTranslate = 0
 
   if (props.orientation === 'LR') {
+    scale = Math.min(
+      width / (timelineBBox.width + diagramPadding),
+      height / (timelineBBox.height + diagramPadding)
+    )
     scale = timelineBBox.width / (width * 2.5)
     if (scale < scaleMin) scale = scaleMin
-
     xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
     yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
   } else if (props.orientation === 'TB') {
-    scale = timelineBBox.height / (height * 2.5)
-    if (scale < scaleMin) scale = scaleMin
+    // scale = timelineBBox.height / (height * 2.5)
+    // if (scale < scaleMin) scale = scaleMin
 
     xTranslate = mermaidContainer.value.clientWidth / 2 - timelineBBox.width / 2 // FIXME: This is a temporary hacky way to center the diagram
     yTranslate = diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
   }
-
-  // Apply the transform
   svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
 
-  // console.log(scale, translate)
-  // console.log(props.selectedTimeline,svg)
-  // console.log(width, height)
+  //   console.log(scale, xTranslate, yTranslate)
+  //   console.log(props.selectedTimeline, svg)
+  //   console.log(width, height)
 }
 defineExpose({ updateDimensions })
 
@@ -239,8 +249,8 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   animation-delay: 0s, 0.5s;
 }
 
-:deep(foreignObject:hover h3) {
-}
+/* :deep(foreignObject:hover h3) {
+} */
 
 :deep(h3.title),
 :deep(h3.fallback-title) {
