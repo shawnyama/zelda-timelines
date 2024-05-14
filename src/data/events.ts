@@ -71,7 +71,7 @@ export enum Events {
   Convergence = 'Convergence'
 }
 
-export const timeSplitEvents = [
+export const timeSplitEvents: string[] = [
   Events.TheHeroIsTriumphant,
   Events.TheHeroIsDefeated,
   Events.Divergence,

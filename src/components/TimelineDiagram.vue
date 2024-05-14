@@ -40,11 +40,13 @@ function generateDiagram() {
         return endent`${id}[<figure><img class='${id}' src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
       }
       return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
-    } else if (timeSplitEvents.includes(title as Events)) {
+    } else if (timeSplitEvents.includes(title)) {
       return endent`${id}[<h4 class='major-event title'>${title}</h4>]`
     }
     return endent`${id}[<h4 class='title'>${title}</h4>]`
   }
+
+  const removeSpaces = (str: string) => str.replaceAll(' ', '')
 
   const generateLink = ({
     source,
@@ -62,13 +64,16 @@ function generateDiagram() {
         ? `-${linkDesign.repeat(distance - 2)}-`
         : linkDesign.repeat(distance)
 
-    let connection = `${source.replace(/\s+/g, '')} ${link}${
-      !!label ? `|${label}|` : ''
-    } ${target.replace(/\s+/g, '')}`
+    let connection = `${removeSpaces(source)} ${link}${!!label ? `|${label}|` : ''} ${removeSpaces(
+      target
+    )}`
 
     if (subgraphStart) {
+      // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
+      if (timeSplitEvents.includes(subgraphStart)) subgraphStart = subgraphStart.concat('Subgraph')
+
       connection = endent`
-        subgraph ${subgraphStart.replace(/\s+/g, '')}
+        subgraph ${removeSpaces(subgraphStart)}
         direction ${props.orientation}\n${connection}`
       // console.log(connection)
     }
@@ -98,7 +103,7 @@ function generateDiagram() {
   )
   // Insert event nodes that belong in the timeline
   const eventNodesToDisplay: Node[] = []
-  eventContent.forEach((id) => eventNodesToDisplay.push({ id: id.replace(/\s+/g, ''), title: id }))
+  eventContent.forEach((id) => eventNodesToDisplay.push({ id: removeSpaces(id), title: id }))
 
   const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 

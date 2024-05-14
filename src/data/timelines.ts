@@ -15,7 +15,7 @@ export enum Timelines {
 export type Link = {
   source: GameIds | Events | Eras
   target: GameIds | Events | Eras
-  subgraphStart?: GameIds | Events | Eras
+  subgraphStart?: string
   subgraphEnd?: number
   label?: string
   linkDesign?: LinkDesigns
