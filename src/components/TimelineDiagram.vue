@@ -9,13 +9,13 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
-import { GameIds } from '@/data/events'
+import { GameIds, timeSplitEvents } from '@/data/events'
 import { LinkDesigns } from '@/data/link-designs'
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
-// import type { Events, TimeSplitEvents, Eras } from '@/data/events'
+import type { Events } from '@/data/events'
 
 const props = defineProps<{
   selectedGame: GameNode | null
@@ -37,9 +37,11 @@ function generateDiagram() {
       const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
       // FIXME: Make the divs generated here the same width
       if (!imagePath.includes('undefined')) {
-        return endent`${id}[<img class='${id}' src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3>]`
+        return endent`${id}[<figure><img class='${id}' src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
       }
       return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
+    } else if (timeSplitEvents.includes(title as Events)) {
+      return endent`${id}[<h4 class='major-event title'>${title}</h4>]`
     }
     return endent`${id}[<h4 class='title'>${title}</h4>]`
   }
@@ -66,8 +68,8 @@ function generateDiagram() {
 
     if (subgraphStart) {
       connection = endent`
-      subgraph ${subgraphStart.replace(/\s+/g, '')}
-      direction ${props.orientation}\n${connection}`
+        subgraph ${subgraphStart.replace(/\s+/g, '')}
+        direction ${props.orientation}\n${connection}`
       // console.log(connection)
     }
     if (subgraphEnd) {
@@ -117,7 +119,7 @@ function generateDiagram() {
   `
   // Game nodes are only clickable for now
 
-  // console.log(diagram)
+  console.log(diagram)
 
   return diagram
 }
@@ -252,11 +254,17 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 /* :deep(foreignObject:hover h3) {
 } */
 
+:deep(figure) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 :deep(h3.title),
 :deep(h3.fallback-title) {
   font-family: 'Spectral', serif;
   font-weight: bold;
-  margin-top: 0.5rem;
   font-size: 2rem;
   text-wrap: wrap;
 }
@@ -275,10 +283,16 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   font-family: 'Spectral', serif;
   font-weight: bold;
   font-style: italic;
-  margin-top: 0.5rem;
   font-size: 1.5rem;
   width: 16rem;
   text-wrap: wrap;
+}
+
+:deep(h4.major-event) {
+  font-size: 2rem;
+  border: 3px solid red;
+  background-color: yellow;
+  padding: 1rem;
 }
 
 @keyframes spin {

@@ -2,6 +2,7 @@
   <h2>Zelda timelines</h2>
   <nav class="dropdown">
     <div class="selected-timeline">
+      <!--How about using an hourglass?-->
       <div class="gear-group">
         <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
         <Icon icon="heroicons:cog-16-solid" height="1.25rem" />

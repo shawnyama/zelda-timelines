@@ -42,6 +42,7 @@ export enum Events {
   // Downfall
   TheImprisoningWar = 'The Imprisoning War',
   TheResurrectionOfGanon = 'The Resurrection of Ganon',
+  TheTriforceSplits = 'The Triforce Splits',
   TheMonarchsOfHyruleUseTheTriforce = 'The Monarchs of Hyrule use the Triforce',
   TheTragedyOfPrincessZeldaI = 'The Tragedy of Princess Zelda I',
   TheResurrectionOfGanonIsPrevented = 'The Resurrection of Ganon is Prevented',
@@ -58,22 +59,27 @@ export enum Events {
   ANewHyruleKingdomIsFounded = 'A New Hyrule Kingdom is Founded',
   DemonKingMalladusIsRessurected = 'Demon King Malladus is Ressurected',
   // Other
-  TheGreatCalamity = 'The Great Calamity',
+  TheFirstGreatCalamity = 'The First Great Calamity',
+  TheSecondGreatCalamity = 'The Second Great Calamity',
   TerrakoGoesBackInTime = 'Terrako Goes Back in Time',
   // Timesplit events
   TheHeroIsTriumphant = 'The Hero is Triumphant',
-  TheHeroIsDefeated = 'The Hero is Defeated'
-}
-
-// Figure how you want to use these enums subgrpahs or nodes?
-// Consider renaming these enums too
-export enum TimeSplitEvents {
+  TheHeroIsDefeated = 'The Hero is Defeated',
+  Downfall = 'Downfall',
+  // Triforce events
   Divergence = 'Divergence',
-  Convergence = 'Convergence',
-  TheHeroIsTriumphant = 'T',
-  Downfall = 'Downfall'
+  Convergence = 'Convergence'
 }
 
+export const timeSplitEvents = [
+  Events.TheHeroIsTriumphant,
+  Events.TheHeroIsDefeated,
+  Events.Divergence,
+  Events.Convergence,
+  Events.Downfall
+]
+
+// Create subgraphs
 export enum Eras {
   EraOfMyth = 'Era of Myth',
   EraOfTheWilds = 'Era of the Wilds'

@@ -1,4 +1,3 @@
-import type { Events, TimeSplitEvents, Eras } from './events'
 import { GameIds } from './events'
 import { Platforms } from './platforms'
 

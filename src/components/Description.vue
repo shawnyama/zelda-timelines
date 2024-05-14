@@ -142,6 +142,7 @@ header {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    -webkit-text-stroke: 0.5px var(--light-green);
   }
 
   & > img {

@@ -1,4 +1,4 @@
-import { GameIds, Events, Eras, TimeSplitEvents } from '../events'
+import { GameIds, Events, Eras } from '../events'
 import { LinkDesigns } from '../link-designs'
 
 export const official = [
@@ -8,7 +8,8 @@ export const official = [
     subgraphStart: Eras.EraOfMyth
   },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
-  { source: Events.TheSacredRealmIsSealed, target: GameIds.TheMinishCap },
+  { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
+  { source: Events.TheEstablishmentOfHyruleKingdom, target: GameIds.TheMinishCap },
   { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
   { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime },
@@ -19,7 +20,7 @@ export const official = [
   {
     source: Events.TheHeroIsTriumphant,
     target: Events.TheSacredRealmRemainsProtected,
-    subgraphStart: TimeSplitEvents.TheHeroIsTriumphant
+    subgraphStart: Events.TheHeroIsTriumphant
   },
   { source: Events.TheHeroIsTriumphant, target: Events.GanondorfIsSealed },
   { source: Events.GanondorfIsSealed, target: GameIds.TheWindWaker },
@@ -38,13 +39,14 @@ export const official = [
   {
     source: Events.TheHeroIsDefeated,
     target: Events.TheImprisoningWar,
-    subgraphStart: TimeSplitEvents.Downfall
+    subgraphStart: Events.Downfall
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   { source: GameIds.ALinkToThePast, target: GameIds.LinksAwakening },
   { source: GameIds.LinksAwakening, target: GameIds.OracleOfAges },
   { source: GameIds.OracleOfAges, target: GameIds.OracleOfSeasons },
-  { source: GameIds.OracleOfSeasons, target: GameIds.ALinkBetweenWorlds },
+  { source: GameIds.OracleOfSeasons, target: Events.TheTriforceSplits },
+  { source: Events.TheTriforceSplits, target: GameIds.ALinkBetweenWorlds },
   { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes },
   { source: GameIds.TriforceHeroes, target: Events.TheMonarchsOfHyruleUseTheTriforce },
   { source: Events.TheMonarchsOfHyruleUseTheTriforce, target: Events.TheTragedyOfPrincessZeldaI },
@@ -54,10 +56,13 @@ export const official = [
   },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, subgraphEnd: 2 },
   {
-    source: Events.TheGreatCalamity,
-    target: GameIds.BreathOfTheWild,
+    source: Events.TheFirstGreatCalamity,
+    target: Events.TheSecondGreatCalamity,
+    linkDesign: LinkDesigns.Dotted,
+    distance: 10,
     subgraphStart: Eras.EraOfTheWilds
   },
+  { source: Events.TheSecondGreatCalamity, target: GameIds.BreathOfTheWild },
   {
     source: GameIds.BreathOfTheWild,
     target: GameIds.TearsOfTheKingdom,
