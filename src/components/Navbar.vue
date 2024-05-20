@@ -36,6 +36,9 @@
     <Button @click="emit('reset-view')" icon>
       <Icon icon="ph:crosshair-bold" height="1.75rem" />
     </Button>
+    <Button @click="emit('zoom-out')" icon>
+      <Icon icon="ph:arrows-out-bold" height="1.75rem" />
+    </Button>
     <Button @click="emit('toggle-orientation')" icon>
       <Icon :icon="orientationIcon" height="1.75rem" />
     </Button>
@@ -55,7 +58,8 @@ const emit = defineEmits([
   'toggle-orientation',
   'toggle-theme',
   'toggle-about-modal',
-  'reset-view'
+  'reset-view',
+  'zoom-out'
 ])
 
 const orientationIcon = computed(() =>

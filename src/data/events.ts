@@ -47,20 +47,20 @@ export enum Events {
   TheTragedyOfPrincessZeldaI = 'The Tragedy of Princess Zelda I',
   TheResurrectionOfGanonIsPrevented = 'The Resurrection of Ganon is Prevented',
   // Child
-  TheSacredRealmRemainsProtected = 'The Sacred Realm Remains Protected',
+  ChildTimeline = 'Child Timeline: The Sacred Realm Remains Protected',
   TheDemonThiefGanondorfIsExecuted = 'The Demon Thief, Ganondorf, is Executed',
   TheShadowInvasion = 'The Shadow Invasion',
   // Adult
+  AdultTimeline = 'Adult Timeline: Ganon is Sealed Away',
   TheReincarantionOfGanondorf = 'The Reincarantion of Ganondorf',
-  GanondorfIsSealed = 'Ganondorf is Sealed',
   GanondorfIsResurrected = 'Ganondorf is Resurrected',
   HyruleIsSealedAndThenFlooded = 'Hyrule is Sealed and then Flooded',
   NewContinentDiscovered = 'New Continent Discovered',
   ANewHyruleKingdomIsFounded = 'A New Hyrule Kingdom is Founded',
   DemonKingMalladusIsRessurected = 'Demon King Malladus is Ressurected',
   // Other
-  TheFirstGreatCalamity = 'The First Great Calamity',
-  TheSecondGreatCalamity = 'The Second Great Calamity',
+  TheFirstGreatCalamity = 'The Ancient Calamity',
+  TheSecondGreatCalamity = 'The Great Calamity',
   TerrakoGoesBackInTime = 'Terrako Goes Back in Time',
   // Timesplit events
   TheHeroIsTriumphant = 'The Hero is Triumphant',
@@ -72,12 +72,16 @@ export enum Events {
 }
 
 export const timeSplitEvents: string[] = [
-  Events.TheHeroIsTriumphant,
-  Events.TheHeroIsDefeated,
+  Events.AdultTimeline,
+  Events.ChildTimeline,
   Events.Divergence,
   Events.Convergence,
   Events.Downfall
 ]
+
+export const whatIfEvents: string[] = [Events.TheHeroIsTriumphant, Events.TheHeroIsDefeated]
+
+export const majorEvents: string[] = [...timeSplitEvents, ...whatIfEvents]
 
 // Create subgraphs
 export enum Eras {

@@ -1,6 +1,6 @@
 <template>
   <div ref="mermaidContainer">
-    <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectGame" />
+    <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectNode" />
   </div>
 </template>
 
@@ -9,13 +9,12 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
-import { GameIds, timeSplitEvents } from '@/data/events'
+import { GameIds, timeSplitEvents, whatIfEvents, majorEvents } from '@/data/events'
 import { LinkDesigns } from '@/data/link-designs'
 import { gameNodes } from '@/data/games'
 import { links, Timelines } from '@/data/timelines'
 import type { GameNode, Node } from '@/data/games'
 import type { Link } from '@/data/timelines'
-import type { Events } from '@/data/events'
 
 const props = defineProps<{
   selectedGame: GameNode | null
@@ -42,6 +41,8 @@ function generateDiagram() {
       return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
     } else if (timeSplitEvents.includes(title)) {
       return endent`${id}[<h4 class='major-event title'>${title}</h4>]`
+    } else if (whatIfEvents.includes(title)) {
+      return endent`${id}[<h4 class='major-event title what-if'>${title}</h4>]`
     }
     return endent`${id}[<h4 class='title'>${title}</h4>]`
   }
@@ -70,7 +71,7 @@ function generateDiagram() {
 
     if (subgraphStart) {
       // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
-      if (timeSplitEvents.includes(subgraphStart)) subgraphStart = subgraphStart.concat('Subgraph')
+      if (majorEvents.includes(subgraphStart)) subgraphStart = subgraphStart.concat('Subgraph')
 
       connection = endent`
         subgraph ${removeSpaces(subgraphStart)}
@@ -97,10 +98,12 @@ function generateDiagram() {
   )
   const gameContent = timelineContent.filter((id) => Object.values(GameIds).includes(id as GameIds))
   const eventContent = timelineContent.filter((id) => !gameContent.includes(id))
+
   // Collect game nodes that belong in the timeline
   const gameNodesToDisplay: GameNode[] = gameNodes.filter(
     ({ id, releases }) => gameContent.includes(id as GameIds) && props.year >= releases[0].year
   )
+
   // Insert event nodes that belong in the timeline
   const eventNodesToDisplay: Node[] = []
   eventContent.forEach((id) => eventNodesToDisplay.push({ id: removeSpaces(id), title: id }))
@@ -122,36 +125,87 @@ function generateDiagram() {
   ${timelineLinks.map(generateLink).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
   `
-  // Game nodes are only clickable for now
 
-  console.log(diagram)
+  // Select the first game if none is selected or if the selected game doesn't belong in the newly selected timeline
+  if (
+    !props.selectedGame ||
+    (props.selectedGame.id && gameNodesToDisplay.map(({ id }) => id)).includes(
+      props.selectedGame.id
+    ) === false
+  ) {
+    selectGame(gameNodesToDisplay[0].id)
+  }
 
+  //   console.log(diagram)
   return diagram
 }
 
-function selectGame(gameId: GameIds) {
-  emit('select-game', gameNodes.find(({ id }) => id === gameId) ?? null)
+const selectGame = (id: string) =>
+  emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
+
+// Game nodes are only selectable now
+function selectNode(id: string) {
+  selectGame(id)
   // Apply spin animation to icon
-  const gameIcon = mermaidContainer.value.querySelector(`.${gameId}`)
+  const gameIcon = mermaidContainer.value.querySelector(`.${id}`)
   gameIcon.classList.add('spin-on-game-select')
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
 // Diagram positioning and scaling
-const diagramPadding = 400
-const scaleMin = 0.75
-let width = 0
-let height = 0
+const DIAGRAM_PADDING = 400
+const MIN_SCALE = 0.75
+let svg: d3.Selection<any, unknown, HTMLElement, undefined>
+let svgWidth = 0
+let svgHeight = 0
+let zoom: d3.ZoomBehavior<any, unknown>
+let scale = 1
+let xTranslate = 0
+let yTranslate = 0
+let timelineBBox: DOMRect
+
+function applyTransform(useTransition = true) {
+  if (!zoom?.transform) return
+  if (useTransition) {
+    svg
+      .transition()
+      .duration(1000)
+      .call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
+  } else {
+    svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
+  }
+}
+
+// Zooms all the way out so you can see the entire diagram
+function zoomOut() {
+  scale = 1
+  xTranslate = 0
+  yTranslate = 0
+  applyTransform()
+}
+// Determine initial position and scale
+function initializeView() {
+  if (props.orientation === 'LR') {
+    scale = timelineBBox.width / svgWidth / 2
+  } else if (props.orientation === 'TB') {
+    scale = timelineBBox.height / svgHeight / 2
+  }
+  applyTransform()
+}
+defineExpose({ zoomOut, initializeView })
+
 async function updateDimensions() {
   await nextTick()
 
-  // Get window dimensions
-  width = window.innerWidth
-  height = window.innerHeight
+  // Get window dimensions (svg covers the window size)
+  svgWidth = window.innerWidth
+  svgHeight = window.innerHeight
   // Get the svg container and the attributes of its first group which contains the timeline diagram
-  const svg = d3.select('.mermaid > svg').attr('height', height).style('max-width', '100%')
+  svg = d3.select('.mermaid > svg').attr('height', svgHeight).style('max-width', '100%')
   const timelineGroup = svg.select('g')
-  const timelineBBox = (timelineGroup?.node() as any).getBBox()
+  timelineBBox = (timelineGroup?.node() as any).getBBox()
+  const timelineWidth = timelineBBox.width + DIAGRAM_PADDING
+  const timelineHeight = timelineBBox.height + DIAGRAM_PADDING
 
   // Determine dimensions of the viewport
   const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
@@ -161,56 +215,44 @@ async function updateDimensions() {
   const translateExtent =
     props.orientation === 'LR'
       ? setTranslateExtent(
-          -diagramPadding,
-          -height + diagramPadding,
-          timelineBBox.width + diagramPadding,
-          height * 2 + diagramPadding
+          -DIAGRAM_PADDING,
+          -svgHeight + DIAGRAM_PADDING,
+          timelineWidth,
+          svgHeight * 2 + DIAGRAM_PADDING
         )
       : setTranslateExtent(
-          -width + diagramPadding,
-          -diagramPadding,
-          width * 2 + diagramPadding,
-          timelineBBox.height + diagramPadding
+          -svgWidth + DIAGRAM_PADDING,
+          -DIAGRAM_PADDING,
+          svgWidth * 2 + DIAGRAM_PADDING,
+          timelineHeight
         )
 
-  // Apply pan/zoom behaviour
-  const zoom = d3
+  initializeView()
+
+  // Zoom behaviour
+  zoom = d3
     .zoom()
     .translateExtent(translateExtent as any)
-    .scaleExtent([scaleMin, 5])
+    .scaleExtent([MIN_SCALE, scale])
     .on('zoom', (event) => {
       timelineGroup.attr('transform', event.transform)
     })
+
+  // Apply pan/zoom behaviour, disable double click zoom, and apply initial position and scale
   svg.call(zoom as any).on('dblclick.zoom', null)
+  applyTransform(false)
 
-  // Determine then apply initial position and scale
-  let scale = 1
-  let xTranslate = 0
-  let yTranslate = 0
+  //xTranslate = -timelineBBox.x + DIAGRAM_PADDING / scale // FIXME: Double check if this diagram padding addition makes enough sense
+  // yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
 
-  if (props.orientation === 'LR') {
-    scale = Math.min(
-      width / (timelineBBox.width + diagramPadding),
-      height / (timelineBBox.height + diagramPadding)
-    )
-    scale = timelineBBox.width / (width * 2.5)
-    if (scale < scaleMin) scale = scaleMin
-    xTranslate = -timelineBBox.x * scale + diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
-    yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
-  } else if (props.orientation === 'TB') {
-    // scale = timelineBBox.height / (height * 2.5)
-    // if (scale < scaleMin) scale = scaleMin
-
-    xTranslate = mermaidContainer.value.clientWidth / 2 - timelineBBox.width / 2 // FIXME: This is a temporary hacky way to center the diagram
-    yTranslate = diagramPadding / scale // FIXME: Double check if this diagram padding addition makes enough sense
-  }
-  svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
+  // Use the smaller scale factor to ensure the content fits within the viewport
+  // xTranslate = (width - timelineWidth * scale) / 2
+  // yTranslate = (height - timelineHeight * scale) / 2
 
   //   console.log(scale, xTranslate, yTranslate)
   //   console.log(props.selectedTimeline, svg)
   //   console.log(width, height)
 }
-defineExpose({ updateDimensions })
 
 // Update dimensions when timeline changes
 watch(() => props.selectedTimeline, updateDimensions)
@@ -298,6 +340,11 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   border: 3px solid red;
   background-color: yellow;
   padding: 1rem;
+}
+
+:deep(h4.what-if) {
+  border: 3px solid blue;
+  background-color: lightblue;
 }
 
 @keyframes spin {

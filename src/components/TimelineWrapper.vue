@@ -9,7 +9,8 @@
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
         @toggle-theme="toggleTheme"
-        @reset-view="timelineDiagram?.updateDimensions"
+        @reset-view="timelineDiagram?.initializeView"
+        @zoom-out="timelineDiagram?.zoomOut"
       />
       <timeline-diagram
         ref="timelineDiagram"
@@ -29,7 +30,6 @@ import { ref, onMounted, watch } from 'vue'
 import TimelineDiagram from './TimelineDiagram.vue'
 import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
-import { gameNodes } from '@/data/games'
 import { Timelines } from '@/data/timelines'
 import type { GameNode } from '@/data/games'
 
@@ -85,9 +85,6 @@ onMounted(() => {
   selectTimeline(timeline)
   // Initialize/insure timeline route
   history.replaceState({ selectedTimeline: timeline }, timeline, `/zelda-timelines/${timeline}`)
-
-  // Default selected game is first game in the timeline
-  selectedGame.value = gameNodes[0]
 })
 
 // Listen for browser back/forward navigation
