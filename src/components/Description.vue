@@ -17,7 +17,7 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <aside :class="orientation">
+  <aside id="Description" :class="orientation">
     <template v-if="game">
       <header>
         <h1>{{ game.title }}</h1>

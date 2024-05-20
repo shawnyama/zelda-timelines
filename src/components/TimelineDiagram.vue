@@ -27,6 +27,20 @@ const emit = defineEmits(['select-game'])
 
 const mermaidContainer = ref()
 
+// Diagram positioning and scaling
+const DIAGRAM_PADDING = 400
+const MIN_SCALE = 0.75
+let svg: d3.Selection<any, unknown, HTMLElement, undefined>
+let svgWidth = 0
+let svgHeight = 0
+let zoom: d3.ZoomBehavior<any, unknown>
+let scale = 1
+let xTranslate = 0
+let yTranslate = 0
+let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
+let timelineBBox: SVGRect
+let timelineBRectClient: any
+
 // const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
@@ -143,27 +157,6 @@ function generateDiagram() {
 const selectGame = (id: string) =>
   emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
 
-// Game nodes are only selectable now
-function selectNode(id: string) {
-  selectGame(id)
-  // Apply spin animation to icon
-  const gameIcon = mermaidContainer.value.querySelector(`.${id}`)
-  gameIcon.classList.add('spin-on-game-select')
-  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
-}
-
-// Diagram positioning and scaling
-const DIAGRAM_PADDING = 400
-const MIN_SCALE = 0.75
-let svg: d3.Selection<any, unknown, HTMLElement, undefined>
-let svgWidth = 0
-let svgHeight = 0
-let zoom: d3.ZoomBehavior<any, unknown>
-let scale = 1
-let xTranslate = 0
-let yTranslate = 0
-let timelineBBox: DOMRect
-
 function applyTransform(useTransition = true) {
   if (!zoom?.transform) return
   if (useTransition) {
@@ -176,6 +169,32 @@ function applyTransform(useTransition = true) {
   }
 }
 
+// Game nodes are only selectable now
+function selectNode(id: string) {
+  selectGame(id)
+  // Move to icon and apply spin animation to it
+  const gameIcon = mermaidContainer.value.querySelector(`.${id}`)
+  const gameIconBBox = gameIcon.getBoundingClientRect()
+
+  timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
+  console.log('game', gameIconBBox)
+  console.log('timelineDOM', timelineBRectClient)
+  console.log('timelineBBox', timelineBBox)
+  scale = timelineBBox.width / svgWidth / 2
+
+  const gameIconX = -gameIconBBox.x * scale //- timelineBBox.width
+
+  // Once we can figure out how to move to a specific icon, moveToBeginning shouldn't be a problem and should begin at the first icon rather than the edge of the diagram
+  // Right now this varies depending on your current position on the canvas
+  xTranslate = -gameIconBBox.x * scale //- timelineBRectClient.width //+ gameIconBBox.width / 2
+  yTranslate = -gameIconBBox.y * scale //- svgHeight //+ gameIconBBox.height / 2
+  console.log(xTranslate, yTranslate)
+  applyTransform()
+
+  gameIcon.classList.add('spin-on-game-select')
+  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
+}
+
 // Zooms all the way out so you can see the entire diagram
 function zoomOut() {
   scale = 1
@@ -184,30 +203,41 @@ function zoomOut() {
   applyTransform()
 }
 // Determine initial position and scale
-function initializeView() {
+async function moveToBeginning() {
+  // timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
+  // const aspectRatio = timelineBBox.width / timelineBBox.height
+  // console.log(aspectRatio)
+
   if (props.orientation === 'LR') {
     scale = timelineBBox.width / svgWidth / 2
+    xTranslate = DIAGRAM_PADDING
+    yTranslate = -timelineBBox.height / 2
   } else if (props.orientation === 'TB') {
     scale = timelineBBox.height / svgHeight / 2
+    xTranslate = (-timelineBBox.width / 4) * scale
+    yTranslate = DIAGRAM_PADDING
   }
+
+  // console.log(timelineBRectClient.height)
+
   applyTransform()
 }
-defineExpose({ zoomOut, initializeView })
+// function moveToEnd() {}
+defineExpose({ zoomOut, moveToBeginning })
 
 async function updateDimensions() {
   await nextTick()
 
-  // Get window dimensions (svg covers the window size)
+  // Get window dimensions (SVG should cover the window size)
   svgWidth = window.innerWidth
   svgHeight = window.innerHeight
   // Get the svg container and the attributes of its first group which contains the timeline diagram
   svg = d3.select('.mermaid > svg').attr('height', svgHeight).style('max-width', '100%')
-  const timelineGroup = svg.select('g')
+  timelineGroup = svg.select('g')
   timelineBBox = (timelineGroup?.node() as any).getBBox()
-  const timelineWidth = timelineBBox.width + DIAGRAM_PADDING
-  const timelineHeight = timelineBBox.height + DIAGRAM_PADDING
 
   // Determine dimensions of the viewport
+  // TODO: Save the translate extent in a variable so that move functions can be limited to it
   const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
     [x0, y0],
     [x1, y1]
@@ -217,17 +247,17 @@ async function updateDimensions() {
       ? setTranslateExtent(
           -DIAGRAM_PADDING,
           -svgHeight + DIAGRAM_PADDING,
-          timelineWidth,
+          timelineBBox.width + DIAGRAM_PADDING,
           svgHeight * 2 + DIAGRAM_PADDING
         )
       : setTranslateExtent(
           -svgWidth + DIAGRAM_PADDING,
           -DIAGRAM_PADDING,
           svgWidth * 2 + DIAGRAM_PADDING,
-          timelineHeight
+          timelineBBox.height + DIAGRAM_PADDING
         )
 
-  initializeView()
+  moveToBeginning()
 
   // Zoom behaviour
   zoom = d3
@@ -241,17 +271,6 @@ async function updateDimensions() {
   // Apply pan/zoom behaviour, disable double click zoom, and apply initial position and scale
   svg.call(zoom as any).on('dblclick.zoom', null)
   applyTransform(false)
-
-  //xTranslate = -timelineBBox.x + DIAGRAM_PADDING / scale // FIXME: Double check if this diagram padding addition makes enough sense
-  // yTranslate = -timelineBBox.y * scale - timelineBBox.height / 3 // FIXME: This is a temporary hacky way to center the diagram (ALT)
-
-  // Use the smaller scale factor to ensure the content fits within the viewport
-  // xTranslate = (width - timelineWidth * scale) / 2
-  // yTranslate = (height - timelineHeight * scale) / 2
-
-  //   console.log(scale, xTranslate, yTranslate)
-  //   console.log(props.selectedTimeline, svg)
-  //   console.log(width, height)
 }
 
 // Update dimensions when timeline changes

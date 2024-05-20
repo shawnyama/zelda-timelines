@@ -33,6 +33,7 @@
     <Button @click="emit('toggle-theme')" icon>
       <Icon :icon="themeIcon" height="1.75rem" />
     </Button>
+    <!--TODO: Add start and end icons-->
     <Button @click="emit('reset-view')" icon>
       <Icon icon="ph:crosshair-bold" height="1.75rem" />
     </Button>
