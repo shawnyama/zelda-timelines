@@ -37,6 +37,7 @@ let zoom: d3.ZoomBehavior<any, unknown>
 let scale = 1
 let xTranslate = 0
 let yTranslate = 0
+let translateExtent: number[][] = []
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
 let timelineBRectClient: any
@@ -50,7 +51,7 @@ function generateDiagram() {
       const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
       // FIXME: Make the divs generated here the same width
       if (!imagePath.includes('undefined')) {
-        return endent`${id}[<figure><img class='${id}' src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+        return endent`${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
       }
       return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
     } else if (timeSplitEvents.includes(title)) {
@@ -173,25 +174,33 @@ function applyTransform(useTransition = true) {
 function selectNode(id: string) {
   selectGame(id)
   // Move to icon and apply spin animation to it
-  const gameIcon = mermaidContainer.value.querySelector(`.${id}`)
-  const gameIconBBox = gameIcon.getBoundingClientRect()
+  const gameNode = mermaidContainer.value.querySelector(`.${id}`)
+  const gameIcon = gameNode.querySelector('img')
+  const gameNodeBBox = gameNode.getBoundingClientRect()
 
   timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
-  console.log('game', gameIconBBox)
+  console.log('game', gameNodeBBox)
   console.log('timelineDOM', timelineBRectClient)
   console.log('timelineBBox', timelineBBox)
   scale = timelineBBox.width / svgWidth / 2
 
-  const gameIconX = -gameIconBBox.x * scale //- timelineBBox.width
+  const gameIconX = -gameNodeBBox.x * scale //- timelineBBox.width
 
   // Once we can figure out how to move to a specific icon, moveToBeginning shouldn't be a problem and should begin at the first icon rather than the edge of the diagram
   // Right now this varies depending on your current position on the canvas
-  xTranslate = -gameIconBBox.x * scale //- timelineBRectClient.width //+ gameIconBBox.width / 2
-  yTranslate = -gameIconBBox.y * scale //- svgHeight //+ gameIconBBox.height / 2
+  xTranslate = -gameNodeBBox.x * scale //- timelineBRectClient.width //+ gameNodeBBox.width / 2
+  yTranslate = -gameNodeBBox.y * scale //- svgHeight //+ gameNodeBBox.height / 2
   console.log(xTranslate, yTranslate)
-  applyTransform()
+
+  // applyTransform()
+
+  const prevGameNode = mermaidContainer.value.querySelector('.chosen-game')
+  if (prevGameNode) {
+    prevGameNode.classList.remove('chosen-game')
+  }
 
   gameIcon.classList.add('spin-on-game-select')
+  gameNode.classList.add('chosen-game')
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
@@ -237,12 +246,12 @@ async function updateDimensions() {
   timelineBBox = (timelineGroup?.node() as any).getBBox()
 
   // Determine dimensions of the viewport
-  // TODO: Save the translate extent in a variable so that move functions can be limited to it
+  // TODO: Save the translate extent in a variable so that move functions can be limited to it /////////////////////////////////
   const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
     [x0, y0],
     [x1, y1]
   ]
-  const translateExtent =
+  translateExtent =
     props.orientation === 'LR'
       ? setTranslateExtent(
           -DIAGRAM_PADDING,
@@ -333,6 +342,12 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   font-weight: bold;
   font-size: 2rem;
   text-wrap: wrap;
+}
+
+:deep(.chosen-game h3.title) {
+  color: white;
+  text-shadow: var(--dark-green) 0 0 1rem;
+  scale: 1.2;
 }
 
 :deep(h3.fallback-title) {
