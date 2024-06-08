@@ -148,15 +148,14 @@ function generateDiagram() {
       props.selectedGame.id
     ) === false
   ) {
-    selectGame(gameNodesToDisplay[0].id)
+    selectNode(gameNodesToDisplay[0].id)
+  } else {
+    selectNode(props.selectedGame.id)
   }
 
   //   console.log(diagram)
   return diagram
 }
-
-const selectGame = (id: string) =>
-  emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
 
 function applyTransform(useTransition = true) {
   if (!zoom?.transform) return
@@ -171,36 +170,39 @@ function applyTransform(useTransition = true) {
 }
 
 // Game nodes are only selectable now
-function selectNode(id: string) {
-  selectGame(id)
-  // Move to icon and apply spin animation to it
+async function selectNode(id: string) {
+  await nextTick()
+  emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
+
+  // Move to icon and apply spin animation and styling to it
+  if (!mermaidContainer.value) return
   const gameNode = mermaidContainer.value.querySelector(`.${id}`)
   const gameIcon = gameNode.querySelector('img')
-  const gameNodeBBox = gameNode.getBoundingClientRect()
+  // const gameNodeBBox = gameNode.getBoundingClientRect()
 
-  timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
-  console.log('game', gameNodeBBox)
-  console.log('timelineDOM', timelineBRectClient)
-  console.log('timelineBBox', timelineBBox)
-  scale = timelineBBox.width / svgWidth / 2
+  // timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
+  // console.log('game', gameNodeBBox)
+  // console.log('timelineDOM', timelineBRectClient)
+  // console.log('timelineBBox', timelineBBox)
+  // scale = timelineBBox.width / svgWidth / 2
 
-  const gameIconX = -gameNodeBBox.x * scale //- timelineBBox.width
+  // const gameIconX = -gameNodeBBox.x * scale //- timelineBBox.width
 
-  // Once we can figure out how to move to a specific icon, moveToBeginning shouldn't be a problem and should begin at the first icon rather than the edge of the diagram
-  // Right now this varies depending on your current position on the canvas
-  xTranslate = -gameNodeBBox.x * scale //- timelineBRectClient.width //+ gameNodeBBox.width / 2
-  yTranslate = -gameNodeBBox.y * scale //- svgHeight //+ gameNodeBBox.height / 2
-  console.log(xTranslate, yTranslate)
+  // // Once we can figure out how to move to a specific icon, moveToBeginning shouldn't be a problem and should begin at the first icon rather than the edge of the diagram
+  // // Right now this varies depending on your current position on the canvas
+  // xTranslate = -gameNodeBBox.x * scale //- timelineBRectClient.width //+ gameNodeBBox.width / 2
+  // yTranslate = -gameNodeBBox.y * scale //- svgHeight //+ gameNodeBBox.height / 2
+  // console.log(xTranslate, yTranslate)
 
   // applyTransform()
 
-  const prevGameNode = mermaidContainer.value.querySelector('.chosen-game')
-  if (prevGameNode) {
-    prevGameNode.classList.remove('chosen-game')
-  }
-
+  // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
+  // Add selected game class
+  const prevGameNode = mermaidContainer.value.querySelector('.selected-game')
+  if (prevGameNode) prevGameNode.classList.remove('selected-game')
+  gameNode.classList.add('selected-game')
+  // Apply spin animation
   gameIcon.classList.add('spin-on-game-select')
-  gameNode.classList.add('chosen-game')
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
@@ -344,7 +346,7 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   text-wrap: wrap;
 }
 
-:deep(.chosen-game h3.title) {
+:deep(.selected-game h3.title) {
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
   scale: 1.2;
