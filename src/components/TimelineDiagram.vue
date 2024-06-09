@@ -1,6 +1,6 @@
 <template>
   <div ref="mermaidContainer">
-    <vue-mermaid-string class="mermaid" :value="generateDiagram()" @node-click="selectNode" />
+    <vue-mermaid-string class="mermaid" :value="generateDiagram()" />
   </div>
 </template>
 
@@ -38,13 +38,11 @@ let zoom: d3.ZoomBehavior<any, unknown>
 let translateExtent: number[][] = []
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
-let displayedGameIds: string[] = []
 
 // Tracks the first and last game nodes so we can jump to them
+let displayedGameIds: string[] = []
 let firstGame: Element | null
 let lastGame: Element | null
-
-// const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
 function generateDiagram() {
   const generateNode = ({ id, title }: Node) => {
@@ -143,17 +141,7 @@ function generateDiagram() {
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
   `
 
-  // Select the first game if none is selected or if the selected game doesn't belong in the newly selected timeline
-  displayedGameIds = gameNodesToDisplay.map(({ id }) => id)
-  if (
-    !props.selectedGame ||
-    (props.selectedGame.id && displayedGameIds.includes(props.selectedGame.id)) === false
-  ) {
-    selectNode(gameNodesToDisplay[0].id)
-  } else {
-    selectNode(props.selectedGame.id)
-  }
-
+  displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
   //   console.log(diagram)
   return diagram
 }
@@ -176,31 +164,20 @@ function applyTransform(
 }
 
 // Game nodes are only selectable now
-async function selectNode(id: string) {
-  await nextTick()
+async function selectNode(event: MouseEvent) {
+  const gameNode = event.currentTarget as HTMLElement
+  const id = gameNode.classList[0]
   emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
 
-  // Move to icon and apply spin animation and styling to it
-  if (!mermaidContainer.value) return
-  const gameNode = mermaidContainer.value.querySelector(`.${id}`)
-  const gameIcon = gameNode.querySelector('img')
-
-  // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
-  // Add selected game class
-  const prevGameNode = mermaidContainer.value.querySelector('.selected-game')
-  if (prevGameNode) prevGameNode.classList.remove('selected-game')
-  gameNode.classList.add('selected-game')
-  // Apply spin animation
-  gameIcon.classList.add('spin-on-game-select')
-  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
-}
-
-// TODO: Consider merging with selectNode
-async function moveToNode(event: MouseEvent) {
+  // Move to node position
   let xTranslate = 0
   let yTranslate = 0
-  let [x, y] = d3.pointer(event, svg.node())
-  let [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
+  // Capture the center position of the node
+  const gameNodeRect = gameNode.getBoundingClientRect()
+  const clientX = gameNodeRect.left + gameNodeRect.width / 2
+  const clientY = gameNodeRect.top + gameNodeRect.height / 2
+  const [x, y] = d3.pointer({ clientX, clientY }, svg.node())
+  const [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
 
   if (props.orientation === 'LR') {
     xTranslate = -transformedX + svgWidth
@@ -223,9 +200,18 @@ async function moveToNode(event: MouseEvent) {
   //   yTranslate = translateExtent[1][1]
   // }
 
-  console.log(xTranslate, yTranslate, maxScale, firstGame, lastGame)
-
   applyTransform(xTranslate, yTranslate)
+
+  // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
+  // Add selected game class
+  const prevGameNode = mermaidContainer.value.querySelector('.selected-game')
+  if (prevGameNode) prevGameNode.classList.remove('selected-game')
+  gameNode.classList.add('selected-game')
+  // Apply spin animation
+  const gameIcon = gameNode.querySelector('img')
+  if (!gameIcon) return
+  gameIcon.classList.add('spin-on-game-select')
+  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
 function moveToBeginning() {
@@ -291,22 +277,31 @@ async function updateDimensions() {
     .on('dblclick.zoom', null) // Disable double click zoom
     // Listen for clicks on nodes so we can move to them
     .selectAll('figure')
-    .on('click', moveToNode)
-
-  // Find the first and last game nodes so we can jump to them
-  firstGame = mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
-  lastGame = mermaidContainer.value.querySelector(
-    `.${displayedGameIds[displayedGameIds.length - 1]}`
-  )
-  moveToBeginning() // Move to the first game node
+    .on('click', selectNode)
 }
 
 // Update dimensions when timeline changes
-watch(() => props.selectedTimeline, updateDimensions)
+watch(
+  () => props.selectedTimeline,
+  async () => {
+    await updateDimensions()
+    // Find the first and last game nodes so we can jump to them
+    firstGame = mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
+    lastGame = mermaidContainer.value.querySelector(
+      `.${displayedGameIds[displayedGameIds.length - 1]}`
+    )
+    // Initialize the position at the last selected game node (if it exists), otherwise move to the beginning
+    if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
+      const gameNode = mermaidContainer.value.querySelector(`.${props.selectedGame.id}`)
+      gameNode?.dispatchEvent(new MouseEvent('click'))
+    } else moveToBeginning()
+  },
+  { immediate: true }
+)
 
 // Update dimensions when window resizes, might sometimes run when the selectedTimeline changes
 const resizeObserver = new ResizeObserver(updateDimensions)
-onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
+onMounted(async () => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
 </script>
 
 <style scoped>
