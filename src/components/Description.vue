@@ -139,10 +139,9 @@ header {
   & > h1 {
     font-family: 'hylia_serif', sans-serif;
     color: white;
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    -webkit-text-stroke: 0.5px var(--light-green);
+    text-shadow: 0 0 0.5rem var(--dark-green);
   }
 
   & > img {

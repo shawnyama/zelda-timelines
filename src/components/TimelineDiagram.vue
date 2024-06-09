@@ -149,11 +149,12 @@ function generateDiagram() {
 function applyTransform(
   xTranslate: number,
   yTranslate: number,
-  scale = maxScale,
-  options = { useTransition: true }
+  options: { useTransition?: boolean; scale?: number } = {}
 ) {
   if (!zoom?.transform) return
-  if (options.useTransition) {
+  const defaultOptions = { useTransition: true, scale: maxScale }
+  const { scale, useTransition } = { ...defaultOptions, ...options }
+  if (useTransition) {
     svg
       .transition()
       .duration(750)
@@ -200,7 +201,9 @@ async function selectNode(event: MouseEvent) {
   //   yTranslate = translateExtent[1][1]
   // }
 
-  applyTransform(xTranslate, yTranslate)
+  let isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
+  let transformOptions = isInitializing ? { useTransition: false } : {}
+  applyTransform(xTranslate, yTranslate, transformOptions)
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
   // Add selected game class
@@ -208,23 +211,29 @@ async function selectNode(event: MouseEvent) {
   if (prevGameNode) prevGameNode.classList.remove('selected-game')
   gameNode.classList.add('selected-game')
   // Apply spin animation
+  if (isInitializing) return
   const gameIcon = gameNode.querySelector('img')
   if (!gameIcon) return
   gameIcon.classList.add('spin-on-game-select')
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
-function moveToBeginning() {
-  firstGame?.dispatchEvent(new MouseEvent('click'))
+function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
+  const detail = options.useTransition ? 0 : -1
+  nodeElement.dispatchEvent(new MouseEvent('click', { detail }))
+}
+
+function moveToBeginning(options = { useTransition: true }) {
+  if (firstGame) jumpToNode(firstGame, options)
 }
 
 function moveToEnd() {
-  lastGame?.dispatchEvent(new MouseEvent('click'))
+  if (lastGame) jumpToNode(lastGame)
 }
 
 // Zooms all the way out so you can see the entire diagram
 function zoomOut() {
-  applyTransform(0, 0, 1)
+  applyTransform(0, 0, { scale: 1 })
 }
 
 defineExpose({ zoomOut, moveToBeginning, moveToEnd })
@@ -280,9 +289,9 @@ async function updateDimensions() {
     .on('click', selectNode)
 }
 
-// Update dimensions when timeline changes
+// Update dimensions when timeline or orientation changes
 watch(
-  () => props.selectedTimeline,
+  () => [props.selectedTimeline, props.orientation],
   async () => {
     await updateDimensions()
     // Find the first and last game nodes so we can jump to them
@@ -293,8 +302,8 @@ watch(
     // Initialize the position at the last selected game node (if it exists), otherwise move to the beginning
     if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
       const gameNode = mermaidContainer.value.querySelector(`.${props.selectedGame.id}`)
-      gameNode?.dispatchEvent(new MouseEvent('click'))
-    } else moveToBeginning()
+      if (gameNode) jumpToNode(gameNode, { useTransition: false })
+    } else moveToBeginning({ useTransition: false })
   },
   { immediate: true }
 )
