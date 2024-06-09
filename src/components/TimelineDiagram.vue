@@ -30,17 +30,19 @@ const mermaidContainer = ref()
 // Diagram positioning and scaling
 const DIAGRAM_PADDING = 400
 const MIN_SCALE = 0.75
+let maxScale = 1
 let svg: d3.Selection<any, unknown, HTMLElement, undefined>
 let svgWidth = 0
 let svgHeight = 0
 let zoom: d3.ZoomBehavior<any, unknown>
-let scale = 1
-let xTranslate = 0
-let yTranslate = 0
 let translateExtent: number[][] = []
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
-let timelineBRectClient: any
+let displayedGameIds: string[] = []
+
+// Tracks the first and last game nodes so we can jump to them
+let firstGame: Element | null
+let lastGame: Element | null
 
 // const formatLabel = (...strings: string[]) => `"\`${strings.join('')}\`"`
 
@@ -142,11 +144,10 @@ function generateDiagram() {
   `
 
   // Select the first game if none is selected or if the selected game doesn't belong in the newly selected timeline
+  displayedGameIds = gameNodesToDisplay.map(({ id }) => id)
   if (
     !props.selectedGame ||
-    (props.selectedGame.id && gameNodesToDisplay.map(({ id }) => id)).includes(
-      props.selectedGame.id
-    ) === false
+    (props.selectedGame.id && displayedGameIds.includes(props.selectedGame.id)) === false
   ) {
     selectNode(gameNodesToDisplay[0].id)
   } else {
@@ -157,12 +158,17 @@ function generateDiagram() {
   return diagram
 }
 
-function applyTransform(useTransition = true) {
+function applyTransform(
+  xTranslate: number,
+  yTranslate: number,
+  scale = maxScale,
+  options = { useTransition: true }
+) {
   if (!zoom?.transform) return
-  if (useTransition) {
+  if (options.useTransition) {
     svg
       .transition()
-      .duration(1000)
+      .duration(750)
       .call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
   } else {
     svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
@@ -178,23 +184,6 @@ async function selectNode(id: string) {
   if (!mermaidContainer.value) return
   const gameNode = mermaidContainer.value.querySelector(`.${id}`)
   const gameIcon = gameNode.querySelector('img')
-  // const gameNodeBBox = gameNode.getBoundingClientRect()
-
-  // timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
-  // console.log('game', gameNodeBBox)
-  // console.log('timelineDOM', timelineBRectClient)
-  // console.log('timelineBBox', timelineBBox)
-  // scale = timelineBBox.width / svgWidth / 2
-
-  // const gameIconX = -gameNodeBBox.x * scale //- timelineBBox.width
-
-  // // Once we can figure out how to move to a specific icon, moveToBeginning shouldn't be a problem and should begin at the first icon rather than the edge of the diagram
-  // // Right now this varies depending on your current position on the canvas
-  // xTranslate = -gameNodeBBox.x * scale //- timelineBRectClient.width //+ gameNodeBBox.width / 2
-  // yTranslate = -gameNodeBBox.y * scale //- svgHeight //+ gameNodeBBox.height / 2
-  // console.log(xTranslate, yTranslate)
-
-  // applyTransform()
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
   // Add selected game class
@@ -206,38 +195,56 @@ async function selectNode(id: string) {
   setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
 }
 
-// Zooms all the way out so you can see the entire diagram
-function zoomOut() {
-  scale = 1
-  xTranslate = 0
-  yTranslate = 0
-  applyTransform()
-}
-// Determine initial position and scale
-async function moveToBeginning() {
-  // timelineBRectClient = (timelineGroup?.node() as any).getBoundingClientRect()
-  // const aspectRatio = timelineBBox.width / timelineBBox.height
-  // console.log(aspectRatio)
+// TODO: Consider merging with selectNode
+async function moveToNode(event: MouseEvent) {
+  let xTranslate = 0
+  let yTranslate = 0
+  let [x, y] = d3.pointer(event, svg.node())
+  let [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
 
   if (props.orientation === 'LR') {
-    scale = timelineBBox.width / svgWidth / 2
-    xTranslate = DIAGRAM_PADDING
-    yTranslate = -timelineBBox.height / 2
+    xTranslate = -transformedX + svgWidth
+    yTranslate = -transformedY
   } else if (props.orientation === 'TB') {
-    scale = timelineBBox.height / svgHeight / 2
-    xTranslate = (-timelineBBox.width / 4) * scale
-    yTranslate = DIAGRAM_PADDING
+    xTranslate = -transformedX
+    yTranslate = -transformedY + svgHeight
   }
 
-  // console.log(timelineBRectClient.height)
+  // Check if xTranslate and yTranslate are within the boundaries of translateExtent
+  // if (xTranslate < translateExtent[0][0]) {
+  //   xTranslate = translateExtent[0][0]
+  // } else if (xTranslate > translateExtent[1][0]) {
+  //   xTranslate = translateExtent[1][0]
+  // }
 
-  applyTransform()
+  // if (yTranslate < translateExtent[0][1]) {
+  //   yTranslate = translateExtent[0][1]
+  // } else if (yTranslate > translateExtent[1][1]) {
+  //   yTranslate = translateExtent[1][1]
+  // }
+
+  console.log(xTranslate, yTranslate, maxScale, firstGame, lastGame)
+
+  applyTransform(xTranslate, yTranslate)
 }
-// function moveToEnd() {}
-defineExpose({ zoomOut, moveToBeginning })
+
+function moveToBeginning() {
+  firstGame?.dispatchEvent(new MouseEvent('click'))
+}
+
+function moveToEnd() {
+  lastGame?.dispatchEvent(new MouseEvent('click'))
+}
+
+// Zooms all the way out so you can see the entire diagram
+function zoomOut() {
+  applyTransform(0, 0, 1)
+}
+
+defineExpose({ zoomOut, moveToBeginning, moveToEnd })
 
 async function updateDimensions() {
-  await nextTick()
+  await nextTick() // Wait for mermaid to render the diagram (generateDiagram() to finish)
 
   // Get window dimensions (SVG should cover the window size)
   svgWidth = window.innerWidth
@@ -247,41 +254,51 @@ async function updateDimensions() {
   timelineGroup = svg.select('g')
   timelineBBox = (timelineGroup?.node() as any).getBBox()
 
-  // Determine dimensions of the viewport
-  // TODO: Save the translate extent in a variable so that move functions can be limited to it /////////////////////////////////
+  // Determine dimensions of the viewport and maximum scale
   const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
     [x0, y0],
     [x1, y1]
   ]
-  translateExtent =
-    props.orientation === 'LR'
-      ? setTranslateExtent(
-          -DIAGRAM_PADDING,
-          -svgHeight + DIAGRAM_PADDING,
-          timelineBBox.width + DIAGRAM_PADDING,
-          svgHeight * 2 + DIAGRAM_PADDING
-        )
-      : setTranslateExtent(
-          -svgWidth + DIAGRAM_PADDING,
-          -DIAGRAM_PADDING,
-          svgWidth * 2 + DIAGRAM_PADDING,
-          timelineBBox.height + DIAGRAM_PADDING
-        )
-
-  moveToBeginning()
+  if (props.orientation === 'LR') {
+    maxScale = timelineBBox.width / svgWidth / 2
+    translateExtent = setTranslateExtent(
+      -DIAGRAM_PADDING,
+      -svgHeight + DIAGRAM_PADDING,
+      timelineBBox.width + DIAGRAM_PADDING,
+      svgHeight * 2 + DIAGRAM_PADDING
+    )
+  } else if (props.orientation === 'TB') {
+    maxScale = timelineBBox.height / svgHeight / 2
+    translateExtent = setTranslateExtent(
+      -svgWidth + DIAGRAM_PADDING,
+      -DIAGRAM_PADDING,
+      svgWidth * 2 + DIAGRAM_PADDING,
+      timelineBBox.height + DIAGRAM_PADDING
+    )
+  }
 
   // Zoom behaviour
   zoom = d3
     .zoom()
     .translateExtent(translateExtent as any)
-    .scaleExtent([MIN_SCALE, scale])
+    .scaleExtent([MIN_SCALE, maxScale])
     .on('zoom', (event) => {
       timelineGroup.attr('transform', event.transform)
     })
 
-  // Apply pan/zoom behaviour, disable double click zoom, and apply initial position and scale
-  svg.call(zoom as any).on('dblclick.zoom', null)
-  applyTransform(false)
+  svg
+    .call(zoom as any) // Apply pan/zoom behaviour
+    .on('dblclick.zoom', null) // Disable double click zoom
+    // Listen for clicks on nodes so we can move to them
+    .selectAll('figure')
+    .on('click', moveToNode)
+
+  // Find the first and last game nodes so we can jump to them
+  firstGame = mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
+  lastGame = mermaidContainer.value.querySelector(
+    `.${displayedGameIds[displayedGameIds.length - 1]}`
+  )
+  moveToBeginning() // Move to the first game node
 }
 
 // Update dimensions when timeline changes
@@ -350,6 +367,7 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
   scale: 1.2;
+  margin-top: 0.5rem;
 }
 
 :deep(h3.fallback-title) {

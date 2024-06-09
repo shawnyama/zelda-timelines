@@ -33,10 +33,8 @@
     <Button @click="emit('toggle-theme')" icon>
       <Icon :icon="themeIcon" height="1.75rem" />
     </Button>
-    <!--TODO: Add start and end icons-->
-    <Button @click="emit('reset-view')" icon>
-      <Icon icon="ph:crosshair-bold" height="1.75rem" />
-    </Button>
+    <Button @click="emit('move-to-beginning')" icon> B </Button>
+    <Button @click="emit('move-to-end')" icon> E </Button>
     <Button @click="emit('zoom-out')" icon>
       <Icon icon="ph:arrows-out-bold" height="1.75rem" />
     </Button>
@@ -59,7 +57,8 @@ const emit = defineEmits([
   'toggle-orientation',
   'toggle-theme',
   'toggle-about-modal',
-  'reset-view',
+  'move-to-beginning',
+  'move-to-end',
   'zoom-out'
 ])
 
