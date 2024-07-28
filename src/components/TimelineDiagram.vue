@@ -428,16 +428,16 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 @keyframes spin {
   0%,
   100% {
-    transform: rotateY(0deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotateY(0deg) scale(1.05);
   }
   25% {
-    transform: rotateY(90deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotateY(90deg) scale(1.05);
   }
   50% {
-    transform: rotateY(180deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotateY(180deg) scale(1.05);
   }
   75% {
-    transform: rotateY(270deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotateY(270deg) scale(1.05);
   }
 }
 
@@ -453,25 +453,25 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 @keyframes slantedSpin {
   0%,
   100% {
-    transform: rotate3d(-1, 1, 0, 0deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotate3d(-1, 1, 0, 0deg) scale(1.05);
   }
   25% {
-    transform: rotate3d(-1, 1, 0, 90deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotate3d(-1, 1, 0, 90deg) scale(1.05);
   }
   50% {
-    transform: rotate3d(-1, 1, 0, 180deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotate3d(-1, 1, 0, 180deg) scale(1.05);
   }
   75% {
-    transform: rotate3d(-1, 1, 0, 270deg) scale(1.05) translateY(-1rem);
+    transform: translateY(-1rem) rotate3d(-1, 1, 0, 270deg) scale(1.05);
   }
 }
 
 @keyframes endSlantedSpin {
   0% {
-    transform: rotate3d(-1, 1, 0, 360deg) scale(1.05);
+    transform: translateY(-1rem) rotate3d(-1, 1, 0, 360deg) scale(1.05);
   }
   100% {
-    transform: rotateX(0deg) scale(1) translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 </style>
