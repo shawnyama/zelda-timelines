@@ -39,10 +39,8 @@ let translateExtent: number[][] = []
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
 
-// Tracks the first and last game nodes so we can jump to them
+// Tracks available game nodes
 let displayedGameIds: string[] = []
-let firstGame: Element | null
-let lastGame: Element | null
 
 function generateDiagram() {
   const generateNode = ({ id, title }: Node) => {
@@ -151,6 +149,7 @@ function applyTransform(
   yTranslate: number,
   options: { useTransition?: boolean; scale?: number } = {}
 ) {
+  // console.log(xTranslate, yTranslate)
   if (!zoom?.transform) return
   const defaultOptions = { useTransition: true, scale: maxScale }
   const { scale, useTransition } = { ...defaultOptions, ...options }
@@ -166,15 +165,17 @@ function applyTransform(
 
 // Game nodes are only selectable now
 async function selectNode(event: MouseEvent) {
-  const gameNode = event.currentTarget as HTMLElement
-  const id = gameNode.classList[0]
-  emit('select-game', gameNodes.find((gameNode) => gameNode.id === id) ?? null)
+  const gameNodeElement = event.currentTarget as HTMLElement
+  const id = gameNodeElement.classList[0]
+  const gameNode = gameNodes.find((gameNode) => gameNode.id === id) ?? null
+  if (!gameNode) return
+  emit('select-game', gameNode)
 
   // Move to node position
   let xTranslate = 0
   let yTranslate = 0
   // Capture the center position of the node
-  const gameNodeRect = gameNode.getBoundingClientRect()
+  const gameNodeRect = gameNodeElement.getBoundingClientRect()
   const clientX = gameNodeRect.left + gameNodeRect.width / 2
   const clientY = gameNodeRect.top + gameNodeRect.height / 2
   const [x, y] = d3.pointer({ clientX, clientY }, svg.node())
@@ -189,11 +190,16 @@ async function selectNode(event: MouseEvent) {
   }
 
   // Check if xTranslate and yTranslate are within the boundaries of translateExtent
-  // if (xTranslate < translateExtent[0][0]) {
-  //   xTranslate = translateExtent[0][0]
-  // } else if (xTranslate > translateExtent[1][0]) {
-  //   xTranslate = translateExtent[1][0]
-  // }
+  const leftBound = -translateExtent[0][0]
+  const rightBound = -timelineBBox.width
+  const topBound = translateExtent[0][1]
+  const bottomBound = translateExtent[1][1]
+  console.log('xpos', xTranslate)
+  console.log('width', timelineBBox.width)
+  console.log('left', leftBound, transformedX)
+  console.log('right', rightBound, transformedX)
+  if (xTranslate > leftBound) xTranslate = leftBound
+  else if (xTranslate < rightBound) xTranslate = rightBound
 
   // if (yTranslate < translateExtent[0][1]) {
   //   yTranslate = translateExtent[0][1]
@@ -201,21 +207,22 @@ async function selectNode(event: MouseEvent) {
   //   yTranslate = translateExtent[1][1]
   // }
 
-  let isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
-  let transformOptions = isInitializing ? { useTransition: false } : {}
+  const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
+  const transformOptions = isInitializing ? { useTransition: false } : {}
   applyTransform(xTranslate, yTranslate, transformOptions)
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
   // Add selected game class
-  const prevGameNode = mermaidContainer.value.querySelector('.selected-game')
-  if (prevGameNode) prevGameNode.classList.remove('selected-game')
-  gameNode.classList.add('selected-game')
+  const prevGameNodeElement = mermaidContainer.value.querySelector('.selected-game')
+  if (prevGameNodeElement) prevGameNodeElement.classList.remove('selected-game')
+  gameNodeElement.classList.add('selected-game')
   // Apply spin animation
   if (isInitializing) return
-  const gameIcon = gameNode.querySelector('img')
-  if (!gameIcon) return
-  gameIcon.classList.add('spin-on-game-select')
-  setTimeout(() => gameIcon.classList.remove('spin-on-game-select'), 800)
+  const gameIconElement = gameNodeElement.querySelector('img')
+  if (!gameIconElement) return
+  const spinClass = gameNode.isIconSlanted ? 'slanted-spin-on-game-select' : 'spin-on-game-select'
+  gameIconElement.classList.add(spinClass)
+  setTimeout(() => gameIconElement.classList.remove(spinClass), 800)
 }
 
 function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
@@ -223,12 +230,24 @@ function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
   nodeElement.dispatchEvent(new MouseEvent('click', { detail }))
 }
 
-function moveToBeginning(options = { useTransition: true }) {
-  if (firstGame) jumpToNode(firstGame, options)
+function moveToBeginning() {
+  const x0 = translateExtent[0][0]
+  const y0 = translateExtent[0][1]
+  if (props.orientation === 'LR') {
+    applyTransform(-x0, y0)
+  } else if (props.orientation === 'TB') {
+    applyTransform(x0, -y0)
+  }
 }
 
 function moveToEnd() {
-  if (lastGame) jumpToNode(lastGame)
+  console.log(translateExtent)
+  console.log(timelineBBox.width, timelineBBox.height)
+  if (props.orientation === 'LR') {
+    applyTransform(-translateExtent[1][0] + 3 * DIAGRAM_PADDING, translateExtent[0][1])
+  } else if (props.orientation === 'TB') {
+    applyTransform(translateExtent[1][0], translateExtent[1][1])
+  }
 }
 
 // Zooms all the way out so you can see the entire diagram
@@ -294,23 +313,19 @@ watch(
   () => [props.selectedTimeline, props.orientation],
   async () => {
     await updateDimensions()
-    // Find the first and last game nodes so we can jump to them
-    firstGame = mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
-    lastGame = mermaidContainer.value.querySelector(
-      `.${displayedGameIds[displayedGameIds.length - 1]}`
-    )
-    // Initialize the position at the last selected game node (if it exists), otherwise move to the beginning
-    if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
-      const gameNode = mermaidContainer.value.querySelector(`.${props.selectedGame.id}`)
-      if (gameNode) jumpToNode(gameNode, { useTransition: false })
-    } else moveToBeginning({ useTransition: false })
+    // Initialize the position at the last selected game node (if it exists), otherwise start at the first game
+    const gameNode =
+      props.selectedGame && displayedGameIds.includes(props.selectedGame.id)
+        ? mermaidContainer.value.querySelector(`.${props.selectedGame.id}`)
+        : mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
+    if (gameNode) jumpToNode(gameNode, { useTransition: false })
   },
   { immediate: true }
 )
 
 // Update dimensions when window resizes, might sometimes run when the selectedTimeline changes
 const resizeObserver = new ResizeObserver(updateDimensions)
-onMounted(async () => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
+onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
 </script>
 
 <style scoped>
@@ -346,6 +361,11 @@ onMounted(async () => mermaidContainer.value && resizeObserver.observe(mermaidCo
 
 :deep(foreignObject .spin-on-game-select) {
   animation: spin 0.25s linear 2, endSpin 0.2s linear 1;
+  animation-delay: 0s, 0.5s;
+}
+
+:deep(foreignObject .slanted-spin-on-game-select) {
+  animation: slantedSpin 0.25s linear 2, endSlantedSpin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
@@ -427,6 +447,31 @@ onMounted(async () => mermaidContainer.value && resizeObserver.observe(mermaidCo
   }
   100% {
     transform: rotateY(0deg) scale(1) translateY(0);
+  }
+}
+
+@keyframes slantedSpin {
+  0%,
+  100% {
+    transform: rotate3d(-1, 1, 0, 0deg) scale(1.05) translateY(-1rem);
+  }
+  25% {
+    transform: rotate3d(-1, 1, 0, 90deg) scale(1.05) translateY(-1rem);
+  }
+  50% {
+    transform: rotate3d(-1, 1, 0, 180deg) scale(1.05) translateY(-1rem);
+  }
+  75% {
+    transform: rotate3d(-1, 1, 0, 270deg) scale(1.05) translateY(-1rem);
+  }
+}
+
+@keyframes endSlantedSpin {
+  0% {
+    transform: rotate3d(-1, 1, 0, 360deg) scale(1.05);
+  }
+  100% {
+    transform: rotateX(0deg) scale(1) translateY(0);
   }
 }
 </style>

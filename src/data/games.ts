@@ -8,6 +8,7 @@ export interface Node {
 
 export interface GameNode extends Node {
   releases: { platform: Platforms; year: number }[]
+  isIconSlanted?: boolean
   isSpinOff?: boolean
 }
 
@@ -18,7 +19,8 @@ export const gameNodes: GameNode[] = [
     releases: [
       { platform: Platforms.Wii, year: 2011 },
       { platform: Platforms.Switch, year: 2021 }
-    ]
+    ],
+    isIconSlanted: true
   },
   {
     title: 'Ocarina of Time',
@@ -26,7 +28,8 @@ export const gameNodes: GameNode[] = [
     releases: [
       { platform: Platforms.N64, year: 1998 },
       { platform: Platforms.N3DS, year: 2011 }
-    ]
+    ],
+    isIconSlanted: true
   },
   {
     title: "Majora's Mask",
@@ -81,7 +84,8 @@ export const gameNodes: GameNode[] = [
     releases: [
       { platform: Platforms.GameCube, year: 2002 },
       { platform: Platforms.WiiU, year: 2013 }
-    ]
+    ],
+    isIconSlanted: true
   },
   {
     title: 'Navi Trackers',
@@ -129,7 +133,8 @@ export const gameNodes: GameNode[] = [
     title: 'Cadence of Hyrule',
     id: GameIds.CadenceOfHyrule,
     releases: [{ platform: Platforms.Switch, year: 2019 }],
-    isSpinOff: true
+    isSpinOff: true,
+    isIconSlanted: true
   },
   {
     title: 'Triforce Heroes',
@@ -139,7 +144,8 @@ export const gameNodes: GameNode[] = [
   {
     title: 'Oracle of Seasons',
     id: GameIds.OracleOfSeasons,
-    releases: [{ platform: Platforms.GBC, year: 2001 }]
+    releases: [{ platform: Platforms.GBC, year: 2001 }],
+    isIconSlanted: true
   },
   {
     title: 'Oracle of Ages',
@@ -169,7 +175,8 @@ export const gameNodes: GameNode[] = [
     releases: [
       { platform: Platforms.NES, year: 1987 },
       { platform: Platforms.GBA, year: 2004 }
-    ]
+    ],
+    isIconSlanted: true
   },
   {
     title: 'CDi Games and Cartoon',
