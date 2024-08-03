@@ -46,18 +46,17 @@ function generateDiagram() {
   const generateNode = ({ id, title }: Node) => {
     // Check if id is a game
     if (Object.values(GameIds).includes(id as GameIds)) {
-      const imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
-      // FIXME: Make the divs generated here the same width
-      if (!imagePath.includes('undefined')) {
-        return endent`${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+      let imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
+      if (imagePath.includes('undefined')) {
+        imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
       }
-      return endent`${id}[<div class='fallback-icon ${id}'>k</div><h3 class='fallback-title'>${title}</h3>]`
+      return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
     } else if (timeSplitEvents.includes(title)) {
-      return endent`${id}[<h4 class='major-event title'>${title}</h4>]`
+      return `${id}[<h4 class='major-event title'>${title}</h4>]`
     } else if (whatIfEvents.includes(title)) {
-      return endent`${id}[<h4 class='major-event title what-if'>${title}</h4>]`
+      return `${id}[<h4 class='major-event title what-if'>${title}</h4>]`
     }
-    return endent`${id}[<h4 class='title'>${title}</h4>]`
+    return `${id}[<h4 class='title'>${title}</h4>]`
   }
 
   const removeSpaces = (str: string) => str.replaceAll(' ', '')

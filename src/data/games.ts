@@ -202,5 +202,10 @@ export const gameNodes: GameNode[] = [
     title: 'Tears of the Kingdom',
     id: GameIds.TearsOfTheKingdom,
     releases: [{ platform: Platforms.Switch, year: 2023 }]
+  },
+  {
+    title: 'Echoes of Wisdom',
+    id: GameIds.EchoesOfWisdom,
+    releases: [{ platform: Platforms.Switch, year: 2024 }]
   }
 ]

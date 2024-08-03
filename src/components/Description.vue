@@ -10,9 +10,13 @@ const props = defineProps<{
 }>()
 
 const icon = computed(() => {
-  return props.game
-    ? new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
-    : ''
+  if (props.game) {
+    let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
+    if (imagePath.includes('undefined')) {
+      imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
+    }
+    return imagePath
+  }
 })
 </script>
 
@@ -122,6 +126,7 @@ header {
   flex: 1;
   align-items: center;
   justify-content: space-between;
+  pointer-events: none;
 
   & > * {
     /* FIXME: Somehow make the backfrop-filter effecct the first half of the text */

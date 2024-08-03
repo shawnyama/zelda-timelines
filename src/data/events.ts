@@ -25,7 +25,8 @@ export enum GameIds {
   CDiGamesAndCartoon = 'cdi-games-and-cartoon',
   AgeOfCalamity = 'age-of-calamity',
   BreathOfTheWild = 'breath-of-the-wild',
-  TearsOfTheKingdom = 'tears-of-the-kingdom'
+  TearsOfTheKingdom = 'tears-of-the-kingdom',
+  EchoesOfWisdom = 'echoes-of-wisdom'
 }
 
 export enum Events {
