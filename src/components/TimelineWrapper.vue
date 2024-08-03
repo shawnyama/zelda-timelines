@@ -22,7 +22,7 @@
         @select-game="selectGame"
       />
     </section>
-    <description :game="selectedGame" :orientation="orientation" />
+    <description v-if="selectedGame" :game="selectedGame" :orientation="orientation" />
   </main>
 </template>
 

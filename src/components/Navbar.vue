@@ -1,8 +1,24 @@
 <template>
-  <h2>Zelda timelines</h2>
-  <nav class="dropdown">
+  <h2>
+    <span>Zelda timelines</span>
+    <Button @click="emit('toggle-about-modal')" icon text>
+      <Icon icon="ph:info-bold" height="1.5rem" />
+    </Button>
+  </h2>
+  <nav>
     <div class="selected-timeline">
-      <!--How about using an hourglass?-->
+      <div class="options-wrapper">
+        <ul>
+          <li
+            v-for="timeline in Timelines"
+            :value="timeline"
+            @click="emit('select-timeline', timeline)"
+          >
+            <img :src="caret" alt="caret-icon" />
+            <div>{{ timeline }}</div>
+          </li>
+        </ul>
+      </div>
       <div class="gear-group">
         <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
         <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
@@ -13,35 +29,25 @@
         <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
       </div>
     </div>
-    <div class="options-container">
-      <ul>
-        <li
-          v-for="timeline in Timelines"
-          :value="timeline"
-          @click="emit('select-timeline', timeline)"
-        >
-          <img :src="caret" alt="caret-icon" />
-          <div>{{ timeline }}</div>
-        </li>
-      </ul>
+    <div class="btn-group">
+      <Button @click="emit('move-to-beginning')" icon text>
+        <Icon icon="ph:rewind-bold" height="1.5rem" />
+      </Button>
+      <Button @click="emit('move-to-end')" icon text>
+        <Icon icon="ph:fast-forward-bold" height="1.5rem" />
+      </Button>
+      <Button @click="emit('zoom-out')" icon text>
+        <Icon icon="ph:arrows-out-bold" height="1.5rem" />
+      </Button>
+      <Button @click="emit('toggle-orientation')" icon text>
+        <Icon :icon="orientationIcon" height="1.5rem" />
+      </Button>
     </div>
   </nav>
-  <div class="btn-group">
-    <Button @click="emit('toggle-about-modal')" icon>
-      <Icon icon="ph:info-bold" height="1.75rem" />
-    </Button>
-    <Button @click="emit('toggle-theme')" icon>
-      <Icon :icon="themeIcon" height="1.75rem" />
-    </Button>
-    <Button @click="emit('move-to-beginning')" icon> B </Button>
-    <Button @click="emit('move-to-end')" icon> E </Button>
-    <Button @click="emit('zoom-out')" icon>
-      <Icon icon="ph:arrows-out-bold" height="1.75rem" />
-    </Button>
-    <Button @click="emit('toggle-orientation')" icon>
-      <Icon :icon="orientationIcon" height="1.75rem" />
-    </Button>
-  </div>
+  <!--TODO: Theme switcher (nice to have)-->
+  <!-- <Button class="right-button" icon @click="emit('toggle-theme')">
+    <Icon icon="ph:paint-brush-bold" height="1.75rem" />
+  </Button> -->
 </template>
 
 <script setup lang="ts">
@@ -68,49 +74,48 @@ const orientationIcon = computed(() =>
 </script>
 
 <style scoped>
-/**Use down button from zelda textboxes or those ticks that you see on the edges around options */
-
 h2,
-.dropdown,
-.btn-group {
+nav,
+.right-button {
   position: absolute;
   z-index: 1;
-  backdrop-filter: blur(2px);
   margin: 0.5rem;
   border-radius: 0.5rem;
 }
 
-/* nav {
-  display: flex;
-  color: white;
-  padding: 0 0.5rem;
-  width: 100%; */
 h2 {
   color: var(--dark-green);
   padding: 0.25rem;
-  pointer-events: none;
+  backdrop-filter: blur(2px);
+  & > span {
+    margin-right: 0.25rem;
+    pointer-events: none;
+  }
+}
+
+.right-button {
+  right: 0;
+  border-radius: 0.5rem;
 }
 
 .btn-group {
-  background-color: var(--navbar-bg);
-  right: 0;
-  height: fit-content;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+  margin: auto;
   gap: 0.5rem;
-  padding: 0.5rem;
-  justify-content: end;
+  padding: 0.25rem;
+  backdrop-filter: blur(2px);
+  border-radius: 0.5rem;
 }
 
-.dropdown {
-  background-color: var(--navbar-bg);
+nav {
   width: 20rem;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   justify-content: center;
   display: inline-block;
-  border-radius: 2rem;
 
   & > * {
     font-family: 'triforce', sans-serif;
@@ -120,28 +125,28 @@ h2 {
   }
 
   & > .selected-timeline {
+    border-radius: 2rem;
+    background-color: var(--navbar-bg);
     display: flex;
     justify-content: space-between;
     padding-top: 0.5rem;
-    background-color: transparent;
     color: white;
     overflow: visible;
-    background-color: transparent;
     border: 0;
     color: white;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
-    & > * {
-      padding: 0 0.5rem;
-    }
+    backdrop-filter: blur(2px);
+    position: relative;
+    z-index: 2;
 
     & > .gear-group {
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--dark-green);
+      padding: 0 0.5rem;
 
       &:last-child {
         flex-direction: row-reverse;
@@ -155,41 +160,50 @@ h2 {
         animation: rotate-ccw-animation 3s linear infinite;
       }
     }
-  }
 
-  &:hover {
-    & .gear-group {
-      & > *:first-child {
-        animation: rotate-animation 1.25s linear infinite;
+    &:hover {
+      & .gear-group {
+        & > *:first-child {
+          animation: rotate-animation 1.25s linear infinite;
+        }
+        & > *:last-child {
+          animation: rotate-ccw-animation 1.25s linear infinite;
+        }
       }
-      & > *:last-child {
-        animation: rotate-ccw-animation 1.25s linear infinite;
-      }
-    }
 
-    & .options-container {
-      display: block;
-
-      & > ul {
-        animation: fade-in 0.2s ease-in-out; /* Add fadeIn animation */
+      & .options-wrapper {
+        display: block;
       }
     }
   }
 
-  & .options-container {
+  /* Wrapper is needed so the transformX doesn't conflict with the ul animation */
+  & .options-wrapper {
     display: none;
     position: absolute;
-    z-index: 1;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
+    margin-top: 3.5rem;
 
-    & > ul {
+    & ul {
       /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
-      margin-top: 0.5rem;
       border-radius: 1rem;
       padding: 0.5rem;
       background-color: var(--green);
       width: 25rem;
+      animation: fade-in 0.2s ease-in-out;
+
+      /* Helps dropdown still appear if mouse is located in the gap between the selector and the dropdown list */
+      &::before {
+        content: '';
+        font-size: 1.5rem;
+        height: 1rem;
+        width: 100%;
+        position: absolute;
+        top: -1rem;
+        left: 0;
+      }
 
       & > li {
         color: white;
@@ -197,13 +211,14 @@ h2 {
         text-align: center;
         display: block;
         position: relative;
+
         padding: 0.5rem 0.5rem 0.25rem 0.5rem;
         border-radius: 0.75rem;
 
         & > img {
           display: none;
           position: absolute;
-          scale: 0.7;
+          scale: 0.65;
           rotate: 180deg;
           bottom: 0.2rem;
         }

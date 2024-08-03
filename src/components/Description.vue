@@ -5,51 +5,47 @@ import Gamebox from './Gamebox.vue'
 import Button from './widgets/Button.vue'
 
 const props = defineProps<{
-  game: GameNode | null
+  game: GameNode
   orientation: string
 }>()
 
 const icon = computed(() => {
-  if (props.game) {
-    let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
-    if (imagePath.includes('undefined')) {
-      imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
-    }
-    return imagePath
+  let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
+  if (imagePath.includes('undefined')) {
+    imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
   }
+  return imagePath
 })
 </script>
 
 <template>
   <aside id="Description" :class="orientation">
-    <template v-if="game">
-      <header>
-        <h1>{{ game.title }}</h1>
-        <img :src="icon" alt="art" />
-      </header>
-      <!--TODO: Add icon here as a background image-->
-      <section>
-        <Gamebox :game="game" :selected-platform="game.releases[0].platform" />
-        <article>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac lacinia
-            ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed euismod, nisl at
-            lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc id nunc. Sed
-            euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc
-            nunc id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor,
-            nisl ac lacinia ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed
-            euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc
-            nunc id nunc. Sed euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae
-            consectetur nunc nunc id nunc.
-          </p>
-          <footer>
-            <Button v-for="(release, index) in game.releases" :key="index" disabled rounded>
-              {{ release.platform }} ({{ release.year }})
-            </Button>
-          </footer>
-        </article>
-      </section>
-    </template>
+    <header>
+      <h1>{{ game.title }}</h1>
+      <img :src="icon" alt="art" />
+    </header>
+    <!--TODO: Add icon here as a background image-->
+    <section>
+      <Gamebox :game="game" :selected-platform="game.releases[0].platform" />
+      <article>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac lacinia
+          ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed euismod, nisl at
+          lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc id nunc. Sed
+          euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc
+          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac
+          lacinia ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed euismod,
+          nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc id nunc.
+          Sed euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc
+          nunc id nunc.
+        </p>
+        <footer>
+          <Button v-for="(release, index) in game.releases" :key="index" disabled rounded>
+            {{ release.platform }} ({{ release.year }})
+          </Button>
+        </footer>
+      </article>
+    </section>
   </aside>
 </template>
 

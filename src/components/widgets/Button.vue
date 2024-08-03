@@ -27,9 +27,11 @@ button {
   line-height: 1;
   color: var(--dark-green);
   font-family: 'calamity', sans-serif;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    filter: brightness(0.9);
+    transition: filter 0.3s;
+    filter: brightness(1.2);
   }
 
   &.icon {
@@ -38,6 +40,9 @@ button {
 
   &.text {
     background-color: transparent;
+    &:hover {
+      background-color: hsla(0, 0%, 96%, 0.3);
+    }
   }
 
   &.outlined {
