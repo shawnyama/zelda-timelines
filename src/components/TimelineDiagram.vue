@@ -229,7 +229,7 @@ function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
   nodeElement.dispatchEvent(new MouseEvent('click', { detail }))
 }
 
-function moveToBeginning() {
+function jumpToBeginning() {
   const x0 = translateExtent[0][0]
   const y0 = translateExtent[0][1]
   if (props.orientation === 'LR') {
@@ -239,7 +239,7 @@ function moveToBeginning() {
   }
 }
 
-function moveToEnd() {
+function jumpToEnd() {
   console.log(translateExtent)
   console.log(timelineBBox.width, timelineBBox.height)
   if (props.orientation === 'LR') {
@@ -254,7 +254,7 @@ function zoomOut() {
   applyTransform(0, 0, { scale: 1 })
 }
 
-defineExpose({ zoomOut, moveToBeginning, moveToEnd })
+defineExpose({ zoomOut, jumpToBeginning, jumpToEnd })
 
 async function updateDimensions() {
   await nextTick() // Wait for mermaid to render the diagram (generateDiagram() to finish)

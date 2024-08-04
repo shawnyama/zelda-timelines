@@ -9,8 +9,8 @@
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
         @toggle-theme="toggleTheme"
-        @move-to-beginning="timelineDiagram?.moveToBeginning"
-        @move-to-end="timelineDiagram?.moveToEnd"
+        @jump-to-beginning="timelineDiagram?.jumpToBeginning"
+        @jump-to-end="timelineDiagram?.jumpToEnd"
         @zoom-out="timelineDiagram?.zoomOut"
       />
       <timeline-diagram

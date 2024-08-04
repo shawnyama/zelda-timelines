@@ -1,7 +1,7 @@
 <template>
   <h2>
     <span>Zelda timelines</span>
-    <Button @click="emit('toggle-about-modal')" icon text>
+    <Button @click="emit('toggle-about-modal')" icon text title="About">
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
   </h2>
@@ -9,13 +9,11 @@
     <div class="selected-timeline">
       <div class="options-wrapper">
         <ul>
-          <li
-            v-for="timeline in Timelines"
-            :value="timeline"
-            @click="emit('select-timeline', timeline)"
-          >
-            <img :src="caret" alt="caret-icon" />
-            <div>{{ timeline }}</div>
+          <li v-for="timeline in Timelines" :value="timeline">
+            <a @click="emit('select-timeline', timeline)">
+              <img :src="caret" alt="caret-icon" />
+              <div>{{ timeline }}</div>
+            </a>
           </li>
         </ul>
       </div>
@@ -30,17 +28,17 @@
       </div>
     </div>
     <div class="btn-group">
-      <Button @click="emit('move-to-beginning')" icon text>
-        <Icon icon="ph:rewind-bold" height="1.5rem" />
+      <Button @click="emit('toggle-orientation')" icon text title="Toggle orientation">
+        <Icon :icon="orientationIcon" height="1.5rem" />
       </Button>
-      <Button @click="emit('move-to-end')" icon text>
-        <Icon icon="ph:fast-forward-bold" height="1.5rem" />
-      </Button>
-      <Button @click="emit('zoom-out')" icon text>
+      <Button @click="emit('zoom-out')" icon text v-tooltip.bottom="'Zoom out'">
         <Icon icon="ph:arrows-out-bold" height="1.5rem" />
       </Button>
-      <Button @click="emit('toggle-orientation')" icon text>
-        <Icon :icon="orientationIcon" height="1.5rem" />
+      <Button @click="emit('jump-to-beginning')" icon text title="Jump to beginning">
+        <Icon icon="ph:rewind-bold" height="1.5rem" />
+      </Button>
+      <Button @click="emit('jump-to-end')" icon text title="Jump to end">
+        <Icon icon="ph:fast-forward-bold" height="1.5rem" />
       </Button>
     </div>
   </nav>
@@ -63,8 +61,8 @@ const emit = defineEmits([
   'toggle-orientation',
   'toggle-theme',
   'toggle-about-modal',
-  'move-to-beginning',
-  'move-to-end',
+  'jump-to-beginning',
+  'jump-to-end',
   'zoom-out'
 ])
 
@@ -74,6 +72,10 @@ const orientationIcon = computed(() =>
 </script>
 
 <style scoped>
+:deep(.v-popper--theme-tooltip .v-popper__inner) {
+  background: var(--dark-green);
+  color: white;
+}
 h2,
 nav,
 .right-button {
@@ -193,6 +195,7 @@ nav {
       background-color: var(--green);
       width: 25rem;
       animation: fade-in 0.2s ease-in-out;
+      list-style: none;
 
       /* Helps dropdown still appear if mouse is located in the gap between the selector and the dropdown list */
       &::before {
@@ -206,31 +209,32 @@ nav {
       }
 
       & > li {
-        color: white;
-        text-decoration: none;
-        text-align: center;
-        display: block;
-        position: relative;
-
-        padding: 0.5rem 0.5rem 0.25rem 0.5rem;
-        border-radius: 0.75rem;
-
-        & > img {
-          display: none;
-          position: absolute;
-          scale: 0.65;
-          rotate: 180deg;
-          bottom: 0.2rem;
-        }
-
-        &:hover {
-          background-color: var(--dark-green);
+        & > a {
+          color: white;
+          text-decoration: none;
+          text-align: center;
+          display: block;
+          position: relative;
+          padding: 0.5rem 0.5rem 0.25rem 0.5rem;
+          border-radius: 0.75rem;
 
           & > img {
-            display: block;
-            margin-left: 0.25rem;
-            animation: arrow-animation 1s;
-            animation-iteration-count: infinite;
+            display: none;
+            position: absolute;
+            scale: 0.65;
+            rotate: 180deg;
+            bottom: 0.2rem;
+          }
+
+          &:hover {
+            background-color: var(--dark-green);
+
+            & > img {
+              display: block;
+              margin-left: 0.25rem;
+              animation: arrow-animation 1s;
+              animation-iteration-count: infinite;
+            }
           }
         }
       }
