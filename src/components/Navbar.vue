@@ -31,7 +31,7 @@
       <Button @click="emit('toggle-orientation')" icon text title="Toggle orientation">
         <Icon :icon="orientationIcon" height="1.5rem" />
       </Button>
-      <Button @click="emit('zoom-out')" icon text v-tooltip.bottom="'Zoom out'">
+      <Button @click="emit('zoom-out')" icon text title="Zoom out">
         <Icon icon="ph:arrows-out-bold" height="1.5rem" />
       </Button>
       <Button @click="emit('jump-to-beginning')" icon text title="Jump to beginning">
