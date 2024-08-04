@@ -61,25 +61,35 @@ function generateDiagram() {
 
   const removeSpaces = (str: string) => str.replaceAll(' ', '')
 
-  const generateLink = ({
-    source,
-    target,
-    label,
-    linkDesign = LinkDesigns.Thick,
-    distance = 0,
-    subgraphStart,
-    subgraphEnd
-  }: Link) => {
+  const generateLink = (
+    {
+      source,
+      target,
+      label,
+      linkDesign = LinkDesigns.Normal,
+      distance = 0,
+      subgraphStart,
+      subgraphEnd
+    }: Link,
+    index: number
+  ) => {
     distance += 3 // Minimum required for mermaid to render is 3
 
+    // The link between nodes (link design is applied here)
     const link =
       linkDesign === LinkDesigns.Dotted
         ? `-${linkDesign.repeat(distance - 2)}-`
         : linkDesign.repeat(distance)
 
-    let connection = `${removeSpaces(source)} ${link}${!!label ? `|${label}|` : ''} ${removeSpaces(
-      target
-    )}`
+    // Applies custom styling to current thick link
+    if (linkDesign === LinkDesigns.Thick) {
+      linkStyles = linkStyles.concat(`linkStyle ${index} stroke-width:7px;`)
+    }
+
+    let connection = endent`
+      ${removeSpaces(source)} 
+      ${link}${!!label ? `|${label}|` : ''} 
+      ${removeSpaces(target)}`
 
     if (subgraphStart) {
       // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
@@ -122,24 +132,27 @@ function generateDiagram() {
 
   const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 
+  let linkStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other link styles in generateLink
   const diagram = endent`%%{
-    init: {
-      'theme': 'base',
-      'themeVariables': {
-        'primaryColor': 'transparent',
-        'primaryBorderColor': 'transparent',
-        'lineColor': 'darkred'
+    init: ${JSON.stringify({
+      theme: 'base',
+      flowchart: {},
+      themeVariables: {
+        primaryColor: 'transparent',
+        primaryBorderColor: 'transparent',
+        lineColor: 'hsl(168, 57%, 26%)'
       }
-    }
+    })}
   }%%
-  flowchart ${props.orientation}
+  flowchart ${props.orientation} 
   ${nodesToDisplay.map(generateNode).join('\n ')}
-  ${timelineLinks.map(generateLink).join('\n ')}
+  ${timelineLinks.map((link, index) => generateLink(link, index)).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
+  ${linkStyles}
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
-  //   console.log(diagram)
+
   return diagram
 }
 
@@ -254,7 +267,7 @@ function zoomOut() {
   applyTransform(0, 0, { scale: 1 })
 }
 
-defineExpose({ zoomOut, jumpToBeginning, jumpToEnd })
+defineExpose({ zoomOut, jumpToBeginning, jumpToEnd }) // Used in Navbar.vue
 
 async function updateDimensions() {
   await nextTick() // Wait for mermaid to render the diagram (generateDiagram() to finish)
@@ -414,14 +427,19 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 
 :deep(h4.major-event) {
   font-size: 2rem;
-  border: 3px solid red;
-  background-color: yellow;
+  border: 3px solid #3a5fcd;
+  background-color: #8ca6f4;
+  /* color: white; */
   padding: 1rem;
 }
 
 :deep(h4.what-if) {
-  border: 3px solid blue;
-  background-color: lightblue;
+  border: 3px solid gold;
+  background-color: whitesmoke;
+}
+
+:deep(#mermaid.edge-thickness-normal) {
+  stroke-width: 8px;
 }
 
 @keyframes spin {

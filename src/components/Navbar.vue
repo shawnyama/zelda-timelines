@@ -72,10 +72,6 @@ const orientationIcon = computed(() =>
 </script>
 
 <style scoped>
-:deep(.v-popper--theme-tooltip .v-popper__inner) {
-  background: var(--dark-green);
-  color: white;
-}
 h2,
 nav,
 .right-button {
