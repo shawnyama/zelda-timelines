@@ -198,7 +198,8 @@ async function selectNode(event: MouseEvent) {
     xTranslate = -transformedX + svgWidth
     yTranslate = -transformedY
   } else if (props.orientation === 'TB') {
-    xTranslate = -transformedX
+    const vw40InPixels = window.innerWidth * 0.4
+    xTranslate = props.isSmallScreen ? -transformedX + 120 : -transformedX - vw40InPixels / 2 // Hacky x position approximation for TB orientation, should figure out the real calculation
     yTranslate = -transformedY + svgHeight
   }
 
@@ -325,7 +326,11 @@ async function updateDimensions() {
 
 // Update dimensions when timeline or orientation changes
 watch(
-  () => [props.selectedTimeline, props.orientation],
+  () => [
+    props.selectedTimeline,
+    props.orientation,
+    props.isSmallScreen // Prevents edge case where there is no description when going from mobile to desktop view
+  ],
   async () => {
     await updateDimensions()
     // Initialize the position at the last selected game node (if it exists), otherwise start at the first game

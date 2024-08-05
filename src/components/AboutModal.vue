@@ -47,7 +47,7 @@
       <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license. I
       shortened some of their descriptions. Other descriptions were paraphrased from Nintendo
       Japan&#39;s
-      <a href="https://www.nintendo.com/jp/character/zelda/history/index.html">Zelda Portal</a>
+      <a href="https://www.nintendo.com/jp/character/zelda/history/index.html">Zelda Portal</a>.
     </p>
     <h3 id="icon-allowance">Icon allowance</h3>
     <p>

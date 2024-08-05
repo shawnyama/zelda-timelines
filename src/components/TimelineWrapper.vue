@@ -31,7 +31,7 @@
         v-if="isSmallScreen"
         :selected-game="selectedGame"
         @close-description-modal="selectGame(null)" />
-      <description :game="selectedGame" :orientation="orientation"
+      <description v-else :game="selectedGame" :orientation="orientation"
     /></template>
   </main>
 </template>
