@@ -132,7 +132,7 @@ function generateDiagram() {
 
   const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 
-  let linkStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other link styles in generateLink
+  let linkStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other link styles in generateLink()
   const diagram = endent`%%{
     init: ${JSON.stringify({
       theme: 'base',
@@ -408,12 +408,6 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 
 :deep(h3.fallback-title) {
   margin-top: -1rem;
-}
-
-:deep(.fallback-icon) {
-  font-family: 'hylian_symbols';
-  font-size: 11rem;
-  color: white;
 }
 
 :deep(h4.title) {

@@ -8,6 +8,7 @@
   <nav>
     <div class="selected-timeline">
       <div class="options-wrapper">
+        <h4>Select a timeline</h4>
         <ul>
           <li v-for="timeline in Timelines" :value="timeline">
             <a @click="emit('select-timeline', timeline)">
@@ -21,7 +22,7 @@
         <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
         <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
       </div>
-      <span>{{ selectedTimeline }}</span>
+      <h1>{{ selectedTimeline }}</h1>
       <div class="gear-group">
         <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
         <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
@@ -115,13 +116,6 @@ nav {
   justify-content: center;
   display: inline-block;
 
-  & > * {
-    font-family: 'triforce', sans-serif;
-    /* font-style: italic; */
-    font-size: 2.25rem;
-    cursor: pointer;
-  }
-
   & > .selected-timeline {
     border-radius: 2rem;
     background-color: var(--navbar-bg);
@@ -183,16 +177,27 @@ nav {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 3.5rem;
+    background-color: var(--green);
+    border-radius: 1rem;
+    width: 25rem;
+    /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); maybe do a glowing thing instead */
 
-    & ul {
-      /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
-      border-radius: 1rem;
+    & > h4 {
+      text-align: center;
+      border-bottom: 1.5px solid white;
+      font-style: italic;
+      padding-bottom: 0.25rem;
+      animation: fade-in 0.2s ease-in-out;
       padding: 0.5rem;
-      background-color: var(--green);
-      width: 25rem;
+      margin: 0 0.5rem;
+    }
+
+    & > ul {
+      font-family: 'triforce', sans-serif;
+      font-size: 2.25rem;
       animation: fade-in 0.2s ease-in-out;
       list-style: none;
-
+      padding: 0.5rem;
       /* Helps dropdown still appear if mouse is located in the gap between the selector and the dropdown list */
       &::before {
         content: '';
@@ -205,6 +210,7 @@ nav {
       }
 
       & > li {
+        cursor: pointer;
         & > a {
           color: white;
           text-decoration: none;

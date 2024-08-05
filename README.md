@@ -11,6 +11,9 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 
 If I come across other timeline theories I'll be interested in adding them too.
 
+### Game descriptions
+Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.org/wiki/Main_Page) and are licensed under the [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) license. I shortened some of their descriptions. Other descriptions were paraphrased from Nintendo Japan's [Zelda Portal](https://www.nintendo.com/jp/character/zelda/history/index.html)
+
 ### Icon allowance
 Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the permission of using the game icons.
 

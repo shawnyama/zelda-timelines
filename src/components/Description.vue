@@ -1,23 +1,3 @@
-<script setup lang="ts">
-import { computed } from 'vue'
-import type { GameNode } from '@/data/games'
-import Gamebox from './Gamebox.vue'
-import Button from './widgets/Button.vue'
-
-const props = defineProps<{
-  game: GameNode
-  orientation: string
-}>()
-
-const icon = computed(() => {
-  let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
-  if (imagePath.includes('undefined')) {
-    imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
-  }
-  return imagePath
-})
-</script>
-
 <template>
   <aside id="Description" :class="orientation">
     <header>
@@ -28,17 +8,7 @@ const icon = computed(() => {
     <section>
       <Gamebox :game="game" :selected-platform="game.releases[0].platform" />
       <article>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac lacinia
-          ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed euismod, nisl at
-          lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc id nunc. Sed
-          euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac
-          lacinia ultrices, odio nunc ultricies nunc, id aliquam nisl nunc id nunc. Sed euismod,
-          nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc nunc id nunc.
-          Sed euismod, nisl at lacinia tincidunt, nunc nunc lacinia lectus, vitae consectetur nunc
-          nunc id nunc.
-        </p>
+        <p ref="pRef">{{ game.description }}</p>
         <footer>
           <Button v-for="(release, index) in game.releases" :key="index" disabled rounded>
             {{ release.platform }} ({{ release.year }})
@@ -48,6 +18,35 @@ const icon = computed(() => {
     </section>
   </aside>
 </template>
+
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import type { GameNode } from '@/data/games'
+import Gamebox from './Gamebox.vue'
+import Button from './widgets/Button.vue'
+
+const props = defineProps<{
+  game: GameNode
+  orientation: string
+}>()
+
+const pRef = ref<HTMLElement | null>(null)
+
+const icon = computed(() => {
+  let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
+  if (imagePath.includes('undefined')) {
+    imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
+  }
+  return imagePath
+})
+
+watch(
+  () => props.game.description,
+  () => {
+    if (pRef.value) pRef.value.scrollTop = 0
+  }
+)
+</script>
 
 <style scoped>
 aside {
@@ -60,48 +59,56 @@ aside {
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
-  max-height: 100vh;
 
   &.TB {
     flex-direction: column;
     width: 40vw;
     min-width: 25rem;
-    margin: 2rem 0.5rem 0.5rem 0;
+    margin: 2em 0.5rem 0.5rem 0;
+    height: fit-content;
+    max-height: calc(100vh - 2.5rem);
 
     & > section {
       flex-direction: column;
-      height: 100%;
       gap: 2rem;
+
+      /* & p {
+       max-height: 45vh; TODO: Prevent overflow in vertical orientation
+      } */
     }
   }
   &.LR {
     height: var(--description-height);
     margin: 0.5rem;
     margin-top: 0;
-    width: fit-content;
+    width: calc(100vw - 1rem);
+    max-width: 90rem;
     align-self: center;
   }
 
   & > section {
     display: flex;
     align-items: center;
+    flex-grow: 1;
     gap: 1rem;
 
     & > article {
       display: flex;
+      flex-grow: 1;
+      width: 100%;
       height: 100%;
       flex-direction: column;
-      justify-content: space-between;
-      max-width: 60rem;
+      justify-content: center;
       gap: 1rem;
 
       & > p {
-        height: 100%;
+        max-height: 100%;
         background-color: hsla(0, 0%, 96%, 0.75);
-        padding: 0.5rem;
+        padding: 0.75rem 1rem;
         border-radius: 0.5rem;
         font-size: 1.25rem;
         overflow: auto;
+        text-wrap: pretty;
       }
 
       & > footer {

@@ -33,9 +33,11 @@
           :priority="true"
         />
       </div>
-      <div class="back">
-        <Image :src="imagePath" alt="Back" layout="fixed" :height="height" :width="width" />
-      </div>
+      <!--No need to render the back of the box-->
+      <!--Maybe revisit if we want a dedicated box viewer where you can rotate the box-->
+      <!-- <div class="back"> 
+       <Image :src="imagePath" alt="Back" layout="fixed" :height="height" :width="width" /> 
+     </div> -->
     </div>
   </figure>
 </template>

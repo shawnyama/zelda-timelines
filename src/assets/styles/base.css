@@ -17,13 +17,6 @@
   src: url('../fonts/Calamity-Bold.otf') format('opentype');
 }
 
-@font-face {
-  font-family: hylian_symbols;
-  src: url('../fonts/hylian-symbols.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 :root {
   --navbar-bg: hsla(151, 33%, 60%, 0.9);
   --description-bg: hsla(103, 33%, 72%, 0.85);
@@ -31,7 +24,6 @@
   --light-green: hsl(103, 33%, 72%);
   --dark-green: hsl(168, 57%, 26%);
   --coral-red: rgb(255, 109, 96);
-
   --description-height: 22rem;
   --timeline-height-LR: calc(100vh - var(--description-height) - 0.5rem);
 }
@@ -63,6 +55,10 @@ h1 {
 
 h2 {
   font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
 }
 
 p {
