@@ -5,6 +5,7 @@
         :selectedTimeline="selectedTimeline"
         :orientation="orientation"
         :theme-icon="themeIcon"
+        :is-small-screen="isSmallScreen"
         @select-timeline="selectTimeline"
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
@@ -19,25 +20,35 @@
         :selected-timeline="selectedTimeline"
         :orientation="orientation"
         :year="year"
+        :is-small-screen="isSmallScreen"
         @select-game="selectGame"
+        @close-description-modal="selectGame(null)"
+        @update:is-small-screen="isSmallScreen = $event"
       />
     </section>
-    <description v-if="selectedGame" :game="selectedGame" :orientation="orientation" />
+    <template v-if="selectedGame">
+      <description-modal
+        v-if="isSmallScreen"
+        :selected-game="selectedGame"
+        @close-description-modal="selectGame(null)" />
+      <description :game="selectedGame" :orientation="orientation"
+    /></template>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import TimelineDiagram from './TimelineDiagram.vue'
 import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
+import DescriptionModal from './DescriptionModal.vue'
 import { Timelines } from '@/data/timelines'
 import type { GameNode } from '@/data/games'
 
 const timelineDiagram = ref()
-
+const isSmallScreen = ref(window.innerWidth < 800) // Will be updated by TimelineDiagram.vue
 const selectedGame = ref<GameNode | null>(null)
-function selectGame(gameNode: GameNode) {
+function selectGame(gameNode: GameNode | null) {
   selectedGame.value = gameNode
 }
 
@@ -48,10 +59,14 @@ function selectTimeline(timeline: Timelines) {
   selectedTimeline.value = timeline
 }
 
-const orientation = ref<'LR' | 'TB'>((localStorage.getItem('orientation') as 'LR' | 'TB') ?? 'LR')
+// Chosen orientation is used unless we are on mobile. Mobile forces TB orientation.
+const chosenOrientation = ref<'LR' | 'TB'>(
+  (localStorage.getItem('orientation') as 'LR' | 'TB') ?? 'LR'
+)
+const orientation = computed(() => (isSmallScreen.value ? 'TB' : chosenOrientation.value))
 function toggleOrientation() {
-  orientation.value = orientation.value === 'LR' ? 'TB' : 'LR'
-  localStorage.setItem('orientation', orientation.value)
+  chosenOrientation.value = chosenOrientation.value === 'LR' ? 'TB' : 'LR'
+  localStorage.setItem('orientation', chosenOrientation.value)
 }
 
 const themeIcon = ref('ph:sun-bold')
@@ -70,8 +85,8 @@ watch(
       `/zelda-timelines/${selectedTimeline.value}`
     )
     localStorage.setItem('selectedTimeline', selectedTimeline.value)
-    console.log('switch to', selectedTimeline.value, 'timeline')
-    console.log(history)
+    // console.log('switch to', selectedTimeline.value, 'timeline')
+    // console.log(history)
   }
 )
 
@@ -105,16 +120,17 @@ main {
     position: relative;
   }
 
-  &.TB {
-    & > section {
-      width: 60vw;
-    }
-  }
   &.LR {
     flex-direction: column;
     & > section {
       height: var(--timeline-height-LR);
     }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .TB > section {
+    width: 60vw;
   }
 }
 </style>

@@ -7,11 +7,11 @@
   </h2>
   <nav>
     <div class="selected-timeline">
-      <div class="options-wrapper">
+      <div v-if="isOptionsVisible" class="options-wrapper">
         <h4>Select a timeline</h4>
         <ul>
           <li v-for="timeline in Timelines" :value="timeline">
-            <a @click="emit('select-timeline', timeline)">
+            <a @click="selectTimeline(timeline)">
               <img :src="caret" alt="caret-icon" />
               <div>{{ timeline }}</div>
             </a>
@@ -29,7 +29,10 @@
       </div>
     </div>
     <div class="btn-group">
-      <Button @click="emit('toggle-orientation')" icon text title="Toggle orientation">
+      <Button v-if="isSmallScreen" @click="emit('toggle-about-modal')" icon text title="About">
+        <Icon icon="ph:info-bold" height="1.5rem" />
+      </Button>
+      <Button v-else @click="emit('toggle-orientation')" icon text title="Toggle orientation">
         <Icon :icon="orientationIcon" height="1.5rem" />
       </Button>
       <Button @click="emit('zoom-out')" icon text title="Zoom out">
@@ -50,13 +53,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Timelines } from '@/data/timelines'
 import Button from './widgets/Button.vue'
 import { Icon } from '@iconify/vue'
 import caret from '@/assets/icons/caret-left.svg'
 
-const props = defineProps<{ selectedTimeline: Timelines; orientation: string; themeIcon: string }>()
+const props = defineProps<{
+  selectedTimeline: Timelines
+  orientation: string
+  isSmallScreen: boolean
+  themeIcon: string
+}>()
 const emit = defineEmits([
   'select-timeline',
   'toggle-orientation',
@@ -70,6 +78,19 @@ const emit = defineEmits([
 const orientationIcon = computed(() =>
   props.orientation === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
 )
+
+const isOptionsVisible = ref(true)
+
+function selectTimeline(timeline: Timelines) {
+  emit('select-timeline', timeline)
+  // Hides dropdown options after selecting a timeline (suitable for mobile view)
+  if (props.isSmallScreen) {
+    isOptionsVisible.value = false
+    setTimeout(() => {
+      isOptionsVisible.value = true
+    }, 200)
+  }
+}
 </script>
 
 <style scoped>
@@ -109,7 +130,9 @@ h2 {
 }
 
 nav {
+  margin: 0.5rem 0; /* Removing left and right padding centers it properly */
   width: 20rem;
+  max-width: 100vw;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -180,6 +203,7 @@ nav {
     background-color: var(--green);
     border-radius: 1rem;
     width: 25rem;
+    max-width: 100vw;
     /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); maybe do a glowing thing instead */
 
     & > h4 {
@@ -241,6 +265,12 @@ nav {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  h2 {
+    display: none;
   }
 }
 

@@ -21,9 +21,10 @@ const props = defineProps<{
   selectedTimeline: Timelines
   orientation: 'LR' | 'TB'
   year: number
+  isSmallScreen: boolean
 }>()
 
-const emit = defineEmits(['select-game'])
+const emit = defineEmits(['select-game', 'close-description-modal', 'update:is-small-screen'])
 
 const mermaidContainer = ref()
 
@@ -240,6 +241,7 @@ async function selectNode(event: MouseEvent) {
 function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
   const detail = options.useTransition ? 0 : -1
   nodeElement.dispatchEvent(new MouseEvent('click', { detail }))
+  if (props.isSmallScreen) emit('close-description-modal') // Closes description modal (we don't want to show the description immediately on mobile)
 }
 
 function jumpToBeginning() {
@@ -275,6 +277,7 @@ async function updateDimensions() {
   // Get window dimensions (SVG should cover the window size)
   svgWidth = window.innerWidth
   svgHeight = window.innerHeight
+  emit('update:is-small-screen', window.innerWidth < 800)
   // Get the svg container and the attributes of its first group which contains the timeline diagram
   svg = d3.select('.mermaid > svg').attr('height', svgHeight).style('max-width', '100%')
   timelineGroup = svg.select('g')

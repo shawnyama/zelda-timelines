@@ -1,7 +1,7 @@
 <template>
   <div @click="emit('close')">
     <section @click.stop>
-      <header>
+      <header v-if="!isCustom">
         <code>{{ title }}</code>
         <Button @click="emit('close')" text icon>
           <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />
@@ -19,7 +19,8 @@ import Button from './Button.vue'
 import { Icon } from '@iconify/vue'
 
 defineProps<{
-  title: string
+  title?: string
+  isCustom?: boolean
 }>()
 
 const emit = defineEmits(['close'])
@@ -40,8 +41,8 @@ div {
 
 section {
   margin: auto;
-  width: 50vw;
-  min-width: 50rem;
+  width: 60rem;
+  max-width: calc(100vw - 1rem);
   background-color: var(--description-bg);
   border-radius: 0.5rem;
 }

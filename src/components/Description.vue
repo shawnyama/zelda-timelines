@@ -62,16 +62,15 @@ aside {
 
   &.TB {
     flex-direction: column;
-    width: 40vw;
     min-width: 25rem;
-    margin: 2em 0.5rem 0.5rem 0;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
     height: fit-content;
     max-height: calc(100vh - 2.5rem);
 
     & > section {
       flex-direction: column;
       gap: 2rem;
-
       /* & p {
        max-height: 45vh; TODO: Prevent overflow in vertical orientation
       } */
@@ -154,6 +153,13 @@ header {
 
   & > img {
     height: 3.25rem;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  aside.TB {
+    width: 40vw;
+    margin-right: 0.5rem;
   }
 }
 </style>
