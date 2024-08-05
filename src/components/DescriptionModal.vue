@@ -1,5 +1,5 @@
 <template>
-  <modal is-custom @close-modal="emit('close-description-modal')">
+  <modal is-custom @close="emit('close-description-modal')">
     <description :game="selectedGame" orientation="TB" />
     <Button @click="emit('close-description-modal')" rounded>
       <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />Close
