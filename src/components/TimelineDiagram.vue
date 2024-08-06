@@ -199,7 +199,7 @@ async function selectNode(event: MouseEvent) {
     yTranslate = -transformedY
   } else if (props.orientation === 'TB') {
     const vw40InPixels = window.innerWidth * 0.4
-    xTranslate = props.isSmallScreen ? -transformedX + 120 : -transformedX - vw40InPixels / 2 // Hacky x position approximation for TB orientation, should figure out the real calculation
+    xTranslate = props.isSmallScreen ? -transformedX + 120 : -transformedX - vw40InPixels / 2 // Hacky x position approximation for TB orientation, FIXME: should figure out the real calculation
     yTranslate = -transformedY + svgHeight
   }
 

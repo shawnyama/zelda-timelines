@@ -104,12 +104,17 @@ nav,
 }
 
 h2 {
+  display: flex;
+  align-items: center;
   color: var(--dark-green);
   padding: 0.25rem;
   backdrop-filter: blur(2px);
   & > span {
     margin-right: 0.25rem;
     pointer-events: none;
+  }
+  & > button {
+    margin-bottom: 0.4rem;
   }
 }
 
