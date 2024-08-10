@@ -20,7 +20,7 @@ export type Edge = {
   subgraphStart?: string
   subgraphEnd?: number
   label?: string
-  edgeStyle?: EdgeStyle
+  style?: EdgeStyle
   distance?: number
 }
 

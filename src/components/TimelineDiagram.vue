@@ -67,7 +67,7 @@ function generateDiagram() {
       source,
       target,
       label,
-      edgeStyle = EdgeStyle.Normal,
+      style = EdgeStyle.Normal,
       distance = 0,
       subgraphStart,
       subgraphEnd
@@ -77,14 +77,11 @@ function generateDiagram() {
     distance += 3 // Minimum required for mermaid to render is 3
 
     // The edge between nodes (edge design is applied here)
-    const edge =
-      edgeStyle === EdgeStyle.Dotted
-        ? `-${edgeStyle.repeat(distance - 2)}-`
-        : edgeStyle.repeat(distance)
+    let edge = style === EdgeStyle.Dotted ? `-${style.repeat(distance - 2)}-` : '-'.repeat(distance)
 
     // Applies custom styling to current thick edge
-    if (edgeStyle === EdgeStyle.Thick) {
-      edgeStyles = edgeStyles.concat(`linkStyle ${index} stroke-width:7px;`)
+    if (style === EdgeStyle.Thick) {
+      styles = styles.concat(`linkStyle ${index} stroke-width:7px;`)
     }
 
     let connection = endent`
@@ -133,7 +130,7 @@ function generateDiagram() {
 
   const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 
-  let edgeStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other edge styles in generateEdge()
+  let styles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other edge styles in generateEdge()
   const diagram = endent`%%{
     init: ${JSON.stringify({
       theme: 'base',
@@ -149,7 +146,7 @@ function generateDiagram() {
   ${nodesToDisplay.map(generateNode).join('\n ')}
   ${timelineEdges.map((edge, index) => generateEdge(edge, index)).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
-  ${edgeStyles}
+  ${styles}
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
@@ -428,16 +425,23 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 }
 
 :deep(h4.major-event) {
+  outline: 8px solid var(--dark-green);
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
   font-size: 2rem;
-  border: 3px solid #3a5fcd;
-  background-color: #8ca6f4;
-  /* color: white; */
-  padding: 1rem;
+}
+
+:deep(h4.major-event) {
+  color: #1e3a8a;
+  outline-color: #1e3a8a;
+  background-color: skyblue;
 }
 
 :deep(h4.what-if) {
-  border: 3px solid gold;
-  background-color: whitesmoke;
+  color: purple;
+  outline-color: purple;
+  background-color: plum;
 }
 
 :deep(#mermaid.edge-thickness-normal) {

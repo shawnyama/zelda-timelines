@@ -88,9 +88,7 @@
     </p>
     <h3 id="run">Run</h3>
     <p>Clone the repository then</p>
-    <pre><code>yarn <span class="hljs-keyword">install</span>
-    yarn dev
-    </code></pre>
+    <pre><code>yarn install<br/>yarn dev</code></pre>
     <p>© 2024 <a href="https://shawnyama.ca/">Shawn Yama</a></p>
   </modal>
 </template>

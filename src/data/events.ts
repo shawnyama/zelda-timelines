@@ -68,8 +68,8 @@ export enum Events {
   TheHeroIsDefeated = 'The Hero is Defeated',
   Downfall = 'Downfall',
   // Triforce events
-  Divergence = 'Divergence',
-  Convergence = 'Convergence'
+  Divergence = 'Divergence: Zelda sends Link back to his childhood',
+  Convergence = 'Convergence: In A Link to the Past, Link wishes on the Triforce for everything to return to normal'
 }
 
 export const timeSplitEvents: string[] = [
