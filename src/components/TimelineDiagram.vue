@@ -10,11 +10,11 @@ import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
 import { GameIds, timeSplitEvents, whatIfEvents, majorEvents } from '@/data/events'
-import { LinkDesigns } from '@/data/link-designs'
+import { EdgeStyle } from '@/data/edge-decor'
 import { gameNodes } from '@/data/games'
-import { links, Timelines } from '@/data/timelines'
+import { edges, Timelines } from '@/data/timelines'
 import type { GameNode, Node } from '@/data/games'
-import type { Link } from '@/data/timelines'
+import type { Edge } from '@/data/timelines'
 
 const props = defineProps<{
   selectedGame: GameNode | null
@@ -62,34 +62,34 @@ function generateDiagram() {
 
   const removeSpaces = (str: string) => str.replaceAll(' ', '')
 
-  const generateLink = (
+  const generateEdge = (
     {
       source,
       target,
       label,
-      linkDesign = LinkDesigns.Normal,
+      edgeStyle = EdgeStyle.Normal,
       distance = 0,
       subgraphStart,
       subgraphEnd
-    }: Link,
+    }: Edge,
     index: number
   ) => {
     distance += 3 // Minimum required for mermaid to render is 3
 
-    // The link between nodes (link design is applied here)
-    const link =
-      linkDesign === LinkDesigns.Dotted
-        ? `-${linkDesign.repeat(distance - 2)}-`
-        : linkDesign.repeat(distance)
+    // The edge between nodes (edge design is applied here)
+    const edge =
+      edgeStyle === EdgeStyle.Dotted
+        ? `-${edgeStyle.repeat(distance - 2)}-`
+        : edgeStyle.repeat(distance)
 
-    // Applies custom styling to current thick link
-    if (linkDesign === LinkDesigns.Thick) {
-      linkStyles = linkStyles.concat(`linkStyle ${index} stroke-width:7px;`)
+    // Applies custom styling to current thick edge
+    if (edgeStyle === EdgeStyle.Thick) {
+      edgeStyles = edgeStyles.concat(`linkStyle ${index} stroke-width:7px;`)
     }
 
     let connection = endent`
       ${removeSpaces(source)} 
-      ${link}${!!label ? `|${label}|` : ''} 
+      ${edge}${!!label ? `|${label}|` : ''} 
       ${removeSpaces(target)}`
 
     if (subgraphStart) {
@@ -112,12 +112,12 @@ function generateDiagram() {
 
   const generateClick = ({ id }: GameNode) => `click ${id}`
 
-  // Remove nodes that aren't used in links
-  const timelineLinks = links[props.selectedTimeline]
+  // Remove nodes that aren't used in edges
+  const timelineEdges = edges[props.selectedTimeline]
 
   // Hold all events, games, etc. that are in the timeline
   const timelineContent = Array.from(
-    new Set(timelineLinks.map(({ source, target }) => [source, target]).flat())
+    new Set(timelineEdges.map(({ source, target }) => [source, target]).flat())
   )
   const gameContent = timelineContent.filter((id) => Object.values(GameIds).includes(id as GameIds))
   const eventContent = timelineContent.filter((id) => !gameContent.includes(id))
@@ -133,7 +133,7 @@ function generateDiagram() {
 
   const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
 
-  let linkStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other link styles in generateLink()
+  let edgeStyles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other edge styles in generateEdge()
   const diagram = endent`%%{
     init: ${JSON.stringify({
       theme: 'base',
@@ -147,9 +147,9 @@ function generateDiagram() {
   }%%
   flowchart ${props.orientation} 
   ${nodesToDisplay.map(generateNode).join('\n ')}
-  ${timelineLinks.map((link, index) => generateLink(link, index)).join('\n ')}
+  ${timelineEdges.map((edge, index) => generateEdge(edge, index)).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
-  ${linkStyles}
+  ${edgeStyles}
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes

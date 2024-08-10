@@ -38,6 +38,12 @@
           >playlist</a
         >]
       </li>
+      <li>
+        AbsurdZeldaTheories aka Bird Keeper Toby&#39;s [<a
+          href="https://www.youtube.com/watch?v=rPrqd6682gE"
+          >video</a
+        >]
+      </li>
     </ul>
     <p>If I come across other timeline theories I&#39;ll be interested in adding them too.</p>
     <h3 id="game-descriptions">Game descriptions</h3>
@@ -83,8 +89,8 @@
     <h3 id="run">Run</h3>
     <p>Clone the repository then</p>
     <pre><code>yarn <span class="hljs-keyword">install</span>
-yarn dev
-</code></pre>
+    yarn dev
+    </code></pre>
     <p>© 2024 <a href="https://shawnyama.ca/">Shawn Yama</a></p>
   </modal>
 </template>

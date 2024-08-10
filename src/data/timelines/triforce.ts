@@ -1,5 +1,5 @@
 import { GameIds, Events, Eras } from '../events'
-import { LinkDesigns } from '../link-designs'
+import { EdgeStyle } from '../edge-decor'
 
 export const triforce = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },

@@ -8,6 +8,7 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 - Triforce Johnson's of Empire Arcadia [[video](https://youtu.be/HPnvAt9bvAs)] [[playlist](https://www.youtube.com/playlist?list=PLYYZg45BvGCMoNCbPlhfV0296IOfrBUVz)]
 - LoruleanHistorian/Instrutilus/Zelda Lore's [[video](https://www.youtube.com/watch?v=7GAqIqYzqGQ)]
 - Frank Moussette's of Geekery Collective [[playlist](https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg)]
+- AbsurdZeldaTheories aka Bird Keeper Toby's [[video](https://www.youtube.com/watch?v=rPrqd6682gE)]
 
 If I come across other timeline theories I'll be interested in adding them too.
 
