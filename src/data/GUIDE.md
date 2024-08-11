@@ -15,3 +15,4 @@ By importing `edge-decor.ts` into your timeline file you can assign:
   - If some time passes between games and there is no event placed between them use `EdgeDistance.SomeTimePasses`
   - If an obviously long time passes between games use `EdgeDistance.ALongTimePasses`
     - eg. The Ancient Calamity happened 10,000 years ago before Breath of the Wild
+  - If using these don't give you the distance you are expecting, feel free to use a regular number
