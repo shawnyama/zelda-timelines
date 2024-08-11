@@ -40,6 +40,7 @@ export enum Events {
   HyruleanCivilWar = 'Hyrulean Civil War',
   TheSacredRealmBecomesTheDarkWorld = 'The Sacred Realm becomes the Dark World',
   GanondorfBecomesTheDemonKingGanon = 'Ganondorf becomes the Demon King Ganon',
+  WarOfTheBoundChest = 'War of the Bound Chest',
   // Downfall
   TheImprisoningWar = 'The Imprisoning War',
   TheResurrectionOfGanon = 'The Resurrection of Ganon',
@@ -69,7 +70,10 @@ export enum Events {
   Downfall = 'Downfall',
   // Triforce events
   Divergence = 'Divergence: Zelda sends Link back to his childhood',
-  Convergence = 'Convergence: In A Link to the Past, Link wishes on the Triforce for everything to return to normal'
+  Convergence = 'Convergence: In A Link to the Past, Link wishes on the Triforce for everything to return to normal',
+  // Lorulean events
+  VattiIsSealed = 'Bad Ending: Vatti is Sealed',
+  VattiIsDestroyed = 'Good Ending: Vatti is Destroyed'
 }
 
 export const timeSplitEvents: string[] = [
@@ -80,7 +84,12 @@ export const timeSplitEvents: string[] = [
   Events.Downfall
 ]
 
-export const whatIfEvents: string[] = [Events.TheHeroIsTriumphant, Events.TheHeroIsDefeated]
+export const whatIfEvents: string[] = [
+  Events.TheHeroIsTriumphant,
+  Events.TheHeroIsDefeated,
+  Events.VattiIsSealed,
+  Events.VattiIsDestroyed
+]
 
 export const majorEvents: string[] = [...timeSplitEvents, ...whatIfEvents]
 

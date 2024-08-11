@@ -1,4 +1,4 @@
-import { GameIds, Events, Eras } from '../events'
+import { GameIds, Events } from '../events'
 import { EdgeStyle, EdgeDistance } from '../edge-decor'
 
 export const triforce = [
@@ -6,7 +6,7 @@ export const triforce = [
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
   { source: Events.TheEstablishmentOfHyruleKingdom, target: Events.HyruleanCivilWar },
-  { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime },
+  { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime, style: EdgeStyle.Thick },
   { source: GameIds.OcarinaOfTime, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
   {
     source: GameIds.MajorasMask,
@@ -40,7 +40,8 @@ export const triforce = [
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
   { source: GameIds.TheWindWaker, target: GameIds.TetrasTrackers, style: EdgeStyle.Thick },
   { source: GameIds.TetrasTrackers, target: GameIds.PhantomHourglass, style: EdgeStyle.Thick },
-  { source: GameIds.PhantomHourglass, target: Events.ANewHyruleKingdomIsFounded }, // Skip the new continent discovered event so the graph appears more compact
+  // Skip the new continent discovered event so the graph appears more compact
+  { source: GameIds.PhantomHourglass, target: Events.ANewHyruleKingdomIsFounded },
   { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
   { source: GameIds.SpiritTracks, target: GameIds.TheMinishCap },
   { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
