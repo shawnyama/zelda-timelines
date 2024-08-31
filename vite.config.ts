@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/zelda-timelines/',
+  base: '/',
   plugins: [vue(), ViteImageOptimizer()],
   resolve: {
     alias: {

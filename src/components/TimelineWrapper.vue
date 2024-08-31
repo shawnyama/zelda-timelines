@@ -82,7 +82,7 @@ watch(
     history.pushState(
       { selectedTimeline: selectedTimeline.value },
       selectedTimeline.value,
-      `/zelda-timelines/${selectedTimeline.value}`
+      `/${selectedTimeline.value}`
     )
     localStorage.setItem('selectedTimeline', selectedTimeline.value)
     // console.log('switch to', selectedTimeline.value, 'timeline')
@@ -100,7 +100,7 @@ onMounted(() => {
     : selectedTimeline.value
   selectTimeline(timeline)
   // Initialize/insure timeline route
-  history.replaceState({ selectedTimeline: timeline }, timeline, `/zelda-timelines/${timeline}`)
+  history.replaceState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
 })
 
 // Listen for browser back/forward navigation
