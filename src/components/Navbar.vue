@@ -63,12 +63,10 @@ const props = defineProps<{
   selectedTimeline: Timelines
   orientation: string
   isSmallScreen: boolean
-  themeIcon: string
 }>()
 const emit = defineEmits([
   'select-timeline',
   'toggle-orientation',
-  'toggle-theme',
   'toggle-about-modal',
   'jump-to-beginning',
   'jump-to-end',

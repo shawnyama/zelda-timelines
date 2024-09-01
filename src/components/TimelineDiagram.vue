@@ -20,8 +20,8 @@ const props = defineProps<{
   selectedGame: GameNode | null
   selectedTimeline: Timelines
   orientation: 'LR' | 'TB'
-  year: number
   isSmallScreen: boolean
+  // year: number // TODO: Implement year filtering
 }>()
 
 const emit = defineEmits(['select-game', 'close-description-modal', 'update:is-small-screen'])
@@ -121,7 +121,7 @@ function generateDiagram() {
 
   // Collect game nodes that belong in the timeline
   const gameNodesToDisplay: GameNode[] = gameNodes.filter(
-    ({ id, releases }) => gameContent.includes(id as GameIds) && props.year >= releases[0].year
+    ({ id, releases }) => gameContent.includes(id as GameIds) // && props.year >= releases[0].year TODO: Implement year filtering
   )
 
   // Insert event nodes that belong in the timeline

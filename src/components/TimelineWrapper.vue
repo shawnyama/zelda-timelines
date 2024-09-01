@@ -4,12 +4,10 @@
       <navbar
         :selectedTimeline="selectedTimeline"
         :orientation="orientation"
-        :theme-icon="themeIcon"
         :is-small-screen="isSmallScreen"
         @select-timeline="selectTimeline"
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
-        @toggle-theme="toggleTheme"
         @jump-to-beginning="timelineDiagram?.jumpToBeginning"
         @jump-to-end="timelineDiagram?.jumpToEnd"
         @zoom-out="timelineDiagram?.zoomOut"
@@ -19,7 +17,6 @@
         :selected-game="selectedGame"
         :selected-timeline="selectedTimeline"
         :orientation="orientation"
-        :year="year"
         :is-small-screen="isSmallScreen"
         @select-game="selectGame"
         @close-description-modal="selectGame(null)"
@@ -37,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import TimelineDiagram from './TimelineDiagram.vue'
 import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
@@ -56,7 +53,17 @@ const selectedTimeline = ref(
   (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
 )
 function selectTimeline(timeline: Timelines) {
+  // Update selected timeline if it's different
+  if (selectedTimeline.value === timeline) return
   selectedTimeline.value = timeline
+  // Save broswer history and local storage
+  history.pushState(
+    { selectedTimeline: selectedTimeline.value },
+    selectedTimeline.value,
+    `/${selectedTimeline.value}`
+  )
+  localStorage.setItem('selectedTimeline', selectedTimeline.value)
+  // console.log(history) // Debugging
 }
 
 // Chosen orientation is used unless we are on mobile. Mobile forces TB orientation.
@@ -69,43 +76,27 @@ function toggleOrientation() {
   localStorage.setItem('orientation', chosenOrientation.value)
 }
 
-const themeIcon = ref('ph:sun-bold')
-function toggleTheme() {
-  themeIcon.value = themeIcon.value === 'ph:sun-bold' ? 'ph:moon-bold' : 'ph:sun-bold'
+function handlePopState(event: PopStateEvent) {
+  if (event.state.selectedTimeline) selectTimeline(event.state.selectedTimeline)
 }
-
-const year = ref(new Date().getFullYear())
-
-watch(
-  () => selectedTimeline.value,
-  () => {
-    history.pushState(
-      { selectedTimeline: selectedTimeline.value },
-      selectedTimeline.value,
-      `/${selectedTimeline.value}`
-    )
-    localStorage.setItem('selectedTimeline', selectedTimeline.value)
-    // console.log('switch to', selectedTimeline.value, 'timeline')
-    // console.log(history)
-  }
-)
 
 onMounted(() => {
   // If URL has a timeline, select it
   // Otherwise, fallback to last timeline in local storage/default timeline
   const url = new URL(window.location.href)
-  const timelineString = url.pathname.split('/')[2]
+  const timelineString = url.pathname.split('/')[1]
   const timeline = Object.values(Timelines).includes(timelineString as Timelines)
     ? (timelineString as Timelines)
     : selectedTimeline.value
   selectTimeline(timeline)
   // Initialize/insure timeline route
   history.replaceState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
+
+  window.addEventListener('popstate', handlePopState)
 })
 
-// Listen for browser back/forward navigation
-window.addEventListener('popstate', (event) => {
-  if (event.state.selectedTimeline) selectTimeline(event.state.selectedTimeline)
+onUnmounted(() => {
+  window.removeEventListener('popstate', handlePopState)
 })
 </script>
 
