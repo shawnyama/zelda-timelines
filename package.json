@@ -15,6 +15,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.10.2",
     "@unpic/vue": "^0.0.48",
     "d3": "^7.8.5",
     "endent": "^2.1.0",

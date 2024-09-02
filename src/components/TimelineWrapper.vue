@@ -57,13 +57,8 @@ function selectTimeline(timeline: Timelines) {
   if (selectedTimeline.value === timeline) return
   selectedTimeline.value = timeline
   // Save broswer history and local storage
-  history.pushState(
-    { selectedTimeline: selectedTimeline.value },
-    selectedTimeline.value,
-    `/${selectedTimeline.value}`
-  )
-  localStorage.setItem('selectedTimeline', selectedTimeline.value)
-  // console.log(history) // Debugging
+  history.pushState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
+  localStorage.setItem('selectedTimeline', timeline)
 }
 
 // Chosen orientation is used unless we are on mobile. Mobile forces TB orientation.
@@ -91,7 +86,6 @@ onMounted(() => {
   selectTimeline(timeline)
   // Initialize/insure timeline route
   history.replaceState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
-
   window.addEventListener('popstate', handlePopState)
 })
 
