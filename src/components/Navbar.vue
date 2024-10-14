@@ -10,7 +10,7 @@
       <Button
         class="custom"
         rounded
-        @click="isOptionsVisible = !isOptionsVisible"
+        @touchstart="isOptionsVisible = !isOptionsVisible"
         @mouseenter="isOptionsVisible = true"
       >
         <div class="gear-group">
