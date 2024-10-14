@@ -203,7 +203,7 @@ nav {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 3.75rem;
+    margin-top: 3.25rem;
     background-color: var(--green);
     border-radius: 1rem;
     width: 25rem;
