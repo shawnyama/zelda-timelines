@@ -29,7 +29,7 @@ button {
   font-family: 'calamity', sans-serif;
   transition: background-color 0.3s ease;
 
-  &:hover {
+  &:not(.custom):hover {
     transition: filter 0.3s;
     filter: brightness(1.2);
   }

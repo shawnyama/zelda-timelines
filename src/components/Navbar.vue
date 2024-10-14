@@ -6,7 +6,23 @@
     </Button>
   </h2>
   <nav>
-    <div class="selected-timeline">
+    <div class="selected-timeline" @mouseleave="isOptionsVisible = false">
+      <Button
+        class="custom"
+        rounded
+        @click="isOptionsVisible = !isOptionsVisible"
+        @mouseenter="isOptionsVisible = true"
+      >
+        <div class="gear-group">
+          <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
+          <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
+        </div>
+        <h1>{{ selectedTimeline }}</h1>
+        <div class="gear-group">
+          <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
+          <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
+        </div>
+      </Button>
       <div v-if="isOptionsVisible" class="options-wrapper">
         <h4>Select a timeline</h4>
         <ul>
@@ -17,15 +33,6 @@
             </a>
           </li>
         </ul>
-      </div>
-      <div class="gear-group">
-        <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
-        <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
-      </div>
-      <h1>{{ selectedTimeline }}</h1>
-      <div class="gear-group">
-        <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
-        <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
       </div>
     </div>
     <div class="btn-group">
@@ -77,17 +84,11 @@ const orientationIcon = computed(() =>
   props.orientation === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
 )
 
-const isOptionsVisible = ref(true)
+const isOptionsVisible = ref(false)
 
 function selectTimeline(timeline: Timelines) {
   emit('select-timeline', timeline)
-  // Hides dropdown options after selecting a timeline (suitable for mobile view)
-  if (props.isSmallScreen) {
-    isOptionsVisible.value = false
-    setTimeout(() => {
-      isOptionsVisible.value = true
-    }, 200)
-  }
+  isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
 }
 </script>
 
@@ -143,23 +144,24 @@ nav {
   display: inline-block;
 
   & > .selected-timeline {
-    border-radius: 2rem;
-    background-color: var(--navbar-bg);
-    display: flex;
-    justify-content: space-between;
-    padding-top: 0.5rem;
     color: white;
     overflow: visible;
-    border: 0;
-    color: white;
-    display: flex;
-    align-items: center;
     gap: 0.75rem;
     backdrop-filter: blur(2px);
     position: relative;
     z-index: 2;
 
-    & > .gear-group {
+    & > button {
+      background-color: var(--navbar-bg);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      /* Custom button padding required for triforce font to fit nice. */
+      padding: 0.75rem 0.5rem 0.25rem 0.5rem;
+    }
+
+    & .gear-group {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -197,16 +199,15 @@ nav {
 
   /* Wrapper is needed so the transformX doesn't conflict with the ul animation */
   & .options-wrapper {
-    display: none;
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 3.5rem;
+    margin-top: 3.75rem;
     background-color: var(--green);
     border-radius: 1rem;
     width: 25rem;
-    max-width: 100vw;
+    max-width: 95vw;
     /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); maybe do a glowing thing instead */
 
     & > h4 {
