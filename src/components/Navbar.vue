@@ -158,7 +158,7 @@ nav {
       justify-content: space-between;
       width: 100%;
       /* Custom button padding required for triforce font to fit nice. */
-      padding: 0.75rem 0.5rem 0.25rem 0.5rem;
+      padding: 0.5rem 0 0 0;
     }
 
     & .gear-group {
