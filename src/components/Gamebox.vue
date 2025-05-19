@@ -5,32 +5,35 @@
       <div class="bottom">
         <Image
           v-if="isSpineOnBottom"
-          :src="imagePath"
+          :src="imagePathWebp"
           alt="Spine"
           layout="fixed"
           :height="depth"
           :width="width"
+          @error="onImageError"
         />
       </div>
       <div class="left">
         <Image
           v-if="!isSpineOnBottom"
-          :src="imagePath"
+          :src="imagePathWebp"
           alt="Spine"
           layout="fixed"
           :height="height"
           :width="depth"
+          @error="onImageError"
         />
       </div>
       <div class="right" />
       <div class="front">
         <Image
-          :src="imagePath"
+          :src="imagePathWebp"
           alt="Front"
           layout="fixed"
           :height="height"
           :width="width"
           :priority="true"
+          @error="onImageError"
         />
       </div>
       <!--No need to render the back of the box-->
@@ -55,20 +58,16 @@ const props = defineProps<{
 
 const img = ref<HTMLImageElement | null>(null)
 
-const imagePath = computed(() => {
-  if (props.game) {
-    const fileTypes = ['jpg', 'webp']
-    for (const fileType of fileTypes) {
-      const path = new URL(`../assets/cover-art/${props.game.id}.${fileType}`, import.meta.url).href
-      if (!path.endsWith('undefined')) return path
-    }
-  }
-  return ''
-})
+const imagePathWebp = computed(() => `/assets/cover-art/${props.game?.id}.webp`)
+const imagePathJpg = computed(() => `/assets/cover-art/${props.game?.id}.jpg`)
 
-const height = computed(() => gameBoxDimensions[props.selectedPlatform].height * 1.5 ?? 200)
-const width = computed(() => gameBoxDimensions[props.selectedPlatform].width * 1.5 ?? 200)
-const depth = computed(() => gameBoxDimensions[props.selectedPlatform].depth * 1.5 ?? 200)
+function onImageError(event: Event) {
+  ;(event.target as HTMLImageElement).src = imagePathJpg.value
+}
+
+const height = computed(() => gameBoxDimensions[props.selectedPlatform].height * 1.5)
+const width = computed(() => gameBoxDimensions[props.selectedPlatform].width * 1.5)
+const depth = computed(() => gameBoxDimensions[props.selectedPlatform].depth * 1.5)
 const heightCSS = computed(() => `${height.value}px`)
 const widthCSS = computed(() => `${width.value}px`)
 const depthCSS = computed(() => `${depth.value}px`)
@@ -133,6 +132,7 @@ figure {
 
     /* Image configuration */
     & img {
+      object-fit: cover;
       -webkit-user-drag: none;
     }
     &.front > img {

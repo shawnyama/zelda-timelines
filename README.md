@@ -29,7 +29,7 @@ The box art images used in this project are the property of Nintendo. They are u
 [Source code repository](https://github.com/shawnyama/zelda-timelines)
 ### Tech Stack
 - [Yarn](https://yarnpkg.com/getting-started/install)
-- [NodeJS 18](https://nodejs.org/en/download/current/)
+- [NodeJS 22](https://nodejs.org/en)
 - [Vue 3](https://vuejs.org/guide/quick-start.html)
 
 Timeline graph rendered using [vue-mermaid-string](https://github.com/dword-design/vue-mermaid-string) which is based on [Mermaid](https://mermaid.js.org/)

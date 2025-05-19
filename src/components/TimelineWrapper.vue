@@ -2,15 +2,16 @@
   <main :class="orientation">
     <section>
       <navbar
+        v-if="timelineDiagram"
         :selectedTimeline="selectedTimeline"
         :orientation="orientation"
         :is-small-screen="isSmallScreen"
         @select-timeline="selectTimeline"
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
-        @jump-to-beginning="timelineDiagram?.jumpToBeginning"
-        @jump-to-end="timelineDiagram?.jumpToEnd"
-        @zoom-out="timelineDiagram?.zoomOut"
+        @jump-to-beginning="timelineDiagram.jumpToBeginning"
+        @jump-to-end="timelineDiagram.jumpToEnd"
+        @zoom-out="timelineDiagram.zoomOut"
       />
       <timeline-diagram
         ref="timelineDiagram"
@@ -97,7 +98,7 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: flex;
-  background-color: var(--light-green);
+  outline: 1px solid var(--dark-green);
 
   & > section {
     box-sizing: border-box;

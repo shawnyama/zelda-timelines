@@ -11,6 +11,7 @@ export interface GameNode extends Node {
   description: string
   isIconSlanted?: boolean
   isSpinOff?: boolean
+  useFallbackIcon?: boolean
 }
 
 export const gameNodes: GameNode[] = [
@@ -69,6 +70,7 @@ export const gameNodes: GameNode[] = [
     id: GameIds.LinksCrossbowTraining,
     releases: [{ platform: Platforms.Wii, year: 2007 }],
     isSpinOff: true,
+    useFallbackIcon: true,
     description: `Link is training with his crossbow in order to become a better archer.`
   },
   {
@@ -85,6 +87,7 @@ export const gameNodes: GameNode[] = [
     id: GameIds.AncientStoneTablets,
     releases: [{ platform: Platforms.SNES, year: 1997 }],
     isSpinOff: true,
+    useFallbackIcon: true,
     description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
   },
   {
@@ -105,6 +108,7 @@ export const gameNodes: GameNode[] = [
       { platform: Platforms.WiiU, year: 2013 }
     ],
     isSpinOff: true,
+    useFallbackIcon: true,
     description: `Training for the pirate life.`
   },
   {
@@ -207,6 +211,7 @@ export const gameNodes: GameNode[] = [
     id: GameIds.CDiGamesAndCartoon,
     releases: [{ platform: Platforms.CDi, year: 1989 }],
     isSpinOff: true,
+    useFallbackIcon: true,
     description: `The unmentionables. Ganon is at his weakest here.`
   },
   {

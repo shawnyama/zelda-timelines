@@ -64,7 +64,7 @@ import { ref, computed } from 'vue'
 import { Timelines } from '@/data/timelines'
 import Button from './widgets/Button.vue'
 import { Icon } from '@iconify/vue'
-import caret from '@/assets/icons/caret-left.svg'
+import caret from '@/assets/caret-left.svg'
 
 const props = defineProps<{
   selectedTimeline: Timelines

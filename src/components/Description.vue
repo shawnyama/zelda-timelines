@@ -33,11 +33,9 @@ const props = defineProps<{
 const pRef = ref<HTMLElement | null>(null)
 
 const icon = computed(() => {
-  let imagePath = new URL(`../assets/icons/games/${props.game.id}.svg`, import.meta.url).href
-  if (imagePath.includes('undefined')) {
-    imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
-  }
-  return imagePath
+  return props.game.useFallbackIcon
+    ? '/assets/icons/games/fallback.svg'
+    : `/assets/icons/games/${props.game.id}.svg`
 })
 
 watch(

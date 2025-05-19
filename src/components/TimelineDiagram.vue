@@ -1,11 +1,18 @@
 <template>
-  <div ref="mermaidContainer">
-    <vue-mermaid-string class="mermaid" :value="generateDiagram()" />
-  </div>
+  <vue-mermaid-string
+    ref="mermaidContainer"
+    class="mermaid"
+    :style="{
+      /* Avoids initial jumbled up diagram */
+      visibility: showDiagram ? 'visible' : 'hidden'
+    }"
+    :value="generateDiagram()"
+    @rendered="updateDimensions(true)"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue'
+import { ref, onMounted, watch, nextTick, type ComponentPublicInstance } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
@@ -26,7 +33,8 @@ const props = defineProps<{
 
 const emit = defineEmits(['select-game', 'close-description-modal', 'update:is-small-screen'])
 
-const mermaidContainer = ref()
+const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | null>(null)
+const showDiagram = ref(false)
 
 // Diagram positioning and scaling
 const DIAGRAM_PADDING = 400
@@ -44,15 +52,15 @@ let timelineBBox: SVGRect
 let displayedGameIds: string[] = []
 
 function generateDiagram() {
-  const generateNode = ({ id, title }: Node) => {
-    // Check if id is a game
-    if (Object.values(GameIds).includes(id as GameIds)) {
-      let imagePath = new URL(`../assets/icons/games/${id}.svg`, import.meta.url).href
-      if (imagePath.includes('undefined')) {
-        imagePath = new URL(`../assets/icons/games/fallback.svg`, import.meta.url).href
-      }
-      return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
-    } else if (timeSplitEvents.includes(title)) {
+  const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
+    const imagePath = useFallbackIcon
+      ? '/assets/icons/games/fallback.svg'
+      : `/assets/icons/games/${id}.svg`
+    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+  }
+
+  const generateEventNode = ({ id, title }: Node) => {
+    if (timeSplitEvents.includes(title)) {
       return `${id}[<h4 class='major-event title'>${title}</h4>]`
     } else if (whatIfEvents.includes(title)) {
       return `${id}[<h4 class='major-event title what-if'>${title}</h4>]`
@@ -128,8 +136,6 @@ function generateDiagram() {
   const eventNodesToDisplay: Node[] = []
   eventContent.forEach((id) => eventNodesToDisplay.push({ id: removeSpaces(id), title: id }))
 
-  const nodesToDisplay: GameNode[] | Node[] = [...gameNodesToDisplay, ...eventNodesToDisplay]
-
   let styles: string = 'linkStyle default stroke-width:4px;' // Will be concatenated with other edge styles in generateEdge()
   const diagram = endent`%%{
     init: ${JSON.stringify({
@@ -143,7 +149,8 @@ function generateDiagram() {
     })}
   }%%
   flowchart ${props.orientation} 
-  ${nodesToDisplay.map(generateNode).join('\n ')}
+  ${eventNodesToDisplay.map(generateEventNode).join('\n ')}
+  ${gameNodesToDisplay.map(generateGameNode).join('\n ')}
   ${timelineEdges.map((edge, index) => generateEdge(edge, index)).join('\n ')}
   ${gameNodesToDisplay.map(generateClick).join('\n ')}
   ${styles}
@@ -175,6 +182,8 @@ function applyTransform(
 
 // Game nodes are only selectable now
 async function selectNode(event: MouseEvent) {
+  if (!mermaidContainer.value) return
+
   const gameNodeElement = event.currentTarget as HTMLElement
   const id = gameNodeElement.classList[0]
   const gameNode = gameNodes.find((gameNode) => gameNode.id === id) ?? null
@@ -224,7 +233,7 @@ async function selectNode(event: MouseEvent) {
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
   // Add selected game class
-  const prevGameNodeElement = mermaidContainer.value.querySelector('.selected-game')
+  const prevGameNodeElement = mermaidContainer.value.$el.querySelector('.selected-game')
   if (prevGameNodeElement) prevGameNodeElement.classList.remove('selected-game')
   gameNodeElement.classList.add('selected-game')
   // Apply spin animation
@@ -269,17 +278,19 @@ function zoomOut() {
 
 defineExpose({ zoomOut, jumpToBeginning, jumpToEnd }) // Used in Navbar.vue
 
-async function updateDimensions() {
-  await nextTick() // Wait for mermaid to render the diagram (generateDiagram() to finish)
-
+async function updateDimensions(isFreshRender = false) {
+  console.log(9)
   // Get window dimensions (SVG should cover the window size)
   svgWidth = window.innerWidth
   svgHeight = window.innerHeight
   emit('update:is-small-screen', window.innerWidth < 800)
   // Get the svg container and the attributes of its first group which contains the timeline diagram
-  svg = d3.select('.mermaid > svg').attr('height', svgHeight).style('max-width', '100%')
+  svg = d3.select('.mermaid svg').attr('height', svgHeight).style('max-width', '100%')
+
+  // If timelineGroup is not defined that means the diagram is not rendered yet so we return
   timelineGroup = svg.select('g')
-  timelineBBox = (timelineGroup?.node() as any).getBBox()
+  if (!timelineGroup?.node()) return
+  timelineBBox = (timelineGroup.node() as any).getBBox()
 
   // Determine dimensions of the viewport and maximum scale
   const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
@@ -319,37 +330,45 @@ async function updateDimensions() {
     // Listen for clicks on nodes so we can move to them
     .selectAll('figure')
     .on('click', selectNode)
-}
 
-// Update dimensions when timeline or orientation changes
-watch(
-  () => [
-    props.selectedTimeline,
-    props.orientation,
-    props.isSmallScreen // Prevents edge case where there is no description when going from mobile to desktop view
-  ],
-  async () => {
-    await updateDimensions()
+  if (isFreshRender) {
+    showDiagram.value = true
     // Initialize the position at the last selected game node (if it exists), otherwise start at the first game
     const gameNode =
       props.selectedGame && displayedGameIds.includes(props.selectedGame.id)
-        ? mermaidContainer.value.querySelector(`.${props.selectedGame.id}`)
-        : mermaidContainer.value.querySelector(`.${displayedGameIds[0]}`)
+        ? mermaidContainer.value?.$el.querySelector(`.${props.selectedGame.id}`)
+        : mermaidContainer.value?.$el.querySelector(`.${displayedGameIds[0]}`)
     if (gameNode) jumpToNode(gameNode, { useTransition: false })
-  },
-  { immediate: true }
+  }
+}
+
+watch(
+  () => [props.selectedTimeline, props.orientation],
+  () => {
+    showDiagram.value = false
+  }
 )
 
 // Update dimensions when window resizes, might sometimes run when the selectedTimeline changes
-const resizeObserver = new ResizeObserver(updateDimensions)
-onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContainer.value))
+let hasResizedOnce = false
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null
+const resizeObserver = new ResizeObserver(() => {
+  // Ignores the initial call which is unnecessary
+  if (!hasResizedOnce) {
+    hasResizedOnce = true
+    return
+  }
+  if (resizeTimeout) clearTimeout(resizeTimeout)
+  resizeTimeout = setTimeout(() => updateDimensions(), 200) // Debounce delay
+})
+
+onMounted(() => {
+  if (mermaidContainer.value) resizeObserver.observe(mermaidContainer.value.$el)
+})
 </script>
 
 <style scoped>
 .mermaid {
-  display: flex;
-  align-items: center;
-  flex: 1;
   height: 100vh;
   width: 100vw;
   cursor: grab;
@@ -363,7 +382,8 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
   } */
 }
 
-:deep(foreignObject) {
+:deep(foreignObject),
+:deep(svg) {
   overflow: visible;
 }
 
@@ -377,12 +397,16 @@ onMounted(() => mermaidContainer.value && resizeObserver.observe(mermaidContaine
 }
 
 :deep(foreignObject .spin-on-game-select) {
-  animation: spin 0.25s linear 2, endSpin 0.2s linear 1;
+  animation:
+    spin 0.25s linear 2,
+    endSpin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
 :deep(foreignObject .slanted-spin-on-game-select) {
-  animation: slantedSpin 0.25s linear 2, endSlantedSpin 0.2s linear 1;
+  animation:
+    slantedSpin 0.25s linear 2,
+    endSlantedSpin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
