@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
   }
 
   return {
-    base: '/',
+    base: command === 'build' ? '/zelda-timelines/' : '/',
     plugins,
     resolve: {
       alias: {

@@ -34,8 +34,8 @@ const pRef = ref<HTMLElement | null>(null)
 
 const icon = computed(() => {
   return props.game.useFallbackIcon
-    ? '/assets/icons/games/fallback.svg'
-    : `/assets/icons/games/${props.game.id}.svg`
+    ? `${import.meta.env.BASE_URL}assets/icons/games/fallback.svg`
+    : `${import.meta.env.BASE_URL}assets/icons/games/${props.game.id}.svg`
 })
 
 watch(

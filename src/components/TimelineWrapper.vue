@@ -98,7 +98,6 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: flex;
-  outline: 1px solid var(--dark-green);
 
   & > section {
     box-sizing: border-box;
