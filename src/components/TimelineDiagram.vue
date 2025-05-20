@@ -54,9 +54,9 @@ let displayedGameIds: string[] = []
 function generateDiagram() {
   const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
     const imagePath = useFallbackIcon
-      ? `assets/icons/games/fallback.svg`
-      : `assets/icons/games/${id}.svg`
-    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='240' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+      ? `/assets/icons/games/fallback.svg`
+      : `/assets/icons/games/${id}.svg`
+    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='250' height='180'></img><h3 class='title'>${title}</h3></figure>]`
   }
 
   const generateEventNode = ({ id, title }: Node) => {
@@ -92,10 +92,7 @@ function generateDiagram() {
       styles = styles.concat(`linkStyle ${index} stroke-width:7px;`)
     }
 
-    let connection = endent`
-      ${removeSpaces(source)} 
-      ${edge}${!!label ? `|${label}|` : ''} 
-      ${removeSpaces(target)}`
+    let connection = `${removeSpaces(source)} ${edge}${!!label ? `|${label}|` : ''} ${removeSpaces(target)}`
 
     if (subgraphStart) {
       // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
@@ -364,6 +361,7 @@ const resizeObserver = new ResizeObserver(() => {
 
 onMounted(() => {
   if (mermaidContainer.value) resizeObserver.observe(mermaidContainer.value.$el)
+  console.log(generateDiagram())
 })
 </script>
 
@@ -416,8 +414,7 @@ onMounted(() => {
 :deep(figure) {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 :deep(h3.title),
@@ -426,6 +423,7 @@ onMounted(() => {
   font-weight: bold;
   font-size: 2rem;
   text-wrap: wrap;
+  line-height: 1.2;
 }
 
 :deep(.selected-game h3.title) {
@@ -446,6 +444,7 @@ onMounted(() => {
   font-size: 1.5rem;
   width: 16rem;
   text-wrap: wrap;
+  line-height: 1.2;
 }
 
 :deep(h4.major-event) {
@@ -470,6 +469,11 @@ onMounted(() => {
 
 :deep(#mermaid.edge-thickness-normal) {
   stroke-width: 8px;
+}
+
+/* This removes the arrow heads, even though they shouldn't be here in the first place since the edges don't even have > */
+:deep([marker-end]) {
+  marker-end: none !important;
 }
 
 @keyframes spin {

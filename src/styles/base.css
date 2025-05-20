@@ -74,9 +74,6 @@ code {
   background-color: var(--green);
 }
 
-::selection {
-}
-
 ::-webkit-scrollbar {
   width: 15px;
 }
