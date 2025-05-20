@@ -58,12 +58,8 @@ const props = defineProps<{
 
 const img = ref<HTMLImageElement | null>(null)
 
-const imagePathWebp = computed(
-  () => `${import.meta.env.BASE_URL}assets/cover-art/${props.game?.id}.webp`
-)
-const imagePathJpg = computed(
-  () => `${import.meta.env.BASE_URL}assets/cover-art/${props.game?.id}.jpg`
-)
+const imagePathWebp = computed(() => `assets/cover-art/${props.game?.id}.webp`)
+const imagePathJpg = computed(() => `assets/cover-art/${props.game?.id}.jpg`)
 
 function onImageError(event: Event) {
   ;(event.target as HTMLImageElement).src = imagePathJpg.value

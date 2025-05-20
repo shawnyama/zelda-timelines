@@ -76,7 +76,8 @@ export const official = [
     target: GameIds.TriforceHeroes,
     style: EdgeStyle.Thick
   },
-  { source: GameIds.TriforceHeroes, target: Events.TheMonarchsOfHyruleUseTheTriforce },
+  { source: GameIds.TriforceHeroes, target: GameIds.EchoesOfWisdom },
+  { source: GameIds.EchoesOfWisdom, target: Events.TheMonarchsOfHyruleUseTheTriforce },
   { source: Events.TheMonarchsOfHyruleUseTheTriforce, target: Events.TheTragedyOfPrincessZeldaI },
   {
     source: Events.TheTragedyOfPrincessZeldaI,

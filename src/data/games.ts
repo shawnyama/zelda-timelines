@@ -240,6 +240,6 @@ export const gameNodes: GameNode[] = [
     title: 'Echoes of Wisdom',
     id: GameIds.EchoesOfWisdom,
     releases: [{ platform: Platforms.Switch, year: 2024 }],
-    description: ``
+    description: `After Princess Zelda is captured by the evil Ganon, the hero Link sets out on a daring mission to rescue her. He succeeds after a fierce battle—but just as victory seems certain, a strange rift appears and swallows Link. Soon, similar rifts begin to appear all across Hyrule, pulling people away one by one. Even the king and his closest advisers vanish without a trace. Now, it's up to Princess Zelda to embark on a perilous journey to save her father, the people of Hyrule, and the hero who once saved her—Link.`
   }
 ]
