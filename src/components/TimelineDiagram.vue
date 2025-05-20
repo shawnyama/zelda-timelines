@@ -53,10 +53,10 @@ let displayedGameIds: string[] = []
 
 function generateDiagram() {
   const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
-    const imagePath = useFallbackIcon
-      ? `/assets/icons/games/fallback.svg`
-      : `/assets/icons/games/${id}.svg`
-    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='250' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+    // const imagePath = useFallbackIcon
+    //   ? `/assets/icons/games/fallback.svg`
+    //   : `/assets/icons/games/${id}.svg`
+    return `${id}[<figure class='${id}'><h3 class='title'>${title}</h3></figure>]`
   }
 
   const generateEventNode = ({ id, title }: Node) => {
