@@ -129,6 +129,7 @@ h2 {
   margin: auto;
   gap: 0.5rem;
   padding: 0.25rem;
+  background-color: var(--description-bg);
   backdrop-filter: blur(2px);
   border-radius: 0.5rem;
 }
@@ -152,7 +153,8 @@ nav {
     z-index: 2;
 
     & > button {
-      background-color: var(--navbar-bg);
+      background: var(--green);
+      animation: breathing-brightness 3s ease-in-out infinite;
       color: white;
       display: flex;
       justify-content: space-between;
@@ -214,6 +216,7 @@ nav {
       text-align: center;
       border-bottom: 1.5px solid white;
       font-style: italic;
+      font-weight: bold;
       padding-bottom: 0.25rem;
       animation: fade-in 0.2s ease-in-out;
       padding: 0.5rem;
@@ -316,6 +319,16 @@ nav {
   }
   100% {
     transform: rotate(-360deg);
+  }
+}
+
+@keyframes breathing-brightness {
+  0%,
+  100% {
+    filter: brightness(0.95);
+  }
+  50% {
+    filter: brightness(1.05);
   }
 }
 </style>

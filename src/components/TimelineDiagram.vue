@@ -4,7 +4,7 @@
     class="mermaid"
     :style="{
       /* Avoids initial jumbled up diagram */
-      // visibility: showDiagram ? 'visible' : 'hidden'
+      visibility: showDiagram ? 'visible' : 'hidden'
     }"
     :value="generateDiagram()"
     @rendered="updateDimensions(true)"
@@ -56,7 +56,11 @@ function generateDiagram() {
     const imagePath = useFallbackIcon
       ? `/assets/icons/games/fallback.svg`
       : `/assets/icons/games/${id}.svg`
-    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='250' height='180'></img><h3 class='title'>${title}</h3></figure>]`
+    return `${id}[
+    <a class='${id}' href='/${props.selectedTimeline}#${id}'>
+      <img class='${useFallbackIcon ? 'fallback' : ''}' src='${imagePath}' alt='Icon'></img>
+      <label class='title'>${title}</label>
+    </a>]`
   }
 
   const generateEventNode = ({ id, title }: Node) => {
@@ -325,7 +329,7 @@ async function updateDimensions(isFreshRender = false) {
     .call(zoom as any) // Apply pan/zoom behaviour
     .on('dblclick.zoom', null) // Disable double click zoom
     // Listen for clicks on nodes so we can move to them
-    .selectAll('figure')
+    .selectAll('a')
     .on('click', selectNode)
 
   if (isFreshRender) {
@@ -397,43 +401,56 @@ onMounted(() => {
 :deep(foreignObject .spin-on-game-select) {
   animation:
     spin 0.25s linear 2,
-    endSpin 0.2s linear 1;
+    end-spin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
 :deep(foreignObject .slanted-spin-on-game-select) {
   animation:
-    slantedSpin 0.25s linear 2,
-    endSlantedSpin 0.2s linear 1;
+    slanted-spin 0.25s linear 2,
+    end-slanted-spin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
-/* :deep(foreignObject:hover h3) {
-} */
-
-:deep(figure) {
+:deep(a) {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
+  color: black;
+  width: 17.5rem;
 }
 
-:deep(h3.title),
-:deep(h3.fallback-title) {
+:deep(img) {
+  max-width: 13rem;
+}
+
+:deep(img.fallback) {
+  max-width: 16rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+:deep(label.title),
+:deep(label.fallback-title) {
   font-family: 'Spectral', serif;
   font-weight: bold;
   font-size: 2rem;
   text-wrap: wrap;
   line-height: 1.2;
+  cursor: pointer;
 }
 
-:deep(.selected-game h3.title) {
+:deep(.selected-game label.title) {
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
   scale: 1.2;
   margin-top: 0.5rem;
+  animation: breathing-brightness 3s ease-in-out infinite;
 }
 
-:deep(h3.fallback-title) {
+:deep(label.fallback-title) {
   margin-top: -1rem;
 }
 
@@ -492,7 +509,7 @@ onMounted(() => {
   }
 }
 
-@keyframes endSpin {
+@keyframes end-spin {
   0% {
     transform: rotateY(360deg) scale(1.05);
   }
@@ -501,7 +518,7 @@ onMounted(() => {
   }
 }
 
-@keyframes slantedSpin {
+@keyframes slanted-spin {
   0%,
   100% {
     transform: translateY(-1rem) rotate3d(-1, 1, 0, 0deg) scale(1.05);
@@ -517,12 +534,22 @@ onMounted(() => {
   }
 }
 
-@keyframes endSlantedSpin {
+@keyframes end-slanted-spin {
   0% {
     transform: translateY(-1rem) rotate3d(-1, 1, 0, 360deg) scale(1.05);
   }
   100% {
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes breathing-brightness {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.5);
   }
 }
 </style>
