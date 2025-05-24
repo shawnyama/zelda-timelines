@@ -1,5 +1,5 @@
 <template>
-  <aside id="Description" :class="orientation">
+  <aside id="Description">
     <header>
       <h1>{{ game.title }}</h1>
       <img :src="icon" alt="art" />
@@ -27,7 +27,6 @@ import Button from './widgets/Button.vue'
 
 const props = defineProps<{
   game: GameNode
-  orientation: string
 }>()
 
 const pRef = ref<HTMLElement | null>(null)
@@ -52,7 +51,6 @@ aside {
   border-radius: 0.5rem;
   position: relative;
   gap: 0.5rem;
-  padding: 2rem 1rem;
   border: 2px solid white;
   backdrop-filter: blur(2px);
   display: flex;
@@ -67,8 +65,10 @@ aside {
     max-height: calc(100vh - 2.5rem);
 
     & > section {
+      padding-top: 3rem;
       flex-direction: column;
       gap: 2rem;
+      overflow: auto;
       /* & p {
        max-height: 45vh; TODO: Prevent overflow in vertical orientation
       } */
@@ -88,6 +88,8 @@ aside {
     align-items: center;
     flex-grow: 1;
     gap: 1rem;
+    padding: 1rem;
+    padding-top: 2rem;
 
     & > article {
       display: flex;
@@ -111,6 +113,7 @@ aside {
       & > footer {
         display: flex;
         gap: 1rem;
+        flex-wrap: wrap;
       }
     }
   }
@@ -118,6 +121,7 @@ aside {
 
 header {
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;

@@ -43,7 +43,7 @@ section {
   margin: auto;
   width: 60rem;
   max-width: calc(100vw - 1rem);
-  background-color: var(--description-bg);
+  background-color: var(--modal-bg);
   border-radius: 0.5rem;
 }
 
@@ -61,7 +61,8 @@ header {
 main {
   padding: 1rem;
   max-height: 80vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   font-size: 1.15rem;
   display: flex;
   flex-direction: column;

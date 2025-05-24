@@ -17,6 +17,7 @@ const emit = defineEmits(['toggle-about-modal'])
 :deep(h2),
 :deep(h3) {
   color: var(--dark-green);
+  margin-bottom: 0.5rem;
 }
 
 :deep(h2) {
@@ -33,8 +34,8 @@ const emit = defineEmits(['toggle-about-modal'])
 }
 
 :deep(h1 + p) {
-  padding: 0;
-  padding-bottom: 0.25rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 :deep(p),
@@ -45,6 +46,6 @@ const emit = defineEmits(['toggle-about-modal'])
 :deep(p),
 :deep(ul),
 :deep(pre) {
-  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 </style>

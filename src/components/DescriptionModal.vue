@@ -1,6 +1,6 @@
 <template>
   <modal is-custom @close="emit('close-description-modal')">
-    <description :game="selectedGame" orientation="TB" />
+    <description :game="selectedGame" class="TB" />
     <Button @click="emit('close-description-modal')" rounded>
       <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />Close
     </Button>
@@ -27,5 +27,10 @@ button {
   z-index: 2;
   position: absolute;
   bottom: 2.5rem;
+}
+
+:deep(main) {
+  overflow: none;
+  padding-top: 0;
 }
 </style>

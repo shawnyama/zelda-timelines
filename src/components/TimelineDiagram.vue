@@ -4,7 +4,7 @@
     class="mermaid"
     :style="{
       /* Avoids initial jumbled up diagram */
-      visibility: showDiagram ? 'visible' : 'hidden'
+      // visibility: showDiagram ? 'visible' : 'hidden'
     }"
     :value="generateDiagram()"
     @rendered="updateDimensions(true)"
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick, type ComponentPublicInstance } from 'vue'
+import { ref, onMounted, watch, type ComponentPublicInstance } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
@@ -53,10 +53,10 @@ let displayedGameIds: string[] = []
 
 function generateDiagram() {
   const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
-    // const imagePath = useFallbackIcon
-    //   ? `/assets/icons/games/fallback.svg`
-    //   : `/assets/icons/games/${id}.svg`
-    return `${id}[<figure class='${id}'><h3 class='title'>${title}</h3></figure>]`
+    const imagePath = useFallbackIcon
+      ? `/assets/icons/games/fallback.svg`
+      : `/assets/icons/games/${id}.svg`
+    return `${id}[<figure class='${id}'><img src='${imagePath}' alt='Icon' width='250' height='180'></img><h3 class='title'>${title}</h3></figure>]`
   }
 
   const generateEventNode = ({ id, title }: Node) => {

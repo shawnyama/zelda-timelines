@@ -25,6 +25,7 @@ button {
   cursor: pointer;
   vertical-align: middle;
   line-height: 1;
+  white-space: nowrap;
   color: var(--dark-green);
   font-family: 'calamity', sans-serif;
   transition: background-color 0.3s ease;
