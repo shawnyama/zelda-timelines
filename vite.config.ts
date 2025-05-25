@@ -10,7 +10,7 @@ export default defineConfig(({ command }) => {
 
   if (command === 'build') {
     plugins.push(
-      ...viteStaticCopy({
+      viteStaticCopy({
         targets: [
           {
             src: 'README.md',
