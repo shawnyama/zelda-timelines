@@ -15,6 +15,10 @@ export default defineConfig(({ command }) => {
           {
             src: 'README.md',
             dest: ''
+          },
+          {
+            src: '.nojekyll',
+            dest: ''
           }
         ]
       })
