@@ -286,7 +286,7 @@ async function updateDimensions(isFreshRender = false) {
   svgHeight = window.innerHeight
   emit('update:is-small-screen', window.innerWidth < 800)
   // Get the svg container and the attributes of its first group which contains the timeline diagram
-  svg = d3.select('.mermaid svg').attr('height', svgHeight).style('max-width', '100%')
+  svg = d3.select('.mermaid svg').attr('height', svgHeight)
 
   // If timelineGroup is not defined that means the diagram is not rendered yet so we return
   timelineGroup = svg.select('g')
@@ -381,8 +381,6 @@ onMounted(() => {
 
 <style scoped>
 .mermaid {
-  height: 100vh;
-  width: 100vw;
   cursor: grab;
 
   &:active {
@@ -396,6 +394,7 @@ onMounted(() => {
 
 :deep(foreignObject),
 :deep(svg) {
+  min-width: 100vw;
   overflow: visible;
 }
 

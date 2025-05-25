@@ -49,7 +49,6 @@ watch(
 aside {
   z-index: 1;
   border-radius: 0.5rem;
-  position: relative;
   gap: 0.5rem;
   border: 2px solid white;
   backdrop-filter: blur(2px);
@@ -59,7 +58,7 @@ aside {
 
   &.TB {
     flex-direction: column;
-    width: 100%;
+    flex: 1;
     min-width: 25rem;
     margin-top: 2rem;
     margin-bottom: 0.5rem;

@@ -1,6 +1,7 @@
-import { GameIds } from '../events'
+import { GameIds, Events } from '../events'
 
 export const geekery = [
+  { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
   { source: GameIds.SkywardSword, target: GameIds.TheMinishCap },
   { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
   { source: GameIds.FourSwords, target: GameIds.OcarinaOfTime },

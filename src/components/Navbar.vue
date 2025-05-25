@@ -128,6 +128,7 @@ h2 {
   justify-content: center;
   width: fit-content;
   margin: auto;
+  margin-top: 0.25rem;
   gap: 0.5rem;
   padding: 0.25rem;
   background-color: var(--header-item-bg);
@@ -154,14 +155,18 @@ nav {
     z-index: 2;
 
     & > button {
-      background: var(--green);
+      background: linear-gradient(var(--green), var(--green-alt));
       animation: breathing-brightness 3s ease-in-out infinite;
       color: white;
       display: flex;
       justify-content: space-between;
       width: 100%;
       /* Custom button padding required for triforce font to fit nice. */
-      padding: 0.5rem 0 0 0;
+      padding: 0.5rem 0 0.2rem 0;
+      box-shadow:
+        rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
 
     & .gear-group {
@@ -207,12 +212,14 @@ nav {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 3.25rem;
-    background-color: var(--green);
+    background: linear-gradient(var(--green-alt), var(--green));
     border-radius: 1rem;
     width: 25rem;
     max-width: 95vw;
-    /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); maybe do a glowing thing instead */
-
+    box-shadow:
+      rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     & > h4 {
       text-align: center;
       border-bottom: 1.5px solid white;
@@ -261,7 +268,11 @@ nav {
           }
 
           &:hover {
-            background-color: var(--dark-green);
+            background: radial-gradient(
+              ellipse at center,
+              rgba(0, 0, 0, 0.25) 0%,
+              rgba(0, 0, 0, 0.1) 100%
+            );
 
             & > img {
               display: block;

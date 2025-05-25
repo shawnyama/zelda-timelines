@@ -75,7 +75,7 @@ function toggleOrientation() {
 }
 
 function handlePopState(event: PopStateEvent) {
-  if (event.state.selectedTimeline) selectTimeline(event.state.selectedTimeline)
+  if (event.state?.selectedTimeline) selectTimeline(event.state.selectedTimeline as Timelines)
 }
 
 onMounted(() => {
