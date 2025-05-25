@@ -26,7 +26,8 @@ export enum GameIds {
   AgeOfCalamity = 'age-of-calamity',
   BreathOfTheWild = 'breath-of-the-wild',
   TearsOfTheKingdom = 'tears-of-the-kingdom',
-  EchoesOfWisdom = 'echoes-of-wisdom'
+  EchoesOfWisdom = 'echoes-of-wisdom',
+  AgeofImprosinment = 'age-of-imprisonment'
 }
 
 export enum Events {

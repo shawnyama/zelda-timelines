@@ -334,11 +334,22 @@ async function updateDimensions(isFreshRender = false) {
 
   if (isFreshRender) {
     showDiagram.value = true
-    // Initialize the position at the last selected game node (if it exists), otherwise start at the first game
-    const gameNode =
-      props.selectedGame && displayedGameIds.includes(props.selectedGame.id)
-        ? mermaidContainer.value?.$el.querySelector(`.${props.selectedGame.id}`)
-        : mermaidContainer.value?.$el.querySelector(`.${displayedGameIds[0]}`)
+
+    // Initialize to fallback (first game node)
+    let gameNodeId = displayedGameIds[0]
+    // If there is a selected game and its available in the diagram, select it
+    if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
+      gameNodeId = props.selectedGame.id
+    }
+    // TODO: If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
+    // else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
+    //   gameNodeId = window.location.hash.substring(1)
+    // }
+    // On reload, go to the last selected game
+    else if (displayedGameIds.includes(localStorage.getItem('selectedGameId') as string)) {
+      gameNodeId = localStorage.getItem('selectedGameId') as string
+    }
+    const gameNode: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
     if (gameNode) jumpToNode(gameNode, { useTransition: false })
   }
 }
@@ -365,7 +376,6 @@ const resizeObserver = new ResizeObserver(() => {
 
 onMounted(() => {
   if (mermaidContainer.value) resizeObserver.observe(mermaidContainer.value.$el)
-  console.log(generateDiagram())
 })
 </script>
 

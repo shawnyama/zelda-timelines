@@ -45,9 +45,11 @@ import type { GameNode } from '@/data/games'
 
 const timelineDiagram = ref()
 const isSmallScreen = ref(window.innerWidth < 800) // Will be updated by TimelineDiagram.vue
+
 const selectedGame = ref<GameNode | null>(null)
 function selectGame(gameNode: GameNode | null) {
   selectedGame.value = gameNode
+  localStorage.setItem('selectedGameId', gameNode ? gameNode.id : '')
 }
 
 const selectedTimeline = ref(
