@@ -55,12 +55,15 @@ aside {
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
+  container-type: inline-size;
 
   &.TB {
     flex-direction: column;
+    width: 100%;
     min-width: 25rem;
     margin-top: 2rem;
     margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
     height: fit-content;
     max-height: calc(100vh - 2.5rem);
 
@@ -69,9 +72,7 @@ aside {
       flex-direction: column;
       gap: 2rem;
       overflow: auto;
-      /* & p {
-       max-height: 45vh; TODO: Prevent overflow in vertical orientation
-      } */
+      overflow-x: hidden;
     }
   }
   &.LR {
@@ -99,6 +100,8 @@ aside {
       flex-direction: column;
       justify-content: center;
       gap: 1rem;
+      /* Article covers as much space as possible while not breaking out of the description */
+      min-height: 0;
 
       & > p {
         max-height: 100%;
@@ -158,10 +161,9 @@ header {
   }
 }
 
-@media screen and (min-width: 800px) {
-  aside.TB {
-    width: 40vw;
-    margin-right: 0.5rem;
+@container (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
   }
 }
 </style>

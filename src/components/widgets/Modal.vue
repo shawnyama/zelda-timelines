@@ -1,5 +1,5 @@
 <template>
-  <div @click="emit('close')">
+  <div class="overlay" @click="emit('close')">
     <section @click.stop>
       <header v-if="!isCustom">
         <code>{{ title }}</code>
@@ -11,6 +11,9 @@
         <slot />
       </main>
     </section>
+    <div class="extra-space">
+      <slot name="extra-space" />
+    </div>
   </div>
 </template>
 
@@ -27,20 +30,21 @@ const emit = defineEmits(['close'])
 </script>
 
 <style scoped>
-div {
+.overlay {
   position: fixed;
   z-index: 2;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
 }
 
 section {
-  margin: auto;
+  margin: 0 auto;
   width: 60rem;
   max-width: calc(100vw - 1rem);
   background-color: var(--modal-bg);
@@ -60,12 +64,12 @@ header {
 
 main {
   padding: 1rem;
-  max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 1.15rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  max-height: calc(100vh - 6rem);
 }
 </style>

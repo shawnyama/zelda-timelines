@@ -1,18 +1,18 @@
 <template>
   <modal is-custom @close="emit('close-description-modal')">
     <description :game="selectedGame" class="TB" />
-    <Button @click="emit('close-description-modal')" rounded>
-      <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />Close
-    </Button>
+    <template #extra-space>
+      <Icon icon="heroicons:arrow-left-16-solid" height="1.75rem" />
+      <span>Back</span>
+    </template>
   </modal>
 </template>
 
 <script setup lang="ts">
 import Modal from './widgets/Modal.vue'
 import Description from './Description.vue'
-import Button from './widgets/Button.vue'
-import { Icon } from '@iconify/vue'
 import type { GameNode } from '@/data/games'
+import { Icon } from '@iconify/vue'
 
 defineProps<{
   selectedGame: GameNode
@@ -22,15 +22,27 @@ const emit = defineEmits(['close-description-modal'])
 </script>
 
 <style scoped>
-button {
-  align-self: center;
-  z-index: 2;
-  position: absolute;
-  bottom: 2.5rem;
+:deep(main) {
+  padding-top: 0;
 }
 
-:deep(main) {
-  overflow: none;
-  padding-top: 0;
+aside.TB {
+  max-height: calc(100vh - 10rem);
+  margin-left: 0.5rem;
+  width: calc(100% - 1rem);
+}
+
+:deep(.extra-space) {
+  font-family: 'calamity', sans-serif;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  user-select: none;
 }
 </style>
