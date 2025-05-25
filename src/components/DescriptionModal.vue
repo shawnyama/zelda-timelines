@@ -23,7 +23,7 @@ const emit = defineEmits(['close-description-modal'])
 
 <style scoped>
 :deep(main) {
-  padding-top: 0;
+  padding: 0;
 }
 
 aside.TB {

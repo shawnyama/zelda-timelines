@@ -20,7 +20,7 @@
 }
 
 :root {
-  --description-bg: hsla(103, 33%, 72%, 0.85);
+  --header-item-bg: hsla(103, 33%, 72%, 0.6);
   --modal-bg: hsla(103, 33%, 80%, 0.9);
   --green: hsl(151, 33%, 60%);
   --light-green: hsl(103, 33%, 72%);
