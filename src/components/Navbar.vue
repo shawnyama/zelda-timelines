@@ -98,15 +98,14 @@ nav,
 .right-button {
   position: absolute;
   z-index: 1;
-  margin: 0.5rem;
-  border-radius: 0.5rem;
 }
 
 h2 {
   display: flex;
   align-items: center;
   color: var(--dark-green);
-  padding: 0.25rem;
+  padding: 0.75rem 0.25rem 0.1rem 1rem;
+  border-bottom-right-radius: 1rem;
   background-color: var(--header-item-bg);
   backdrop-filter: blur(3px);
   & > span {
@@ -128,12 +127,13 @@ h2 {
   justify-content: center;
   width: fit-content;
   margin: auto;
-  margin-top: 0.25rem;
   gap: 0.5rem;
   padding: 0.25rem;
+  padding-top: 0.5rem;
   background-color: var(--header-item-bg);
   backdrop-filter: blur(3px);
-  border-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
 
 nav {
@@ -237,6 +237,7 @@ nav {
       animation: fade-in 0.2s ease-in-out;
       list-style: none;
       padding: 0.5rem;
+      padding-bottom: 0.65rem;
       /* Helps dropdown still appear if mouse is located in the gap between the selector and the dropdown list */
       &::before {
         content: '';
