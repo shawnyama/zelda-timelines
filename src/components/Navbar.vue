@@ -106,8 +106,7 @@ h2 {
   color: var(--dark-green);
   padding: 0.75rem 0.25rem 0.1rem 1rem;
   border-bottom-right-radius: 1rem;
-  background-color: var(--header-item-bg);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(6px);
   & > span {
     margin-right: 0.25rem;
     pointer-events: none;
@@ -130,8 +129,7 @@ h2 {
   gap: 0.5rem;
   padding: 0.25rem;
   padding-top: 0.5rem;
-  background-color: var(--header-item-bg);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(6px);
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
 }

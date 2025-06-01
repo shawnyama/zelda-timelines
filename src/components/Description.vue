@@ -48,9 +48,9 @@ watch(
 <style scoped>
 aside {
   z-index: 1;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   gap: 0.5rem;
-  border: 2px solid white;
+  border: 3px solid white;
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
@@ -110,6 +110,11 @@ aside {
         font-size: 1.25rem;
         overflow: auto;
         text-wrap: pretty;
+        /* Not sure about this */
+        /* box-shadow:
+          rgba(0, 0, 0, 0.4) 0px 2px 4px,
+          rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+          rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
       }
 
       & > footer {

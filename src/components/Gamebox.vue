@@ -155,7 +155,7 @@ figure {
     }
     &.back {
       transform: rotateY(180deg) translateZ(calc(v-bind(depthCSS) / 2));
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      box-shadow: var(--shadow-color) 6px 6px 16px;
     }
     &.front,
     &.back {
@@ -205,7 +205,7 @@ figure {
   height: 260px;
   margin: 0 0.5rem 1rem 0.5rem;
   animation: flat-float 3s ease-in-out infinite;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 16px var(--shadow-color));
 }
 
 @keyframes flat-float {

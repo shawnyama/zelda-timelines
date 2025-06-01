@@ -20,7 +20,6 @@
 }
 
 :root {
-  --header-item-bg: hsla(103, 33%, 72%, 0.6);
   --modal-bg: hsla(103, 33%, 80%, 0.9);
   --green: hsl(151, 33%, 60%);
   --green-alt: hsl(151, 38%, 50%);
@@ -30,6 +29,10 @@
   --coral-red: rgb(255, 109, 96);
   --description-height: 22rem;
   --timeline-height-LR: calc(100vh - var(--description-height) - 0.5rem);
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  /* Alt shadow color with dark green as the color seems to almost give a 
+  glow effect rather than a shadow which we don't want */
+  /* --shadow-color: hsla(168, 57%, 26%, 0.6); */
 }
 
 html,
@@ -44,9 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Spectral', serif;
-  background-color: var(--light-green);
-  /* background: linear-gradient(180deg, var(--light-green) 0%, var(--green-alt) 100%); */
-  /* background: radial-gradient(ellipse at center, var(--light-green) 0%, var(--green) 100%); */
+  background: radial-gradient(ellipse at center, var(--light-green) 40%, var(--green) 100%);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
