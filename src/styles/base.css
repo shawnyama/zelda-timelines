@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Spectral', serif;
-  background: radial-gradient(ellipse at center, var(--light-green) 40%, var(--green) 100%);
+  background: radial-gradient(ellipse at center, var(--light-green) 45%, var(--green) 100%);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

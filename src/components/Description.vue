@@ -2,6 +2,7 @@
   <aside id="Description">
     <header>
       <h1>{{ game.title }}</h1>
+      <div class="border-top" />
       <img :src="icon" alt="art" />
     </header>
     <!--TODO: Add icon here as a background image-->
@@ -48,13 +49,36 @@ watch(
 <style scoped>
 aside {
   z-index: 1;
-  border-radius: 1rem;
   gap: 0.5rem;
   border: 3px solid white;
+  border-top: none;
+  border-radius: 1rem;
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
   container-type: inline-size;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border: 3px solid white;
+    border-bottom: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &::before {
+    left: -3px;
+    border-top-left-radius: 1rem;
+    border-right: none;
+  }
+
+  &::after {
+    right: -3px;
+    border-top-right-radius: 1rem;
+    border-left: none;
+  }
 
   &.TB {
     flex-direction: column;
@@ -132,37 +156,29 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  margin: -1.75rem 1rem;
+  margin: -1.75rem 1.25rem 0 1.5rem;
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content: space-between;
   pointer-events: none;
-
-  & > * {
-    /* FIXME: Somehow make the backfrop-filter effecct the first half of the text */
-    /* backdrop-filter: blur(2px); */
-    background: linear-gradient(
-      to bottom,
-      transparent calc(50% - 1px),
-      var(--light-green) calc(50% - 2px),
-      var(--light-green) calc(50% + 2px),
-      transparent calc(50% + 1px)
-    );
-    padding: 0 0.5rem;
-  }
+  gap: 0.5rem;
 
   & > h1 {
     font-family: 'hylia_serif', sans-serif;
     color: white;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-shadow: 0 0 0.5rem var(--dark-green);
+    text-shadow: 0 2px 0.5rem var(--dark-green);
+  }
+
+  & > .border-top {
+    flex-grow: 1;
+    border-bottom: 3px solid white;
   }
 
   & > img {
     height: 3.25rem;
-    /* filter: drop-shadow(0 2px 2px var(--dark-green)); */
+    filter: drop-shadow(0 1px 1px var(--dark-green));
   }
 }
 

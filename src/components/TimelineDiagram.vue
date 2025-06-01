@@ -404,7 +404,7 @@ onMounted(() => {
 
 :deep(img) {
   max-width: 13rem;
-  filter: drop-shadow(0 4px 4px var(--dark-green));
+  filter: drop-shadow(0 2px 2px var(--dark-green));
 }
 
 :deep(img.fallback) {
@@ -416,7 +416,7 @@ onMounted(() => {
 :deep(foreignObject:hover img) {
   scale: 1.05;
   transform: translateY(-1rem);
-  filter: drop-shadow(0 12px 8px var(--dark-green));
+  filter: drop-shadow(0 8px 8px var(--dark-green));
 }
 
 :deep(foreignObject .spin-on-game-select) {
