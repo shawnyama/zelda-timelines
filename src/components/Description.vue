@@ -157,6 +157,7 @@ header {
 
   & > img {
     height: 3.25rem;
+    /* filter: drop-shadow(0 2px 2px var(--dark-green)); */
   }
 }
 

@@ -45,6 +45,8 @@ body {
   flex-direction: column;
   font-family: 'Spectral', serif;
   background-color: var(--light-green);
+  /* background: linear-gradient(180deg, var(--light-green) 0%, var(--green-alt) 100%); */
+  /* background: radial-gradient(ellipse at center, var(--light-green) 0%, var(--green) 100%); */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
