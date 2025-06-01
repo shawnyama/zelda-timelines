@@ -8,7 +8,7 @@ export enum GameIds {
   ALinkToThePast = 'a-link-to-the-past',
   AncientStoneTablets = 'ancient-stone-tablets',
   TheWindWaker = 'the-wind-waker',
-  TetrasTrackers = 'tetras-trackers',
+  NaviTrackers = 'navi-trackers',
   PhantomHourglass = 'phantom-hourglass',
   SpiritTracks = 'spirit-tracks',
   TheMinishCap = 'the-minish-cap',

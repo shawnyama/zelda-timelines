@@ -38,8 +38,8 @@ export const triforce = [
   { source: GameIds.OcarinaOfTime, target: Events.Divergence },
   { source: Events.Divergence, target: Events.HyruleIsSealedAndThenFlooded },
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
-  { source: GameIds.TheWindWaker, target: GameIds.TetrasTrackers, style: EdgeStyle.Thick },
-  { source: GameIds.TetrasTrackers, target: GameIds.PhantomHourglass, style: EdgeStyle.Thick },
+  { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers, style: EdgeStyle.Thick },
+  { source: GameIds.NaviTrackers, target: GameIds.PhantomHourglass, style: EdgeStyle.Thick },
   // Skip the new continent discovered event so the graph appears more compact
   { source: GameIds.PhantomHourglass, target: Events.ANewHyruleKingdomIsFounded },
   { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },

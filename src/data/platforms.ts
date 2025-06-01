@@ -83,4 +83,4 @@ export const gameBoxColors: any = {
   [Platforms.CDi]: 'white'
 }
 
-export const spineOnBottom = [Platforms.N64, Platforms.SNES]
+export const spineOnBottom = new Set([Platforms.N64, Platforms.SNES])

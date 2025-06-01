@@ -19,8 +19,9 @@ Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.or
 Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the permission of using the game icons.
 
 ### Box art
-The box art images used in this project are the property of Nintendo. They are used here for illustrative purposes and to enhance the user experience. All rights, including copyright and trademarks, are owned by Nintendo. No infringement is intended.
+The box art and artwork images used in this project are the property of Nintendo. They are used here for illustrative purposes and to enhance the user experience. All rights, including copyright and trademarks, are owned by Nintendo. No infringement is intended.
 - Found at [The Cover Project](https://www.thecoverproject.net/index.php).
+- Other - [Ancient Stone Tablets art](https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2v04.jpg), [CDi game boxes](https://tvtropes.org/pmwiki/pmwiki.php/VideoGame/TheLegendOfZeldaCDiGames)
 
 ### Fonts
 - Found at [Zelda Universe](https://zeldauniverse.net/media/fonts/)

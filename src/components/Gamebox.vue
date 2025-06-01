@@ -1,6 +1,13 @@
 <template>
-  <figure>
-    <div ref="img" class="game-box">
+  <Image
+    v-if="game?.noBoxArt"
+    class="flat-image"
+    :src="imagePathWebp"
+    alt="Artwork"
+    @error="onImageError"
+  />
+  <figure v-else>
+    <div ref="gameBoxRef" class="game-box">
       <div class="top" />
       <div class="bottom">
         <Image
@@ -36,11 +43,10 @@
           @error="onImageError"
         />
       </div>
+      <div class="back" />
       <!--No need to render the back of the box-->
-      <!--Maybe revisit if we want a dedicated box viewer where you can rotate the box-->
-      <!-- <div class="back"> 
-       <Image :src="imagePath" alt="Back" layout="fixed" :height="height" :width="width" /> 
-     </div> -->
+      <!--Maybe revisit if we want a dedicated box viewer where you can rotate the box
+       <Image :src="imagePath" alt="Back" layout="fixed" :height="height" :width="width" /> -->
     </div>
   </figure>
 </template>
@@ -56,7 +62,7 @@ const props = defineProps<{
   selectedPlatform: Platforms
 }>()
 
-const img = ref<HTMLImageElement | null>(null)
+const gameBoxRef = ref<HTMLImageElement | null>(null)
 
 const imagePathWebp = computed(() => `/assets/cover-art/${props.game?.id}.webp`)
 const imagePathJpg = computed(() => `/assets/cover-art/${props.game?.id}.jpg`)
@@ -72,7 +78,7 @@ const heightCSS = computed(() => `${height.value}px`)
 const widthCSS = computed(() => `${width.value}px`)
 const depthCSS = computed(() => `${depth.value}px`)
 const boxColor = computed(() => gameBoxColors[props.selectedPlatform] ?? 'darkgrey')
-const isSpineOnBottom = computed(() => spineOnBottom.includes(props.selectedPlatform))
+const isSpineOnBottom = computed(() => spineOnBottom.has(props.selectedPlatform))
 
 /* TODO: Box rotation on drag? */
 // @mouseenter="startRotate" @mousemove="rotate"
@@ -87,10 +93,10 @@ const isSpineOnBottom = computed(() => spineOnBottom.includes(props.selectedPlat
 // }
 
 // function rotate(event: MouseEvent) {
-//   if (event.buttons !== 1 || !img.value) return // Only rotate when left mouse button is pressed
+//   if (event.buttons !== 1 || !gameBoxRef.value) return // Only rotate when left mouse button is pressed
 //   x = event.clientX - startX
 //   y = event.clientY - startY
-//   img.value.style.transform = `rotateY(${x / 5}deg) rotateX(${y / 5}deg)`
+//   gameBoxRef.value.style.transform = `rotateY(${x / 5}deg) rotateX(${y / 5}deg)`
 // }
 </script>
 
@@ -149,6 +155,7 @@ figure {
     }
     &.back {
       transform: rotateY(180deg) translateZ(calc(v-bind(depthCSS) / 2));
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
     &.front,
     &.back {
@@ -191,6 +198,25 @@ figure {
   }
   100% {
     transform: translate3d(0, -10px, 0) rotate3d(1, 1, 0, 35deg);
+  }
+}
+
+.flat-image {
+  height: 260px;
+  margin: 0 0.5rem 1rem 0.5rem;
+  animation: flat-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes flat-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 </style>

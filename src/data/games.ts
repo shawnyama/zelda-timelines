@@ -12,6 +12,7 @@ export interface GameNode extends Node {
   isIconSlanted?: boolean
   isSpinOff?: boolean
   useFallbackIcon?: boolean
+  noBoxArt?: boolean
 }
 
 export const gameNodes: GameNode[] = [
@@ -88,6 +89,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.SNES, year: 1997 }],
     isSpinOff: true,
     useFallbackIcon: true,
+    noBoxArt: true,
     description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
   },
   {
@@ -101,15 +103,12 @@ export const gameNodes: GameNode[] = [
     description: `According to legend, the Hero of Time defeated evil and sealed it away. However, the evil later freed itself and made another attempt at the Triforce, and while the people hoped the Hero of Time would come to stop the evil again, he never did. The people then prayed to the goddesses to help them, and were instructed by them to flee to the mountaintops while they flooded the kingdom, sealing it at the bottom of the newly-created sea. Centuries later, on Outset Island, a young boy named Link is given the clothes of the Hero of Time on his birthday, as per tradition for boys coming of age. However, a giant bird appears, dropping a girl onto the island's forest. Link rescues her and she reveals herself to be a pirate named Tetra, but afterward his sister Aryll is taken by the bird. Link travels to the Forsaken Fortress with the pirates and sneaks to where his sister is being held, but he is subsequently thrown out afterward. He wakes up to find himself on a talking boat, the King of Red Lions, who tells Link that he must help in a quest to save not only Link's sister but also the Great Sea from the ancient evil which has returned.`
   },
   {
-    title: `Tetra's Trackers`,
-    id: GameIds.TetrasTrackers,
-    releases: [
-      { platform: Platforms.GameCube, year: 2003 },
-      { platform: Platforms.WiiU, year: 2013 }
-    ],
+    title: `Navi Trackers`,
+    id: GameIds.NaviTrackers,
+    releases: [{ platform: Platforms.GameCube, year: 2004 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `Training for the pirate life.`
+    description: `Training for the pirate life. (A minigame in the Japanese version of Four Swords Adventures.)`
   },
   {
     title: 'Phantom Hourglass',
@@ -212,6 +211,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
+    noBoxArt: true,
     description: `The unmentionables. Ganon is at his weakest here.`
   },
   {
