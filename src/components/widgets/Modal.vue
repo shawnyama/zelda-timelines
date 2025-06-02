@@ -33,7 +33,6 @@ const emit = defineEmits(['close'])
 .overlay {
   position: fixed;
   z-index: 2;
-  padding-top: 0.5rem;
   left: 0;
   top: 0;
   width: 100%;
@@ -44,9 +43,10 @@ const emit = defineEmits(['close'])
 }
 
 section {
-  margin: 0 auto;
+  margin: 0.5rem auto;
   width: 60rem;
   max-width: calc(100vw - 1rem);
+  max-height: calc(100svh - 1rem);
   background-color: var(--modal-bg);
   border-radius: 0.5rem;
 }
@@ -70,6 +70,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  max-height: calc(100vh - 6rem);
+  /*Adjust height to account for header */
+  max-height: calc(100% - 4.75rem);
 }
 </style>

@@ -191,13 +191,13 @@ figure {
 
 @keyframes float {
   0% {
-    transform: translate3d(0, -10px, 0) rotate3d(1, 1, 0, 35deg);
+    transform: translate3d(0, -15px, 0) rotate3d(1, 1, 0, 35deg);
   }
   50% {
-    transform: translate3d(0, -20px, 0) rotate3d(1, 1, 0, 35deg);
+    transform: translate3d(0, -25px, 0) rotate3d(1, 1, 0, 35deg);
   }
   100% {
-    transform: translate3d(0, -10px, 0) rotate3d(1, 1, 0, 35deg);
+    transform: translate3d(0, -15px, 0) rotate3d(1, 1, 0, 35deg);
   }
 }
 

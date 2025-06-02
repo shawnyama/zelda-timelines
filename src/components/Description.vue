@@ -83,12 +83,11 @@ aside {
   &.TB {
     flex-direction: column;
     flex: 1;
-    min-width: 25rem;
     margin-top: 2rem;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
     height: fit-content;
-    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100svh - 2.5rem);
 
     & > section {
       padding-top: 3rem;
@@ -133,7 +132,6 @@ aside {
         border-radius: 0.5rem;
         font-size: 1.25rem;
         overflow: auto;
-        text-wrap: pretty;
         /* Not sure about this */
         /* box-shadow:
           rgba(0, 0, 0, 0.4) 0px 2px 4px,
@@ -156,7 +154,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  margin: -1.75rem 1.25rem 0 1.5rem;
+  margin: -1.5rem 1.25rem 0 1.5rem;
   display: flex;
   flex: 1;
   align-items: center;
@@ -168,7 +166,7 @@ header {
     color: white;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-shadow: 0 2px 0.5rem var(--dark-green);
+    text-shadow: 0 0 6px var(--dark-green);
   }
 
   & > .border-top {
@@ -182,9 +180,47 @@ header {
   }
 }
 
+/* 
+Sizing and spacing adjustments for when the description modal is used in a mobile layout.
+For base styles see DescriptionModal.vue.
+*/
+@media screen and (max-width: calc(600px + 1rem)) {
+  aside.TB {
+    margin-top: 1.25rem;
+  }
+}
+
 @container (max-width: 600px) {
-  h1 {
-    font-size: 1.6rem;
+  header {
+    margin-top: -1.15rem;
+    & > h1 {
+      font-size: 1.6rem;
+    }
+    & > img {
+      height: 2.5rem;
+    }
+  }
+
+  aside.TB > section {
+    padding: 0.5rem;
+    gap: 0;
+    padding-top: 0.5rem;
+
+    & > figure {
+      scale: 0.75;
+    }
+    & > article {
+      gap: 0.5rem;
+      & > p {
+        font-size: 1rem;
+      }
+      & > footer {
+        gap: 0.5rem;
+        & > button {
+          font-size: 0.75rem;
+        }
+      }
+    }
   }
 }
 </style>
