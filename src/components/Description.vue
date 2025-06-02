@@ -209,6 +209,10 @@ For base styles see DescriptionModal.vue.
     & > figure {
       scale: 0.75;
     }
+    & > img {
+      scale: 0.9;
+      margin-top: 1rem;
+    }
     & > article {
       gap: 0.5rem;
       & > p {
