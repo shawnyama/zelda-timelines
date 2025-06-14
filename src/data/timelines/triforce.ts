@@ -7,7 +7,8 @@ export const triforce = [
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
   { source: Events.TheEstablishmentOfHyruleKingdom, target: Events.HyruleanCivilWar },
   { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime, style: EdgeStyle.Thick },
-  { source: GameIds.OcarinaOfTime, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
+  { source: GameIds.OcarinaOfTime, target: Events.Divergence, style: EdgeStyle.Thick },
+  { source: Events.Divergence, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
   {
     source: GameIds.MajorasMask,
     target: Events.TheDemonThiefGanondorfIsExecuted,
@@ -35,7 +36,6 @@ export const triforce = [
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   { source: GameIds.ALinkToThePast, target: Events.Convergence, style: EdgeStyle.Thick },
-  { source: GameIds.OcarinaOfTime, target: Events.Divergence },
   { source: Events.Divergence, target: Events.HyruleIsSealedAndThenFlooded },
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
   { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers, style: EdgeStyle.Thick },

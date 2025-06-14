@@ -113,6 +113,10 @@ main {
       height: var(--timeline-height-LR);
     }
   }
+
+  &.TB > section {
+    height: 100vh; /* Allows Rendering... message to be centered in TB */
+  }
 }
 
 @media screen and (min-width: 800px) {

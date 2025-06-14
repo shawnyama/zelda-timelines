@@ -1,4 +1,5 @@
 <template>
+  <span v-if="!showDiagram">Rendering...</span>
   <vue-mermaid-string
     ref="mermaidContainer"
     class="mermaid"
@@ -380,6 +381,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
+span {
+  font-family: 'calamity', sans-serif;
+  color: var(--dark-green);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .mermaid {
   cursor: grab;
 

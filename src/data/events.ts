@@ -74,7 +74,10 @@ export enum Events {
   Convergence = 'Convergence: In A Link to the Past, Link wishes on the Triforce for everything to return to normal',
   // Lorulean events
   VattiIsSealed = 'Bad Ending: Vatti is Sealed',
-  VattiIsDestroyed = 'Good Ending: Vatti is Destroyed'
+  VattiIsDestroyed = 'Good Ending: Vatti is Destroyed',
+  // Geekery events
+  TheHeroIsAbsent = 'The Hero is Absent',
+  OldHyruleIsDiscovered = 'Old Hyrule is Discovered'
 }
 
 export const timeSplitEvents: string[] = [
@@ -82,7 +85,8 @@ export const timeSplitEvents: string[] = [
   Events.ChildTimeline,
   Events.Divergence,
   Events.Convergence,
-  Events.Downfall
+  Events.Downfall,
+  Events.TheHeroIsAbsent
 ]
 
 export const whatIfEvents: string[] = [
