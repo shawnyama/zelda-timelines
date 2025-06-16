@@ -9,7 +9,7 @@
         @select-timeline="selectTimeline"
         @toggle-about-modal="$emit('toggle-about-modal')"
         @toggle-orientation="toggleOrientation"
-        @jump-to-beginning="timelineDiagram.jumpToBeginning"
+        @jump-to-start="timelineDiagram.jumpToStart"
         @jump-to-end="timelineDiagram.jumpToEnd"
         @zoom-out="timelineDiagram.zoomOut"
       />

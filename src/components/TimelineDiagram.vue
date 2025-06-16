@@ -46,6 +46,7 @@ let svgWidth = 0
 let svgHeight = 0
 let zoom: d3.ZoomBehavior<any, unknown>
 let translateExtent: number[][] = []
+let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
 
@@ -150,7 +151,7 @@ function generateDiagram() {
       }
     })}
   }%%
-  flowchart ${props.orientation} 
+  flowchart ${props.orientation}
   ${eventNodesToDisplay.map(generateEventNode).join('\n ')}
   ${gameNodesToDisplay.map(generateGameNode).join('\n ')}
   ${timelineEdges.map((edge, index) => generateEdge(edge, index)).join('\n ')}
@@ -164,11 +165,11 @@ function generateDiagram() {
 }
 
 function applyTransform(
-  xTranslate: number,
-  yTranslate: number,
+  translateX: number,
+  translateY: number,
   options: { useTransition?: boolean; scale?: number } = {}
 ) {
-  // console.log(xTranslate, yTranslate)
+  // console.log(translateX, translateY)
   if (!zoom?.transform) return
   const defaultOptions = { useTransition: true, scale: maxScale }
   const { scale, useTransition } = { ...defaultOptions, ...options }
@@ -176,9 +177,9 @@ function applyTransform(
     svg
       .transition()
       .duration(750)
-      .call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
+      .call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(translateX, translateY))
   } else {
-    svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(xTranslate, yTranslate))
+    svg.call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(translateX, translateY))
   }
 }
 
@@ -193,8 +194,8 @@ async function selectNode(event: MouseEvent) {
   emit('select-game', gameNode)
 
   // Move to node position
-  let xTranslate = 0
-  let yTranslate = 0
+  let translateX = 0
+  let translateY = 0
   // Capture the center position of the node
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
   const clientX = gameNodeRect.left + gameNodeRect.width / 2
@@ -203,35 +204,27 @@ async function selectNode(event: MouseEvent) {
   const [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
 
   if (props.orientation === 'LR') {
-    xTranslate = -transformedX + svgWidth
-    yTranslate = -transformedY
+    // Calculate translateX and ensure it doesn't go out of bounds
+    translateX = -transformedX + svgWidth
+    if (translateX > fallbackTransform.left) translateX = fallbackTransform.left
+    else if (translateX < fallbackTransform.right) translateX = fallbackTransform.right
+    // Calculate translateY
+    translateY = -transformedY
   } else if (props.orientation === 'TB') {
-    const vw40InPixels = window.innerWidth * 0.4
-    xTranslate = props.isSmallScreen ? -transformedX + 120 : -transformedX - vw40InPixels / 2 // Hacky x position approximation for TB orientation, FIXME: should figure out the real calculation
-    yTranslate = -transformedY + svgHeight
+    // Calculate translateX
+    // const bbox = timelineGroup.node().getBBox()
+    // const diagramCenter = bbox.x + bbox.width / 2
+    translateX = -transformedX //+ svgWidth / 2
+    if (!props.isSmallScreen) translateX = translateX - svgWidth / 3 // Generally fits in the middle of 60vw
+    // Calculate translateY and ensure it doesn't go out of bounds
+    translateY = -transformedY + svgHeight
+    if (translateY > fallbackTransform.top) translateY = fallbackTransform.top
+    else if (translateY < fallbackTransform.bottom) translateY = fallbackTransform.bottom
   }
-
-  // Check if xTranslate and yTranslate are within the boundaries of translateExtent
-  const leftBound = -translateExtent[0][0]
-  const rightBound = -timelineBBox.width
-  const topBound = translateExtent[0][1]
-  const bottomBound = translateExtent[1][1]
-  console.log('xpos', xTranslate)
-  console.log('width', timelineBBox.width)
-  console.log('left', leftBound, transformedX)
-  console.log('right', rightBound, transformedX)
-  if (xTranslate > leftBound) xTranslate = leftBound
-  else if (xTranslate < rightBound) xTranslate = rightBound
-
-  // if (yTranslate < translateExtent[0][1]) {
-  //   yTranslate = translateExtent[0][1]
-  // } else if (yTranslate > translateExtent[1][1]) {
-  //   yTranslate = translateExtent[1][1]
-  // }
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {}
-  applyTransform(xTranslate, yTranslate, transformOptions)
+  applyTransform(translateX, translateY, transformOptions)
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
   // Add selected game class
@@ -253,24 +246,28 @@ function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
   if (props.isSmallScreen) emit('close-description-modal') // Closes description modal (we don't want to show the description immediately on mobile)
 }
 
-function jumpToBeginning() {
-  const x0 = translateExtent[0][0]
-  const y0 = translateExtent[0][1]
-  if (props.orientation === 'LR') {
-    applyTransform(-x0, y0)
-  } else if (props.orientation === 'TB') {
-    applyTransform(x0, -y0)
-  }
-}
+function jumpToEdge(edge: 'start' | 'end') {
+  let translateX = 0
+  let translateY = 0
 
-function jumpToEnd() {
-  console.log(translateExtent)
-  console.log(timelineBBox.width, timelineBBox.height)
+  const bbox = timelineGroup.node().getBBox()
+
   if (props.orientation === 'LR') {
-    applyTransform(-translateExtent[1][0] + 3 * DIAGRAM_PADDING, translateExtent[0][1])
+    translateX = edge === 'start' ? fallbackTransform.left : fallbackTransform.right
+    // translateY is centerY + a little bump up so it's not too close to the description
+    const diagramCenter = bbox.y + bbox.height / 2
+    const viewportCenter = svgHeight / 2
+    const centerY = viewportCenter / maxScale - diagramCenter
+    translateY = centerY - 250
   } else if (props.orientation === 'TB') {
-    applyTransform(translateExtent[1][0], translateExtent[1][1])
+    // translateX is centerX - a good chunk of the screen width so its to the left of the description
+    const diagramCenter = bbox.x + bbox.width / 2
+    const viewportCenter = svgWidth / 2
+    const centerX = viewportCenter / maxScale - diagramCenter
+    translateX = centerX - diagramCenter
+    translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
+  applyTransform(translateX, translateY)
 }
 
 // Zooms all the way out so you can see the entire diagram
@@ -278,10 +275,14 @@ function zoomOut() {
   applyTransform(0, 0, { scale: 1 })
 }
 
-defineExpose({ zoomOut, jumpToBeginning, jumpToEnd }) // Used in Navbar.vue
+// Used in Navbar.vue
+defineExpose({
+  zoomOut,
+  jumpToStart: () => jumpToEdge('start'),
+  jumpToEnd: () => jumpToEdge('end')
+})
 
 async function updateDimensions(isFreshRender = false) {
-  console.log(9)
   // Get window dimensions (SVG should cover the window size)
   svgWidth = window.innerWidth
   svgHeight = window.innerHeight
@@ -305,16 +306,25 @@ async function updateDimensions(isFreshRender = false) {
       -DIAGRAM_PADDING,
       -svgHeight + DIAGRAM_PADDING,
       timelineBBox.width + DIAGRAM_PADDING,
-      svgHeight * 2 + DIAGRAM_PADDING
+      svgHeight + DIAGRAM_PADDING
     )
   } else if (props.orientation === 'TB') {
     maxScale = timelineBBox.height / svgHeight / 2
     translateExtent = setTranslateExtent(
       -svgWidth + DIAGRAM_PADDING,
       -DIAGRAM_PADDING,
-      svgWidth * 2 + DIAGRAM_PADDING,
+      svgWidth + DIAGRAM_PADDING,
       timelineBBox.height + DIAGRAM_PADDING
     )
+  }
+
+  const [x0, y0] = translateExtent[0]
+  const [x1, y1] = translateExtent[1]
+  fallbackTransform = {
+    left: -x0,
+    top: -y0,
+    right: (x1 - svgWidth * 2) * -1, // Subtract the width when going to the end
+    bottom: (y1 - svgHeight * 2) * -1 // Same with height
   }
 
   // Zoom behaviour
