@@ -183,6 +183,10 @@ function applyTransform(
   }
 }
 
+function getRightOffset() {
+  return DIAGRAM_PADDING / maxScale
+}
+
 function getDiagramCenterX() {
   const bbox = timelineGroup.node().getBBox()
   return bbox.x + bbox.width / 2
@@ -228,7 +232,9 @@ async function selectNode(event: MouseEvent) {
     translateY = -transformedY
   } else if (props.orientation === 'TB') {
     // Calculate translateX
-    translateX = props.isSmallScreen ? -transformedX + 120 : getQuarterX()
+    translateX = props.isSmallScreen
+      ? -transformedX + getRightOffset() * 2 // Center the node in mobile mode
+      : getQuarterX() + getRightOffset() * 2 // Center the diagram in desktop mode
     // Calculate translateY and ensure it doesn't go out of bounds
     translateY = -transformedY + svgHeight
     if (translateY > fallbackTransform.top) translateY = fallbackTransform.top
@@ -274,7 +280,9 @@ function jumpToEdge(edge: 'start' | 'end') {
     translateY = centerY - 250
   } else if (props.orientation === 'TB') {
     // translateX is around a quarter of the viewport width
-    translateX = props.isSmallScreen ? getHalfX() : getQuarterX()
+    translateX = props.isSmallScreen
+      ? getHalfX() + getRightOffset() // Center the diagram within the viewport width in mobile mode
+      : getQuarterX() + getRightOffset() * 2 // Center the diagram within 60vw in desktop mode
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
   applyTransform(translateX, translateY)
@@ -323,7 +331,7 @@ async function updateDimensions(isFreshRender = false) {
     translateExtent = setTranslateExtent(
       -svgWidth + DIAGRAM_PADDING,
       -DIAGRAM_PADDING,
-      svgWidth + DIAGRAM_PADDING,
+      svgWidth + DIAGRAM_PADDING * 3, // *3 gives more space on the right for mobile mode
       timelineBBox.height + DIAGRAM_PADDING
     )
   }

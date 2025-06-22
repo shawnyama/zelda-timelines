@@ -45,7 +45,7 @@
       <Button @click="emit('zoom-out')" icon text title="Zoom out">
         <Icon icon="ph:arrows-out-bold" height="1.5rem" />
       </Button>
-      <Button @click="emit('jump-to-start')" icon text title="Jump to beginning">
+      <Button @click="emit('jump-to-start')" icon text title="Jump to start">
         <Icon icon="ph:rewind-bold" height="1.5rem" />
       </Button>
       <Button @click="emit('jump-to-end')" icon text title="Jump to end">
