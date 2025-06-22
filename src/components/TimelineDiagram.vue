@@ -214,8 +214,8 @@ async function selectNode(event: MouseEvent) {
     // Calculate translateX
     // const bbox = timelineGroup.node().getBBox()
     // const diagramCenter = bbox.x + bbox.width / 2
-    translateX = -transformedX //+ svgWidth / 2
-    if (!props.isSmallScreen) translateX = translateX - svgWidth / 3 // Generally fits in the middle of 60vw
+    translateX = -transformedX //- svgWidth / 4
+    // if (!props.isSmallScreen) translateX = translateX - svgWidth / 3 // Generally fits in the middle of 60vw
     // Calculate translateY and ensure it doesn't go out of bounds
     translateY = -transformedY + svgHeight
     if (translateY > fallbackTransform.top) translateY = fallbackTransform.top
@@ -258,13 +258,9 @@ function jumpToEdge(edge: 'start' | 'end') {
     const diagramCenter = bbox.y + bbox.height / 2
     const viewportCenter = svgHeight / 2
     const centerY = viewportCenter / maxScale - diagramCenter
-    translateY = centerY - 250
+    translateY = -svgHeight * 0.5
   } else if (props.orientation === 'TB') {
-    // translateX is centerX - a good chunk of the screen width so its to the left of the description
-    const diagramCenter = bbox.x + bbox.width / 2
-    const viewportCenter = svgWidth / 2
-    const centerX = viewportCenter / maxScale - diagramCenter
-    translateX = centerX - diagramCenter
+    translateX = -svgWidth * 0.65 // Essentially fits the diagram into the center of 60vw
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
   applyTransform(translateX, translateY)
