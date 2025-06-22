@@ -183,6 +183,22 @@ function applyTransform(
   }
 }
 
+function getDiagramCenterX() {
+  const bbox = timelineGroup.node().getBBox()
+  return bbox.x + bbox.width / 2
+}
+
+function getHalfX() {
+  const viewportCenterX = svgWidth / 2
+  return viewportCenterX / maxScale - getDiagramCenterX()
+}
+
+// Node select and rewind/fast forward use this in TB view, LR view isn't handled as consistently (my preference)
+function getQuarterX() {
+  const viewportCenterX = svgWidth / 2
+  return getHalfX() - viewportCenterX
+}
+
 // Game nodes are only selectable now
 async function selectNode(event: MouseEvent) {
   if (!mermaidContainer.value) return
@@ -212,10 +228,7 @@ async function selectNode(event: MouseEvent) {
     translateY = -transformedY
   } else if (props.orientation === 'TB') {
     // Calculate translateX
-    // const bbox = timelineGroup.node().getBBox()
-    // const diagramCenter = bbox.x + bbox.width / 2
-    translateX = -transformedX //- svgWidth / 4
-    // if (!props.isSmallScreen) translateX = translateX - svgWidth / 3 // Generally fits in the middle of 60vw
+    translateX = props.isSmallScreen ? -transformedX + 120 : getQuarterX()
     // Calculate translateY and ensure it doesn't go out of bounds
     translateY = -transformedY + svgHeight
     if (translateY > fallbackTransform.top) translateY = fallbackTransform.top
@@ -258,9 +271,10 @@ function jumpToEdge(edge: 'start' | 'end') {
     const diagramCenter = bbox.y + bbox.height / 2
     const viewportCenter = svgHeight / 2
     const centerY = viewportCenter / maxScale - diagramCenter
-    translateY = -svgHeight * 0.5
+    translateY = centerY - 250
   } else if (props.orientation === 'TB') {
-    translateX = -svgWidth * 0.65 // Essentially fits the diagram into the center of 60vw
+    // translateX is around a quarter of the viewport width
+    translateX = props.isSmallScreen ? getHalfX() : getQuarterX()
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
   applyTransform(translateX, translateY)
