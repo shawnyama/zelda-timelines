@@ -59,10 +59,12 @@ function generateDiagram() {
     const imagePath = useFallbackIcon
       ? `/assets/icons/games/fallback.svg`
       : `/assets/icons/games/${id}.svg`
+    const fallbackClass = useFallbackIcon ? 'fallback' : ''
+    const safariClass = isSafari ? 'safari' : ''
     return `${id}[
     <a class='${id}' href='/${props.selectedTimeline}#${id}'>
-      <img class='${useFallbackIcon ? 'fallback' : ''}' src='${imagePath}' alt='Icon'></img>
-      <label class='title'>${title}</label>
+      <img class='${fallbackClass} ${safariClass}' src='${imagePath}' alt='Icon'></img>
+      <label class='title ${safariClass}'>${title}</label>
     </a>]`
   }
 
@@ -443,7 +445,6 @@ span {
 
 :deep(img) {
   max-width: 13rem;
-  filter: drop-shadow(0 2px 2px var(--dark-green));
 }
 
 :deep(img.fallback) {
@@ -452,20 +453,25 @@ span {
   margin-bottom: 1rem;
 }
 
-:deep(foreignObject:hover img) {
+/* Only apply if not Safari (you already have isSafari defined) */
+:deep(img:not(.safari)) {
+  filter: drop-shadow(0 2px 2px var(--dark-green));
+}
+
+:deep(foreignObject:hover img:not(.safari)) {
   scale: 1.05;
   transform: translateY(-1rem);
   filter: drop-shadow(0 8px 8px var(--dark-green));
 }
 
-:deep(foreignObject .spin-on-game-select) {
+:deep(foreignObject :not(.safari).spin-on-game-select) {
   animation:
     spin 0.25s linear 2,
     end-spin 0.2s linear 1;
   animation-delay: 0s, 0.5s;
 }
 
-:deep(foreignObject .slanted-spin-on-game-select) {
+:deep(foreignObject :not(.safari).slanted-spin-on-game-select) {
   animation:
     slanted-spin 0.25s linear 2,
     end-slanted-spin 0.2s linear 1;
@@ -492,11 +498,15 @@ span {
   cursor: pointer;
 }
 
-:deep(.selected-game label.title) {
+:deep(.selected-game label.title),
+:deep(foreignObject:hover label.title) {
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
-  scale: 1.2;
   margin-top: 0.5rem;
+}
+
+:deep(.selected-game label.title:not(.safari)) {
+  scale: 1.2;
   animation: breathing-brightness 3s ease-in-out infinite;
 }
 
