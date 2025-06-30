@@ -431,31 +431,6 @@ span {
   } */
 }
 
-/* Force explicit sizing for Safari */
-:deep(foreignObject) {
-  width: 280px !important;
-  height: 200px !important;
-  overflow: visible;
-}
-
-:deep(foreignObject a) {
-  width: 280px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-@media not all and (min-resolution: 0.001dpcm) {
-  @supports (-webkit-appearance: none) {
-    :deep(foreignObject) {
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-    }
-  }
-}
-
 :deep(foreignObject),
 :deep(svg) {
   min-width: 100vw;
