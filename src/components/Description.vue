@@ -3,7 +3,14 @@
     <header>
       <h1>{{ game.title }}</h1>
       <div class="border-top" />
+      <template v-if="$attrs.class === 'LR'">
+        <Button icon title="Hide description" rounded>
+          <Icon icon="ph:caret-down-bold" height="1.5rem" />
+        </Button>
+        <div class="border-top" />
+      </template>
       <img :src="icon" alt="art" />
+      <!-- </div> -->
     </header>
     <!--TODO: Add icon here as a background image-->
     <section>
@@ -25,6 +32,7 @@ import { ref, computed, watch } from 'vue'
 import type { GameNode } from '@/data/games'
 import Gamebox from './Gamebox.vue'
 import Button from './widgets/Button.vue'
+import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
   game: GameNode
@@ -98,7 +106,7 @@ aside {
     }
   }
   &.LR {
-    height: var(--description-height);
+    height: var(--description-height-LR);
     margin: 0.5rem;
     margin-top: 0;
     width: calc(100vw - 1rem);
@@ -174,7 +182,7 @@ header {
     border-bottom: 3px solid white;
   }
 
-  & > img {
+  & img {
     height: 3.25rem;
     filter: drop-shadow(0 1px 1px var(--dark-green));
   }
