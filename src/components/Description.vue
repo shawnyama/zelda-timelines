@@ -251,7 +251,7 @@ header {
     border-bottom: 3px solid white;
   }
 
-  & img {
+  & > img {
     height: 3.25rem;
     filter: drop-shadow(0 1px 1px var(--dark-green));
   }
