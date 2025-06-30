@@ -97,3 +97,17 @@ code {
   border: 0.35rem solid transparent;
   background-clip: padding-box;
 }
+
+/* Larger screens can handle more description height */
+@media screen and (min-height: 900px) {
+  :root {
+    --description-height: 22rem;
+  }
+}
+
+/* Very small screens need even less */
+@media screen and (max-height: 700px) {
+  :root {
+    --description-height: 14rem;
+  }
+}
