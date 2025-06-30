@@ -40,7 +40,7 @@
         <Icon icon="ph:info-bold" height="1.5rem" />
       </Button>
       <Button v-else @click="emit('toggle-orientation')" icon text title="Toggle orientation">
-        <Icon :icon="orientationIcon" height="1.5rem" />
+        <Icon icon="ph:device-rotate-bold" height="1.5rem" />
       </Button>
       <Button @click="emit('zoom-out')" icon text title="Zoom out">
         <Icon icon="ph:arrows-out-bold" height="1.5rem" />
@@ -79,10 +79,6 @@ const emit = defineEmits([
   'jump-to-end',
   'zoom-out'
 ])
-
-const orientationIcon = computed(() =>
-  props.orientation === 'LR' ? 'ph:arrows-horizontal-bold' : 'ph:arrows-vertical-bold'
-)
 
 const isOptionsVisible = ref(false)
 

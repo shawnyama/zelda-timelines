@@ -1,17 +1,39 @@
 <template>
-  <aside id="Description">
+  <aside id="Description" :class="{ collapsed: isCollapsed }">
     <header>
-      <h1>{{ game.title }}</h1>
+      <h1>
+        <span>{{ game.title }}</span>
+        <Button
+          v-if="!isSmallScreen"
+          :title="isCollapsed ? 'Show description' : 'Hide description'"
+          :icon="!isCollapsed"
+          rounded
+          :style="{
+            backgroundColor: isCollapsed ? 'hsl(0, 0%, 96%, 0.7)' : 'hsl(0, 0%, 96%, 0.3)'
+          }"
+          @click="isCollapsed = !isCollapsed"
+        >
+          <Icon
+            :icon="isCollapsed ? 'ph:arrows-out-simple-bold' : 'ph:arrows-in-simple-bold'"
+            height="1.4rem"
+          />
+          <template v-if="isCollapsed">Game description</template>
+        </Button>
+      </h1>
       <div class="border-top" />
       <img :src="icon" alt="art" />
     </header>
-    <!--TODO: Add icon here as a background image-->
     <section>
       <Gamebox :game="game" :selected-platform="game.releases[0].platform" />
       <article>
         <p ref="pRef">{{ game.description }}</p>
         <footer>
-          <Button v-for="(release, index) in game.releases" :key="index" disabled rounded>
+          <Button
+            v-for="(release, index) in game.releases"
+            :key="index"
+            rounded
+            :style="{ backgroundColor: 'hsl(0, 0%, 96%, 0.7)' }"
+          >
             {{ release.platform }} ({{ release.year }})
           </Button>
         </footer>
@@ -21,16 +43,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, useAttrs } from 'vue'
 import type { GameNode } from '@/data/games'
 import Gamebox from './Gamebox.vue'
 import Button from './widgets/Button.vue'
+import { Icon } from '@iconify/vue'
+
+const attrs = useAttrs()
 
 const props = defineProps<{
   game: GameNode
+  isSmallScreen?: boolean
 }>()
 
 const pRef = ref<HTMLElement | null>(null)
+const isCollapsed = ref(false)
 
 const icon = computed(() => {
   return props.game.useFallbackIcon
@@ -42,6 +69,13 @@ watch(
   () => props.game.description,
   () => {
     if (pRef.value) pRef.value.scrollTop = 0
+  }
+)
+
+watch(
+  () => attrs.class,
+  () => {
+    isCollapsed.value = false
   }
 )
 </script>
@@ -56,6 +90,45 @@ aside {
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
+
+  &.collapsed {
+    border: none;
+    &::before,
+    &::after {
+      display: none;
+    }
+    & header {
+      margin: 0;
+      width: fit-content;
+      & > h1 {
+        margin-left: auto;
+      }
+      & > h1 > span,
+      & > .border-top,
+      & > img {
+        display: none;
+      }
+    }
+    & section {
+      display: none;
+    }
+    &.LR,
+    &.TB {
+      height: 0;
+      position: absolute;
+    }
+    &.LR {
+      bottom: 2.5rem;
+      & header {
+        margin: auto;
+      }
+    }
+    &.TB {
+      width: 0;
+      top: -1.5rem;
+      right: 12rem;
+    }
+  }
 
   &::before,
   &::after {
@@ -159,10 +232,13 @@ header {
   display: flex;
   flex: 1;
   align-items: center;
-  pointer-events: none;
+  user-select: none;
   gap: 0.5rem;
 
   & > h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'hylia_serif', sans-serif;
     color: white;
     white-space: nowrap;
@@ -181,7 +257,7 @@ header {
   }
 }
 
-/* 
+/*
 Sizing and spacing adjustments for when the description modal is used in a mobile layout.
 For base styles see DescriptionModal.vue.
 */

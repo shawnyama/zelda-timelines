@@ -29,7 +29,6 @@
   --dark-green-alt: hsl(156, 47%, 31%);
   --coral-red: rgb(255, 109, 96);
   --description-height-LR: clamp(14rem, 22vh, 20rem);
-  --timeline-height-LR: calc(100svh - var(--description-height-LR) - 0.5rem);
   --shadow-color: rgba(0, 0, 0, 0.35);
   /* Alt shadow color with dark green as the color seems to almost give a 
   glow effect rather than a shadow which we don't want */
