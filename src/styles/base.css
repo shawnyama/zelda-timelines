@@ -28,7 +28,7 @@
   --dark-green: hsl(168, 57%, 26%);
   --dark-green-alt: hsl(156, 47%, 31%);
   --coral-red: rgb(255, 109, 96);
-  --description-height: 22rem;
+  --description-height: clamp(14rem, 20vh, 20rem);
   --timeline-height-LR: calc(100svh - var(--description-height) - 0.5rem);
   --shadow-color: rgba(0, 0, 0, 0.35);
   /* Alt shadow color with dark green as the color seems to almost give a 
@@ -98,14 +98,12 @@ code {
   background-clip: padding-box;
 }
 
-/* Larger screens can handle more description height */
 @media screen and (min-height: 900px) {
   :root {
     --description-height: 22rem;
   }
 }
 
-/* Very small screens need even less */
 @media screen and (max-height: 700px) {
   :root {
     --description-height: 14rem;
