@@ -98,7 +98,7 @@ aside {
     }
   }
   &.LR {
-    height: var(--description-height);
+    height: var(--description-height-LR);
     margin: 0.5rem;
     margin-top: 0;
     width: calc(100vw - 1rem);
