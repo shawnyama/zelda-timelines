@@ -203,7 +203,7 @@ figure {
 
 .flat-image {
   height: 260px;
-  margin: 0 0.5rem 1rem 0.5rem;
+  margin: 1rem 0.5rem 1rem 0.5rem;
   animation: flat-float 3s ease-in-out infinite;
   filter: drop-shadow(0 8px 16px var(--shadow-color));
 }
