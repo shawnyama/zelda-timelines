@@ -97,7 +97,7 @@ h2,
 nav,
 .right-button {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 
 h2 {
