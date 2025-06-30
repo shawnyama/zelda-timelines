@@ -28,9 +28,15 @@
       <description-modal
         v-if="isSmallScreen"
         :selected-game="selectedGame"
-        @close-description-modal="selectGame(null)" />
-      <description v-else :game="selectedGame" :class="orientation"
-    /></template>
+        @close-description-modal="selectGame(null)"
+      />
+      <description
+        v-else
+        :class="orientation"
+        :game="selectedGame"
+        :is-small-screen="isSmallScreen"
+      />
+    </template>
   </main>
 </template>
 
@@ -110,7 +116,7 @@ main {
   &.LR {
     flex-direction: column;
     & > section {
-      height: var(--timeline-height-LR);
+      height: calc(100svh - var(--description-height-LR) - 0.5rem);
     }
   }
 

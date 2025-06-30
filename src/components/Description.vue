@@ -1,24 +1,36 @@
 <template>
   <aside id="Description">
     <header>
-      <h1>{{ game.title }}</h1>
-      <div class="border-top" />
-      <template v-if="$attrs.class === 'LR'">
-        <Button icon title="Hide description" rounded>
-          <Icon icon="ph:caret-down-bold" height="1.5rem" />
+      <h1>
+        <span>{{ game.title }}</span>
+        <Button
+          v-if="!isSmallScreen"
+          :title="isCollapsed ? 'Hide description' : 'Show description'"
+          icon
+          rounded
+          :style="{ backgroundColor: 'hsl(0, 0%, 96%, 0.3)' }"
+          @click="isCollapsed = !isCollapsed"
+        >
+          <Icon
+            :icon="isCollapsed ? 'ph:arrows-out-simple-bold' : 'ph:arrows-in-simple-bold'"
+            height="1.4rem"
+          />
         </Button>
-        <div class="border-top" />
-      </template>
+      </h1>
+      <div class="border-top" />
       <img :src="icon" alt="art" />
-      <!-- </div> -->
     </header>
-    <!--TODO: Add icon here as a background image-->
     <section>
       <Gamebox :game="game" :selected-platform="game.releases[0].platform" />
       <article>
         <p ref="pRef">{{ game.description }}</p>
         <footer>
-          <Button v-for="(release, index) in game.releases" :key="index" disabled rounded>
+          <Button
+            v-for="(release, index) in game.releases"
+            :key="index"
+            rounded
+            :style="{ backgroundColor: 'hsl(0, 0%, 96%, 0.7)' }"
+          >
             {{ release.platform }} ({{ release.year }})
           </Button>
         </footer>
@@ -36,9 +48,11 @@ import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
   game: GameNode
+  isSmallScreen?: boolean
 }>()
 
 const pRef = ref<HTMLElement | null>(null)
+const isCollapsed = ref(false)
 
 const icon = computed(() => {
   return props.game.useFallbackIcon
@@ -167,10 +181,12 @@ header {
   display: flex;
   flex: 1;
   align-items: center;
-  pointer-events: none;
+  user-select: none;
   gap: 0.5rem;
 
   & > h1 {
+    display: flex;
+    gap: 0.5rem;
     font-family: 'hylia_serif', sans-serif;
     color: white;
     white-space: nowrap;

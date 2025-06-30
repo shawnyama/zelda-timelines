@@ -16,6 +16,7 @@ defineProps<{
 <style scoped>
 button {
   display: inline-flex;
+  background-color: white;
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem;

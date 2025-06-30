@@ -1,6 +1,6 @@
 <template>
   <modal is-custom @close="emit('close-description-modal')">
-    <description :game="selectedGame" class="TB" />
+    <description class="TB" :game="selectedGame" is-small-screen />
     <template #extra-space>
       <Icon icon="heroicons:arrow-left-16-solid" height="1.25rem" />
       <span>Back</span>
