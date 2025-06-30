@@ -97,6 +97,20 @@ code {
   background-clip: padding-box;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input[type='button'],
+input[type='submit'],
+a {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
 @media screen and (min-height: 900px) {
   :root {
     --description-height-LR: clamp(16rem, 25vh, 22rem);
