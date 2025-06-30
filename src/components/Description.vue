@@ -56,7 +56,6 @@ aside {
   backdrop-filter: blur(2px);
   display: flex;
   box-sizing: border-box;
-  container-type: inline-size;
 
   &::before,
   &::after {
@@ -81,6 +80,7 @@ aside {
   }
 
   &.TB {
+    container-type: inline-size;
     flex-direction: column;
     flex: 1;
     margin-top: 2rem;
@@ -98,6 +98,7 @@ aside {
     }
   }
   &.LR {
+    container-type: size;
     height: var(--description-height-LR);
     margin: 0.5rem;
     margin-top: 0;
@@ -211,7 +212,6 @@ For base styles see DescriptionModal.vue.
     }
     & > img {
       scale: 0.9;
-      margin-top: 1rem;
     }
     & > article {
       gap: 0.5rem;
@@ -224,6 +224,17 @@ For base styles see DescriptionModal.vue.
           font-size: 0.75rem;
         }
       }
+    }
+  }
+}
+
+@container (height < 300px) {
+  aside.LR > section {
+    & > figure {
+      scale: 0.8;
+    }
+    & > img {
+      scale: 0.8;
     }
   }
 }
