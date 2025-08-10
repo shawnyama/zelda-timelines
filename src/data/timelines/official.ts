@@ -13,7 +13,7 @@ export const official = [
   {
     source: GameIds.TheMinishCap,
     target: GameIds.FourSwords,
-    distance: EdgeDistance.SomeTimePasses
+    extraDistance: EdgeDistance.SomeTimePasses
   },
   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
   {
@@ -49,7 +49,7 @@ export const official = [
   {
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
-    distance: 1, // For some reason applying SomeTimePasses here creates a very large gap
+    extraDistance: 1, // For some reason applying SomeTimePasses here creates a very large gap
     subgraphEnd: 1
   },
   {
@@ -93,7 +93,7 @@ export const official = [
     source: Events.TheFirstGreatCalamity,
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses,
+    extraDistance: EdgeDistance.ALongTimePasses,
     subgraphStart: Eras.EraOfTheWilds
   },
   {
@@ -111,6 +111,6 @@ export const official = [
     source: Eras.EraOfMyth,
     target: Eras.EraOfTheWilds,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses
+    extraDistance: EdgeDistance.ALongTimePasses
   }
 ]

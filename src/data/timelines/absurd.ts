@@ -19,7 +19,7 @@ export const absurd = [
   { source: GameIds.OracleOfAges, target: GameIds.LinksAwakening, style: EdgeStyle.Thick },
   { source: GameIds.LinksAwakening, target: Events.TheDemonThiefGanondorfIsExecuted },
   { source: Events.TheDemonThiefGanondorfIsExecuted, target: GameIds.TwilightPrincess },
-  { source: GameIds.TwilightPrincess, target: GameIds.ALinkBetweenWorlds, distance: 3 },
+  { source: GameIds.TwilightPrincess, target: GameIds.ALinkBetweenWorlds, extraDistance: 3 },
   {
     source: GameIds.ALinkBetweenWorlds,
     target: GameIds.TriforceHeroes,
@@ -35,13 +35,13 @@ export const absurd = [
     source: GameIds.SpiritTracks,
     target: Events.TheFirstGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: 3
+    extraDistance: 3
   },
   {
     source: Events.TheFirstGreatCalamity,
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: 6
+    extraDistance: 6
   },
   {
     source: Events.TheSecondGreatCalamity,
@@ -53,13 +53,13 @@ export const absurd = [
     target: GameIds.TearsOfTheKingdom,
     style: EdgeStyle.Thick
   },
-  { source: GameIds.TearsOfTheKingdom, target: GameIds.TheMinishCap, distance: 3 },
+  { source: GameIds.TearsOfTheKingdom, target: GameIds.TheMinishCap, extraDistance: 3 },
   { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
   { source: GameIds.FourSwords, target: GameIds.FourSwordsAdventures },
   {
     source: GameIds.FourSwordsAdventures,
     target: GameIds.TheLegendOfZelda,
-    distance: 3
+    extraDistance: 3
   },
   {
     source: GameIds.TheLegendOfZelda,
