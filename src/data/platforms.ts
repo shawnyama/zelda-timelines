@@ -1,6 +1,7 @@
 export enum Platforms {
   NES = 'Nintendo Entertainment System (NES)',
   SNES = 'Super Nintendo (SNES)',
+  Satellaview = 'Satellaview',
   N64 = 'Nintendo 64',
   GameCube = 'GameCube',
   Wii = 'Wii',
