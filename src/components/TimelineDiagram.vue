@@ -85,13 +85,13 @@ function generateDiagram() {
       target,
       label,
       style = EdgeStyle.Normal,
-      distance = 0,
+      extraDistance = 0,
       subgraphStart,
       subgraphEnd
     }: Edge,
     index: number
   ) => {
-    distance += 3 // Minimum required for mermaid to render is 3
+    const distance = 3 + extraDistance // Minimum required for mermaid to render is 3
 
     // The edge between nodes (edge design is applied here)
     let edge = style === EdgeStyle.Dotted ? `-${style.repeat(distance - 2)}-` : '-'.repeat(distance)
@@ -163,7 +163,6 @@ function generateDiagram() {
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
-
   return diagram
 }
 

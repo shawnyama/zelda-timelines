@@ -5,7 +5,7 @@
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
   </h2>
-  <nav>
+  <nav :class="orientation">
     <div class="selected-timeline" @mouseleave="isOptionsVisible = false">
       <Button
         class="custom"
@@ -17,7 +17,7 @@
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
         </div>
-        <h1>{{ selectedTimeline }}</h1>
+        <h1>{{ selectedTimeline.replace(/-/g, ' ') }}</h1>
         <div class="gear-group">
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
@@ -29,7 +29,7 @@
           <li v-for="timeline in Timelines" :value="timeline">
             <a @click="selectTimeline(timeline)">
               <img :src="caret" alt="caret-icon" />
-              <div>{{ timeline }}</div>
+              <div>{{ timeline.replace(/-/g, ' ') }}</div>
             </a>
           </li>
         </ul>
@@ -53,10 +53,17 @@
       </Button>
     </div>
   </nav>
-  <!--TODO: Theme switcher (nice to have)-->
-  <!-- <Button class="right-button" icon @click="emit('toggle-theme')">
-    <Icon icon="ph:paint-brush-bold" height="1.75rem" />
-  </Button> -->
+  <div :class="['create', orientation]">
+    <a
+      href="https://stackblitz.com/~/github.com/shawnyama/zelda-timelines"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Button class="create-button" rounded>
+        <Icon icon="ph:file-plus-bold" height="1.5rem" />Create
+      </Button>
+    </a>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -66,7 +73,7 @@ import Button from './widgets/Button.vue'
 import { Icon } from '@iconify/vue'
 import caret from '@/assets/caret-left.svg'
 
-const props = defineProps<{
+defineProps<{
   selectedTimeline: Timelines
   orientation: string
   isSmallScreen: boolean
@@ -91,7 +98,7 @@ function selectTimeline(timeline: Timelines) {
 <style scoped>
 h2,
 nav,
-.right-button {
+.create {
   position: absolute;
   z-index: 2;
 }
@@ -112,9 +119,19 @@ h2 {
   }
 }
 
-.right-button {
-  right: 0;
-  border-radius: 0.5rem;
+.create {
+  margin: 0.5rem;
+  &.LR {
+    right: 0;
+  }
+  &.TB {
+    bottom: 0;
+  }
+}
+
+.create-button {
+  color: white;
+  background: radial-gradient(ellipse at center, var(--dark-green) 0%, rgba(0, 0, 0, 0.2) 100%);
 }
 
 .btn-group {
@@ -134,11 +151,11 @@ nav {
   margin: 0.5rem 0; /* Removing left and right padding centers it properly */
   width: 20rem;
   max-width: 100vw;
+  justify-content: center;
+  display: inline-block;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  justify-content: center;
-  display: inline-block;
 
   & > .selected-timeline {
     color: white;
@@ -227,7 +244,7 @@ nav {
 
     & > ul {
       font-family: 'triforce', sans-serif;
-      font-size: 2.25rem;
+      font-size: 2rem;
       animation: fade-in 0.2s ease-in-out;
       list-style: none;
       padding: 0.5rem;
@@ -257,9 +274,9 @@ nav {
           & > img {
             display: none;
             position: absolute;
-            scale: 0.65;
+            scale: 0.6;
             rotate: 180deg;
-            bottom: 0.2rem;
+            bottom: 0.1rem;
           }
 
           &:hover {
@@ -283,7 +300,8 @@ nav {
 }
 
 @media screen and (max-width: 800px) {
-  h2 {
+  h2,
+  .create {
     display: none;
   }
 }

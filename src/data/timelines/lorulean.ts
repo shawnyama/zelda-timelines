@@ -1,5 +1,5 @@
 import { GameIds, Events } from '../events'
-import { EdgeStyle, EdgeDistance } from '../edge-decor'
+import { EdgeStyle } from '../edge-decor'
 
 export const lorulean = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
@@ -22,14 +22,14 @@ export const lorulean = [
   {
     source: GameIds.TwilightPrincess,
     target: Events.TheFirstGreatCalamity,
-    distance: 3,
+    extraDistance: 3,
     style: EdgeStyle.Dotted
   },
   {
     source: Events.TheFirstGreatCalamity,
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: 3
+    extraDistance: 3
   },
   {
     source: Events.TheSecondGreatCalamity,
@@ -44,7 +44,7 @@ export const lorulean = [
   { source: GameIds.ALinkToThePast, target: GameIds.OracleOfAges, style: EdgeStyle.Thick },
   { source: GameIds.OracleOfAges, target: GameIds.OracleOfSeasons, style: EdgeStyle.Thick },
   { source: GameIds.OracleOfSeasons, target: GameIds.LinksAwakening, style: EdgeStyle.Thick },
-  { source: GameIds.LinksAwakening, target: GameIds.ALinkBetweenWorlds, distance: 1 },
+  { source: GameIds.LinksAwakening, target: GameIds.ALinkBetweenWorlds, extraDistance: 1 },
   { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes, style: EdgeStyle.Thick },
   { source: GameIds.TriforceHeroes, target: Events.TheTragedyOfPrincessZeldaI },
   { source: Events.TheTragedyOfPrincessZeldaI, target: GameIds.TheLegendOfZelda },
