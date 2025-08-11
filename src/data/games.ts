@@ -46,17 +46,6 @@ export const gameNodes: GameNode[] = [
     description: `Wandering in the Lost Woods, Link is searching for his friend Navi. Eventually he is ambushed by the Skull Kid, who steals his horse, Epona, and his Ocarina of Time. Link follows the Skull Kid deep into the woods, where he falls into a hole and finds himself in the parallel world of Termina. There, he meets the Happy Mask Salesman, who tells him that the Skull Kid has stolen Majora's Mask, an ancient artifact that is causing the moon to fall and destroy the world in three days. Link must now retrieve the mask and stop the moon from falling by traveling back in time and awakening the four giants who can stop it.`
   },
   {
-    title: 'Hyrule Warriors',
-    id: GameIds.HyruleWarriors,
-    releases: [
-      { platform: Platforms.WiiU, year: 2014 },
-      { platform: Platforms.N3DS, year: 2016 },
-      { platform: Platforms.Switch, year: 2018 }
-    ],
-    isSpinOff: true,
-    description: `A long time ago, a sorceress named Cia guarded the balance of the Triforce, but a darkness corrupted her, leading her to wage war against the kingdom of Hyrule to claim the Triforce and resurrect a dark power that had been sealed away. In an attack on Hyrule Castle, a soldier-in-training Link discovers that he possesses the Triforce of Courage. After the battle, however, the Hyrulean forces find that Princess Zelda has gone missing. Link, Impa, and other allies must now fight off Cia and her forces in order to restore peace to Hyrule and find Zelda.`
-  },
-  {
     title: 'Twilight Princess',
     id: GameIds.TwilightPrincess,
     releases: [
@@ -67,30 +56,14 @@ export const gameNodes: GameNode[] = [
     description: `As Link, a fully grown adult, is about to deliver a sword and shield as a gift to the Royal Family, he must save one of his village neighbors from a group of Bokoblins. The day after, Link is attacked by a group of Bulbins and knocked out. When he awakens, he finds himself in the forest. Following the path leads to a black wall, which a hand appears from that grabs Link and drags him into an entirely different world, where his body suddenly transforms into a wolf. He is then captured and imprisoned in Hyrule Castle, where he meets an imp-like creature named Midna. Once they escape their cell, they travel through the castle and find Princess Zelda, who explains that the kingdom of Hyrule has been taken over by the evil Zant, the king of the Twilight Realm, who has covered the entire land in twilight. Link and Midna must now restore light to Hyrule and find the Fused Shadows in order to defeat Zant.`
   },
   {
-    title: "Link's Crossbow Training",
-    id: GameIds.LinksCrossbowTraining,
-    releases: [{ platform: Platforms.Wii, year: 2007 }],
-    isSpinOff: true,
-    useFallbackIcon: true,
-    description: `Link is training with his crossbow in order to become a better archer.`
-  },
-  {
     title: 'A Link to the Past',
     id: GameIds.ALinkToThePast,
     releases: [
       { platform: Platforms.SNES, year: 1991 },
+      { platform: Platforms.Satellaview, year: 1997 },
       { platform: Platforms.GBA, year: 2002 }
     ],
     description: `The Triforce, a treasure hidden in the Sacred Realm, grants the wishes of those who touch it. When an entrance to the Sacred Realm was discovered, many sought the Triforce. However, none who entered ever returned. As evil power began to emanate from the entrance, the king of Hyrule commanded the Seven Sages to seal it off. One stormy night, as the tale of The Imprisoning War became distant legend, a voice called out: "Please help me. My name is Zelda..." Link awakens to the sound of Princess Zelda's plea for help from the dungeons of Hyrule Castle.`
-  },
-  {
-    title: 'Ancient Stone Tablets',
-    id: GameIds.AncientStoneTablets,
-    releases: [{ platform: Platforms.SNES, year: 1997 }],
-    isSpinOff: true,
-    useFallbackIcon: true,
-    noBoxArt: true,
-    description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
   },
   {
     title: 'The Wind Waker',
@@ -101,14 +74,6 @@ export const gameNodes: GameNode[] = [
     ],
     isIconSlanted: true,
     description: `According to legend, the Hero of Time defeated evil and sealed it away. However, the evil later freed itself and made another attempt at the Triforce, and while the people hoped the Hero of Time would come to stop the evil again, he never did. The people then prayed to the goddesses to help them, and were instructed by them to flee to the mountaintops while they flooded the kingdom, sealing it at the bottom of the newly-created sea. Centuries later, on Outset Island, a young boy named Link is given the clothes of the Hero of Time on his birthday, as per tradition for boys coming of age. However, a giant bird appears, dropping a girl onto the island's forest. Link rescues her and she reveals herself to be a pirate named Tetra, but afterward his sister Aryll is taken by the bird. Link travels to the Forsaken Fortress with the pirates and sneaks to where his sister is being held, but he is subsequently thrown out afterward. He wakes up to find himself on a talking boat, the King of Red Lions, who tells Link that he must help in a quest to save not only Link's sister but also the Great Sea from the ancient evil which has returned.`
-  },
-  {
-    title: `Navi Trackers`,
-    id: GameIds.NaviTrackers,
-    releases: [{ platform: Platforms.GameCube, year: 2004 }],
-    isSpinOff: true,
-    useFallbackIcon: true,
-    description: `Training for the pirate life. (A minigame in the Japanese version of Four Swords Adventures.)`
   },
   {
     title: 'Phantom Hourglass',
@@ -150,14 +115,6 @@ export const gameNodes: GameNode[] = [
     description: `A sorcerer named Yuga appears in Hyrule, turning people into paintings in order to meet his goal of reviving Ganon and obtaining the Triforce. Link must save them and defeat Yuga in order to save both Hyrule and another world, Lorule.`
   },
   {
-    title: 'Cadence of Hyrule',
-    id: GameIds.CadenceOfHyrule,
-    releases: [{ platform: Platforms.Switch, year: 2019 }],
-    isSpinOff: true,
-    isIconSlanted: true,
-    description: `Cadence, Link, and Zelda must save Hyrule from Octavo, who has placed the kingdom under a spell.`
-  },
-  {
     title: 'Triforce Heroes',
     id: GameIds.TriforceHeroes,
     releases: [{ platform: Platforms.N3DS, year: 2015 }],
@@ -191,6 +148,7 @@ export const gameNodes: GameNode[] = [
     id: GameIds.TheLegendOfZelda,
     releases: [
       { platform: Platforms.NES, year: 1986 },
+      { platform: Platforms.Satellaview, year: 1995 },
       { platform: Platforms.GBA, year: 2004 }
     ],
     description: `Many years ago, the Prince of Darkness Ganon and his minions invaded the land of Hyrule and stole the Triforce of Power. Fearing Ganon's rule, Princess Zelda breaks the Triforce of Wisdom into eight pieces to keep him from obtaining it before being captured. She then sent out her nursemaid Impa to find one with the courage to defeat Ganon, though Ganon sends out his minions to stop her. As she is surrounded, however, a boy named Link appears and drives off the monsters. After Impa tells him the story, Link sets out on a quest to obtain the pieces of the Triforce of Wisdom, defeat Ganon and save Zelda.`
@@ -204,22 +162,6 @@ export const gameNodes: GameNode[] = [
     ],
     isIconSlanted: true,
     description: `Years after the defeat of Ganon in the original game, Link finds that a marking has appeared on the back of his hand. Showing it to Impa, she opens a door long-sealed and finds inside it the sleeping Princess Zelda from generations ago. She reveals to Link that long ago, after the death of the king of Hyrule, the prince became king and inherited everything except the Triforce, which he only inherited in part. He tried to look for the other pieces, but learned from a wizard close to the king that he had only told Princess Zelda about it. The prince then tried to get the information from her, but she refused to tell. The wizard then threatened her to tell, but when she didn't he cast the princess into a deep sleep. After the story is told, Link learns that the only way to awaken Zelda is to retrieve the Triforce of Courage, hidden away in the Great Palace, and reunite it with the other two pieces, and that the marking means that he is the hero chosen to awaken her. Link sets out on a quest to retrieve the Triforce, but must also evade death by the minions of Ganon, who desire to pour Link's blood on his ashes to revive him.`
-  },
-  {
-    title: 'CDi Games and Cartoon',
-    id: GameIds.CDiGamesAndCartoon,
-    releases: [{ platform: Platforms.CDi, year: 1989 }],
-    isSpinOff: true,
-    useFallbackIcon: true,
-    noBoxArt: true,
-    description: `The unmentionables. Ganon is at his weakest here.`
-  },
-  {
-    title: 'Hyrule Warriors: Age of Calamity',
-    id: GameIds.AgeOfCalamity,
-    releases: [{ platform: Platforms.Switch, year: 2020 }],
-    isSpinOff: true,
-    description: `Terrako, a small Guardian, travels back in time to prevent the Great Calamity from happening. This is an alternate take on the champions fight against Calamity Ganon.`
   },
   {
     title: 'Breath of the Wild',
@@ -241,5 +183,78 @@ export const gameNodes: GameNode[] = [
     id: GameIds.EchoesOfWisdom,
     releases: [{ platform: Platforms.Switch, year: 2024 }],
     description: `After Princess Zelda is captured by the evil Ganon, the hero Link sets out on a daring mission to rescue her. He succeeds after a fierce battle—but just as victory seems certain, a strange rift appears and swallows Link. Soon, similar rifts begin to appear all across Hyrule, pulling people away one by one. Even the king and his closest advisers vanish without a trace. Now, it's up to Princess Zelda to embark on a perilous journey to save her father, the people of Hyrule, and the hero who once saved her—Link.`
+  },
+  // Side games
+  {
+    title: 'CDi Games and Cartoon',
+    id: GameIds.CDiGamesAndCartoon,
+    releases: [{ platform: Platforms.CDi, year: 1989 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `The unmentionables. Ganon is at his weakest here.`
+  },
+  {
+    title: 'Ancient Stone Tablets',
+    id: GameIds.AncientStoneTablets,
+    releases: [{ platform: Platforms.Satellaview, year: 1997 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
+  },
+  {
+    title: `Navi Trackers`,
+    id: GameIds.NaviTrackers,
+    releases: [{ platform: Platforms.GameCube, year: 2004 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `Training for the pirate life. (A minigame in the Japanese version of Four Swords Adventures.)`
+  },
+  {
+    title: "Link's Crossbow Training",
+    id: GameIds.LinksCrossbowTraining,
+    releases: [{ platform: Platforms.Wii, year: 2007 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `Link is training with his crossbow in order to become a better archer.`
+  },
+  {
+    title: 'Hyrule Warriors',
+    id: GameIds.HyruleWarriors,
+    releases: [
+      { platform: Platforms.WiiU, year: 2014 },
+      { platform: Platforms.N3DS, year: 2016 },
+      { platform: Platforms.Switch, year: 2018 }
+    ],
+    isSpinOff: true,
+    description: `A long time ago, a sorceress named Cia guarded the balance of the Triforce, but a darkness corrupted her, leading her to wage war against the kingdom of Hyrule to claim the Triforce and resurrect a dark power that had been sealed away. In an attack on Hyrule Castle, a soldier-in-training Link discovers that he possesses the Triforce of Courage. After the battle, however, the Hyrulean forces find that Princess Zelda has gone missing. Link, Impa, and other allies must now fight off Cia and her forces in order to restore peace to Hyrule and find Zelda.`
+  },
+  {
+    title: 'Cadence of Hyrule',
+    id: GameIds.CadenceOfHyrule,
+    releases: [{ platform: Platforms.Switch, year: 2019 }],
+    isSpinOff: true,
+    isIconSlanted: true,
+    description: `Cadence, Link, and Zelda must save Hyrule from Octavo, who has placed the kingdom under a spell.`
+  },
+  {
+    title: 'Hyrule Warriors: Age of Calamity',
+    id: GameIds.AgeOfCalamity,
+    releases: [{ platform: Platforms.Switch, year: 2020 }],
+    isSpinOff: true,
+    description: `Terrako, a small Guardian, travels back in time to prevent the Great Calamity from happening. This is an alternate take on the champions fight against Calamity Ganon.`
+  },
+  {
+    title: 'Hyrule Warriors: Age of Imprisonment',
+    id: GameIds.AgeofImprisonment,
+    releases: [{ platform: Platforms.Switch, year: 2025 }],
+    isSpinOff: true,
+    description: `The Imprisoning War that led to the events of Tears of the Kingdom.`
   }
+  /*
+  - tingle games
+  - game & watch games
+  - books?
+  */
 ]
