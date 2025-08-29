@@ -65,7 +65,8 @@ export const gameBoxDimensions: any = {
   [Platforms.GBA]: DSBoxDimensions,
   [Platforms.DS]: DSBoxDimensions,
   [Platforms.N3DS]: N3DSBoxDimensions,
-  [Platforms.CDi]: DSBoxDimensions
+  [Platforms.CDi]: DSBoxDimensions,
+  [Platforms.Satellaview]: SNESN64BoxDimensions
 }
 
 export const gameBoxColors: any = {
@@ -81,7 +82,8 @@ export const gameBoxColors: any = {
   [Platforms.GBA]: '#1d1d1d',
   [Platforms.DS]: '#1d1d1d',
   [Platforms.N3DS]: 'white',
-  [Platforms.CDi]: 'white'
+  [Platforms.CDi]: 'white',
+  [Platforms.Satellaview]: 'white'
 }
 
 export const spineOnBottom = new Set([Platforms.N64, Platforms.SNES])
