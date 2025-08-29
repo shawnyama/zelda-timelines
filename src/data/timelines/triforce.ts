@@ -35,7 +35,11 @@ export const triforce = [
     distance: 1
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
-  { source: GameIds.ALinkToThePast, target: Events.Convergence, style: EdgeStyle.Thick },
+  {
+    source: GameIds.ALinkToThePast,
+    target: Events.Convergence,
+    style: EdgeStyle.Thick
+  },
   { source: Events.Divergence, target: Events.HyruleIsSealedAndThenFlooded },
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
   { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers, style: EdgeStyle.Thick },

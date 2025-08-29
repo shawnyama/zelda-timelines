@@ -58,9 +58,17 @@ function selectGame(gameNode: GameNode | null) {
   localStorage.setItem('selectedGameId', gameNode ? gameNode.id : '')
 }
 
-const selectedTimeline = ref(
-  (localStorage.getItem('selectedTimeline') as Timelines) ?? Timelines.Official
-)
+function getLastSelectedTimeline(): Timelines {
+  const lastSelectedTimeline = localStorage.getItem('selectedTimeline')
+  const timelines = Object.values(Timelines) as string[]
+  // Must check if timeline is valid since during development we could be changing the name or removing timelines
+  if (lastSelectedTimeline && timelines.includes(lastSelectedTimeline)) {
+    return lastSelectedTimeline as Timelines
+  }
+  return Timelines.Official
+}
+const selectedTimeline = ref(getLastSelectedTimeline())
+
 function selectTimeline(timeline: Timelines) {
   // Update selected timeline if it's different
   if (selectedTimeline.value === timeline) return
