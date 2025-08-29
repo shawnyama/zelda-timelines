@@ -16,7 +16,7 @@ The timelines only include games mentioned in these sources in case you are wond
 Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.org/wiki/Main_Page) and are licensed under the [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) license. I shortened some of their descriptions. Other descriptions were paraphrased from Nintendo Japan's [Zelda Portal](https://www.nintendo.com/jp/character/zelda/history/index.html).
 
 ### Icon allowance
-Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the permission of using the game icons.
+Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the permission of using the game icons found [here](https://zeldauniverse.net/games/).
 
 ### Box art
 The box art and artwork images used in this project are the property of Nintendo. They are used here for illustrative purposes and to enhance the user experience. All rights, including copyright and trademarks, are owned by Nintendo. No infringement is intended.
