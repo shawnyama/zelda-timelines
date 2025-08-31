@@ -55,7 +55,7 @@
   </nav>
   <div :class="['create', orientation]">
     <a
-      href="https://stackblitz.com/~/github.com/shawnyama/zelda-timelines"
+      href="https://stackblitz.com/~/github.com/shawnyama/zelda-timelines?file=src/data/GUIDE.md&view=preview"
       target="_blank"
       rel="noopener noreferrer"
     >
