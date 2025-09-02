@@ -315,10 +315,12 @@ async function updateDimensions(isFreshRender = false) {
   timelineBBox = (timelineGroup.node() as any).getBBox()
 
   // Determine dimensions of the viewport and maximum scale
-  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
-    [x0, y0],
-    [x1, y1]
-  ]
+  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => {
+    return [
+      [x0, y0],
+      [x1, y1]
+    ]
+  }
   if (props.orientation === 'LR') {
     maxScale = timelineBBox.width / svgWidth / 2
     translateExtent = setTranslateExtent(

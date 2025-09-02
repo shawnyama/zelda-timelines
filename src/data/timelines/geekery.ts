@@ -9,7 +9,7 @@ export const geekery = [
   {
     source: GameIds.TheMinishCap,
     target: GameIds.FourSwords,
-    distance: EdgeDistance.SomeTimePasses
+    extraDistance: EdgeDistance.SomeTimePasses
   },
   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
   {
@@ -47,7 +47,7 @@ export const geekery = [
   {
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
-    distance: 1
+    extraDistance: 1
   },
   {
     source: GameIds.OcarinaOfTime,

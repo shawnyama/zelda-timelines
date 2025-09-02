@@ -109,11 +109,11 @@ function openStackBlitz() {
 h1,
 nav,
 .right {
-  position: absolute;
   z-index: 2;
 }
 
 h1 {
+  position: absolute;
   display: flex;
   align-items: center;
   color: var(--dark-green);
@@ -138,9 +138,13 @@ h1,
 .timeline-name {
   font-family: 'triforce', sans-serif;
   font-size: 2.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .right {
+  position: fixed;
   display: flex;
   gap: 0.5rem;
   margin: 0.5rem;
@@ -172,9 +176,10 @@ h1,
 }
 
 nav {
+  position: absolute;
   margin: 0.5rem 0; /* Removing left and right padding centers it properly */
-  width: 20rem;
-  max-width: 100vw;
+  max-width: 45vw;
+  min-width: 20rem;
   justify-content: center;
   display: inline-block;
   top: 0;
@@ -326,6 +331,10 @@ nav {
 @media screen and (max-width: 800px) {
   h1 {
     display: none;
+  }
+
+  nav {
+    max-width: 95vw;
   }
 }
 

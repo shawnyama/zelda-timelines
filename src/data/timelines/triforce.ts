@@ -22,7 +22,7 @@ export const triforce = [
   {
     source: GameIds.HyruleWarriors,
     target: GameIds.TwilightPrincess,
-    distance: 1
+    extraDistance: 1
   },
   {
     source: GameIds.TwilightPrincess,
@@ -32,7 +32,7 @@ export const triforce = [
   {
     source: GameIds.LinksCrossbowTraining,
     target: Events.TheImprisoningWar,
-    distance: 1
+    extraDistance: 1
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   {
@@ -63,19 +63,19 @@ export const triforce = [
   {
     source: GameIds.TheAdventureOfLink,
     target: GameIds.CDiGamesAndCartoon,
-    distance: EdgeDistance.SomeTimePasses
+    extraDistance: EdgeDistance.SomeTimePasses
   },
   {
     source: GameIds.CDiGamesAndCartoon,
     target: Events.TheFirstGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses
+    extraDistance: EdgeDistance.ALongTimePasses
   },
   {
     source: Events.TheFirstGreatCalamity,
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses
+    extraDistance: EdgeDistance.ALongTimePasses
   },
   {
     source: Events.TheSecondGreatCalamity,

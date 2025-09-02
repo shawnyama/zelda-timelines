@@ -31,8 +31,6 @@ section {
   padding: 1rem;
   padding-top: 0.5rem;
   border-radius: 0.75rem;
-  font-family: 'calamity', sans-serif;
-  color: var(--dark-green);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -41,6 +39,8 @@ section {
 }
 
 header {
+  font-family: 'calamity', sans-serif;
+  color: var(--dark-green);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -63,7 +63,6 @@ div {
 .edge,
 .thick-edge,
 .dashed-edge {
-  font-size: 0.9rem;
   height: 1.5rem;
   width: 7rem;
 }
