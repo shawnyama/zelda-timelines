@@ -185,6 +185,7 @@ nav {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 3;
 
   & > .selected-timeline {
     color: white;
@@ -192,7 +193,7 @@ nav {
     gap: 0.75rem;
     backdrop-filter: blur(2px);
     position: relative;
-    z-index: 2;
+    z-index: 4;
 
     & > button {
       background: linear-gradient(var(--green), var(--green-alt));
@@ -276,8 +277,10 @@ nav {
       font-size: 2rem;
       animation: fade-in 0.2s ease-in-out;
       list-style: none;
-      padding: 0.5rem;
-      padding-bottom: 0.65rem;
+      margin: 0.5rem 0.25rem 0.75rem 0.25rem;
+      padding: 0;
+      overflow: auto;
+      max-height: 60vh;
       /* Helps dropdown still appear if mouse is located in the gap between the selector and the dropdown list */
       &::before {
         content: '';
@@ -291,6 +294,7 @@ nav {
 
       & > li {
         cursor: pointer;
+        margin: 0 0.25rem;
         & > a {
           color: white;
           text-decoration: none;
