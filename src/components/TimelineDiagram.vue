@@ -85,8 +85,8 @@ function generateDiagram() {
       target,
       style = EdgeStyle.Normal,
       extraDistance = 0,
-      subgraphStart,
-      subgraphEnd
+      subgraphToStart,
+      subgraphsToEnd
     }: Edge,
     index: number
   ) => {
@@ -102,17 +102,17 @@ function generateDiagram() {
 
     let connection = `${removeSpaces(source)} ${edge} ${removeSpaces(target)}`
 
-    if (subgraphStart) {
-      // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
-      if (majorEvents.includes(subgraphStart)) subgraphStart = subgraphStart.concat('Subgraph')
+    if (subgraphToStart) {
+      // Concatenate 'Subgraph' to the end of subgraphToStart if it's an event (avoids being repeated if used in source or target)
+      if (majorEvents.includes(subgraphToStart))
+        subgraphToStart = subgraphToStart.concat('Subgraph')
 
       connection = endent`
-        subgraph ${removeSpaces(subgraphStart)}
+        subgraph ${removeSpaces(subgraphToStart)}
         direction ${props.orientation}\n${connection}`
-      // console.log(connection)
     }
-    if (subgraphEnd) {
-      for (let i = 0; i < subgraphEnd; i++) {
+    if (subgraphsToEnd) {
+      for (let i = 0; i < subgraphsToEnd.length; i++) {
         connection = `${connection}\nend`
       }
     }
@@ -147,7 +147,7 @@ function generateDiagram() {
       theme: 'base',
       flowchart: {},
       themeVariables: {
-        primaryColor: 'transparent',
+        primaryColor: 'transparent', // Comment out this line to see where subgraphs are
         primaryBorderColor: 'transparent',
         lineColor: 'hsl(168, 57%, 26%)'
       }
@@ -162,6 +162,7 @@ function generateDiagram() {
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
+  console.log(diagram)
   return diagram
 }
 

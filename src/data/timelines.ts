@@ -19,11 +19,12 @@ export enum Timelines {
 export type Edge = {
   source: GameIds | Events | Eras // Previous event
   target: GameIds | Events | Eras // Next event
+  // Optional properties
   extraDistance?: number // Additional distance for the edge
   style?: EdgeStyle // Style of the edge
-  // Complex
-  subgraphStart?: string
-  subgraphEnd?: number
+  // Subgraphs are optional as well and might be complex to use
+  subgraphToStart?: string // Subgraph to start
+  subgraphsToEnd?: string[] // List of subgraphs to end
 }
 
 export const edges = {

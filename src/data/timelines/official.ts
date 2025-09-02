@@ -5,7 +5,7 @@ export const official = [
   {
     source: Events.TheCreationOfTheLandAndSky,
     target: GameIds.SkywardSword,
-    subgraphStart: Eras.EraOfMyth
+    subgraphToStart: Eras.EraOfMyth
   },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -30,7 +30,7 @@ export const official = [
     source: Events.TheHeroIsTriumphant,
     target: Events.ChildTimeline,
     style: EdgeStyle.Thick,
-    subgraphStart: Events.TheHeroIsTriumphant
+    subgraphToStart: Events.TheHeroIsTriumphant
   },
   { source: Events.TheHeroIsTriumphant, target: Events.AdultTimeline },
   { source: Events.AdultTimeline, target: Events.HyruleIsSealedAndThenFlooded },
@@ -50,7 +50,7 @@ export const official = [
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
     extraDistance: 1, // For some reason applying SomeTimePasses here creates a very large gap
-    subgraphEnd: 1
+    subgraphsToEnd: [Events.TheHeroIsTriumphant]
   },
   {
     source: GameIds.OcarinaOfTime,
@@ -59,7 +59,7 @@ export const official = [
   {
     source: Events.TheHeroIsDefeated,
     target: Events.TheImprisoningWar,
-    subgraphStart: Events.Downfall
+    subgraphToStart: Events.Downfall
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   { source: GameIds.ALinkToThePast, target: GameIds.LinksAwakening },
@@ -86,7 +86,7 @@ export const official = [
   {
     source: GameIds.TheLegendOfZelda,
     target: GameIds.TheAdventureOfLink,
-    subgraphEnd: 2,
+    subgraphsToEnd: [Events.Downfall, Eras.EraOfMyth],
     style: EdgeStyle.Thick
   },
   {
@@ -94,7 +94,7 @@ export const official = [
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: EdgeDistance.ALongTimePasses,
-    subgraphStart: Eras.EraOfTheWilds
+    subgraphToStart: Eras.EraOfTheWilds
   },
   {
     source: Events.TheSecondGreatCalamity,
@@ -104,7 +104,7 @@ export const official = [
   {
     source: GameIds.BreathOfTheWild,
     target: GameIds.TearsOfTheKingdom,
-    subgraphEnd: 1,
+    subgraphsToEnd: [Eras.EraOfTheWilds],
     style: EdgeStyle.Thick
   },
   {
