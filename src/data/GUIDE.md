@@ -11,7 +11,7 @@
 
 # Guide for adding a timeline
 
-This guide is the first file opened in the StackBlitz online dev environment so people can add timelines.
+This guide is the first file opened in the StackBlitz online dev environment so people can add timelines. What you'll mainly be busy with is editing a file that describes your new timeline. You will be barely programming (you can do it!).
 
 ### 1. Collect references
 It is highly recommended that you have reference(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples.  Collect them and keep them in handy for the submission step. 
@@ -27,9 +27,8 @@ If there are no references I will accept it and cite it as unknown. Just keep in
 3. By default `new-timeline.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes two games that link to each other, one being the `source` and one being the `target`.
    - The values (Games and other events) that can be held in the `source` and `target` are defined in `src/data/events.ts`
      - Notice how the values are written in `new-timeline.ts`. A game always has `GameIds.` in front of it and a general event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
-   - You can view the other files found under `src/data/timelines` to understand how the existing timelines in this project work.
-<!-- 2. Add a new `<your-timeline-name>.ts` file in the `/timelines` folder
-1. A timeline is made of a list of  -->
+   - I suggest to view the other files found under `src/data/timelines` to understand how the existing timelines in this project are written. Remember to select its corresponding timeline in the website panel to see their results. 
+4. 
 
 ## Decorate edges between games
 By importing `edge-decor.ts` into your timeline file you can assign:

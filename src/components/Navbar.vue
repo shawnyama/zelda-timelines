@@ -1,10 +1,10 @@
 <template>
-  <h2>
+  <h1>
     <span>Zelda timelines</span>
     <Button @click="emit('toggle-about-modal')" icon text title="About">
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
-  </h2>
+  </h1>
   <nav :class="orientation">
     <div class="selected-timeline" @mouseleave="isOptionsVisible = false">
       <Button
@@ -17,7 +17,7 @@
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
         </div>
-        <h1>{{ selectedTimeline.replace(/-/g, ' ') }}</h1>
+        <label class="timeline-name">{{ selectedTimeline.replace(/-/g, ' ') }}</label>
         <div class="gear-group">
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
@@ -53,25 +53,26 @@
       </Button>
     </div>
   </nav>
-  <div :class="['create', orientation]">
-    <a
-      href="https://stackblitz.com/~/github.com/shawnyama/zelda-timelines?file=src/data/GUIDE.md&view=preview"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <Button class="create-button" rounded>
-        <Icon icon="ph:file-plus-bold" height="1.5rem" />Create
-      </Button>
-    </a>
+  <div :class="['right', orientation]">
+    <Button v-if="!isLegendExpanded" class="create-button" sm-rounded @click="openStackBlitz">
+      <Icon icon="ph:file-plus-bold" height="1.5rem" />
+      Create
+    </Button>
+    <Button v-if="!isLegendExpanded" sm-rounded @click="isLegendExpanded = true">
+      <Icon icon="ph:list-dashes-bold" height="1.5rem" />
+      Legend
+    </Button>
+    <TimelineLegend v-else-if="isLegendExpanded" @collapse="isLegendExpanded = false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { Timelines } from '@/data/timelines'
 import Button from './widgets/Button.vue'
 import { Icon } from '@iconify/vue'
 import caret from '@/assets/caret-left.svg'
+import TimelineLegend from '@/components/TimelineLegend.vue'
 
 defineProps<{
   selectedTimeline: Timelines
@@ -87,29 +88,38 @@ const emit = defineEmits([
   'zoom-out'
 ])
 
+const isLegendExpanded = ref(false)
 const isOptionsVisible = ref(false)
 
 function selectTimeline(timeline: Timelines) {
   emit('select-timeline', timeline)
   isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
 }
+
+function openStackBlitz() {
+  window.open(
+    'https://stackblitz.com/~/github.com/shawnyama/zelda-timelines?file=src/data/GUIDE.md',
+    '_blank',
+    'noopener,noreferrer'
+  )
+}
 </script>
 
 <style scoped>
-h2,
+h1,
 nav,
-.create {
+.right {
   position: absolute;
   z-index: 2;
 }
 
-h2 {
+h1 {
   display: flex;
   align-items: center;
   color: var(--dark-green);
   padding: 0.75rem 0.25rem 0.1rem 1rem;
   border-bottom-right-radius: 1rem;
-  backdrop-filter: blur(6px);
+
   & > span {
     margin-right: 0.25rem;
     pointer-events: none;
@@ -119,12 +129,27 @@ h2 {
   }
 }
 
-.create {
+h1,
+.btn-group,
+.right {
+  backdrop-filter: blur(6px);
+}
+
+.timeline-name {
+  font-family: 'triforce', sans-serif;
+  font-size: 2.25rem;
+}
+
+.right {
+  display: flex;
+  gap: 0.5rem;
   margin: 0.5rem;
+  border-radius: 0.75rem;
   &.LR {
-    right: 0;
+    right: 0rem;
   }
   &.TB {
+    flex-direction: column;
     bottom: 0;
   }
 }
@@ -142,7 +167,6 @@ h2 {
   gap: 0.5rem;
   padding: 0.25rem;
   padding-top: 0.5rem;
-  backdrop-filter: blur(6px);
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
 }
@@ -300,8 +324,7 @@ nav {
 }
 
 @media screen and (max-width: 800px) {
-  h2,
-  .create {
+  h1 {
     display: none;
   }
 }

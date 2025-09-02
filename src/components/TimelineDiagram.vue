@@ -83,7 +83,6 @@ function generateDiagram() {
     {
       source,
       target,
-      label,
       style = EdgeStyle.Normal,
       extraDistance = 0,
       subgraphStart,
@@ -101,7 +100,7 @@ function generateDiagram() {
       styles = styles.concat(`linkStyle ${index} stroke-width:7px;`)
     }
 
-    let connection = `${removeSpaces(source)} ${edge}${!!label ? `|${label}|` : ''} ${removeSpaces(target)}`
+    let connection = `${removeSpaces(source)} ${edge} ${removeSpaces(target)}`
 
     if (subgraphStart) {
       // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
@@ -426,10 +425,6 @@ span {
   &:active {
     cursor: grabbing;
   }
-
-  /* & :deep(svg > g > .root > .nodes > g) {
-    width: 100px;
-  } */
 }
 
 :deep(foreignObject),
@@ -514,37 +509,10 @@ span {
 }
 
 :deep(h4.title) {
-  font-family: 'Spectral', serif;
-  font-weight: bold;
-  font-style: italic;
   font-size: 2rem;
   min-width: 18rem;
-  text-wrap: wrap;
-  line-height: 1.2;
-}
-
-:deep(h4.major-event) {
-  border: 12px solid var(--dark-green);
-  border-style: double;
-  background-color: whitesmoke;
+  border-width: 12px;
   border-radius: 1rem;
-  padding: 1rem 1.5rem;
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
-:deep(h4.major-event) {
-  color: #1e3a8a;
-  border-color: #1e3a8a;
-  background-color: skyblue;
-}
-
-:deep(h4.what-if) {
-  color: purple;
-  border-color: purple;
-  background-color: plum;
 }
 
 :deep(#mermaid.edge-thickness-normal) {
