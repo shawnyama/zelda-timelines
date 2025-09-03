@@ -8,6 +8,19 @@ export const triforce = [
   { source: Events.TheEstablishmentOfHyruleKingdom, target: Events.HyruleanCivilWar },
   { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime, style: EdgeStyle.Thick },
   { source: GameIds.OcarinaOfTime, target: Events.Divergence, style: EdgeStyle.Thick },
+  // Adult timeline
+  { source: Events.Divergence, target: Events.HyruleIsSealedAndThenFlooded },
+  { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
+  { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers, style: EdgeStyle.Thick },
+  { source: GameIds.NaviTrackers, target: GameIds.PhantomHourglass, style: EdgeStyle.Thick },
+  { source: GameIds.PhantomHourglass, target: Events.NewContinentDiscovered },
+  { source: Events.NewContinentDiscovered, target: Events.ANewHyruleKingdomIsFounded },
+  { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
+  { source: GameIds.SpiritTracks, target: GameIds.TheMinishCap },
+  { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
+  { source: GameIds.FourSwords, target: GameIds.FourSwordsAdventures },
+  { source: GameIds.FourSwordsAdventures, target: Events.Convergence },
+  // Child timeline
   { source: Events.Divergence, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
   {
     source: GameIds.MajorasMask,
@@ -40,17 +53,6 @@ export const triforce = [
     target: Events.Convergence,
     style: EdgeStyle.Thick
   },
-  { source: Events.Divergence, target: Events.HyruleIsSealedAndThenFlooded },
-  { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
-  { source: GameIds.TheWindWaker, target: GameIds.NaviTrackers, style: EdgeStyle.Thick },
-  { source: GameIds.NaviTrackers, target: GameIds.PhantomHourglass, style: EdgeStyle.Thick },
-  // Skip the new continent discovered event so the graph appears more compact
-  { source: GameIds.PhantomHourglass, target: Events.ANewHyruleKingdomIsFounded },
-  { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
-  { source: GameIds.SpiritTracks, target: GameIds.TheMinishCap },
-  { source: GameIds.TheMinishCap, target: GameIds.FourSwords },
-  { source: GameIds.FourSwords, target: GameIds.FourSwordsAdventures },
-  { source: GameIds.FourSwordsAdventures, target: Events.Convergence },
   { source: Events.Convergence, target: GameIds.AncientStoneTablets },
   { source: GameIds.AncientStoneTablets, target: GameIds.ALinkBetweenWorlds },
   { source: GameIds.ALinkBetweenWorlds, target: GameIds.TriforceHeroes, style: EdgeStyle.Thick },

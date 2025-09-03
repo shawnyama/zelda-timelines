@@ -10,7 +10,7 @@
 
 # Guide for adding a timeline
 
-This guide is the first file opened in the StackBlitz online dev environment so people can add timelines. What you'll mainly be busy with is editing a file that describes your new timeline. You will be barely programming (you can do it!).
+This guide is the first file opened in the StackBlitz online dev environment so people can add timelines. What you'll mainly be busy with is editing a typescript file that describes your new timeline. You will be barely programming (you can do it!).
 
 ## 1. Collect reference(s)
 It is highly recommended that you have reference(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples.  Collect them and keep them in handy for the submission step. 
@@ -58,7 +58,18 @@ type Edge = {
 }
 ```
 
-### 2a. Subgraphs (advanced)
+### 2a. Some pointers
+- The order of your branches will appear in the order you write them. Write one branch at a time. Once you start a new branch write a comment above it so its easy to find/organize.
+  - If your timeline includes the usual adult, child or downfall branches please write those branches in this order for consistency: adult, child, downfall
+- If you have some sort of event that you want to add to the `Events` enumerator feel free to add it
+- Some programming lingo you may want to lookup:
+  - string
+  - list/array
+  - object
+  - enumerator
+  - comment
+
+### 2b. Subgraphs (advanced)
 This step may be optional or not needed for your timeline.
 
 #### What are subgraphs?
