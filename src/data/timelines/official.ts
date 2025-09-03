@@ -21,6 +21,7 @@ export const official = [
     target: GameIds.OcarinaOfTime,
     style: EdgeStyle.Thick
   },
+  // The Hero is Triumphant
   {
     source: GameIds.OcarinaOfTime,
     target: Events.TheHeroIsTriumphant,
@@ -29,9 +30,9 @@ export const official = [
   {
     source: Events.TheHeroIsTriumphant,
     target: Events.ChildTimeline,
-    style: EdgeStyle.Thick,
-    subgraphToStart: Events.TheHeroIsTriumphant
+    style: EdgeStyle.Thick
   },
+  // Adult timeline
   { source: Events.TheHeroIsTriumphant, target: Events.AdultTimeline },
   { source: Events.AdultTimeline, target: Events.HyruleIsSealedAndThenFlooded },
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
@@ -43,23 +44,23 @@ export const official = [
   { source: GameIds.PhantomHourglass, target: Events.NewContinentDiscovered },
   { source: Events.NewContinentDiscovered, target: Events.ANewHyruleKingdomIsFounded },
   { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
+  // Child timeline
   { source: Events.ChildTimeline, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
   { source: GameIds.MajorasMask, target: Events.TheDemonThiefGanondorfIsExecuted },
   { source: Events.TheDemonThiefGanondorfIsExecuted, target: GameIds.TwilightPrincess },
   {
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
-    extraDistance: 1, // For some reason applying SomeTimePasses here creates a very large gap
-    subgraphsToEnd: [Events.TheHeroIsTriumphant]
+    extraDistance: 1 // For some reason applying SomeTimePasses here creates a very large gap
   },
+  // The Hero is Defeated
   {
     source: GameIds.OcarinaOfTime,
     target: Events.TheHeroIsDefeated
   },
   {
     source: Events.TheHeroIsDefeated,
-    target: Events.TheImprisoningWar,
-    subgraphToStart: Events.Downfall
+    target: Events.TheImprisoningWar
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   { source: GameIds.ALinkToThePast, target: GameIds.LinksAwakening },
@@ -86,7 +87,7 @@ export const official = [
   {
     source: GameIds.TheLegendOfZelda,
     target: GameIds.TheAdventureOfLink,
-    subgraphsToEnd: [Events.Downfall, Eras.EraOfMyth],
+    subgraphsToEnd: [Eras.EraOfMyth],
     style: EdgeStyle.Thick
   },
   {
@@ -107,6 +108,7 @@ export const official = [
     subgraphsToEnd: [Eras.EraOfTheWilds],
     style: EdgeStyle.Thick
   },
+  // Subgraph edge
   {
     source: Eras.EraOfMyth,
     target: Eras.EraOfTheWilds,

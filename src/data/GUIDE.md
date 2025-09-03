@@ -62,20 +62,29 @@ type Edge = {
 This step may be optional or not needed for your timeline.
 
 #### What are subgraphs?
-Subgraphs create containers around certain groups of edges [like this](https://mermaid.js.org/syntax/flowchart.html#subgraphs). The difference in this project is the subgraph label and box border is invisible. 
+Subgraphs create containers around certain groups of edges [like this](https://mermaid.js.org/syntax/flowchart.html#subgraphs). The difference in this project is the subgraph label and box border is invisible. Here we use subgraphs in the case we want to take advantage of the way their edges connect.
 
-Example 1:
-- Look at the Official timeline. All items before The Ancient Calamity are in a subgraph called `EraOfMyth`. After that is the `EraOfTheWilds` subgraph. We know that the `EraOfTheWilds` games come after the `EraOfMyth` games but we don't know which timeline branch they continue from. We utilize subgraphs to represent this ambiguity.
-
-Example 2:
-- blah
+Use case:
+- Look at the Official timeline and `official.ts`. All items before The Ancient Calamity are in a subgraph called `EraOfMyth`. After that is the `EraOfTheWilds` subgraph. We know that the `EraOfTheWilds` games come after the `EraOfMyth` games but we don't know which timeline branch they continue from. We utilize the subgraph edges to represent this ambiguious continuation.
 
 There might be some other reason you'd want to use subgraphs and you are free to do so. Just make sure that you genuinely need to use them.
 
 To see subgraph boxes and labels for debugging purposes remove/comment out line 150 from `src/components/TimelineDiagram.vue` which says `primaryColor: 'transparent'`.
 
 #### How to create a subgraph
+- Add a `subgraphToStart` property to the first edge you want your subgraph to include. It accepts a `string` value but using any enum member from `events.ts` is preferable.
+  -  ```typescript
+     subgraphToStart: Eras.EraOfMyth // Using enum member
+     ```
+  -  ```typescript
+     subgraphToStart: 'Subgraph 1'   // Using a string
+     ```
+- Add a `subgraphsToEnd` property to the last edge you want your subgraph to include. Instead of one `string` value it accepts a list of strings to support the odd case where you are closing multiple nested subgraphs. Typically you'd just need to close one:
+  - ```typescript
+    subgraphsToEnd: [Eras.EraOfMyth]
+    ```
+- Remember to link your subgraphs using an edge. The values used in `subgraphToStart` and `subgraphsToEnd` would be used as the values in `source` and `target`.
+- `official.ts` is a great example to see how subgraphs are defined
 
 ## 3. Submit
-
  
