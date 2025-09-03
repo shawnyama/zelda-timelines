@@ -54,10 +54,10 @@
     </div>
   </nav>
   <div :class="['right', orientation]">
-    <Button v-if="!isLegendExpanded" class="create-button" sm-rounded @click="openStackBlitz">
+    <!-- <Button v-if="!isLegendExpanded" class="create-button" sm-rounded @click="openStackBlitz">
       <Icon icon="ph:file-plus-bold" height="1.5rem" />
-      Create
-    </Button>
+      Create 
+    </Button> -->
     <Button v-if="!isLegendExpanded" sm-rounded @click="isLegendExpanded = true">
       <Icon icon="ph:list-dashes-bold" height="1.5rem" />
       Legend

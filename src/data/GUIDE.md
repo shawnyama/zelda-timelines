@@ -95,7 +95,7 @@ To see subgraph boxes and labels for debugging purposes remove/comment out line 
     subgraphsToEnd: [Eras.EraOfMyth]
     ```
 - Remember to link your subgraphs using an edge. The values used in `subgraphToStart` and `subgraphsToEnd` would be used as the values in `source` and `target`.
-- `official.ts` is a great example to see how subgraphs are defined
+- `official.ts` is a great example that showcases subgraphs
 
 ## 3. Submit
- 
+Work in progres...
