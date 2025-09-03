@@ -60,7 +60,7 @@ h3 {
 }
 
 h1 {
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 h2 {
@@ -109,6 +109,39 @@ a {
   -moz-appearance: none;
   appearance: none;
   border-radius: 0;
+}
+
+h4.title {
+  font-family: 'Spectral', serif;
+  font-weight: bold;
+  font-style: italic;
+  text-wrap: wrap;
+  line-height: 1.2;
+  text-align: center;
+  border-width: 6px;
+  border-radius: 0.5rem;
+}
+
+h4.major-event {
+  border-style: double;
+  background-color: whitesmoke;
+  padding: 1rem 1.5rem;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+h4.major-event {
+  color: #1e3a8a;
+  border-color: #1e3a8a;
+  background-color: skyblue;
+}
+
+h4.what-if {
+  color: purple;
+  border-color: purple;
+  background-color: plum;
 }
 
 @media screen and (min-height: 900px) {

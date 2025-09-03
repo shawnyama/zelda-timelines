@@ -83,15 +83,14 @@ function generateDiagram() {
     {
       source,
       target,
-      label,
       style = EdgeStyle.Normal,
-      distance = 0,
-      subgraphStart,
-      subgraphEnd
+      extraDistance = 0,
+      subgraphToStart,
+      subgraphsToEnd
     }: Edge,
     index: number
   ) => {
-    distance += 3 // Minimum required for mermaid to render is 3
+    const distance = 3 + extraDistance // Minimum required for mermaid to render is 3
 
     // The edge between nodes (edge design is applied here)
     let edge = style === EdgeStyle.Dotted ? `-${style.repeat(distance - 2)}-` : '-'.repeat(distance)
@@ -101,19 +100,19 @@ function generateDiagram() {
       styles = styles.concat(`linkStyle ${index} stroke-width:7px;`)
     }
 
-    let connection = `${removeSpaces(source)} ${edge}${!!label ? `|${label}|` : ''} ${removeSpaces(target)}`
+    let connection = `${removeSpaces(source)} ${edge} ${removeSpaces(target)}`
 
-    if (subgraphStart) {
-      // Concatenate 'Subgraph' to the end of subgraphStart if it's an event (avoids being repeated if used in source or target)
-      if (majorEvents.includes(subgraphStart)) subgraphStart = subgraphStart.concat('Subgraph')
+    if (subgraphToStart) {
+      // Concatenate 'Subgraph' to the end of subgraphToStart if it's an event (avoids being repeated if used in source or target)
+      if (majorEvents.includes(subgraphToStart))
+        subgraphToStart = subgraphToStart.concat('Subgraph')
 
       connection = endent`
-        subgraph ${removeSpaces(subgraphStart)}
+        subgraph ${removeSpaces(subgraphToStart)}
         direction ${props.orientation}\n${connection}`
-      // console.log(connection)
     }
-    if (subgraphEnd) {
-      for (let i = 0; i < subgraphEnd; i++) {
+    if (subgraphsToEnd) {
+      for (let i = 0; i < subgraphsToEnd.length; i++) {
         connection = `${connection}\nend`
       }
     }
@@ -148,7 +147,7 @@ function generateDiagram() {
       theme: 'base',
       flowchart: {},
       themeVariables: {
-        primaryColor: 'transparent',
+        primaryColor: 'transparent', // Comment out this line to see where subgraphs are
         primaryBorderColor: 'transparent',
         lineColor: 'hsl(168, 57%, 26%)'
       }
@@ -163,7 +162,7 @@ function generateDiagram() {
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
-
+  console.log(diagram)
   return diagram
 }
 
@@ -317,10 +316,12 @@ async function updateDimensions(isFreshRender = false) {
   timelineBBox = (timelineGroup.node() as any).getBBox()
 
   // Determine dimensions of the viewport and maximum scale
-  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => [
-    [x0, y0],
-    [x1, y1]
-  ]
+  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => {
+    return [
+      [x0, y0],
+      [x1, y1]
+    ]
+  }
   if (props.orientation === 'LR') {
     maxScale = timelineBBox.width / svgWidth / 2
     translateExtent = setTranslateExtent(
@@ -427,10 +428,6 @@ span {
   &:active {
     cursor: grabbing;
   }
-
-  /* & :deep(svg > g > .root > .nodes > g) {
-    width: 100px;
-  } */
 }
 
 :deep(foreignObject),
@@ -515,37 +512,10 @@ span {
 }
 
 :deep(h4.title) {
-  font-family: 'Spectral', serif;
-  font-weight: bold;
-  font-style: italic;
   font-size: 2rem;
   min-width: 18rem;
-  text-wrap: wrap;
-  line-height: 1.2;
-}
-
-:deep(h4.major-event) {
-  border: 12px solid var(--dark-green);
-  border-style: double;
-  background-color: whitesmoke;
+  border-width: 12px;
   border-radius: 1rem;
-  padding: 1rem 1.5rem;
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
-:deep(h4.major-event) {
-  color: #1e3a8a;
-  border-color: #1e3a8a;
-  background-color: skyblue;
-}
-
-:deep(h4.what-if) {
-  color: purple;
-  border-color: purple;
-  background-color: plum;
 }
 
 :deep(#mermaid.edge-thickness-normal) {

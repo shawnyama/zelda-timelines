@@ -5,7 +5,6 @@ export interface Node {
   id: string
   title: string
 }
-
 export interface GameNode extends Node {
   releases: { platform: Platforms; year: number }[]
   description: string

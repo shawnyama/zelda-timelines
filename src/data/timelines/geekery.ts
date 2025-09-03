@@ -9,7 +9,7 @@ export const geekery = [
   {
     source: GameIds.TheMinishCap,
     target: GameIds.FourSwords,
-    distance: EdgeDistance.SomeTimePasses
+    extraDistance: EdgeDistance.SomeTimePasses
   },
   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
   {
@@ -17,6 +17,7 @@ export const geekery = [
     target: GameIds.OcarinaOfTime,
     style: EdgeStyle.Thick
   },
+  // Adult timeline
   {
     source: GameIds.OcarinaOfTime,
     target: Events.AdultTimeline
@@ -36,6 +37,7 @@ export const geekery = [
   { source: GameIds.SpiritTracks, target: Events.OldHyruleIsDiscovered },
   { source: Events.OldHyruleIsDiscovered, target: GameIds.TheLegendOfZelda },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, style: EdgeStyle.Thick },
+  // Child timeline
   {
     source: GameIds.OcarinaOfTime,
     target: Events.ChildTimeline,
@@ -47,8 +49,9 @@ export const geekery = [
   {
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
-    distance: 1
+    extraDistance: 1
   },
+  // Hero is absent
   {
     source: GameIds.OcarinaOfTime,
     target: Events.TheHeroIsAbsent

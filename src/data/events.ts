@@ -81,6 +81,12 @@ export enum Events {
   OldHyruleIsDiscovered = 'Old Hyrule is Discovered'
 }
 
+// Create subgraphs
+export enum Eras {
+  EraOfMyth = 'Era of Myth',
+  EraOfTheWilds = 'Era of the Wilds'
+}
+
 export const timeSplitEvents: string[] = [
   Events.AdultTimeline,
   Events.ChildTimeline,
@@ -98,9 +104,3 @@ export const whatIfEvents: string[] = [
 ]
 
 export const majorEvents: string[] = [...timeSplitEvents, ...whatIfEvents]
-
-// Create subgraphs
-export enum Eras {
-  EraOfMyth = 'Era of Myth',
-  EraOfTheWilds = 'Era of the Wilds'
-}

@@ -10,7 +10,9 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 - Frank Moussette's of Geekery Collective [[playlist](https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg)]
 - AbsurdZeldaTheories aka Bird Keeper Toby's [[video](https://www.youtube.com/watch?v=rPrqd6682gE)]
 
-The timelines only include games mentioned in these sources in case you are wondering why some game(s) may be missing. If I come across other timeline theories I'll be interested in adding them too.
+The timelines only include games mentioned in these sources in case you are wondering why some game(s) may be missing. If I come across other timeline theories I'll be interested in adding them too. 
+
+If you would like to add a timeline you can do so [here](https://stackblitz.com/~/github.com/shawnyama/zelda-timelines?file=src/data/GUIDE.md). 
 
 ### Game descriptions
 Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.org/wiki/Main_Page) and are licensed under the [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) license. I shortened some of their descriptions. Other descriptions were paraphrased from Nintendo Japan's [Zelda Portal](https://www.nintendo.com/jp/character/zelda/history/index.html).

@@ -5,7 +5,7 @@ export const official = [
   {
     source: Events.TheCreationOfTheLandAndSky,
     target: GameIds.SkywardSword,
-    subgraphStart: Eras.EraOfMyth
+    subgraphToStart: Eras.EraOfMyth
   },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -13,7 +13,7 @@ export const official = [
   {
     source: GameIds.TheMinishCap,
     target: GameIds.FourSwords,
-    distance: EdgeDistance.SomeTimePasses
+    extraDistance: EdgeDistance.SomeTimePasses
   },
   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
   {
@@ -21,6 +21,7 @@ export const official = [
     target: GameIds.OcarinaOfTime,
     style: EdgeStyle.Thick
   },
+  // The Hero is Triumphant
   {
     source: GameIds.OcarinaOfTime,
     target: Events.TheHeroIsTriumphant,
@@ -29,9 +30,9 @@ export const official = [
   {
     source: Events.TheHeroIsTriumphant,
     target: Events.ChildTimeline,
-    style: EdgeStyle.Thick,
-    subgraphStart: Events.TheHeroIsTriumphant
+    style: EdgeStyle.Thick
   },
+  // Adult timeline
   { source: Events.TheHeroIsTriumphant, target: Events.AdultTimeline },
   { source: Events.AdultTimeline, target: Events.HyruleIsSealedAndThenFlooded },
   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
@@ -43,23 +44,23 @@ export const official = [
   { source: GameIds.PhantomHourglass, target: Events.NewContinentDiscovered },
   { source: Events.NewContinentDiscovered, target: Events.ANewHyruleKingdomIsFounded },
   { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
+  // Child timeline
   { source: Events.ChildTimeline, target: GameIds.MajorasMask, style: EdgeStyle.Thick },
   { source: GameIds.MajorasMask, target: Events.TheDemonThiefGanondorfIsExecuted },
   { source: Events.TheDemonThiefGanondorfIsExecuted, target: GameIds.TwilightPrincess },
   {
     source: GameIds.TwilightPrincess,
     target: GameIds.FourSwordsAdventures,
-    distance: 1, // For some reason applying SomeTimePasses here creates a very large gap
-    subgraphEnd: 1
+    extraDistance: 1 // For some reason applying SomeTimePasses here creates a very large gap
   },
+  // The Hero is Defeated
   {
     source: GameIds.OcarinaOfTime,
     target: Events.TheHeroIsDefeated
   },
   {
     source: Events.TheHeroIsDefeated,
-    target: Events.TheImprisoningWar,
-    subgraphStart: Events.Downfall
+    target: Events.TheImprisoningWar
   },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
   { source: GameIds.ALinkToThePast, target: GameIds.LinksAwakening },
@@ -86,15 +87,15 @@ export const official = [
   {
     source: GameIds.TheLegendOfZelda,
     target: GameIds.TheAdventureOfLink,
-    subgraphEnd: 2,
+    subgraphsToEnd: [Eras.EraOfMyth],
     style: EdgeStyle.Thick
   },
   {
     source: Events.TheFirstGreatCalamity,
     target: Events.TheSecondGreatCalamity,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses,
-    subgraphStart: Eras.EraOfTheWilds
+    extraDistance: EdgeDistance.ALongTimePasses,
+    subgraphToStart: Eras.EraOfTheWilds
   },
   {
     source: Events.TheSecondGreatCalamity,
@@ -104,13 +105,14 @@ export const official = [
   {
     source: GameIds.BreathOfTheWild,
     target: GameIds.TearsOfTheKingdom,
-    subgraphEnd: 1,
+    subgraphsToEnd: [Eras.EraOfTheWilds],
     style: EdgeStyle.Thick
   },
+  // Subgraph edge
   {
     source: Eras.EraOfMyth,
     target: Eras.EraOfTheWilds,
     style: EdgeStyle.Dotted,
-    distance: EdgeDistance.ALongTimePasses
+    extraDistance: EdgeDistance.ALongTimePasses
   }
 ]

@@ -1,13 +1,13 @@
 <template>
   <aside id="Description" :class="{ collapsed: isCollapsed }">
     <header>
-      <h1>
+      <h2>
         <span>{{ game.title }}</span>
         <Button
           v-if="!isSmallScreen"
           :title="isCollapsed ? 'Show description' : 'Hide description'"
           :icon="!isCollapsed"
-          rounded
+          sm-rounded
           :style="{
             backgroundColor: isCollapsed ? 'hsl(0, 0%, 96%, 0.7)' : 'hsl(0, 0%, 96%, 0.3)'
           }"
@@ -19,7 +19,7 @@
           />
           <template v-if="isCollapsed">Game description</template>
         </Button>
-      </h1>
+      </h2>
       <div class="border-top" />
       <img :src="icon" alt="art" />
     </header>
@@ -100,10 +100,10 @@ aside {
     & header {
       margin: 0;
       width: fit-content;
-      & > h1 {
+      & > h2 {
         margin-left: auto;
       }
-      & > h1 > span,
+      & > h2 > span,
       & > .border-top,
       & > img {
         display: none;
@@ -235,7 +235,8 @@ header {
   user-select: none;
   gap: 0.5rem;
 
-  & > h1 {
+  & > h2 {
+    font-size: 2.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -270,7 +271,7 @@ For base styles see DescriptionModal.vue.
 @container (max-width: 600px) {
   header {
     margin-top: -1.15rem;
-    & > h1 {
+    & > h2 {
       font-size: 1.6rem;
     }
     & > img {

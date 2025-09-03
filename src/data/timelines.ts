@@ -5,6 +5,7 @@ import { triforce } from './timelines/triforce'
 import { lorulean } from './timelines/lorulean'
 import { geekery } from './timelines/geekery'
 import { absurd } from './timelines/absurd'
+// import { newTimeline } from './timelines/new-timeline'
 
 export enum Timelines {
   Official = 'official',
@@ -12,16 +13,18 @@ export enum Timelines {
   Lorulean = 'lorulean',
   Geekery = 'geekery',
   Absurd = 'absurd'
+  // NewTimeline = 'new-timeline'
 }
 
 export type Edge = {
-  source: GameIds | Events | Eras
-  target: GameIds | Events | Eras
-  subgraphStart?: string
-  subgraphEnd?: number
-  label?: string
-  style?: EdgeStyle
-  distance?: number
+  source: GameIds | Events | Eras // Previous event
+  target: GameIds | Events | Eras // Next event
+  // Optional properties
+  extraDistance?: number // Additional distance for the edge
+  style?: EdgeStyle // Style of the edge
+  // Subgraphs are optional as well and might be complex to use
+  subgraphToStart?: string // Subgraph to start
+  subgraphsToEnd?: string[] // List of subgraphs to end
 }
 
 export const edges = {
@@ -30,4 +33,5 @@ export const edges = {
   [Timelines.Lorulean]: lorulean,
   [Timelines.Geekery]: geekery,
   [Timelines.Absurd]: absurd
+  // [Timelines.NewTimeline]: newTimeline
 }

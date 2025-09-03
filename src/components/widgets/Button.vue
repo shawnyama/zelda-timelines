@@ -1,5 +1,5 @@
 <template>
-  <button :class="{ text, rounded, outlined, icon }">
+  <button :class="{ text, rounded, 'sm-rounded': smRounded, outlined, icon }">
     <slot />
   </button>
 </template>
@@ -7,6 +7,7 @@
 <script setup lang="ts">
 defineProps<{
   rounded?: boolean
+  smRounded?: boolean
   outlined?: boolean
   text?: boolean
   icon?: boolean
@@ -16,7 +17,7 @@ defineProps<{
 <style scoped>
 button {
   display: inline-flex;
-  background-color: white;
+  background-color: hsl(0, 0%, 96%, 0.7);
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem;
@@ -53,6 +54,10 @@ button {
 
   &.rounded {
     border-radius: 5rem;
+  }
+
+  &.sm-rounded {
+    border-radius: 0.75rem;
   }
 }
 </style>
