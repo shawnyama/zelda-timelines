@@ -54,14 +54,21 @@
     </div>
   </nav>
   <div :class="['right', orientation]">
-    <!-- <Button v-if="!isLegendExpanded" class="create-button" sm-rounded @click="openStackBlitz">
-      <Icon icon="ph:file-plus-bold" height="1.5rem" />
-      Create 
-    </Button> -->
+    <template v-if="!isLegendExpanded">
+      <Button v-if="isStackBlitz" class="create-button" sm-rounded>
+        <Icon icon="ph:file-arrow-up-bold" height="1.5rem" />
+        Submit
+      </Button>
+      <Button v-else class="create-button" sm-rounded @click="openStackBlitz">
+        <Icon icon="ph:file-plus-bold" height="1.5rem" />
+        Create
+      </Button>
+    </template>
     <Button v-if="!isLegendExpanded" sm-rounded @click="isLegendExpanded = true">
       <Icon icon="ph:list-dashes-bold" height="1.5rem" />
       Legend
     </Button>
+
     <TimelineLegend v-else-if="isLegendExpanded" @collapse="isLegendExpanded = false" />
   </div>
 </template>
@@ -87,6 +94,8 @@ const emit = defineEmits([
   'jump-to-end',
   'zoom-out'
 ])
+
+const isStackBlitz = window.location.hostname.includes('stackblitz')
 
 const isLegendExpanded = ref(false)
 const isOptionsVisible = ref(false)

@@ -5,15 +5,15 @@ import { triforce } from './timelines/triforce'
 import { lorulean } from './timelines/lorulean'
 import { geekery } from './timelines/geekery'
 import { absurd } from './timelines/absurd'
-// import { newTimeline } from './timelines/new-timeline'
+import { newTimeline } from './timelines/new-timeline'
 
 export enum Timelines {
   Official = 'official',
   Triforce = 'triforce',
   Lorulean = 'lorulean',
   Geekery = 'geekery',
-  Absurd = 'absurd'
-  // NewTimeline = 'new-timeline'
+  Absurd = 'absurd',
+  NewTimeline = 'new-timeline'
 }
 
 export type Edge = {
@@ -32,6 +32,6 @@ export const edges = {
   [Timelines.Triforce]: triforce,
   [Timelines.Lorulean]: lorulean,
   [Timelines.Geekery]: geekery,
-  [Timelines.Absurd]: absurd
-  // [Timelines.NewTimeline]: newTimeline
+  [Timelines.Absurd]: absurd,
+  [Timelines.NewTimeline]: newTimeline
 }
