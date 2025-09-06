@@ -95,7 +95,15 @@ const emit = defineEmits([
   'zoom-out'
 ])
 
-const isStackBlitz = window.location.hostname.includes('stackblitz')
+const isStackBlitz = (() => {
+  const hostname = window.location.hostname
+  return (
+    hostname.includes('stackblitz') ||
+    hostname.includes('webcontainer.io') ||
+    hostname.includes('local-corp') ||
+    hostname.match(/.*--\d+--\d+\..*/)
+  ) // Pattern for StackBlitz dev URLs
+})()
 
 const isLegendExpanded = ref(false)
 const isOptionsVisible = ref(false)
@@ -107,7 +115,7 @@ function selectTimeline(timeline: Timelines) {
 
 function openStackBlitz() {
   window.open(
-    'https://stackblitz.com/~/github.com/shawnyama/zelda-timelines?file=src/data/GUIDE.md',
+    'https://stackblitz.com/~/github.com/shawnyama/zelda-timelines/tree/submission-mode?file=src/data/GUIDE.md',
     '_blank',
     'noopener,noreferrer'
   )
