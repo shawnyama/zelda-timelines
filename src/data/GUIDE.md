@@ -15,12 +15,12 @@ This guide is the first file opened in the StackBlitz online dev environment so 
 ## 1. Collect reference(s)
 It is highly recommended that you have reference(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples.  Collect them and keep them in handy for the submission step. 
 
-If you don't have any references but remember where you saw the info (eg. private chat, can't find the link), note it down for the submission step.
+If you don't have any references but remember where you saw the info (eg. private chat, can't find the link), note it down for the submission step (Step 3).
 
 If there are no references I will accept it and cite it as unknown. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the references. A lack of references gives a lack of context which results in a weaker contribution.
 
-## 2. Add a timeline
-
+## 2. Add timeline
+### 2a. How to write a new timeline
 1. In the panel with the website running, select the "NEW TIMELINE" in the timeline dropdown.
 2. The sidebar on the left contains the website's folders and files. Open the `new-timeline.ts` file found in `src/data/timelines`. This file describes the "NEW TIMELINE" and is what you will be editing.
 3. By default `new-timeline.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
@@ -35,7 +35,7 @@ If there are no references I will accept it and cite it as unknown. Just keep in
      - If a vast time gap passes between games use `EdgeDistance.ALongTimePasses`
        - eg. The Ancient Calamity happened 10,000 years ago before Breath of the Wild
      - Tips: 
-       - If using the `EdgeDistance` enumerator is not giving you the distance you are expecting (too small/too large), feel free to use a regular number (play around with it until it looks proper)
+       - If using the `EdgeDistance` enumerator is not giving you the distance you are expecting (too small/too large), feel free to use a regular number instead (play around with it until it looks proper)
        - Distance is not meant to be applied to a perfect scale. For example if you compare the events happening in parallel in the Triforce timeline we can't say that they are occuring at the same time. That's fine, focus on making the distance look good where possible.
 5. Add the `style` property to edges that require different styling:
    - Assign thick edges between games that have the same incarnation of Link with `EdgeStyle.Thick`
@@ -58,18 +58,24 @@ type Edge = {
 }
 ```
 
-### 2a. Some pointers
+### 2b. Some pointers
+#### Organization
 - The order of your branches will appear in the order you write them. Write one branch at a time. Once you start a new branch write a comment above it so its easy to find/organize.
-  - If your timeline includes the usual adult, child or downfall branches please write those branches in this order for consistency: adult, child, downfall
-- If you have some sort of event that you want to add to the `Events` enumerator feel free to add it
+  - Check out how the other timelines are organized under `src/data/timelines`, there is a comment before a new branch starts
+- If your timeline includes the usual adult, child or downfall branches please write those branches in this order for consistency: adult, child, downfall
+#### Adding your own events
+- If you have some sort of event(s) that you want to add to the `Events` or `Eras` enumerators feel free to add them
+- Do not add to the `GameIds` enumerator
+#### Misc.
 - Some programming lingo you may want to lookup:
   - string
   - list/array
   - object
   - enumerator
   - comment
+- Your work in StackBlitz is saved in browser (local storage). So if you clear your browser data your work will be erased.
 
-### 2b. Subgraphs (advanced)
+### 2c. Subgraphs (advanced)
 This step may be optional or not needed for your timeline.
 
 #### What are subgraphs?
@@ -98,4 +104,6 @@ To see subgraph boxes and labels for debugging purposes remove/comment out line 
 - `official.ts` is a great example that showcases subgraphs
 
 ## 3. Submit
-Work in progress...
+1. Download your `new-timeline.ts` by right-clicking it in the left sidebar and then select Download
+2. If you edited `events.ts` download that too
+3. Submit the file(s) and follow the instructions in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQuYEvYTrAu4iP0BfVdkNXONGvqsOlPKvQ1oBwLmdbg98kiA/viewform?usp=header)

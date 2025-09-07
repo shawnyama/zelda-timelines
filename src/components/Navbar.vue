@@ -55,21 +55,16 @@
   </nav>
   <div :class="['right', orientation]">
     <template v-if="!isLegendExpanded">
-      <Button v-if="isStackBlitz" class="create-button" sm-rounded>
-        <Icon icon="ph:file-arrow-up-bold" height="1.5rem" />
-        Submit
-      </Button>
-      <Button v-else class="create-button" sm-rounded @click="openStackBlitz">
+      <Button class="create-button" sm-rounded @click="openStackBlitz">
         <Icon icon="ph:file-plus-bold" height="1.5rem" />
         Create
       </Button>
+      <Button sm-rounded @click="isLegendExpanded = true">
+        <Icon icon="ph:list-dashes-bold" height="1.5rem" />
+        Legend
+      </Button>
     </template>
-    <Button v-if="!isLegendExpanded" sm-rounded @click="isLegendExpanded = true">
-      <Icon icon="ph:list-dashes-bold" height="1.5rem" />
-      Legend
-    </Button>
-
-    <TimelineLegend v-else-if="isLegendExpanded" @collapse="isLegendExpanded = false" />
+    <TimelineLegend v-else @collapse="isLegendExpanded = false" />
   </div>
 </template>
 
@@ -94,16 +89,6 @@ const emit = defineEmits([
   'jump-to-end',
   'zoom-out'
 ])
-
-const isStackBlitz = (() => {
-  const hostname = window.location.hostname
-  return (
-    hostname.includes('stackblitz') ||
-    hostname.includes('webcontainer.io') ||
-    hostname.includes('local-corp') ||
-    hostname.match(/.*--\d+--\d+\..*/)
-  ) // Pattern for StackBlitz dev URLs
-})()
 
 const isLegendExpanded = ref(false)
 const isOptionsVisible = ref(false)
