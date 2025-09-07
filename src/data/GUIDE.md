@@ -105,5 +105,5 @@ To see subgraph boxes and labels for debugging purposes remove/comment out line 
 
 ## 3. Submit
 1. Download your `new-timeline.ts` by right-clicking it in the left sidebar and then select Download
-2. If you edited `events.ts` download that too
-3. Submit the file(s) and follow the instructions in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQuYEvYTrAu4iP0BfVdkNXONGvqsOlPKvQ1oBwLmdbg98kiA/viewform?usp=header)
+   - If you edited `events.ts` download that too
+2. Submit the file(s) and follow the instructions in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQuYEvYTrAu4iP0BfVdkNXONGvqsOlPKvQ1oBwLmdbg98kiA/viewform?usp=header)
