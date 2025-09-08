@@ -66,14 +66,18 @@ type Edge = {
 #### Adding your own events
 - If you have some sort of event(s) that you want to add to the `Events` or `Eras` enumerators feel free to add them
 - Do not add to the `GameIds` enumerator
-#### Misc.
-- Some programming lingo you may want to lookup:
+#### How your edits are saved
+- Your work in StackBlitz is saved in browser (local storage). If you clear your browser data your work will be erased.
+- If I decide to update this guide or anything in this "create mode" version of the website (what you are editing now), your progress will be erased.
+  - Therefore I will update this version as little as possible. If I decide to update this, it will occur on the 1st day of the any month. So your progress is in danger on the 1st day of every month.
+- **If you really don't want to risk losing your progress** download the files you've edited (follow Step 3.1) so in case your progress is gone here you can copy it back in
+#### Some programming lingo you may want to lookup:
   - string
   - list/array
   - object
   - enumerator
   - comment
-- Your work in StackBlitz is saved in browser (local storage). So if you clear your browser data your work will be erased.
+
 
 ### 2c. Subgraphs (advanced)
 This step may be optional or not needed for your timeline.
