@@ -27,7 +27,9 @@ If there are no references I will accept it and cite it as unknown. Just keep in
    - The values (games and events) that can be held in the `source` and `target` are defined in `src/data/events.ts`
      - Notice how the values are written in `new-timeline.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
    - Tips:
-     - For this step just focus on adding `source` and `target` properties in every object. These properties are mandatory for every object and the timeline diagram won't appear of one of them is missing. The other properties are like the icing on the cake so we will tackle them in later steps. 
+     - For this step just focus on adding `source` and `target` properties in every object. These properties are mandatory for every object and the timeline diagram won't appear of one of them is missing. The other properties are like the icing on the cake so we will tackle them in later steps.
+     - Remember to save your changes with Ctrl+S (Windows/Linux) or Command+S (MacOS) to them reflected in the website panel
+     - If you don't see your changes being reflected or clicking a game doesn't work as expected refresh the website panel
      - View the other files found under `src/data/timelines` to understand how the existing timelines in this project are written. Remember to select its corresponding timeline in the website panel to see their results.
 4. Add the `extraDistance` property to edges that you intuitively feel need some: 
      - If some time passes between games and there is no event placed between them use `EdgeDistance.SomeTimePasses`
@@ -68,10 +70,10 @@ type Edge = {
 - Do not add to the `GameIds` enumerator
 #### How your edits are saved
 - Your work in StackBlitz is saved in browser (local storage). If you clear your browser data your work will be erased.
-- If I decide to update this guide or anything in this "create mode" version of the website (what you are editing now), your progress will be erased.
-  - Therefore I will update this version as little as possible. If I decide to update this, it will occur on the 1st day of the any month. So your progress is in danger on the 1st day of every month.
+- If I decide to update this guide or anything in this "create mode" version of the website (what you are editing now), there is a chance that your progress will be erased.
+  - Therefore I will update this version as little as possible. If I decide to update this, it will occur on the 1st day of any month. This way you know that your progress is in danger on the 1st day of every month.
 - **If you really don't want to risk losing your progress** download the files you've edited (follow Step 3.1) so in case your progress is gone here you can copy it back in
-#### Some programming lingo you may want to lookup:
+#### Some programming lingo you may want to lookup
   - string
   - list/array
   - object
