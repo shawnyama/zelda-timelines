@@ -112,6 +112,7 @@ function generateDiagram() {
         direction ${props.orientation}\n${connection}`
     }
     if (subgraphsToEnd) {
+      // FIXME: This works but this doesn't strictly check if we are closing an existing subgraph
       for (let i = 0; i < subgraphsToEnd.length; i++) {
         connection = `${connection}\nend`
       }

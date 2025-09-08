@@ -93,7 +93,8 @@ export const timeSplitEvents: string[] = [
   Events.Divergence,
   Events.Convergence,
   Events.Downfall,
-  Events.TheHeroIsAbsent
+  Events.TheHeroIsAbsent,
+  Events.TerrakoGoesBackInTime
 ]
 
 export const whatIfEvents: string[] = [
