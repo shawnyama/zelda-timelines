@@ -54,7 +54,7 @@ let timelineBBox: SVGRect
 
 // This flag disables unnecessary movement when the diagram has very few nodes
 // This is a work around, really the jump to start/end and zoom out buttons should still work properly regardless of the diagram size
-// TODO: I wonder if providing a minimum width(TB mode) or height (LR mode) could help with positioning the diagrams more consistently
+// TODO: I wonder if providing a minimum width(TB mode) or height(LR mode) could help with positioning the diagrams more consistently
 let isDiagramSmall = false
 
 // Tracks available game nodes
