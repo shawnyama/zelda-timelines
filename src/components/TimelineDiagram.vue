@@ -42,6 +42,7 @@ const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 const DIAGRAM_PADDING = 400
 const MIN_SCALE = 0.75
 let maxScale = 1
+
 let svg: d3.Selection<any, unknown, HTMLElement, undefined>
 let svgWidth = 0
 let svgHeight = 0
@@ -50,6 +51,11 @@ let translateExtent: number[][] = []
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
+
+// This flag disables unnecessary movement when the diagram has very few nodes
+// This is a work around, really the jump to start/end and zoom out buttons should still work properly regardless of the diagram size
+// TODO: I wonder if providing a minimum width(TB mode) or height (LR mode) could help with positioning the diagrams more consistently
+let isDiagramSmall = false
 
 // Tracks available game nodes
 let displayedGameIds: string[] = []
@@ -163,7 +169,7 @@ function generateDiagram() {
   `
 
   displayedGameIds = gameNodesToDisplay.map(({ id }) => id) // Keep track of available game nodes
-  console.log(diagram)
+  // console.log(diagram)
   return diagram
 }
 
@@ -175,7 +181,14 @@ function applyTransform(
   // console.log(translateX, translateY)
   if (!zoom?.transform) return
   const defaultOptions = { useTransition: true, scale: maxScale }
-  const { scale, useTransition } = { ...defaultOptions, ...options }
+  let { scale, useTransition } = { ...defaultOptions, ...options }
+
+  if (isDiagramSmall) {
+    translateX = 0
+    translateY = 0
+    scale = MIN_SCALE
+  }
+
   if (useTransition) {
     svg
       .transition()
@@ -339,6 +352,13 @@ async function updateDimensions(isFreshRender = false) {
       svgWidth + DIAGRAM_PADDING * 3, // *3 gives more space on the right for mobile mode
       timelineBBox.height + DIAGRAM_PADDING
     )
+  }
+
+  if (maxScale < 1) {
+    maxScale = MIN_SCALE
+    isDiagramSmall = true
+  } else {
+    isDiagramSmall = false
   }
 
   const [x0, y0] = translateExtent[0]
