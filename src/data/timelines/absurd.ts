@@ -1,7 +1,17 @@
 import { GameIds, Events } from '../events'
 import { EdgeStyle } from '../edge-decor'
+import type { Edge, Metadata } from '../timelines'
 
-export const absurd = [
+const metadata: Metadata = {
+  timelineTitle: 'Absurd Timeline',
+  timelineCreator: 'AbsurdZeldaTheories aka Bird Keeper Toby',
+  submittedBy: 'Shawn Yama',
+  submittedOn: '2024-06-20',
+  lastUpdatedOn: '2024-06-20',
+  sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=rPrqd6682gE' }]
+}
+
+const flowchart: Edge[] = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -67,3 +77,5 @@ export const absurd = [
     style: EdgeStyle.Thick
   }
 ]
+
+export default { flowchart, metadata }

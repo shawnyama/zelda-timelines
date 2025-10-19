@@ -1,7 +1,7 @@
 <template>
   <section>
     <header>
-      <Icon icon="ph:list-dashes-bold" height="1.5rem" />
+      <Icon icon="ph:book-open-text-bold" height="1.5rem" />
       <h4>Legend</h4>
       <Button @click="emits('collapse')" sm-rounded icon>
         <Icon icon="ph:arrows-in-simple-bold" height="1.4rem" />

@@ -20,7 +20,7 @@ import endent from 'endent'
 import { GameIds, timeSplitEvents, whatIfEvents, majorEvents } from '@/data/events'
 import { EdgeStyle } from '@/data/edge-decor'
 import { gameNodes } from '@/data/games'
-import { edges, Timelines } from '@/data/timelines'
+import { timelineData, Timelines } from '@/data/timelines'
 import type { GameNode, Node } from '@/data/games'
 import type { Edge } from '@/data/timelines'
 
@@ -130,7 +130,7 @@ function generateDiagram() {
   const generateClick = ({ id }: GameNode) => `click ${id}`
 
   // Remove nodes that aren't used in edges
-  const timelineEdges = edges[props.selectedTimeline]
+  const timelineEdges = timelineData[props.selectedTimeline].flowchart
 
   // Hold all events, games, etc. that are in the timeline
   const timelineContent = Array.from(
@@ -520,11 +520,11 @@ span {
 :deep(foreignObject:hover label.title) {
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
-  margin-top: 0.5rem;
 }
 
 :deep(.selected-game label.title:not(.safari)) {
   scale: 1.2;
+  margin-top: 0.5rem;
   animation: breathing-brightness 3s ease-in-out infinite;
 }
 

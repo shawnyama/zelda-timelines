@@ -1,11 +1,11 @@
 import type { EdgeStyle } from './edge-decor'
 import type { GameIds, Events, Eras } from './events'
-import { official } from './timelines/official'
-import { triforce } from './timelines/triforce'
-import { lorulean } from './timelines/lorulean'
-import { geekery } from './timelines/geekery'
-import { absurd } from './timelines/absurd'
-import { newTimeline } from './timelines/new-timeline'
+import official from './timelines/official'
+import triforce from './timelines/triforce'
+import lorulean from './timelines/lorulean'
+import geekery from './timelines/geekery'
+import absurd from './timelines/absurd'
+import newTimeline from './timelines/new-timeline'
 
 export enum Timelines {
   Official = 'official',
@@ -27,7 +27,16 @@ export type Edge = {
   subgraphsToEnd?: string[] // List of subgraphs to end
 }
 
-export const edges = {
+export type Metadata = {
+  timelineTitle: string | null
+  timelineCreator: string | null
+  submittedBy: string | null
+  submittedOn: string | null
+  lastUpdatedOn: string | null
+  sources: { label: string; url: string }[]
+}
+
+export const timelineData = {
   [Timelines.Official]: official,
   [Timelines.Triforce]: triforce,
   [Timelines.Lorulean]: lorulean,

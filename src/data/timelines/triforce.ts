@@ -1,7 +1,23 @@
 import { GameIds, Events } from '../events'
 import { EdgeStyle, EdgeDistance } from '../edge-decor'
+import type { Edge, Metadata } from '../timelines'
 
-export const triforce = [
+const metadata: Metadata = {
+  timelineTitle: 'Triforce',
+  timelineCreator: 'Triforce Johnson of Empire Arcadia',
+  submittedBy: 'Shawn Yama',
+  submittedOn: '2024-06-15',
+  lastUpdatedOn: '2024-06-15',
+  sources: [
+    { label: 'video', url: 'https://youtu.be/HPnvAt9bvAs' },
+    {
+      label: 'playlist',
+      url: 'https://www.youtube.com/playlist?list=PLYYZg45BvGCMoNCbPlhfV0296IOfrBUVz'
+    }
+  ]
+}
+
+const flowchart: Edge[] = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -88,3 +104,5 @@ export const triforce = [
   { source: GameIds.BreathOfTheWild, target: GameIds.TearsOfTheKingdom, style: EdgeStyle.Thick },
   { source: GameIds.AgeOfCalamity, target: Events.TerrakoGoesBackInTime }
 ]
+
+export default { flowchart, metadata }

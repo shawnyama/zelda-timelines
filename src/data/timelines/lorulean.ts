@@ -1,7 +1,17 @@
 import { GameIds, Events } from '../events'
 import { EdgeStyle } from '../edge-decor'
+import type { Edge, Metadata } from '../timelines'
 
-export const lorulean = [
+const metadata: Metadata = {
+  timelineTitle: 'Lorulean',
+  timelineCreator: 'LoruleanHistorian/Instrutilus/Zelda Lore',
+  submittedBy: 'Shawn Yama',
+  submittedOn: '2024-06-20',
+  lastUpdatedOn: '2024-06-20',
+  sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=7GAqIqYzqGQ' }]
+}
+
+const flowchart: Edge[] = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -62,3 +72,5 @@ export const lorulean = [
   { source: Events.TheTragedyOfPrincessZeldaI, target: GameIds.TheLegendOfZelda },
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, style: EdgeStyle.Thick }
 ]
+
+export default { flowchart, metadata }

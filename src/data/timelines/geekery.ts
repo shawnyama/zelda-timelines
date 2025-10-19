@@ -1,7 +1,22 @@
 import { GameIds, Events } from '../events'
 import { EdgeStyle, EdgeDistance } from '../edge-decor'
+import type { Edge, Metadata } from '../timelines'
 
-export const geekery = [
+const metadata: Metadata = {
+  timelineTitle: 'Geekery',
+  timelineCreator: 'Frank Moussette of Geekery Collective',
+  submittedBy: 'Shawn Yama',
+  submittedOn: '2024-06-15',
+  lastUpdatedOn: '2024-06-15',
+  sources: [
+    {
+      label: 'playlist',
+      url: 'https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg'
+    }
+  ]
+}
+
+const flowchart: Edge[] = [
   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
@@ -76,3 +91,5 @@ export const geekery = [
     style: EdgeStyle.Thick
   }
 ]
+
+export default { flowchart, metadata }

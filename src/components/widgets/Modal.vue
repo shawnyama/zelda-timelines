@@ -3,7 +3,7 @@
     <section @click.stop>
       <header v-if="!isCustom">
         <code>{{ title }}</code>
-        <Button @click="emit('close')" text icon>
+        <Button @click="emit('close')" text icon sm-rounded>
           <Icon icon="heroicons:x-mark-16-solid" height="1.75rem" />
         </Button>
       </header>

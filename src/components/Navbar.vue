@@ -1,7 +1,7 @@
 <template>
   <h1>
     <span>Zelda timelines</span>
-    <Button @click="emit('toggle-about-modal')" icon text title="About">
+    <Button @click="emit('toggle-about-modal')" icon text sm-rounded title="About">
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
   </h1>
@@ -30,26 +30,46 @@
             <a @click="selectTimeline(timeline)">
               <img :src="caret" alt="caret-icon" />
               <div>{{ timeline.replace(/-/g, ' ') }}</div>
+              <Button @click.stop icon text sm-rounded style="color: white">
+                <Icon icon="ph:quotes-fill" height="1.3rem" />
+              </Button>
             </a>
           </li>
         </ul>
       </div>
     </div>
     <div class="btn-group">
-      <Button v-if="isSmallScreen" @click="emit('toggle-about-modal')" icon text title="About">
+      <Button
+        v-if="isSmallScreen"
+        @click="emit('toggle-about-modal')"
+        icon
+        text
+        sm-rounded
+        title="About"
+      >
         <Icon icon="ph:info-bold" height="1.5rem" />
       </Button>
-      <Button v-else @click="emit('toggle-orientation')" icon text title="Toggle orientation">
+      <Button
+        v-else
+        @click="emit('toggle-orientation')"
+        icon
+        text
+        sm-rounded
+        title="Toggle orientation"
+      >
         <Icon icon="ph:device-rotate-bold" height="1.5rem" />
       </Button>
-      <Button @click="emit('zoom-out')" icon text title="Zoom out">
+      <Button @click="emit('zoom-out')" icon text sm-rounded title="Zoom out">
         <Icon icon="ph:arrows-out-bold" height="1.5rem" />
       </Button>
-      <Button @click="emit('jump-to-start')" icon text title="Jump to start">
+      <Button @click="emit('jump-to-start')" icon text sm-rounded title="Jump to start">
         <Icon icon="ph:rewind-bold" height="1.5rem" />
       </Button>
-      <Button @click="emit('jump-to-end')" icon text title="Jump to end">
+      <Button @click="emit('jump-to-end')" icon text sm-rounded title="Jump to end">
         <Icon icon="ph:fast-forward-bold" height="1.5rem" />
+      </Button>
+      <Button @click.stop icon text sm-rounded>
+        <Icon icon="ph:quotes-fill" height="1.5em" />
       </Button>
     </div>
   </nav>
@@ -60,7 +80,7 @@
         Create
       </Button>
       <Button sm-rounded @click="isLegendExpanded = true">
-        <Icon icon="ph:list-dashes-bold" height="1.5rem" />
+        <Icon icon="ph:book-open-text-bold" height="1.5rem" />
         Legend
       </Button>
     </template>
@@ -91,11 +111,11 @@ const emit = defineEmits([
 ])
 
 const isLegendExpanded = ref(false)
-const isOptionsVisible = ref(false)
+const isOptionsVisible = ref(true)
 
 function selectTimeline(timeline: Timelines) {
   emit('select-timeline', timeline)
-  isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
+  // isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
 }
 
 function openStackBlitz() {
@@ -301,17 +321,27 @@ nav {
           color: white;
           text-decoration: none;
           text-align: center;
-          display: block;
-          position: relative;
-          padding: 0.5rem 0.5rem 0.25rem 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.2rem 0.75rem 0.2rem 0.5rem;
           border-radius: 0.75rem;
 
           & > img {
-            display: none;
-            position: absolute;
+            visibility: hidden;
+            position: relative;
             scale: 0.6;
             rotate: 180deg;
-            bottom: 0.1rem;
+            animation: arrow-animation 1s;
+            animation-iteration-count: infinite;
+          }
+
+          & > div {
+            margin-top: 0.4rem;
+          }
+
+          & > button {
+            visibility: hidden;
           }
 
           &:hover {
@@ -320,12 +350,9 @@ nav {
               rgba(0, 0, 0, 0.25) 0%,
               rgba(0, 0, 0, 0.1) 100%
             );
-
-            & > img {
-              display: block;
-              margin-left: 0.25rem;
-              animation: arrow-animation 1s;
-              animation-iteration-count: infinite;
+            & > img,
+            & > button {
+              visibility: visible;
             }
           }
         }
