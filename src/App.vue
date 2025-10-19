@@ -5,8 +5,8 @@
   />
   <about-modal v-if="showAboutModal" @close="toggleAboutModal(false)" />
   <references-modal
-    v-if="timelineReferencesToShow"
-    :timeline-to-scroll-to="timelineReferencesToShow"
+    v-if="timelineReferencesToScrollTo"
+    :timeline-to-scroll-to="timelineReferencesToScrollTo"
     @close="toggleReferencesModal(null)"
   />
 </template>
@@ -19,13 +19,13 @@ import ReferencesModal from './components/ReferencesModal.vue'
 import { Timelines } from '@/data/timelines'
 
 const showAboutModal = ref(false)
-const timelineReferencesToShow = ref<Timelines | null>(null)
+const timelineReferencesToScrollTo = ref<Timelines | null>(null)
 
 function toggleAboutModal(state: boolean) {
   showAboutModal.value = state
 }
 
 function toggleReferencesModal(timeline: Timelines | null) {
-  timelineReferencesToShow.value = timeline
+  timelineReferencesToScrollTo.value = timeline
 }
 </script>
