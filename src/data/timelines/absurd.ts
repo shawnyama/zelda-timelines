@@ -3,7 +3,7 @@ import { EdgeStyle } from '../edge-decor'
 import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
-  timelineTitle: 'Absurd Timeline',
+  timelineTitle: 'Absurd',
   timelineCreator: 'AbsurdZeldaTheories aka Bird Keeper Toby',
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-06-20',

@@ -6,7 +6,7 @@
   <about-modal v-if="showAboutModal" @close="toggleAboutModal(false)" />
   <references-modal
     v-if="timelineReferencesToShow"
-    :timeline="timelineReferencesToShow"
+    :timeline-to-scroll-to="timelineReferencesToShow"
     @close="toggleReferencesModal(null)"
   />
 </template>

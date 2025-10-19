@@ -5,7 +5,7 @@ import triforce from './timelines/triforce'
 import lorulean from './timelines/lorulean'
 import geekery from './timelines/geekery'
 import absurd from './timelines/absurd'
-import newTimeline from './timelines/new-timeline'
+import newTimeline from './timelines/new'
 
 export enum Timelines {
   Official = 'official',
@@ -13,7 +13,7 @@ export enum Timelines {
   Lorulean = 'lorulean',
   Geekery = 'geekery',
   Absurd = 'absurd',
-  NewTimeline = 'new-timeline'
+  New = 'new'
 }
 
 export type Edge = {
@@ -42,5 +42,5 @@ export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Ed
   [Timelines.Lorulean]: lorulean,
   [Timelines.Geekery]: geekery,
   [Timelines.Absurd]: absurd,
-  [Timelines.NewTimeline]: newTimeline
+  [Timelines.New]: newTimeline
 }

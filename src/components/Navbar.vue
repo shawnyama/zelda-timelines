@@ -17,7 +17,9 @@
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
         </div>
-        <label class="timeline-name">{{ selectedTimeline.replace(/-/g, ' ') }}</label>
+        <label>
+          {{ timelineData[selectedTimeline].metadata.timelineTitle }}
+        </label>
         <div class="gear-group">
           <Icon icon="heroicons:cog-20-solid" height="1.75rem" />
           <Icon icon="heroicons:cog-16-solid" height="1.25rem" />
@@ -29,7 +31,7 @@
           <li v-for="timeline in Timelines" :value="timeline">
             <a @click="selectTimeline(timeline)">
               <img :src="caret" alt="caret-icon" />
-              <div>{{ timeline.replace(/-/g, ' ') }}</div>
+              <label>{{ timelineData[timeline].metadata.timelineTitle }}</label>
               <Button
                 @click.stop="emit('open-references-modal', timeline)"
                 icon
@@ -103,7 +105,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Timelines } from '@/data/timelines'
+import { Timelines, timelineData } from '@/data/timelines'
 import Button from './widgets/Button.vue'
 import { Icon } from '@iconify/vue'
 import caret from '@/assets/caret-left.svg'
@@ -171,12 +173,14 @@ h1,
   backdrop-filter: blur(6px);
 }
 
-.timeline-name {
+label {
   font-family: 'triforce', sans-serif;
   font-size: 2.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-transform: lowercase;
+  cursor: pointer;
 }
 
 .right {
@@ -309,8 +313,6 @@ nav {
     }
 
     & > ul {
-      font-family: 'triforce', sans-serif;
-      font-size: 2rem;
       animation: fade-in 0.2s ease-in-out;
       list-style: none;
       margin: 0.5rem 0.25rem 0.75rem 0.25rem;
@@ -350,8 +352,9 @@ nav {
             animation-iteration-count: infinite;
           }
 
-          & > div {
+          & > label {
             margin-top: 0.4rem;
+            font-size: 2rem;
           }
 
           & > button {

@@ -4,7 +4,7 @@ import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
   timelineTitle: 'Lorulean',
-  timelineCreator: 'LoruleanHistorian/Instrutilus/Zelda Lore',
+  timelineCreator: 'LoruleanHistorian, Instrutilus, Zelda Lore',
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-06-20',
   lastUpdatedOn: '2024-06-20',
