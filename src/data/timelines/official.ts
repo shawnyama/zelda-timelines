@@ -3,15 +3,19 @@ import { EdgeStyle, EdgeDistance } from '../edge-decor'
 import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
-  timelineTitle: 'New Timeline',
-  timelineCreator: 'Your Name Here',
+  timelineTitle: 'Official',
+  timelineCreator: 'Nintendo',
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-06-25',
   lastUpdatedOn: '2024-06-25',
   sources: [
     {
-      label: 'type of source',
-      url: 'paste link here'
+      label: 'NA site',
+      url: 'https://www.zelda.com/about/'
+    },
+    {
+      label: 'JP site',
+      url: 'https://www.nintendo.com/jp/character/zelda/history/index.html'
     }
   ]
 }

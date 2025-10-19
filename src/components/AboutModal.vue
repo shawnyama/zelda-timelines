@@ -1,5 +1,5 @@
 <template>
-  <modal title="README.md" @close="emit('toggle-about-modal')">
+  <modal title="README.md" @close="emit('close')">
     <div v-html="markdownIt().render(readme)" />
   </modal>
 </template>
@@ -9,7 +9,7 @@ import Modal from './widgets/Modal.vue'
 import markdownIt from 'markdown-it'
 import readme from '/README.md?raw'
 
-const emit = defineEmits(['toggle-about-modal'])
+const emit = defineEmits(['close'])
 </script>
 
 <style scoped>

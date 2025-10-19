@@ -36,7 +36,7 @@ export type Metadata = {
   sources: { label: string; url: string }[]
 }
 
-export const timelineData = {
+export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Edge[] }> = {
   [Timelines.Official]: official,
   [Timelines.Triforce]: triforce,
   [Timelines.Lorulean]: lorulean,

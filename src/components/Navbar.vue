@@ -1,7 +1,7 @@
 <template>
   <h1>
     <span>Zelda timelines</span>
-    <Button @click="emit('toggle-about-modal')" icon text sm-rounded title="About">
+    <Button @click="emit('open-about-modal')" icon text sm-rounded title="About">
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
   </h1>
@@ -30,7 +30,14 @@
             <a @click="selectTimeline(timeline)">
               <img :src="caret" alt="caret-icon" />
               <div>{{ timeline.replace(/-/g, ' ') }}</div>
-              <Button @click.stop icon text sm-rounded style="color: white">
+              <Button
+                @click.stop="emit('open-references-modal', timeline)"
+                icon
+                text
+                sm-rounded
+                title="References"
+                style="color: white"
+              >
                 <Icon icon="ph:quotes-fill" height="1.3rem" />
               </Button>
             </a>
@@ -41,7 +48,7 @@
     <div class="btn-group">
       <Button
         v-if="isSmallScreen"
-        @click="emit('toggle-about-modal')"
+        @click="emit('open-about-modal')"
         icon
         text
         sm-rounded
@@ -68,7 +75,13 @@
       <Button @click="emit('jump-to-end')" icon text sm-rounded title="Jump to end">
         <Icon icon="ph:fast-forward-bold" height="1.5rem" />
       </Button>
-      <Button @click.stop icon text sm-rounded>
+      <Button
+        @click="emit('open-references-modal', selectedTimeline)"
+        icon
+        text
+        sm-rounded
+        title="References"
+      >
         <Icon icon="ph:quotes-fill" height="1.5em" />
       </Button>
     </div>
@@ -104,18 +117,19 @@ defineProps<{
 const emit = defineEmits([
   'select-timeline',
   'toggle-orientation',
-  'toggle-about-modal',
+  'open-about-modal',
+  'open-references-modal',
   'jump-to-start',
   'jump-to-end',
   'zoom-out'
 ])
 
 const isLegendExpanded = ref(false)
-const isOptionsVisible = ref(true)
+const isOptionsVisible = ref(false)
 
 function selectTimeline(timeline: Timelines) {
   emit('select-timeline', timeline)
-  // isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
+  isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
 }
 
 function openStackBlitz() {
