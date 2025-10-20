@@ -21,12 +21,8 @@
       </ul>
       <div class="contribution">
         <p>Submitted by: {{ timelineData[timeline].metadata.submittedBy }}</p>
-        <p>
-          Submitted on: <time>{{ timelineData[timeline].metadata.submittedOn }}</time>
-        </p>
-        <p>
-          Last updated: <time>{{ timelineData[timeline].metadata.lastUpdatedOn }}</time>
-        </p>
+        <p>Submitted on: {{ formatDate(timelineData[timeline].metadata.submittedOn) }}</p>
+        <p>Last updated: {{ formatDate(timelineData[timeline].metadata.lastUpdatedOn) }}</p>
       </div>
     </div>
   </modal>
@@ -43,15 +39,20 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
+function formatDate(date: string): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
 onMounted(async () => {
   await nextTick()
-
   const targetElement = document.getElementById(`references-${props.timelineToScrollTo}`)
   if (!targetElement) return
 
-  targetElement.scrollIntoView({
-    block: 'start'
-  })
+  targetElement.scrollIntoView({ block: 'start' })
 })
 </script>
 

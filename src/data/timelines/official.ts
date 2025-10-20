@@ -6,8 +6,8 @@ const metadata: Metadata = {
   timelineTitle: 'Official',
   timelineCreator: 'Nintendo',
   submittedBy: 'Shawn Yama',
-  submittedOn: '2024-06-25',
-  lastUpdatedOn: '2024-06-25',
+  submittedOn: '2024-02-11',
+  lastUpdatedOn: '2025-05-19',
   sources: [
     {
       label: 'NA site',

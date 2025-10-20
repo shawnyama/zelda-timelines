@@ -21,11 +21,11 @@ If there are no references I will accept it and cite it as unknown. Just keep in
 
 ## 2. Add timeline
 ### 2a. How to write a new timeline
-1. In the panel with the website running, select the "NEW TIMELINE" in the timeline dropdown.
-2. The sidebar on the left contains the website's folders and files. Open the `new-timeline.ts` file found in `src/data/timelines`. This file describes the "NEW TIMELINE" and is what you will be editing.
-3. By default `new-timeline.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
+1. In the panel with the website running, select "NEW TIMELINE" in the timeline dropdown.
+2. The sidebar on the left contains the website's folders and files. Open the `new.ts` file found in `src/data/timelines`. This file describes the "NEW TIMELINE" and is what you will be editing.
+3. By default `new.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
    - The values (games and events) that can be held in the `source` and `target` are defined in `src/data/events.ts`
-     - Notice how the values are written in `new-timeline.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
+     - Notice how the values are written in `new.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
    - Tips:
      - For this step just focus on adding `source` and `target` properties in every object. These properties are mandatory for every object and the timeline diagram won't appear of one of them is missing. The other properties are like the icing on the cake so we will tackle them in later steps.
      - Remember to save your changes with Ctrl+S (Windows/Linux) or Command+S (MacOS) to them reflected in the website panel
@@ -110,6 +110,6 @@ To see subgraph boxes and labels for debugging purposes remove/comment out line 
 - `official.ts` is a great example that showcases subgraphs
 
 ## 3. Submit
-1. Download your `new-timeline.ts` by right-clicking it in the left sidebar and then select Download
+1. Download your `new.ts` by right-clicking it in the left sidebar and then select Download
    - If you edited `events.ts` download that too
 2. Submit the file(s) and follow the instructions in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQuYEvYTrAu4iP0BfVdkNXONGvqsOlPKvQ1oBwLmdbg98kiA/viewform?usp=header)

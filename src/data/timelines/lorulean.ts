@@ -6,8 +6,8 @@ const metadata: Metadata = {
   timelineTitle: 'Lorulean',
   timelineCreator: 'LoruleanHistorian, Instrutilus, Zelda Lore',
   submittedBy: 'Shawn Yama',
-  submittedOn: '2024-06-20',
-  lastUpdatedOn: '2024-06-20',
+  submittedOn: '2024-02-11',
+  lastUpdatedOn: '2024-08-10',
   sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=7GAqIqYzqGQ' }]
 }
 

@@ -6,8 +6,8 @@ const metadata: Metadata = {
   timelineTitle: 'Absurd',
   timelineCreator: 'AbsurdZeldaTheories aka Bird Keeper Toby',
   submittedBy: 'Shawn Yama',
-  submittedOn: '2024-06-20',
-  lastUpdatedOn: '2024-06-20',
+  submittedOn: '2024-08-10',
+  lastUpdatedOn: '2024-08-10',
   sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=rPrqd6682gE' }]
 }
 

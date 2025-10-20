@@ -6,8 +6,8 @@ const metadata: Metadata = {
   timelineTitle: 'Geekery',
   timelineCreator: 'Frank Moussette of Geekery Collective',
   submittedBy: 'Shawn Yama',
-  submittedOn: '2024-06-15',
-  lastUpdatedOn: '2024-06-15',
+  submittedOn: '2024-02-11',
+  lastUpdatedOn: '2024-06-14',
   sources: [
     {
       label: 'playlist',

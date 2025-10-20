@@ -28,11 +28,11 @@ export type Edge = {
 }
 
 export type Metadata = {
-  timelineTitle: string | null
+  timelineTitle: string
   timelineCreator: string | null
   submittedBy: string | null
-  submittedOn: string | null
-  lastUpdatedOn: string | null
+  submittedOn: string
+  lastUpdatedOn: string
   sources: { label: string; url: string }[]
 }
 

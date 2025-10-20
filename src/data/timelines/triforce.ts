@@ -6,8 +6,8 @@ const metadata: Metadata = {
   timelineTitle: 'Triforce',
   timelineCreator: 'Triforce Johnson of Empire Arcadia',
   submittedBy: 'Shawn Yama',
-  submittedOn: '2024-06-15',
-  lastUpdatedOn: '2024-06-15',
+  submittedOn: '2024-02-11',
+  lastUpdatedOn: '2025-08-10',
   sources: [
     { label: 'video', url: 'https://youtu.be/HPnvAt9bvAs' },
     {
