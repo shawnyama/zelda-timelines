@@ -90,7 +90,7 @@
   </nav>
   <div :class="['right', orientation]">
     <template v-if="!isLegendExpanded">
-      <Button class="create-button" sm-rounded @click="openStackBlitz">
+      <Button class="alt" sm-rounded @click="$emit('open-create-modal')">
         <Icon icon="ph:file-plus-bold" height="1.5rem" />
         Create
       </Button>
@@ -120,6 +120,7 @@ const emit = defineEmits([
   'select-timeline',
   'toggle-orientation',
   'open-about-modal',
+  'open-create-modal',
   'open-references-modal',
   'jump-to-start',
   'jump-to-end',
@@ -132,14 +133,6 @@ const isOptionsVisible = ref(false)
 function selectTimeline(timeline: Timelines) {
   emit('select-timeline', timeline)
   isOptionsVisible.value = false // Hides dropdown options after selecting a timeline
-}
-
-function openStackBlitz() {
-  window.open(
-    'https://stackblitz.com/~/github.com/shawnyama/zelda-timelines/tree/submission-mode?file=src/data/GUIDE.md',
-    '_blank',
-    'noopener,noreferrer'
-  )
 }
 </script>
 
@@ -196,11 +189,6 @@ label {
     flex-direction: column;
     bottom: 0;
   }
-}
-
-.create-button {
-  color: white;
-  background: radial-gradient(ellipse at center, var(--dark-green) 0%, rgba(0, 0, 0, 0.2) 100%);
 }
 
 .btn-group {

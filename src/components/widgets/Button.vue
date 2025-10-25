@@ -32,6 +32,11 @@ button {
   font-family: 'calamity', sans-serif;
   transition: background-color 0.3s ease;
 
+  &.alt {
+    color: white;
+    background: radial-gradient(ellipse at center, var(--dark-green) 0%, rgba(0, 0, 0, 0.2) 100%);
+  }
+
   &:not(.custom):hover {
     transition: filter 0.3s;
     filter: brightness(1.2);

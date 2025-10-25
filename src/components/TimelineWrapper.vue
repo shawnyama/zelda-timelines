@@ -8,6 +8,7 @@
         :is-small-screen="isSmallScreen"
         @select-timeline="selectTimeline"
         @open-about-modal="$emit('open-about-modal')"
+        @open-create-modal="$emit('open-create-modal')"
         @toggle-orientation="toggleOrientation"
         @open-references-modal="(timeline: Timelines) => $emit('open-references-modal', timeline)"
         @jump-to-start="timelineDiagram.jumpToStart"
