@@ -10,19 +10,24 @@
 
 # Guide for adding a timeline
 
-This guide is the first file opened in the StackBlitz online dev environment so people can add timelines. What you'll mainly be busy with is editing a typescript file that describes your new timeline. You will be barely programming (you can do it!).
+This guide is the first file opened in the StackBlitz online development environment so people can contribute new timelines to https://zeldatimelines.link. You'll mainly be busy with editing a typescript file that describes your new timeline. You will be barely programming (you can do it!).
 
-## 1. Collect reference(s)
-It is highly recommended that you have reference(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples.  Collect them and keep them in handy for the submission step. 
+## 1. Preparation
+1. In the panel with the website running, select "NEW" in the timeline selector.
+2. The sidebar on the left of the editor contains the website's folders and files. Open the `new.ts` file found in `src/data/timelines`. This file describes the "NEW" timeline you opened and is what you will be editing.
 
-If you don't have any references but remember where you saw the info (eg. private chat, can't find the link), note it down for the submission step (Step 3).
+## 2. References
+Before you create your timeline let's start with something easier to get comfortable with this. In this step you are editing the `metadata` variable which holds credits and references for your timeline. Fill in the properties with your info. This data will appear in the references which can be viewed by clicking the quotes icon button below the timeline selector.
 
-If there are no references I will accept it and cite it as unknown. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the references. A lack of references gives a lack of context which results in a weaker contribution.
+Some pointers:
+- When you save `new.ts` the site will reload so you'll have to re-open the references to see your changes.
+- To see examples of how this can be filled out you can check out the other files in `src/data/timelines`.
+- Make sure your string values are wrapped within `''`.
+- If you are inputting `null` for a certain property dont wrap it with `''` just plain `null`.
+- It is highly recommended that you have source(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples. If you don't have any sources but remember where you saw the info (eg. private chat, can't find the link) input that in the `label` property and remove the `url` property like this `{label: 'private chat'}`. If there are no sources I will still accept it. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the sources. A lack of sources gives a lack of context which results in a weaker contribution.
 
-## 2. Add timeline
-### 2a. How to write a new timeline
-1. In the panel with the website running, select "NEW TIMELINE" in the timeline dropdown.
-2. The sidebar on the left contains the website's folders and files. Open the `new.ts` file found in `src/data/timelines`. This file describes the "NEW TIMELINE" and is what you will be editing.
+## 3. Add timeline
+### 3a. How to write a new timeline
 3. By default `new.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
    - The values (games and events) that can be held in the `source` and `target` are defined in `src/data/events.ts`
      - Notice how the values are written in `new.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
@@ -60,7 +65,7 @@ type Edge = {
 }
 ```
 
-### 2b. Some pointers
+### 3b. Some pointers
 #### Organization
 - The order of your branches will appear in the order you write them. Write one branch at a time. Once you start a new branch write a comment above it so its easy to find/organize.
   - Check out how the other timelines are organized under `src/data/timelines`, there is a comment before a new branch starts
@@ -81,7 +86,7 @@ type Edge = {
   - comment
 
 
-### 2c. Subgraphs (advanced)
+### 3c. Subgraphs (advanced)
 This step may be optional or not needed for your timeline.
 
 #### What are subgraphs?
@@ -109,7 +114,7 @@ To see subgraph boxes and labels for debugging purposes remove/comment out line 
 - Remember to link your subgraphs using an edge. The values used in `subgraphToStart` and `subgraphsToEnd` would be used as the values in `source` and `target`.
 - `official.ts` is a great example that showcases subgraphs
 
-## 3. Submit
+## 4. Submit
 1. Download your `new.ts` by right-clicking it in the left sidebar and then select Download
    - If you edited `events.ts` download that too
 2. Submit the file(s) and follow the instructions in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQuYEvYTrAu4iP0BfVdkNXONGvqsOlPKvQ1oBwLmdbg98kiA/viewform?usp=header)

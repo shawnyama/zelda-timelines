@@ -9,18 +9,23 @@
           Timeline creators:
         </template>
         <template v-else> Timeline creator: </template>
-        {{ timelineData[timeline].metadata.timelineCreator }}
+        {{ timelineData[timeline].metadata.timelineCreator ?? 'Unknown' }}
       </p>
       <h4>Sources:</h4>
       <ul>
-        <li v-for="source in timelineData[timeline].metadata.sources" :key="source.url">
-          <a :href="source.url" target="_blank" rel="noopener noreferrer">
-            {{ source.label }}
+        <li v-if="timelineData[timeline].metadata.sources.length === 0">No sources provided</li>
+        <li v-else v-for="{ label, url } in timelineData[timeline].metadata.sources" :key="url">
+          <span v-if="!url">{{ label }}</span>
+          <a v-else :href="url" target="_blank" rel="noopener noreferrer">
+            {{ label }}
           </a>
         </li>
       </ul>
       <div class="contribution">
-        <p>Submitted by: {{ timelineData[timeline].metadata.submittedBy }}</p>
+        <p>
+          Submitted by:
+          {{ timelineData[timeline].metadata.submittedBy ?? 'Anonymous' }}
+        </p>
         <p>Submitted on: {{ formatDate(timelineData[timeline].metadata.submittedOn) }}</p>
         <p>Last updated: {{ formatDate(timelineData[timeline].metadata.lastUpdatedOn) }}</p>
       </div>
