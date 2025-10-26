@@ -33,17 +33,11 @@ async function extractMetadata() {
 
 // Function to generate markdown table
 function generateTable(timelines) {
-  let table = '| Title | Creator | Sources | Submitted by | Submitted on | Last updated |\n';
-  table += '|----------|---------|---------|--------------|--------------|--------------|\n';
+  let table = '| Title | Creator | Sources | Last updated |\n';
+  table += '|----------|---------|---------|--------------|\n';
   
   for (const timeline of timelines) {
     const creator = timeline.timelineCreator || 'Unknown';
-    const submittedBy = timeline.submittedBy || 'Anonymous';
-    const submittedOn = new Date(timeline.submittedOn).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
     const lastUpdated = new Date(timeline.lastUpdatedOn).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -63,7 +57,7 @@ function generateTable(timelines) {
       }).join(', ');
     }
 
-    table += `| ${timeline.timelineTitle} | ${creator} | ${sourcesText} | ${submittedBy} | ${submittedOn} | ${lastUpdated} |\n`;
+    table += `| ${timeline.timelineTitle} | ${creator} | ${sourcesText} | ${lastUpdated} |\n`;
   }
   
   return table;
