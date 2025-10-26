@@ -20,15 +20,15 @@ This guide is the first file opened in the StackBlitz online development environ
 Before you create your timeline let's start with something easier to get comfortable with this. In this step you are editing the `metadata` variable which holds credits and references for your timeline. Fill in the properties with your info. This data will appear in the references which can be viewed by clicking the quotes icon button below the timeline selector.
 
 Some pointers:
-- When you save `new.ts` the site will reload so you'll have to re-open the references to see your changes.
+- When you save `new.ts` your changes are applied to the site. The site will refresh on save so you'll have to re-open the references to see your changes.
 - To see examples of how this can be filled out you can check out the other files in `src/data/timelines`.
 - Make sure your string values are wrapped within `''`.
 - If you are inputting `null` for a certain property dont wrap it with `''` just plain `null`.
 - It is highly recommended that you have source(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples. If you don't have any sources but remember where you saw the info (eg. private chat, can't find the link) input that in the `label` property and remove the `url` property like this `{label: 'private chat'}`. If there are no sources I will still accept it. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the sources. A lack of sources gives a lack of context which results in a weaker contribution.
 
-## 3. Add timeline
-### 3a. How to write a new timeline
-3. By default `new.ts` contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
+## 3. Timeline
+### 3a. How to write a timeline
+1. The variable to edit now is `flowchart`. It contains a minimal example to get you started. The main pattern to notice here is how the `source` and `target` properties relate to each other. Every item/object in the list describes games or events that link to each other, one being the `source` and one being the `target`.
    - The values (games and events) that can be held in the `source` and `target` are defined in `src/data/events.ts`
      - Notice how the values are written in `new.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
    - Tips:
@@ -36,7 +36,7 @@ Some pointers:
      - Remember to save your changes with Ctrl+S (Windows/Linux) or Command+S (MacOS) to them reflected in the website panel
      - If you don't see your changes being reflected or clicking a game doesn't work as expected refresh the website panel
      - View the other files found under `src/data/timelines` to understand how the existing timelines in this project are written. Remember to select its corresponding timeline in the website panel to see their results.
-4. Add the `extraDistance` property to edges that you intuitively feel need some: 
+2. Add the `extraDistance` property to edges that you intuitively feel need some: 
      - If some time passes between games and there is no event placed between them use `EdgeDistance.SomeTimePasses`
        - eg. I put some `extraDistance` between Twilight Princess and Four Swords Adventures because it felt right
      - If a vast time gap passes between games use `EdgeDistance.ALongTimePasses`
@@ -44,7 +44,7 @@ Some pointers:
      - Tips: 
        - If using the `EdgeDistance` enumerator is not giving you the distance you are expecting (too small/too large), feel free to use a regular number instead (play around with it until it looks proper)
        - Distance is not meant to be applied to a perfect scale. For example if you compare the events happening in parallel in the Triforce timeline we can't say that they are occuring at the same time. That's fine, focus on making the distance look good where possible.
-5. Add the `style` property to edges that require different styling:
+3. Add the `style` property to edges that require different styling:
    - Assign thick edges between games that have the same incarnation of Link with `EdgeStyle.Thick`
      - eg. Ocarina of Time and Majora's Mask
    - Assign dotted edges when a vast time gap passes with `EdgeStyle.Dotted` (typically done when `EdgeDistance.ALongTimePasses` is the `extraDistance`)
@@ -77,7 +77,7 @@ type Edge = {
 - Your work in StackBlitz is saved in browser (local storage). If you clear your browser data your work will be erased.
 - If I decide to update this guide or anything in this "create mode" version of the website (what you are editing now), there is a chance that your progress will be erased.
   - Therefore I will update this version as little as possible. If I decide to update this, it will occur on the 1st day of any month. This way you know that your progress is in danger on the 1st day of every month.
-- **If you really don't want to risk losing your progress** download the files you've edited (follow Step 3.1) so in case your progress is gone here you can copy it back in
+- **If you really don't want to risk losing your progress** download the files you've edited (follow Step 4.1) so in case your progress is gone here you can copy it back in
 #### Some programming lingo you may want to lookup
   - string
   - list/array
