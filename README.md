@@ -5,9 +5,9 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 ## Credits
 ### Supported timelines
 
-| Title | Creator | Sources | Submitted By | Submitted On | Last Updated |
+| Title | Creator | Sources | Submitted by | Submitted on | Last updated |
 |----------|---------|---------|--------------|--------------|--------------|
-| Absurd | AbsurdZeldaTheories aka Bird Keeper Toby | [video](https://www.youtube.com/watch?v=rPrqd6682gE) | Shawn Yama | Aug 9, 2024 | Aug 9, 2024 |
+| Absurd | AbsurdZeldaTheories a.k.a. Bird Keeper Toby | [video](https://www.youtube.com/watch?v=rPrqd6682gE) | Shawn Yama | Aug 9, 2024 | Aug 9, 2024 |
 | Geekery | Frank Moussette of Geekery Collective | [playlist](https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg) | Shawn Yama | Feb 10, 2024 | Jun 13, 2024 |
 | Lorulean | LoruleanHistorian, Instrutilus, Zelda Lore | [video](https://www.youtube.com/watch?v=7GAqIqYzqGQ) | Shawn Yama | Feb 10, 2024 | Aug 9, 2024 |
 | Official | Nintendo | [NA site](https://www.zelda.com/about/), [JP site](https://www.nintendo.com/jp/character/zelda/history/index.html) | Shawn Yama | Feb 10, 2024 | May 18, 2025 |
