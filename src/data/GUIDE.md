@@ -20,7 +20,7 @@ This guide is the first file opened in the StackBlitz online development environ
 Before you create your timeline let's start with something easier to get comfortable with this. In this step you are editing the `metadata` variable which holds credits and references for your timeline. Fill in the properties with your info. This data will appear in the references which can be viewed by clicking the quotes icon button below the timeline selector.
 
 Some pointers:
-- When you save `new.ts` your changes are applied to the site. The site will refresh on save so you'll have to re-open the references to see your changes.
+- When `new.ts` is saved your changes are applied to the site. The site will refresh on save so you'll have to re-open the references to see your changes.
 - To see examples of how this can be filled out you can check out the other files in `src/data/timelines`.
 - Make sure your string values are wrapped within `''`.
 - If you are inputting `null` for a certain property dont wrap it with `''` just plain `null`.
@@ -33,7 +33,7 @@ Some pointers:
      - Notice how the values are written in `new.ts`. A game always has `GameIds.` in front of it and a non-game event has `Events.` in front of it. These are enumerators and what follows them would be an enum member (eg. `GameIds.` can be followed by `SkywardSword`, `Events.` can be followed by `HyruleIsSealedAndThenFlooded`).
    - Tips:
      - For this step just focus on adding `source` and `target` properties in every object. These properties are mandatory for every object and the timeline diagram won't appear of one of them is missing. The other properties are like the icing on the cake so we will tackle them in later steps.
-     - Remember to save your changes with Ctrl+S (Windows/Linux) or Command+S (MacOS) to them reflected in the website panel
+     - Remember to save your changes with Ctrl+S (Windows/Linux) or Command+S (MacOS) to them reflected in the website panel. Auto-save my be on by default so you may see the website breaking while you make edits. If you want to toggle auto-save click the bolt on the top-left, File > Auto Save
      - If you don't see your changes being reflected or clicking a game doesn't work as expected refresh the website panel
      - View the other files found under `src/data/timelines` to understand how the existing timelines in this project are written. Remember to select its corresponding timeline in the website panel to see their results.
 2. Add the `extraDistance` property to edges that you intuitively feel need some: 

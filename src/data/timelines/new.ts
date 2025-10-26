@@ -12,7 +12,12 @@ const metadata: Metadata = {
   lastUpdatedOn: '2025-10-19',
   // If there are no sources, put an empty array []
   // You can add another source by adding another object with label and url to the array
-  sources: []
+  sources: [
+    {
+      label: 'type of source',
+      url: ''
+    }
+  ]
 }
 
 const flowchart: Edge[] = [
