@@ -1,11 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Function to extract metadata from timeline files
 async function extractMetadata() {
   const timelinesDir = path.join(__dirname, '../src/data/timelines');
   const files = fs.readdirSync(timelinesDir)
-    .filter(file => file.endsWith('.ts') && file !== 'index.ts' && !file.endsWith('.d.ts'));
+    .filter(file => file.endsWith('.ts') && file !== 'new.ts');
   
   const timelines = [];
   
@@ -29,12 +33,17 @@ async function extractMetadata() {
 
 // Function to generate markdown table
 function generateTable(timelines) {
-  let table = '| Timeline | Creator | Submitted By | Last Updated | Sources |\n';
-  table += '|----------|---------|--------------|--------------|----------|\n';
+  let table = '| Title | Creator | Sources | Submitted by | Submitted on | Last updated |\n';
+  table += '|----------|---------|---------|--------------|--------------|--------------|\n';
   
   for (const timeline of timelines) {
     const creator = timeline.timelineCreator || 'Unknown';
     const submittedBy = timeline.submittedBy || 'Anonymous';
+    const submittedOn = new Date(timeline.submittedOn).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
     const lastUpdated = new Date(timeline.lastUpdatedOn).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -53,8 +62,8 @@ function generateTable(timelines) {
         }
       }).join(', ');
     }
-    
-    table += `| ${timeline.timelineTitle} | ${creator} | ${submittedBy} | ${lastUpdated} | ${sourcesText} |\n`;
+
+    table += `| ${timeline.timelineTitle} | ${creator} | ${sourcesText} | ${submittedBy} | ${submittedOn} | ${lastUpdated} |\n`;
   }
   
   return table;

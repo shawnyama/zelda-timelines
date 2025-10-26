@@ -4,7 +4,7 @@ import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
   timelineTitle: 'Absurd',
-  timelineCreator: 'AbsurdZeldaTheories aka Bird Keeper Toby',
+  timelineCreator: 'AbsurdZeldaTheories a.k.a. Bird Keeper Toby',
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-08-10',
   lastUpdatedOn: '2024-08-10',

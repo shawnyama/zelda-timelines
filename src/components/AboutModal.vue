@@ -60,4 +60,22 @@ const emit = defineEmits(['close'])
   width: fit-content;
   background-color: var(--green);
 }
+
+:deep(table) {
+  margin: 1rem 0.5rem;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+
+:deep(th) {
+  text-align: left;
+  font-weight: bold;
+}
+
+:deep(th),
+:deep(td) {
+  border: 1px solid var(--dark-green);
+  padding: 0.25rem 0.5rem;
+}
 </style>

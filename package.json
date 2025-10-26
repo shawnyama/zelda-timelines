@@ -15,7 +15,7 @@
     "format": "prettier --write src/",
     "postinstall": "cp -r ./node_modules/@builder.io/partytown/lib ./public/~partytown",
     "prepare": "husky install",
-    "update-readme": "node scripts/update-readme.js"
+    "update-readme": "tsx scripts/update-readme.js"
   },
   "lint-staged": {
     "src/data/timelines/*.ts": [
@@ -50,6 +50,7 @@
     "prettier": "^3.5.3",
     "sharp": "^0.34.1",
     "svgo": "^3.3.2",
+    "tsx": "^4.20.6",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-image-optimizer": "^1.1.8",
