@@ -15,7 +15,7 @@ const metadata: Metadata = {
   sources: [
     {
       label: 'type of source',
-      url: ''
+      url: '' // Put null here if there is no URL
     }
   ]
 }

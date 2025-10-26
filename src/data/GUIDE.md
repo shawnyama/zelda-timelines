@@ -24,7 +24,8 @@ Some pointers:
 - To see examples of how this can be filled out you can check out the other files in `src/data/timelines`.
 - Make sure your string values are wrapped within `''`.
 - If you are inputting `null` for a certain property dont wrap it with `''` just plain `null`.
-- It is highly recommended that you have source(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples. If you don't have any sources but remember where you saw the info (eg. private chat, can't find the link) input that in the `label` property and remove the `url` property like this `{label: 'private chat'}`. If there are no sources I will still accept it. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the sources. A lack of sources gives a lack of context which results in a weaker contribution.
+- Do not end your `timelineTitle` with "Timeline" as it is understood.
+- It is highly recommended that you have source(s) for where you found the timeline. Links from YouTube, Reddit or a forum thread are some examples. If you don't have any sources but remember where you saw the info (eg. private chat, can't find the link) input that in the `label` property and set the `url` property to `null`. If there are no sources I will still accept it. Just keep in mind that this site is designed to minimally visualize timelines. Explaining the depths and nuances of a theory is not the goal of the site. That is the job of the sources. A lack of sources gives a lack of context which results in a weaker contribution.
 
 ## 3. Timeline
 ### 3a. How to write a timeline

@@ -14,7 +14,11 @@
       <h4>Sources:</h4>
       <ul>
         <li v-if="timelineData[timeline].metadata.sources.length === 0">No sources provided</li>
-        <li v-else v-for="{ label, url } in timelineData[timeline].metadata.sources" :key="url">
+        <li
+          v-else
+          v-for="({ label, url }, index) in timelineData[timeline].metadata.sources"
+          :key="index"
+        >
           <span v-if="!url">{{ label }}</span>
           <a v-else :href="url" target="_blank" rel="noopener noreferrer">
             {{ label }}
