@@ -3,7 +3,7 @@ import { EdgeStyle, EdgeDistance } from '../edge-decor'
 import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
-  timelineTitle: 'Geekery',
+  timelineTitle: 'Geeker',
   timelineCreator: 'Frank Moussette of Geekery Collective',
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-02-11',
