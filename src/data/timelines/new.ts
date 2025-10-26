@@ -6,8 +6,8 @@ import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
   timelineTitle: 'New',
-  timelineCreator: 'Timeline creator name here', // If there are mutliple creators, separate names with commas. Put null here if unknown.
-  submittedBy: 'Your name here', // Put null here if you want to be anonymous
+  timelineCreator: 'Timeline creator name here', // If there are mutliple creators, separate names with commas. Put null if unknown.
+  submittedBy: 'Your name here', // Put null if you want to be anonymous
   submittedOn: '2025-10-19',
   lastUpdatedOn: '2025-10-19',
   // If there are no sources, put an empty array []
@@ -15,7 +15,7 @@ const metadata: Metadata = {
   sources: [
     {
       label: 'type of source',
-      url: '' // Put null here if there is no URL
+      url: '' // Put null if there is no URL
     }
   ]
 }
