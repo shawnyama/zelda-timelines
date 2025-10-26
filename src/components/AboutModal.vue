@@ -76,6 +76,6 @@ const emit = defineEmits(['close'])
 :deep(th),
 :deep(td) {
   border: 1px solid var(--dark-green);
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
 }
 </style>
