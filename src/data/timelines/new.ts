@@ -32,4 +32,34 @@ const flowchart: Edge[] = [
   }
 ]
 
+// const flowchart: Edge[] = [
+//   { source: Events.TheCreationOfTheLandAndSky, target: GameIds.SkywardSword },
+//   { source: GameIds.SkywardSword, target: Events.TheSacredRealmIsSealed },
+//   { source: Events.TheSacredRealmIsSealed, target: Events.TheEstablishmentOfHyruleKingdom },
+//   { source: Events.TheEstablishmentOfHyruleKingdom, target: GameIds.TheMinishCap },
+//   {
+//     source: GameIds.TheMinishCap,
+//     target: GameIds.FourSwords,
+//     extraDistance: EdgeDistance.SomeTimePasses
+//   },
+//   { source: GameIds.FourSwords, target: Events.HyruleanCivilWar },
+//   {
+//     source: Events.HyruleanCivilWar,
+//     target: GameIds.OcarinaOfTime,
+//     style: EdgeStyle.Thick
+//   },
+//   // Adult timeline
+//   {
+//     source: GameIds.OcarinaOfTime,
+//     target: Events.AdultTimeline
+//   },
+//   { source: Events.AdultTimeline, target: Events.HyruleIsSealedAndThenFlooded },
+//   { source: Events.HyruleIsSealedAndThenFlooded, target: GameIds.TheWindWaker },
+//   {
+//     source: GameIds.TheWindWaker,
+//     target: GameIds.PhantomHourglass,
+//     style: EdgeStyle.Thick
+//   }
+// ]
+
 export default { flowchart, metadata }

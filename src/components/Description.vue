@@ -156,11 +156,15 @@ aside {
     container-type: inline-size;
     flex-direction: column;
     flex: 1;
-    margin-top: 2rem;
+    margin-top: 6rem;
     margin-bottom: 0.5rem;
-    margin-right: 0.5rem;
+    /* Alternative placement 
+    margin-top: auto;
+    margin-bottom: auto; 
+    */
+    margin-left: 0.5rem;
     height: fit-content;
-    max-height: calc(100svh - 2.5rem);
+    max-height: calc(100svh - 6.5rem);
 
     & > section {
       padding-top: 3rem;

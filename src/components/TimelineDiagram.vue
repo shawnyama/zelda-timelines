@@ -183,11 +183,11 @@ function applyTransform(
   const defaultOptions = { useTransition: true, scale: maxScale }
   let { scale, useTransition } = { ...defaultOptions, ...options }
 
-  if (isDiagramSmall) {
-    translateX = 0
-    translateY = 0
-    scale = MIN_SCALE
-  }
+  // if (isDiagramSmall) {
+  //   translateX = 0
+  //   translateY = 0
+  //   scale = MIN_SCALE
+  // }
 
   if (useTransition) {
     svg
@@ -317,9 +317,10 @@ defineExpose({
 })
 
 async function updateDimensions(isFreshRender = false) {
+  if (!mermaidContainer.value) return
   // Get window dimensions (SVG should cover the window size)
-  svgWidth = window.innerWidth
-  svgHeight = window.innerHeight
+  svgWidth = mermaidContainer.value.$el.clientWidth
+  svgHeight = mermaidContainer.value.$el.clientHeight
   emit('update:is-small-screen', window.innerWidth < 800)
   // Get the svg container and the attributes of its first group which contains the timeline diagram
   svg = d3.select('.mermaid svg').attr('height', svgHeight)
@@ -329,36 +330,32 @@ async function updateDimensions(isFreshRender = false) {
   if (!timelineGroup?.node()) return
   timelineBBox = (timelineGroup.node() as any).getBBox()
 
+  console.log(timelineGroup)
+  console.log(timelineBBox)
+
   // Determine dimensions of the viewport and maximum scale
-  const setTranslateExtent = (x0: number, y0: number, x1: number, y1: number) => {
-    return [
-      [x0, y0],
-      [x1, y1]
-    ]
-  }
   if (props.orientation === 'LR') {
     maxScale = timelineBBox.width / svgWidth / 2
-    translateExtent = setTranslateExtent(
-      -DIAGRAM_PADDING,
-      -svgHeight + DIAGRAM_PADDING,
-      timelineBBox.width + DIAGRAM_PADDING,
-      svgHeight + DIAGRAM_PADDING
-    )
   } else if (props.orientation === 'TB') {
     maxScale = timelineBBox.height / svgHeight / 2
-    translateExtent = setTranslateExtent(
-      -svgWidth + DIAGRAM_PADDING,
-      -DIAGRAM_PADDING,
-      svgWidth + DIAGRAM_PADDING * 3, // *3 gives more space on the right for mobile mode
-      timelineBBox.height + DIAGRAM_PADDING
-    )
   }
+
+  translateExtent = [
+    [
+      timelineBBox.x - DIAGRAM_PADDING, // x0
+      timelineBBox.y - DIAGRAM_PADDING // y0
+    ],
+    [
+      timelineBBox.x + timelineBBox.width + DIAGRAM_PADDING, // x1
+      timelineBBox.y + timelineBBox.height + DIAGRAM_PADDING // y1
+    ]
+  ]
 
   if (maxScale < 1) {
     maxScale = MIN_SCALE
-    isDiagramSmall = true
+    // isDiagramSmall = true
   } else {
-    isDiagramSmall = false
+    // isDiagramSmall = false
   }
 
   const [x0, y0] = translateExtent[0]
@@ -445,15 +442,20 @@ span {
 
 .mermaid {
   cursor: grab;
+  width: 100vw;
+  border: 10px solid blue;
 
   &:active {
     cursor: grabbing;
   }
 }
 
+:deep(g.root) {
+  outline: 20px solid red !important;
+}
+
 :deep(foreignObject),
 :deep(svg) {
-  min-width: 100vw;
   overflow: visible;
 }
 

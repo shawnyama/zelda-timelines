@@ -182,9 +182,7 @@ label {
   gap: 0.5rem;
   margin: 0.5rem;
   border-radius: 0.75rem;
-  &.LR {
-    right: 0rem;
-  }
+  right: 0;
   &.TB {
     flex-direction: column;
     bottom: 0;
@@ -214,6 +212,10 @@ nav {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
+
+  &.TB {
+    left: 70%; /* Center of the right 60%: 40% + (60% / 2) = 70% */
+  }
 
   & > .selected-timeline {
     color: white;
@@ -371,8 +373,9 @@ nav {
     display: none;
   }
 
-  nav {
+  nav.TB {
     max-width: 95vw;
+    left: 50%;
   }
 }
 

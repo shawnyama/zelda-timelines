@@ -1,20 +1,20 @@
 <template>
+  <navbar
+    v-if="timelineDiagram"
+    :selectedTimeline="selectedTimeline"
+    :orientation="orientation"
+    :is-small-screen="isSmallScreen"
+    @select-timeline="selectTimeline"
+    @open-about-modal="$emit('open-about-modal')"
+    @open-create-modal="$emit('open-create-modal')"
+    @toggle-orientation="toggleOrientation"
+    @open-references-modal="(timeline: Timelines) => $emit('open-references-modal', timeline)"
+    @jump-to-start="timelineDiagram.jumpToStart"
+    @jump-to-end="timelineDiagram.jumpToEnd"
+    @zoom-out="timelineDiagram.zoomOut"
+  />
   <main :class="orientation">
     <section>
-      <navbar
-        v-if="timelineDiagram"
-        :selectedTimeline="selectedTimeline"
-        :orientation="orientation"
-        :is-small-screen="isSmallScreen"
-        @select-timeline="selectTimeline"
-        @open-about-modal="$emit('open-about-modal')"
-        @open-create-modal="$emit('open-create-modal')"
-        @toggle-orientation="toggleOrientation"
-        @open-references-modal="(timeline: Timelines) => $emit('open-references-modal', timeline)"
-        @jump-to-start="timelineDiagram.jumpToStart"
-        @jump-to-end="timelineDiagram.jumpToEnd"
-        @zoom-out="timelineDiagram.zoomOut"
-      />
       <timeline-diagram
         ref="timelineDiagram"
         :selected-game="selectedGame"
@@ -130,8 +130,11 @@ main {
     }
   }
 
-  &.TB > section {
-    height: 100vh; /* Allows Rendering... message to be centered in TB */
+  &.TB {
+    flex-direction: row-reverse;
+    & > section {
+      height: 100vh; /* Allows Rendering... message to be centered in TB */
+    }
   }
 }
 

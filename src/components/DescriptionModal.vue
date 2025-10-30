@@ -52,6 +52,7 @@ Rules for smaller width are in Description.vue.
 }
 
 aside.TB {
+  margin-top: 2rem;
   max-height: 80svh;
   margin-right: 0;
 
