@@ -1,22 +1,23 @@
 <template>
   <navbar
-    v-if="timelineDiagram"
+    v-if="timelineDiagramRef"
     :selectedTimeline="selectedTimeline"
     :orientation="orientation"
     :is-small-screen="isSmallScreen"
     @select-timeline="selectTimeline"
-    @open-about-modal="$emit('open-about-modal')"
-    @open-create-modal="$emit('open-create-modal')"
+    @open-about-modal="emits('open-about-modal')"
+    @open-create-modal="emits('open-create-modal')"
     @toggle-orientation="toggleOrientation"
-    @open-references-modal="(timeline: Timelines) => $emit('open-references-modal', timeline)"
-    @jump-to-start="timelineDiagram.jumpToStart"
-    @jump-to-end="timelineDiagram.jumpToEnd"
-    @zoom-out="timelineDiagram.zoomOut"
+    @open-references-modal="(timeline: Timelines) => emits('open-references-modal', timeline)"
+    @jump-to-start="timelineDiagramRef.jumpToStart"
+    @jump-to-end="timelineDiagramRef.jumpToEnd"
+    @zoom-out="timelineDiagramRef.zoomOut"
   />
-  <main :class="orientation">
-    <section>
+  <main ref="mainRef" :class="orientation">
+    <section v-if="mainRef">
       <timeline-diagram
-        ref="timelineDiagram"
+        ref="timelineDiagramRef"
+        :main-element="mainRef"
         :selected-game="selectedGame"
         :selected-timeline="selectedTimeline"
         :orientation="orientation"
@@ -43,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, type ComponentPublicInstance } from 'vue'
 import TimelineDiagram from './TimelineDiagram.vue'
 import Navbar from '@/components/Navbar.vue'
 import Description from './Description.vue'
@@ -51,7 +52,10 @@ import DescriptionModal from './DescriptionModal.vue'
 import { Timelines } from '@/data/timelines'
 import type { GameNode } from '@/data/games'
 
-const timelineDiagram = ref()
+const emits = defineEmits(['open-about-modal', 'open-create-modal', 'open-references-modal'])
+
+const mainRef = ref<HTMLElement | null>(null)
+const timelineDiagramRef = ref<ComponentPublicInstance<typeof TimelineDiagram> | null>(null)
 const isSmallScreen = ref(window.innerWidth < 800) // Will be updated by TimelineDiagram.vue
 
 const selectedGame = ref<GameNode | null>(null)
@@ -116,11 +120,20 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: flex;
+  /* cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  } */
 
   & > section {
     box-sizing: border-box;
     display: flex;
-    position: relative;
+  }
+
+  & > section,
+  & > aside {
+    cursor: default;
   }
 
   &.LR {

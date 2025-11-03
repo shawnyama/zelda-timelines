@@ -88,7 +88,7 @@
       </Button>
     </div>
   </nav>
-  <div :class="['right', orientation]">
+  <div :class="['side-buttons', orientation]">
     <template v-if="!isLegendExpanded">
       <Button class="alt" sm-rounded @click="$emit('open-create-modal')">
         <Icon icon="ph:file-plus-bold" height="1.5rem" />
@@ -139,7 +139,7 @@ function selectTimeline(timeline: Timelines) {
 <style scoped>
 h1,
 nav,
-.right {
+.side-buttons {
   z-index: 2;
 }
 
@@ -162,7 +162,7 @@ h1 {
 
 h1,
 .btn-group,
-.right {
+.side-buttons {
   backdrop-filter: blur(6px);
 }
 
@@ -176,13 +176,14 @@ label {
   cursor: pointer;
 }
 
-.right {
+.side-buttons {
   position: fixed;
   display: flex;
   gap: 0.5rem;
   margin: 0.5rem;
   border-radius: 0.75rem;
   right: 0;
+  width: fit-content;
   &.TB {
     flex-direction: column;
     bottom: 0;
@@ -376,6 +377,10 @@ nav {
   nav.TB {
     max-width: 95vw;
     left: 50%;
+  }
+
+  .side-buttons.TB {
+    left: 0;
   }
 }
 

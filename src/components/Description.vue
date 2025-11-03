@@ -115,9 +115,9 @@ aside {
     &.LR,
     &.TB {
       height: 0;
-      position: absolute;
     }
     &.LR {
+      position: absolute;
       bottom: 2.5rem;
       & header {
         margin: auto;
@@ -125,8 +125,8 @@ aside {
     }
     &.TB {
       width: 0;
-      top: -1.5rem;
-      right: 12rem;
+      margin-top: 4rem;
+      margin-left: 1rem;
     }
   }
 
