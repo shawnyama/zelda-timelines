@@ -324,52 +324,34 @@ async function updateDimensions(isFreshRender = false) {
   // Get the svg container and the attributes of its first group which contains the timeline diagram
   svg = d3.select('.mermaid svg').attr('height', svgHeight).style('max-width', '100%')
 
-  // const svgNode = svg.node() as SVGSVGElement
-  // const svgBBox = svgNode.getBBox()
-  // // Use the larger of natural dimensions or content bounds for viewBox
-  // const viewBoxWidth = Math.max(svgWidth, svgBBox.width)
-  // const viewBoxHeight = Math.max(svgHeight, svgBBox.height)
-  // const viewBoxX = Math.min(0, svgBBox.x) // Start from 0 or content start if negative
-  // const viewBoxY = Math.min(0, svgBBox.y)
-
-  // svgNode.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`)
-
-  // const svgNode = svg.node() as SVGSVGElement
-  // if (svgNode) {
-  //   const bbox = svgNode.getBBox()
-  //   svgNode.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`)
-  //   svgNode.removeAttribute('width') // Remove fixed width
-  //   svgNode.removeAttribute('height') // Remove fixed height
-  // }
-
-  // If timelineGroup is not defined that means the diagram is not rendered yet so we return
+  // If timelineGroup is not defined that means the diagram is not rendered yet so return
   timelineGroup = svg.select('g')
   if (!timelineGroup?.node()) return
   timelineBBox = (timelineGroup.node() as any).getBBox()
-
-  let paddingX = 0
-  let paddingY = 0
-
-  // if
 
   const widthExtent = Math.max(svgWidth, timelineBBox.width)
   const heightExtent = Math.max(svgHeight, timelineBBox.height)
 
   console.log('SVG Dimensions:', svgWidth, svgHeight)
   console.log('Timeline BBox:', timelineBBox.width, timelineBBox.height)
-
   console.log('heightExtent:', heightExtent)
 
   // Determine max/min scale and padding
   if (props.orientation === 'LR') {
-    maxScale = widthExtent / svgWidth / 2 // Divide by 2 because actual max scale is too large
+    maxScale = widthExtent / svgWidth
   } else if (props.orientation === 'TB') {
-    maxScale = heightExtent / svgHeight / 2
+    maxScale = heightExtent / svgHeight
   }
+  maxScale /= 2 // Divide by 2 because actual max scale is too large
   minScale = Math.min(maxScale / 2, 1)
 
-  paddingX = widthExtent === svgWidth ? svgWidth : DIAGRAM_PADDING
-  paddingY = heightExtent === svgHeight ? svgHeight : DIAGRAM_PADDING
+  let paddingX = DIAGRAM_PADDING
+  let paddingY = DIAGRAM_PADDING
+  // Calculate appropriate padding if diagram is smaller than container
+  if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
+  if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
+
+  console.log('maxScale:', maxScale)
 
   translateExtent = [
     [
@@ -377,7 +359,7 @@ async function updateDimensions(isFreshRender = false) {
       timelineBBox.y - paddingY // y0
     ],
     [
-      timelineBBox.x + widthExtent + paddingX, // x1
+      timelineBBox.x + widthExtent + paddingX, // x1* maxScale // Try multiplying by maxScaleX then maxScaleY below???
       timelineBBox.y + heightExtent + paddingY // y1
     ]
   ]
