@@ -208,12 +208,10 @@ async function selectNode(event: MouseEvent) {
   // Capture the center position of the node
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
   const transform = d3.zoomTransform(svg.node())
-  const clientX = gameNodeRect.left + gameNodeRect.width / 2 / transform.k
-  const clientY = gameNodeRect.top + gameNodeRect.height / 2 / transform.k
+  const clientX = gameNodeRect.left //+ gameNodeRect.width // 2 // transform.k
+  const clientY = gameNodeRect.top //+ gameNodeRect.height // 2 // transform.k
   const [x, y] = d3.pointer({ clientX, clientY }, svg.node())
   const [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
-
-  console.log(gameNodeRect.width / 2 / transform.k)
 
   if (props.orientation === 'LR') {
     translateX = -transformedX + svgWidth
@@ -224,6 +222,8 @@ async function selectNode(event: MouseEvent) {
     translateY = -transformedY + svgHeight
     translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
   }
+
+  console.log(translateX)
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {}
@@ -260,6 +260,8 @@ function jumpToEdge(edge: 'start' | 'end') {
     translateX = (-diagramWidth * maxScale + diagramWidth) / maxScale / 2
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
+
+  console.log(translateX)
 
   applyTransform(translateX, translateY)
 }
