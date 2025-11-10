@@ -39,28 +39,27 @@ const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | 
 const showDiagram = ref(false)
 
 const DIAGRAM_PADDING = 400
+const MAX_SCALE_FACTOR = 0.5
+
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
 // Diagram positioning and scaling
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-let minScale = 1
-let maxScale = 1
-
 let svg: d3.Selection<any, unknown, HTMLElement, undefined>
 let svgWidth = 0
 let svgHeight = 0
+let minScale = 1
+let maxScale = 1
 let zoom: d3.ZoomBehavior<any, unknown>
 let translateExtent: number[][] = []
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
 let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
 let timelineBBox: SVGRect
 
-// This flag disables unnecessary movement when the diagram has very few nodes
-// This is a work around, really the jump to start/end and zoom out buttons should still work properly regardless of the diagram size
-// TODO: I wonder if providing a minimum width(TB mode) or height(LR mode) could help with positioning the diagrams more consistently
-let isDiagramSmall = false
-
 // Tracks available game nodes
 let displayedGameIds: string[] = []
+
+let paddingX = DIAGRAM_PADDING
+let paddingY = DIAGRAM_PADDING
 
 function generateDiagram() {
   const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
@@ -181,33 +180,38 @@ function applyTransform(
   options: { useTransition?: boolean; scale?: number } = {}
 ) {
   if (!zoom?.transform) return
+  // if (!timelineGroup?.node()) return
   const defaultOptions = { useTransition: true, scale: maxScale }
   let { scale, useTransition } = { ...defaultOptions, ...options }
 
   // Add this temporarily to see what "perfect centering" actually is
-  let currentTransform = d3.zoomTransform(svg.node())
-  console.log('Manual centering:', currentTransform.x, currentTransform.y, currentTransform.k)
+  // let currentTransform = d3.zoomTransform(svg.node())
+  // console.log('Manual centering:', currentTransform.x, currentTransform.y, currentTransform.k)
   // console.log(translateX, translateY)
 
-  // Prevent going out of bounds
+  // timelineGroup
+  //   .transition()
+  //   .duration(useTransition ? 750 : 0)
+  //   .attr('transform', `translate(${translateX}, ${translateY}) scale(${scale})`)
 
   svg
     .transition()
     .duration(useTransition ? 750 : 0)
-    .call(zoom.transform as any, d3.zoomIdentity.scale(scale).translate(translateX, translateY))
-    .on('end', () => {
-      let finalTransform = d3.zoomTransform(svg.node())
-      console.log(
-        'After transition completes:',
-        finalTransform.x,
-        finalTransform.y,
-        finalTransform.k
-      )
-    })
+    .call(zoom.transform, d3.zoomIdentity.scale(scale).translate(translateX, translateY))
+  // .on('end', () => {
+  //   let finalTransform = d3.zoomTransform(svg.node())
+  //   console.log(
+  //     'After transition completes:',
+  //     finalTransform.x,
+  //     finalTransform.y,
+  //     finalTransform.k
+  //   )
+  // })
 }
 
 // Game nodes are only selectable now
 async function selectNode(event: MouseEvent) {
+  return
   if (!mermaidContainer.value) return
 
   const gameNodeElement = event.currentTarget as HTMLElement
@@ -221,10 +225,13 @@ async function selectNode(event: MouseEvent) {
   let translateY = 0
   // Capture the center position of the node
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
-  const clientX = gameNodeRect.left + gameNodeRect.width / 2
-  const clientY = gameNodeRect.top + gameNodeRect.height / 2
+  const transform = d3.zoomTransform(svg.node())
+  const clientX = gameNodeRect.left + gameNodeRect.width / 2 / transform.k
+  const clientY = gameNodeRect.top + gameNodeRect.height / 2 / transform.k
   const [x, y] = d3.pointer({ clientX, clientY }, svg.node())
   const [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
+
+  console.log(gameNodeRect.width / 2 / transform.k)
 
   if (props.orientation === 'LR') {
     translateX = -transformedX + svgWidth
@@ -266,16 +273,23 @@ function jumpToEdge(edge: 'start' | 'end') {
 
   if (props.orientation === 'LR') {
     translateX = edge === 'start' ? fallbackTransform.left : fallbackTransform.right
-    const diagramCenterY = timelineBBox.y + timelineBBox.height / 2
+    translateY = (-timelineBBox.height + DIAGRAM_PADDING) / 2
+    const diagramCenterY = timelineBBox.height / 2
     const viewportCenterY = svgHeight / 2
     translateY = viewportCenterY / maxScale - diagramCenterY
   } else if (props.orientation === 'TB') {
-    const diagramCenterX = timelineBBox.x + timelineBBox.width / 2
-    const viewportCenterX = svgWidth / 2
-    translateX = viewportCenterX / maxScale - diagramCenterX
-    // translateX = -timelineBBox.x
+    // translateX = (fallbackTransform.right + fallbackTransform.left) / 2
+    // translateX = edge === 'start' ? fallbackTransform.left : -fallbackTransform.right
+    translateX = (-timelineBBox.width * maxScale + timelineBBox.width) / maxScale / 2 //(-timelineBBox.width + timelineBBox.x * 2) / 2 //+ 36
+    console.log('translateX before centering:', translateX)
+    // translateX = fallbackTransform.right
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
+  // console.log('SVG Dimensions:', svgWidth, svgHeight)
+  // console.log('Timeline BBox:', timelineBBox)
+  // console.log('fallbackTransform:', fallbackTransform)
+  // console.log('translateX:', translateX, 'translateY:', translateY)
+
   applyTransform(translateX, translateY)
 }
 
@@ -283,29 +297,27 @@ function jumpToEdge(edge: 'start' | 'end') {
 function zoomOut() {
   if (!timelineBBox) return
 
-  let translateX = 0
-  let translateY = 0
+  // applyTransform(0, 0, { scale: 1 })
+  // return
 
-  // Center the diagram based on its dimensions and orientation
-  // if (props.orientation === 'LR') {
-  //   const diagramCenterX = timelineBBox.x + timelineBBox.width / 2
+  let translateX = fallbackTransform.left
+  let translateY = -timelineBBox.height / 2
+
+  // if (props.orientation === 'TB') {
+  //   // Center horizontally
+  //   const diagramCenterX = -timelineBBox.width / 2
   //   const viewportCenterX = svgWidth / 2
-  //   translateX = viewportCenterX / minScale - diagramCenterX
+  //   translateX = viewportCenterX - diagramCenterX
 
-  //   const diagramCenterY = timelineBBox.y + timelineBBox.height / 2
+  //   // Center vertically
+  //   const diagramCenterY = -timelineBBox.height / 2
   //   const viewportCenterY = svgHeight / 2
-  //   translateY = viewportCenterY / minScale - diagramCenterY
-  // } else if (props.orientation === 'TB') {
-  //   const diagramCenterX = timelineBBox.x + timelineBBox.width / 2
-  //   const viewportCenterX = svgWidth / 2
-  //   translateX = viewportCenterX / minScale - diagramCenterX
-
-  //   const diagramCenterY = timelineBBox.y + timelineBBox.height / 2
-  //   const viewportCenterY = svgHeight / 2
-  //   translateY = viewportCenterY / minScale - diagramCenterY
+  //   translateY = viewportCenterY - diagramCenterY
   // }
+  // translateX = -timelineBBox.width - svgWidth / 2 - paddingX / 2
+  // translateY = -timelineBBox.height - paddingY
 
-  applyTransform(0, 0, { scale: 1 })
+  applyTransform(translateX, translateY)
 }
 
 // Used in Navbar.vue
@@ -327,14 +339,13 @@ async function updateDimensions(isFreshRender = false) {
   // If timelineGroup is not defined that means the diagram is not rendered yet so return
   timelineGroup = svg.select('g')
   if (!timelineGroup?.node()) return
+
   timelineBBox = (timelineGroup.node() as any).getBBox()
 
-  const widthExtent = Math.max(svgWidth, timelineBBox.width)
-  const heightExtent = Math.max(svgHeight, timelineBBox.height)
+  const widthExtent = timelineBBox.width + timelineBBox.x * 2 // Math.max(svgWidth, timelineBBox.width + timelineBBox.x * 2)
+  const heightExtent = timelineBBox.height + timelineBBox.y * 2 // Math.max(svgHeight, timelineBBox.height + timelineBBox.y * 2)
 
-  console.log('SVG Dimensions:', svgWidth, svgHeight)
-  console.log('Timeline BBox:', timelineBBox.width, timelineBBox.height)
-  console.log('heightExtent:', heightExtent)
+  // console.log('widthExtent:', widthExtent, 'heightExtent:', heightExtent)
 
   // Determine max/min scale and padding
   if (props.orientation === 'LR') {
@@ -342,39 +353,37 @@ async function updateDimensions(isFreshRender = false) {
   } else if (props.orientation === 'TB') {
     maxScale = heightExtent / svgHeight
   }
-  maxScale /= 2 // Divide by 2 because actual max scale is too large
+  maxScale *= MAX_SCALE_FACTOR // Reduce max scale because actual max scale is too large
   minScale = Math.min(maxScale / 2, 1)
 
-  let paddingX = DIAGRAM_PADDING
-  let paddingY = DIAGRAM_PADDING
   // Calculate appropriate padding if diagram is smaller than container
-  if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
-  if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
+  // if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
+  // if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
 
-  console.log('maxScale:', maxScale)
+  // console.log('maxScale:', maxScale)
 
   translateExtent = [
-    [
-      timelineBBox.x - paddingX, // x0
-      timelineBBox.y - paddingY // y0
-    ],
-    [
-      timelineBBox.x + widthExtent + paddingX, // x1* maxScale // Try multiplying by maxScaleX then maxScaleY below???
-      timelineBBox.y + heightExtent + paddingY // y1
-    ]
+    [0, -paddingY], // x0 y0
+    [widthExtent, heightExtent + paddingY] // x1 y1
   ]
 
   const [x0, y0] = translateExtent[0]
   const [x1, y1] = translateExtent[1]
 
+  let mx = (widthExtent / svgWidth) * MAX_SCALE_FACTOR
+
   fallbackTransform = {
     left: -x0,
     top: -y0,
-    right: -x1 + svgWidth * 2,
-    bottom: -y1 + svgHeight * 2
+    right: -x1 + svgWidth / MAX_SCALE_FACTOR,
+    bottom: -y1 + svgHeight / MAX_SCALE_FACTOR
   }
 
-  console.log(fallbackTransform)
+  console.log('translateExtent:', translateExtent)
+  console.log('svgWidth:', svgWidth, 'svgHeight:', svgHeight)
+  console.log('Timeline BBox:', timelineBBox)
+  console.log(x1 * maxScale)
+  // console.log('fallbackTransform:', fallbackTransform)
 
   // Zoom behaviour
   zoom = d3
@@ -382,6 +391,10 @@ async function updateDimensions(isFreshRender = false) {
     .translateExtent(translateExtent as any)
     .scaleExtent([minScale, maxScale])
     .on('zoom', (event) => {
+      // console.log(timelineBBox.width - svgWidth)
+      // const rem = timelineBBox.width - svgWidth
+      // console.log(timelineBBox.width * maxScale - svgWidth - rem)
+      // console.log(event.transform, timelineBBox.width, svgWidth)
       timelineGroup.attr('transform', event.transform)
     })
 
@@ -515,7 +528,7 @@ span {
   gap: 0.5rem;
   text-decoration: none;
   color: black;
-  width: 17.5rem;
+  width: 17.5rem; /* 280px */
 }
 
 :deep(label.title),

@@ -222,7 +222,6 @@ nav {
     color: white;
     overflow: visible;
     gap: 0.75rem;
-    backdrop-filter: blur(2px);
     position: relative;
     z-index: 4;
 
