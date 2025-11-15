@@ -1,15 +1,17 @@
 <template>
-  <span v-if="!showDiagram">Rendering...</span>
-  <vue-mermaid-string
-    ref="mermaidContainer"
-    class="mermaid"
-    :style="{
-      /* Avoids initial jumbled up diagram */
-      visibility: showDiagram ? 'visible' : 'hidden'
-    }"
-    :value="generateDiagram()"
-    @rendered="updateDimensions(true)"
-  />
+  <figure>
+    <span v-if="!showDiagram">Rendering...</span>
+    <vue-mermaid-string
+      ref="mermaidContainer"
+      class="mermaid"
+      :style="{
+        /* Avoids initial jumbled up diagram */
+        visibility: showDiagram ? 'visible' : 'hidden'
+      }"
+      :value="generateDiagram()"
+      @rendered="updateDimensions(true)"
+    />
+  </figure>
 </template>
 
 <script setup lang="ts">
@@ -203,27 +205,41 @@ async function selectNode(event: MouseEvent) {
   emit('select-game', gameNode)
 
   // Move to node position
-  let translateX = 0
-  let translateY = 0
-  // Capture the center position of the node
+  // Capture the center position of the node in client (screen) coords
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
   const transform = d3.zoomTransform(svg.node())
-  const clientX = gameNodeRect.left //+ gameNodeRect.width // 2 // transform.k
-  const clientY = gameNodeRect.top //+ gameNodeRect.height // 2 // transform.k
-  const [x, y] = d3.pointer({ clientX, clientY }, svg.node())
-  const [transformedX, transformedY] = d3.zoomTransform(svg.node()).invert([x, y])
+
+  let clientX = gameNodeRect.left //+ timelineBBox.x * transform.k // MAX_SCALE_FACTOR
+  let clientY = gameNodeRect.top //+ timelineBBox.y * transform.k * MAX_SCALE_FACTOR
+
+  if (props.orientation === 'LR') clientX += gameNodeRect.width / 2
+  else if (props.orientation === 'TB') clientY += gameNodeRect.height / 2
+
+  // clientX += gameNodeRect.width * MAX_SCALE_FACTOR
+
+  // Convert screen (page) coords into SVG user coords
+  const pt: SVGPoint = svg.node().createSVGPoint()
+  pt.x = clientX
+  pt.y = clientY
+  const svgPoint = pt.matrixTransform(svg.node().getScreenCTM().inverse())
+
+  // convert from SVG coords into the diagram's (pre-zoom) coords
+  const [transformedX, transformedY] = transform.invert([svgPoint.x, svgPoint.y])
+
+  let translateX = 0
+  let translateY = 0
 
   if (props.orientation === 'LR') {
-    translateX = -transformedX + svgWidth
+    translateX = -transformedX + svgWidth / 2 / MAX_SCALE_FACTOR
     translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
     translateY = -transformedY
   } else if (props.orientation === 'TB') {
     translateX = -transformedX
-    translateY = -transformedY + svgHeight
+    translateY = -transformedY + svgHeight / 2 / MAX_SCALE_FACTOR
     translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
   }
 
-  console.log(translateX)
+  console.log('node', translateX, translateY)
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {}
@@ -261,7 +277,7 @@ function jumpToEdge(edge: 'start' | 'end') {
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
 
-  console.log(translateX)
+  console.log('edge', translateX, translateY)
 
   applyTransform(translateX, translateY)
 }
@@ -270,13 +286,13 @@ function jumpToEdge(edge: 'start' | 'end') {
 function zoomOut() {
   if (!timelineBBox) return
 
-  // applyTransform(0, 0, { scale: 1 })
-  // return
+  applyTransform(0, 0, { scale: 1 })
+  return
 
-  let translateX = fallbackTransform.left
-  let translateY = -timelineBBox.height / 2
+  let translateX = (-diagramWidth * maxScale + diagramWidth) / maxScale / 2
+  let translateY = (-diagramHeight * maxScale + diagramHeight) / maxScale / 2
 
-  applyTransform(translateX, translateY)
+  applyTransform(translateX, translateY, { scale: 1 })
 }
 
 // Used in Navbar.vue
@@ -340,8 +356,8 @@ async function updateDimensions(isFreshRender = false) {
 
   // console.log('maxScale:', maxScale)
   // console.log('translateExtent:', translateExtent)
-  // console.log('Timeline BBox:', timelineBBox)
-  // console.log('SVG Dimensions:', svgWidth, svgHeight)
+  console.log('Timeline BBox:', timelineBBox)
+  console.log('SVG Dimensions:', svgWidth, svgHeight)
   // console.log('fallbackTransform:', fallbackTransform)
 
   // Zoom behaviour
@@ -408,23 +424,31 @@ onMounted(() => {
 </script>
 
 <style scoped>
-span {
-  font-family: 'calamity', sans-serif;
-  color: var(--dark-green);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.mermaid {
+figure {
   display: flex;
-  cursor: grab;
-  width: 100vw;
-  border: 4px solid blue;
+  flex: 1;
+  position: relative;
 
-  &:active {
-    cursor: grabbing;
+  & > span {
+    font-family: 'calamity', sans-serif;
+    color: var(--dark-green);
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  & > .mermaid {
+    display: flex;
+    cursor: grab;
+    width: 100%;
+    border: 4px solid blue;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 }
 
