@@ -27,7 +27,7 @@ import type { GameNode, Node } from '@/data/games'
 import type { Edge } from '@/data/timelines'
 
 const props = defineProps<{
-  mainElement: HTMLElement
+  // mainElement: HTMLElement
   selectedGame: GameNode | null
   selectedTimeline: Timelines
   orientation: 'LR' | 'TB'
@@ -41,7 +41,7 @@ const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | 
 const showDiagram = ref(false)
 
 const DIAGRAM_PADDING = 400
-const MAX_SCALE_FACTOR = 0.5
+const MAX_SCALE_FACTOR = 0.5 //1
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -49,8 +49,10 @@ const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 let svg: d3.Selection<any, unknown, HTMLElement, undefined>
 let svgWidth = 0
 let svgHeight = 0
-let minScale = 1
+let maxScaleX = 1
+let maxScaleY = 1
 let maxScale = 1
+let minScale = 1
 let zoom: d3.ZoomBehavior<any, unknown>
 let translateExtent: number[][] = []
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
@@ -61,8 +63,8 @@ let timelineBBox: SVGRect
 let displayedGameIds: string[] = []
 
 // Debatable variables
-let paddingX = DIAGRAM_PADDING
-let paddingY = DIAGRAM_PADDING
+let paddingX = 0
+let paddingY = 0
 let diagramWidth = 0
 let diagramHeight = 0
 
@@ -209,13 +211,8 @@ async function selectNode(event: MouseEvent) {
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
   const transform = d3.zoomTransform(svg.node())
 
-  let clientX = gameNodeRect.left //+ timelineBBox.x * transform.k // MAX_SCALE_FACTOR
-  let clientY = gameNodeRect.top //+ timelineBBox.y * transform.k * MAX_SCALE_FACTOR
-
-  if (props.orientation === 'LR') clientX += gameNodeRect.width / 2
-  else if (props.orientation === 'TB') clientY += gameNodeRect.height / 2
-
-  // clientX += gameNodeRect.width * MAX_SCALE_FACTOR
+  let clientX = gameNodeRect.left + gameNodeRect.width / 2
+  let clientY = gameNodeRect.top + gameNodeRect.height / 2
 
   // Convert screen (page) coords into SVG user coords
   const pt: SVGPoint = svg.node().createSVGPoint()
@@ -224,25 +221,36 @@ async function selectNode(event: MouseEvent) {
   const svgPoint = pt.matrixTransform(svg.node().getScreenCTM().inverse())
 
   // convert from SVG coords into the diagram's (pre-zoom) coords
-  const [transformedX, transformedY] = transform.invert([svgPoint.x, svgPoint.y])
+  // The key: you need to invert the CURRENT transform to get untransformed coords
+  const [untransformedX, untransformedY] = transform.invert([svgPoint.x, svgPoint.y])
 
-  let translateX = 0
-  let translateY = 0
+  // This enables consistent centering regardless of zoom level (even though we will default to maxScale anyways this is good to know how it works)
+  // const svgFactor = transform.k / maxScale
 
+  let centerOffsetX =
+    (diagramWidth + paddingX * 2) / maxScale < svgWidth
+      ? svgWidth / maxScale / 2
+      : svgWidth / MAX_SCALE_FACTOR / 2
+  let centerOffsetY =
+    (diagramHeight + paddingY * 2) / maxScale < svgHeight
+      ? svgHeight / maxScale / 2
+      : svgHeight / MAX_SCALE_FACTOR / 2
+
+  console.log('diagramWidth:', diagramWidth, 'svgWidth:', svgWidth)
+  console.log('diagramHeight:', diagramHeight, 'svgHeight:', svgHeight)
+
+  let translateX = -untransformedX + centerOffsetX
+  let translateY = -untransformedY + centerOffsetY
+
+  // Clamp to bounds
   if (props.orientation === 'LR') {
-    translateX = -transformedX + svgWidth / 2 / MAX_SCALE_FACTOR
     translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
-    translateY = -transformedY
   } else if (props.orientation === 'TB') {
-    translateX = -transformedX
-    translateY = -transformedY + svgHeight / 2 / MAX_SCALE_FACTOR
     translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
   }
 
-  console.log('node', translateX, translateY)
-
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
-  const transformOptions = isInitializing ? { useTransition: false } : {}
+  const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging
   applyTransform(translateX, translateY, transformOptions)
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
@@ -304,7 +312,7 @@ defineExpose({
 
 async function updateDimensions(isFreshRender = false) {
   if (!mermaidContainer.value) return
-  // Get window dimensions (SVG should cover the window size)
+  // Get svg dimensions
   svgWidth = mermaidContainer.value.$el.clientWidth
   svgHeight = mermaidContainer.value.$el.clientHeight
   emit('update:is-small-screen', window.innerWidth < 800)
@@ -321,28 +329,29 @@ async function updateDimensions(isFreshRender = false) {
   diagramHeight = timelineBBox.height + timelineBBox.y * 2
 
   // Determine max/min scale and padding
+  maxScaleX = (diagramWidth / svgWidth) * MAX_SCALE_FACTOR // MAX_SCALE_FACTOR reduces max scale because actual max scale is too large
+  maxScaleY = (diagramHeight / svgHeight) * MAX_SCALE_FACTOR
+
   if (props.orientation === 'LR') {
-    maxScale = diagramWidth / svgWidth
+    maxScale = maxScaleX
+    paddingX = DIAGRAM_PADDING
+    paddingY = 0
   } else if (props.orientation === 'TB') {
-    maxScale = diagramHeight / svgHeight
+    maxScale = maxScaleY
+    paddingX = 0
+    paddingY = DIAGRAM_PADDING
   }
-  maxScale *= MAX_SCALE_FACTOR // Reduce max scale because actual max scale is too large
+
   minScale = Math.min(maxScale / 2, 1)
 
   // Calculate appropriate padding if diagram is smaller than container
   // if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
   // if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
 
-  translateExtent =
-    props.orientation === 'LR'
-      ? [
-          [-paddingX, 0], // x0 y0
-          [diagramWidth + paddingX, diagramHeight] // x1 y1
-        ]
-      : [
-          [0, -paddingY],
-          [diagramWidth, diagramHeight + paddingY]
-        ]
+  translateExtent = [
+    [-paddingX, -paddingY],
+    [diagramWidth + paddingX, diagramHeight + paddingY]
+  ]
 
   const [x0, y0] = translateExtent[0]
   const [x1, y1] = translateExtent[1]
@@ -356,8 +365,8 @@ async function updateDimensions(isFreshRender = false) {
 
   // console.log('maxScale:', maxScale)
   // console.log('translateExtent:', translateExtent)
-  console.log('Timeline BBox:', timelineBBox)
-  console.log('SVG Dimensions:', svgWidth, svgHeight)
+  // console.log('Timeline BBox:', timelineBBox)
+  // console.log('SVG Dimensions:', svgWidth, svgHeight)
   // console.log('fallbackTransform:', fallbackTransform)
 
   // Zoom behaviour
@@ -375,6 +384,17 @@ async function updateDimensions(isFreshRender = false) {
     // Listen for clicks on nodes so we can move to them
     .selectAll('a')
     .on('click', selectNode)
+  // .on('click', (event) => {
+  //   // Only handle clicks that aren't on game nodes
+  //   const [x, y] = d3.pointer(event)
+  //   console.log('SVG click coordinates:', x, y)
+
+  //   // If you want diagram coordinates (accounting for zoom/pan):
+  //   const transform = d3.zoomTransform(svg.node())
+  //   const [diagramX, diagramY] = transform.invert([x, y])
+  //   console.log(transform)
+  //   console.log('Diagram coordinates:', diagramX, diagramY)
+  // })
 
   if (isFreshRender) {
     showDiagram.value = true
@@ -426,8 +446,8 @@ onMounted(() => {
 <style scoped>
 figure {
   display: flex;
-  flex: 1;
   position: relative;
+  box-sizing: border-box;
 
   & > span {
     font-family: 'calamity', sans-serif;

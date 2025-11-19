@@ -14,19 +14,16 @@
     @zoom-out="timelineDiagramRef.zoomOut"
   />
   <main ref="mainRef" :class="orientation">
-    <section v-if="mainRef">
-      <timeline-diagram
-        ref="timelineDiagramRef"
-        :main-element="mainRef"
-        :selected-game="selectedGame"
-        :selected-timeline="selectedTimeline"
-        :orientation="orientation"
-        :is-small-screen="isSmallScreen"
-        @select-game="selectGame"
-        @close-description-modal="selectGame(null)"
-        @update:is-small-screen="isSmallScreen = $event"
-      />
-    </section>
+    <timeline-diagram
+      ref="timelineDiagramRef"
+      :selected-game="selectedGame"
+      :selected-timeline="selectedTimeline"
+      :orientation="orientation"
+      :is-small-screen="isSmallScreen"
+      @select-game="selectGame"
+      @close-description-modal="selectGame(null)"
+      @update:is-small-screen="isSmallScreen = $event"
+    />
     <template v-if="selectedGame">
       <description-modal
         v-if="isSmallScreen"
@@ -120,40 +117,31 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: flex;
-  /* cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  } */
-
-  & > section {
-    box-sizing: border-box;
-    display: flex;
-  }
-
-  & > section,
-  & > aside {
-    cursor: default;
-  }
 
   &.LR {
     flex-direction: column;
-    & > section {
+    &:deep(> figure) {
       height: calc(100svh - var(--description-height-LR) - 0.5rem);
     }
   }
 
   &.TB {
     flex-direction: row-reverse;
-    & > section {
-      height: 100vh; /* Allows Rendering... message to be centered in TB */
+    &:deep(> figure) {
+      height: 100vh;
     }
   }
 }
 
 @media screen and (min-width: 800px) {
-  .TB > section {
+  .TB:deep(> figure) {
     width: 60vw;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .TB:deep(> figure) {
+    width: 100vw;
   }
 }
 </style>
