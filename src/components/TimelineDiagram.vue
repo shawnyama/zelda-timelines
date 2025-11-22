@@ -227,20 +227,32 @@ async function selectNode(event: MouseEvent) {
   // This enables consistent centering regardless of zoom level (even though we will default to maxScale anyways this is good to know how it works)
   // const svgFactor = transform.k / maxScale
 
-  let centerOffsetX =
-    (diagramWidth + paddingX * 2) / maxScale < svgWidth
-      ? svgWidth / maxScale / 2
-      : svgWidth / MAX_SCALE_FACTOR / 2
-  let centerOffsetY =
-    (diagramHeight + paddingY * 2) / maxScale < svgHeight
-      ? svgHeight / maxScale / 2
-      : svgHeight / MAX_SCALE_FACTOR / 2
+  // let centerOffsetX =
+  //   (diagramWidth + paddingX * 2) / maxScale < svgWidth
+  //     ? svgWidth / maxScale / 2
+  //     : svgWidth / MAX_SCALE_FACTOR / 2
+  // let centerOffsetY =
+  //   (diagramHeight + paddingY * 2) / maxScale < svgHeight
+  //     ? svgHeight / maxScale / 2
+  //     : svgHeight / MAX_SCALE_FACTOR / 2
 
-  console.log('diagramWidth:', diagramWidth, 'svgWidth:', svgWidth)
-  console.log('diagramHeight:', diagramHeight, 'svgHeight:', svgHeight)
+  let centerOffsetX = svgWidth / maxScale / 2
+  let centerOffsetY = svgHeight / maxScale / 2
+
+  // let centerOffsetX = svgWidth / (2 * maxScaleX)
+  // let centerOffsetY = svgHeight / (2 * maxScaleY)
 
   let translateX = -untransformedX + centerOffsetX
   let translateY = -untransformedY + centerOffsetY
+
+  // console.log('maxScale:', maxScale)
+  // console.log('maxScaleX:', maxScaleX)
+  // console.log('maxScaleY:', maxScaleY)
+  // console.log('MAX_SCALE_FACTOR:', MAX_SCALE_FACTOR)
+  console.log('untransformedX:', untransformedX, 'untransformedY:', untransformedY)
+  // console.log('centerOffsetX:', centerOffsetX, 'centerOffsetY:', centerOffsetY)
+  // console.log('translateX:', translateX, 'translateY:', translateY)
+  console.log('fallbackTransform:', fallbackTransform)
 
   // Clamp to bounds
   if (props.orientation === 'LR') {
@@ -279,28 +291,18 @@ function jumpToEdge(edge: 'start' | 'end') {
 
   if (props.orientation === 'LR') {
     translateX = edge === 'start' ? fallbackTransform.left : fallbackTransform.right
-    translateY = (-diagramHeight * maxScale + diagramHeight) / maxScale / 2
+    translateY = fallbackTransform.bottom / 2
   } else if (props.orientation === 'TB') {
-    translateX = (-diagramWidth * maxScale + diagramWidth) / maxScale / 2
+    translateX = fallbackTransform.right / 2
     translateY = edge === 'start' ? fallbackTransform.top : fallbackTransform.bottom
   }
-
-  console.log('edge', translateX, translateY)
 
   applyTransform(translateX, translateY)
 }
 
 // Zooms all the way out so you can see the entire diagram
 function zoomOut() {
-  if (!timelineBBox) return
-
   applyTransform(0, 0, { scale: 1 })
-  return
-
-  let translateX = (-diagramWidth * maxScale + diagramWidth) / maxScale / 2
-  let translateY = (-diagramHeight * maxScale + diagramHeight) / maxScale / 2
-
-  applyTransform(translateX, translateY, { scale: 1 })
 }
 
 // Used in Navbar.vue
@@ -354,20 +356,13 @@ async function updateDimensions(isFreshRender = false) {
   ]
 
   const [x0, y0] = translateExtent[0]
-  const [x1, y1] = translateExtent[1]
 
   fallbackTransform = {
     left: -x0,
     top: -y0,
-    right: -x1 + svgWidth / MAX_SCALE_FACTOR,
-    bottom: -y1 + svgHeight / MAX_SCALE_FACTOR
+    right: (-diagramWidth * maxScale + diagramWidth) / maxScale - paddingX,
+    bottom: (-diagramHeight * maxScale + diagramHeight) / maxScale - paddingY
   }
-
-  // console.log('maxScale:', maxScale)
-  // console.log('translateExtent:', translateExtent)
-  // console.log('Timeline BBox:', timelineBBox)
-  // console.log('SVG Dimensions:', svgWidth, svgHeight)
-  // console.log('fallbackTransform:', fallbackTransform)
 
   // Zoom behaviour
   zoom = d3
