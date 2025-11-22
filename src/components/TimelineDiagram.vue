@@ -255,11 +255,8 @@ async function selectNode(event: MouseEvent) {
   console.log('fallbackTransform:', fallbackTransform)
 
   // Clamp to bounds
-  if (props.orientation === 'LR') {
-    translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
-  } else if (props.orientation === 'TB') {
-    translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
-  }
+  translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
+  translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging
@@ -379,17 +376,6 @@ async function updateDimensions(isFreshRender = false) {
     // Listen for clicks on nodes so we can move to them
     .selectAll('a')
     .on('click', selectNode)
-  // .on('click', (event) => {
-  //   // Only handle clicks that aren't on game nodes
-  //   const [x, y] = d3.pointer(event)
-  //   console.log('SVG click coordinates:', x, y)
-
-  //   // If you want diagram coordinates (accounting for zoom/pan):
-  //   const transform = d3.zoomTransform(svg.node())
-  //   const [diagramX, diagramY] = transform.invert([x, y])
-  //   console.log(transform)
-  //   console.log('Diagram coordinates:', diagramX, diagramY)
-  // })
 
   if (isFreshRender) {
     showDiagram.value = true
