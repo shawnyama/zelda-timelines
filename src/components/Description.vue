@@ -90,6 +90,7 @@ aside {
   border-top: none;
   border-radius: 1rem;
   backdrop-filter: blur(2px);
+  background-color: var(--modal-bg-alt);
   display: flex;
   box-sizing: border-box;
 
@@ -173,7 +174,7 @@ aside {
     margin: 0.5rem;
     margin-top: 0;
     width: calc(100vw - 1rem);
-    /* 
+    /*
     TODO: When the screen goes beyond 90rem there is extra space and the user can't drag the diargram in this space.
     Not really a big deal but maybe fix later?
     */
@@ -298,7 +299,6 @@ For base styles see DescriptionModal.vue.
 
 @media screen and (max-width: 800px) {
   header {
-    margin-top: -1.15rem;
     & > h2 {
       font-size: 1.6rem;
     }
@@ -307,26 +307,30 @@ For base styles see DescriptionModal.vue.
     }
   }
 
-  aside.TB > section {
-    padding: 0.5rem;
-    gap: 0;
-    padding-top: 0.5rem;
+  aside.TB {
+    margin-left: 0;
 
-    & > figure {
-      scale: 0.75;
-    }
-    & > img {
-      scale: 0.9;
-    }
-    & > article {
-      gap: 0.5rem;
-      & > p {
-        font-size: 1rem;
+    & > section {
+      padding: 0.5rem;
+      gap: 0;
+      padding-top: 0.5rem;
+
+      & > figure {
+        scale: 0.75;
       }
-      & > footer {
+      & > img {
+        scale: 0.9;
+      }
+      & > article {
         gap: 0.5rem;
-        & > button {
-          font-size: 0.75rem;
+        & > p {
+          font-size: 1rem;
+        }
+        & > footer {
+          gap: 0.5rem;
+          & > button {
+            font-size: 0.75rem;
+          }
         }
       }
     }

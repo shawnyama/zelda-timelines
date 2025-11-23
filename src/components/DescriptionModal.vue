@@ -1,6 +1,6 @@
 <template>
   <modal is-custom @close="emit('close-description-modal')">
-    <description class="TB" :game="selectedGame" is-small-screen />
+    <description class="TB" :game="selectedGame" is-small-screen :is-collapsed="false" />
     <template #extra-space>
       <Icon icon="heroicons:arrow-left-16-solid" height="1.25rem" />
       <span>Back</span>
@@ -57,7 +57,6 @@ aside.TB {
   margin-right: 0;
 
   &:deep(> section) {
-    background-color: var(--modal-bg-alt);
     border-radius: 1rem;
   }
 }
