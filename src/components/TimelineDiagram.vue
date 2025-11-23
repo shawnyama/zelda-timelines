@@ -51,18 +51,11 @@ let svgHeight = 0
 let maxScaleX = 1
 let maxScaleY = 1
 let maxScale = 1
-let minScale = 1
 let zoom: d3.ZoomBehavior<any, unknown>
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
 
 // Tracks available game nodes
 let displayedGameIds: string[] = []
-
-// Debatable variables
-let paddingX = 0
-let paddingY = 0
-let diagramWidth = 0
-let diagramHeight = 0
 
 function generateDiagram() {
   const generateGameNode = ({ id, title, useFallbackIcon }: GameNode) => {
@@ -184,11 +177,12 @@ function applyTransform(
 ) {
   if (!zoom?.transform) return
   const defaultOptions = { useTransition: true, scale: maxScale }
-  const { scale, useTransition } = { ...defaultOptions, ...options }
+  let { scale, useTransition } = { ...defaultOptions, ...options }
 
   // Clamp to bounds
   translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
   translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
+  scale = Math.min(scale, maxScale)
 
   svg
     .transition()
@@ -223,7 +217,7 @@ async function selectNode(event: MouseEvent) {
   // This enables consistent centering regardless of zoom level (even though we will default to maxScale anyways this is good to know how it works)
   // const svgFactor = transform.k / maxScale
 
-  //
+  // Shifts node to center rather than top left, adjusted for axis-specific scaling
   const centerOffsetX = (svgWidth / 2 / maxScale / MAX_SCALE_FACTOR) * maxScaleX
   const centerOffsetY = (svgHeight / 2 / maxScale / MAX_SCALE_FACTOR) * maxScaleY
 
@@ -231,7 +225,7 @@ async function selectNode(event: MouseEvent) {
   const translateY = -untransformedY + centerOffsetY
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
-  const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging
+  const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging with svgFactor
   applyTransform(translateX, translateY, transformOptions)
 
   // The following classes must be added using vanilla JS since we are accessing HTML rendered within the vue-mermaid-string component
@@ -315,10 +309,13 @@ async function updateDimensions(isFreshRender = false) {
 
   const timelineBBox = (timelineGroup.node() as any).getBBox()
 
-  diagramWidth = timelineBBox.width + timelineBBox.x * 2
-  diagramHeight = timelineBBox.height + timelineBBox.y * 2
+  const diagramWidth = timelineBBox.width + timelineBBox.x * 2
+  const diagramHeight = timelineBBox.height + timelineBBox.y * 2
 
   // Determine max/min scale and padding
+  let paddingX = 0
+  let paddingY = 0
+
   maxScaleX = (diagramWidth / svgWidth) * MAX_SCALE_FACTOR // MAX_SCALE_FACTOR reduces max scale because actual max scale is too large
   maxScaleY = (diagramHeight / svgHeight) * MAX_SCALE_FACTOR
 
@@ -326,26 +323,24 @@ async function updateDimensions(isFreshRender = false) {
   if (diagramWidth > diagramHeight) {
     maxScale = maxScaleX
     paddingX = DIAGRAM_PADDING
-    paddingY = 0
   }
   // Typically TB
   else {
     maxScale = maxScaleY
-    paddingX = 0
     paddingY = DIAGRAM_PADDING
   }
+  const minScale = Math.min(maxScale / 2, 1)
 
-  minScale = Math.min(maxScale / 2, 1)
-
-  // Calculate appropriate padding if diagram is smaller than container
-  // if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
-  // if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
+  // Provides padding to really small diagrams
+  if (maxScale < 1) {
+    paddingX /= maxScale
+    paddingY /= maxScale
+  }
 
   const translateExtent: [[number, number], [number, number]] = [
     [-paddingX, -paddingY],
     [diagramWidth + paddingX, diagramHeight + paddingY]
   ]
-
   const [x0, y0] = translateExtent[0]
 
   fallbackTransform = {
@@ -353,6 +348,15 @@ async function updateDimensions(isFreshRender = false) {
     top: -y0,
     right: (-diagramWidth * maxScale + diagramWidth) / maxScale - paddingX,
     bottom: (-diagramHeight * maxScale + diagramHeight) / maxScale - paddingY
+  }
+
+  // Avoids coming out of the translate extent in really small diagrams (I don't completely know why this works but it works great)
+  if (maxScale < 1) {
+    if (diagramWidth > diagramHeight) {
+      fallbackTransform.bottom *= 0.5 // LR
+    } else {
+      fallbackTransform.right *= 0.5 // TB
+    }
   }
 
   // Zoom behaviour
@@ -430,7 +434,7 @@ figure {
     display: flex;
     cursor: grab;
     width: 100%;
-    border: 4px solid blue;
+    /* border: 4px solid blue; */
 
     &:active {
       cursor: grabbing;
@@ -439,7 +443,7 @@ figure {
 }
 
 :deep(g.root) {
-  outline: 10px solid red;
+  /* outline: 10px solid red; */
 }
 
 :deep(foreignObject),
