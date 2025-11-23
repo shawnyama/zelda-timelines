@@ -302,6 +302,7 @@ For base styles see DescriptionModal.vue.
 
 @media screen and (max-width: 800px) {
   header {
+    margin-top: -1.15rem;
     & > h2 {
       font-size: 1.6rem;
     }
