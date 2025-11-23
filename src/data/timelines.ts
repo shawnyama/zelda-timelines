@@ -12,8 +12,8 @@ export enum Timelines {
   Triforce = 'triforce',
   Lorulean = 'lorulean',
   Geekery = 'geekery',
-  Absurd = 'absurd',
-  New = 'new'
+  Absurd = 'absurd'
+  // New = 'new'
 }
 
 export type Edge = {
@@ -41,6 +41,6 @@ export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Ed
   [Timelines.Triforce]: triforce,
   [Timelines.Lorulean]: lorulean,
   [Timelines.Geekery]: geekery,
-  [Timelines.Absurd]: absurd,
-  [Timelines.New]: newTimeline
+  [Timelines.Absurd]: absurd
+  // [Timelines.New]: newTimeline
 }
