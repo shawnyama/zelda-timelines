@@ -40,7 +40,7 @@ const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | 
 const showDiagram = ref(false)
 
 const DIAGRAM_PADDING = 400
-const MAX_SCALE_FACTOR = 1 //0.5
+const MAX_SCALE_FACTOR = 0.5
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -209,61 +209,26 @@ async function selectNode(event: MouseEvent) {
   // Move to node position
   // Capture the center position of the node in client (screen) coords
   const gameNodeRect = gameNodeElement.getBoundingClientRect()
-  const transform = d3.zoomTransform(svg.node())
-
-  let clientX = gameNodeRect.left + gameNodeRect.width / 2
-  let clientY = gameNodeRect.top + gameNodeRect.height / 2
-
-  // Convert screen (page) coords into SVG user coords
   const pt: SVGPoint = svg.node().createSVGPoint()
-  pt.x = clientX
-  pt.y = clientY
+  // Assign page/client coords
+  pt.x = gameNodeRect.left + gameNodeRect.width / 2
+  pt.y = gameNodeRect.top + gameNodeRect.height / 2
+  // Convert screen (page) coords into SVG user coords
   const svgPoint = pt.matrixTransform(svg.node().getScreenCTM().inverse())
 
-  // convert from SVG coords into the diagram's (pre-zoom) coords
-  // The key: you need to invert the CURRENT transform to get untransformed coords
+  // Get raw position of the node as untransformed coords
+  const transform = d3.zoomTransform(svg.node())
   const [untransformedX, untransformedY] = transform.invert([svgPoint.x, svgPoint.y])
 
   // This enables consistent centering regardless of zoom level (even though we will default to maxScale anyways this is good to know how it works)
   // const svgFactor = transform.k / maxScale
 
-  // let centerOffsetX =
-  //   (diagramWidth + paddingX * 2) / maxScale < svgWidth
-  //     ? svgWidth / maxScale / 2
-  //     : svgWidth / MAX_SCALE_FACTOR / 2
-  // let centerOffsetY =
-  //   (diagramHeight + paddingY * 2) / maxScale < svgHeight
-  //     ? svgHeight / maxScale / 2
-  //     : svgHeight / MAX_SCALE_FACTOR / 2
-  // let centerOffsetX = svgWidth / (2 * maxScaleX)
-  // let centerOffsetY = svgHeight / (2 * maxScaleY)
+  //
+  const centerOffsetX = (svgWidth / 2 / maxScale / MAX_SCALE_FACTOR) * maxScaleX
+  const centerOffsetY = (svgHeight / 2 / maxScale / MAX_SCALE_FACTOR) * maxScaleY
 
-  // const remX = diagramWidth / svgWidth + 2
-  // const remY = diagramHeight / svgHeight
-  // console.log(remX, remY)
-
-  const diffX = diagramWidth - svgWidth
-  const diffY = diagramHeight - svgHeight
-
-  // Max scale should be considered as different scales produce different centering offsets
-  let centerOffsetX = 0 //svgWidth / 2
-  // let centerOffsetY = -diffY / 2
-  let centerOffsetY = svgHeight / 2
-
-  console.log(diffX)
-  console.log(diffY)
-
-  let translateX = -untransformedX + centerOffsetX
-  let translateY = -untransformedY + centerOffsetY
-
-  // console.log('maxScale:', maxScale)
-  // console.log('maxScaleX:', maxScaleX)
-  // console.log('maxScaleY:', maxScaleY)
-  // console.log('MAX_SCALE_FACTOR:', MAX_SCALE_FACTOR)
-  console.log('untransformedX:', untransformedX, 'untransformedY:', untransformedY)
-  // console.log('centerOffsetX:', centerOffsetX, 'centerOffsetY:', centerOffsetY)
-  console.log('translateX:', translateX, 'translateY:', translateY)
-  console.log('fallbackTransform:', fallbackTransform)
+  const translateX = -untransformedX + centerOffsetX
+  const translateY = -untransformedY + centerOffsetY
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging
@@ -357,11 +322,14 @@ async function updateDimensions(isFreshRender = false) {
   maxScaleX = (diagramWidth / svgWidth) * MAX_SCALE_FACTOR // MAX_SCALE_FACTOR reduces max scale because actual max scale is too large
   maxScaleY = (diagramHeight / svgHeight) * MAX_SCALE_FACTOR
 
-  if (props.orientation === 'LR') {
+  // Typically LR
+  if (diagramWidth > diagramHeight) {
     maxScale = maxScaleX
     paddingX = DIAGRAM_PADDING
     paddingY = 0
-  } else if (props.orientation === 'TB') {
+  }
+  // Typically TB
+  else {
     maxScale = maxScaleY
     paddingX = 0
     paddingY = DIAGRAM_PADDING
@@ -462,7 +430,7 @@ figure {
     display: flex;
     cursor: grab;
     width: 100%;
-    /* border: 4px solid blue; */
+    border: 4px solid blue;
 
     &:active {
       cursor: grabbing;
@@ -471,7 +439,7 @@ figure {
 }
 
 :deep(g.root) {
-  /* outline: 10px solid red; */
+  outline: 10px solid red;
 }
 
 :deep(foreignObject),
