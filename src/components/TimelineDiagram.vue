@@ -27,7 +27,6 @@ import type { GameNode, Node } from '@/data/games'
 import type { Edge } from '@/data/timelines'
 
 const props = defineProps<{
-  // mainElement: HTMLElement
   selectedGame: GameNode | null
   selectedTimeline: Timelines
   orientation: 'LR' | 'TB'
@@ -41,7 +40,7 @@ const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | 
 const showDiagram = ref(false)
 
 const DIAGRAM_PADDING = 400
-const MAX_SCALE_FACTOR = 0.5 //1
+const MAX_SCALE_FACTOR = 1 //0.5
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -54,10 +53,7 @@ let maxScaleY = 1
 let maxScale = 1
 let minScale = 1
 let zoom: d3.ZoomBehavior<any, unknown>
-let translateExtent: number[][] = []
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
-let timelineGroup: d3.Selection<any, unknown, HTMLElement, undefined>
-let timelineBBox: SVGRect
 
 // Tracks available game nodes
 let displayedGameIds: string[] = []
@@ -188,7 +184,11 @@ function applyTransform(
 ) {
   if (!zoom?.transform) return
   const defaultOptions = { useTransition: true, scale: maxScale }
-  let { scale, useTransition } = { ...defaultOptions, ...options }
+  const { scale, useTransition } = { ...defaultOptions, ...options }
+
+  // Clamp to bounds
+  translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
+  translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
 
   svg
     .transition()
@@ -235,12 +235,23 @@ async function selectNode(event: MouseEvent) {
   //   (diagramHeight + paddingY * 2) / maxScale < svgHeight
   //     ? svgHeight / maxScale / 2
   //     : svgHeight / MAX_SCALE_FACTOR / 2
-
-  let centerOffsetX = svgWidth / maxScale / 2
-  let centerOffsetY = svgHeight / maxScale / 2
-
   // let centerOffsetX = svgWidth / (2 * maxScaleX)
   // let centerOffsetY = svgHeight / (2 * maxScaleY)
+
+  // const remX = diagramWidth / svgWidth + 2
+  // const remY = diagramHeight / svgHeight
+  // console.log(remX, remY)
+
+  const diffX = diagramWidth - svgWidth
+  const diffY = diagramHeight - svgHeight
+
+  // Max scale should be considered as different scales produce different centering offsets
+  let centerOffsetX = 0 //svgWidth / 2
+  // let centerOffsetY = -diffY / 2
+  let centerOffsetY = svgHeight / 2
+
+  console.log(diffX)
+  console.log(diffY)
 
   let translateX = -untransformedX + centerOffsetX
   let translateY = -untransformedY + centerOffsetY
@@ -251,12 +262,8 @@ async function selectNode(event: MouseEvent) {
   // console.log('MAX_SCALE_FACTOR:', MAX_SCALE_FACTOR)
   console.log('untransformedX:', untransformedX, 'untransformedY:', untransformedY)
   // console.log('centerOffsetX:', centerOffsetX, 'centerOffsetY:', centerOffsetY)
-  // console.log('translateX:', translateX, 'translateY:', translateY)
+  console.log('translateX:', translateX, 'translateY:', translateY)
   console.log('fallbackTransform:', fallbackTransform)
-
-  // Clamp to bounds
-  translateX = Math.max(Math.min(translateX, fallbackTransform.left), fallbackTransform.right)
-  translateY = Math.max(Math.min(translateY, fallbackTransform.top), fallbackTransform.bottom)
 
   const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging
@@ -309,6 +316,25 @@ defineExpose({
   jumpToEnd: () => jumpToEdge('end')
 })
 
+function fallbackToNode() {
+  // Initialize to fallback (first game node)
+  let gameNodeId = displayedGameIds[0]
+  // If there is a selected game and its available in the diagram, select it
+  if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
+    gameNodeId = props.selectedGame.id
+  }
+  // TODO: If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
+  // else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
+  //   gameNodeId = window.location.hash.substring(1)
+  // }
+  // On reload, go to the last selected game
+  else if (displayedGameIds.includes(localStorage.getItem('selectedGameId') as string)) {
+    gameNodeId = localStorage.getItem('selectedGameId') as string
+  }
+  const gameNode: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
+  if (gameNode) jumpToNode(gameNode, { useTransition: false })
+}
+
 async function updateDimensions(isFreshRender = false) {
   if (!mermaidContainer.value) return
   // Get svg dimensions
@@ -319,10 +345,10 @@ async function updateDimensions(isFreshRender = false) {
   svg = d3.select('.mermaid svg').attr('height', svgHeight).style('max-width', '100%')
 
   // If timelineGroup is not defined that means the diagram is not rendered yet so return
-  timelineGroup = svg.select('g')
+  const timelineGroup = svg.select('g')
   if (!timelineGroup?.node()) return
 
-  timelineBBox = (timelineGroup.node() as any).getBBox()
+  const timelineBBox = (timelineGroup.node() as any).getBBox()
 
   diagramWidth = timelineBBox.width + timelineBBox.x * 2
   diagramHeight = timelineBBox.height + timelineBBox.y * 2
@@ -347,7 +373,7 @@ async function updateDimensions(isFreshRender = false) {
   // if (widthExtent === svgWidth) paddingX = svgWidth - timelineBBox.width * maxScale
   // if (heightExtent === svgHeight) paddingY = svgHeight - timelineBBox.height * maxScale
 
-  translateExtent = [
+  const translateExtent: [[number, number], [number, number]] = [
     [-paddingX, -paddingY],
     [diagramWidth + paddingX, diagramHeight + paddingY]
   ]
@@ -364,7 +390,7 @@ async function updateDimensions(isFreshRender = false) {
   // Zoom behaviour
   zoom = d3
     .zoom()
-    .translateExtent(translateExtent as any)
+    .translateExtent(translateExtent)
     .scaleExtent([minScale, maxScale])
     .on('zoom', (event) => {
       timelineGroup.attr('transform', event.transform)
@@ -379,25 +405,16 @@ async function updateDimensions(isFreshRender = false) {
 
   if (isFreshRender) {
     showDiagram.value = true
-
-    // Initialize to fallback (first game node)
-    let gameNodeId = displayedGameIds[0]
-    // If there is a selected game and its available in the diagram, select it
-    if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
-      gameNodeId = props.selectedGame.id
-    }
-    // TODO: If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
-    // else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
-    //   gameNodeId = window.location.hash.substring(1)
-    // }
-    // On reload, go to the last selected game
-    else if (displayedGameIds.includes(localStorage.getItem('selectedGameId') as string)) {
-      gameNodeId = localStorage.getItem('selectedGameId') as string
-    }
-    const gameNode: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
-    if (gameNode) jumpToNode(gameNode, { useTransition: false })
+    fallbackToNode()
   }
 }
+
+watch(
+  () => props.isSmallScreen,
+  () => {
+    if (!props.isSmallScreen && !props.selectedGame) fallbackToNode()
+  }
+)
 
 watch(
   () => [props.selectedTimeline, props.orientation],
@@ -445,7 +462,7 @@ figure {
     display: flex;
     cursor: grab;
     width: 100%;
-    border: 4px solid blue;
+    /* border: 4px solid blue; */
 
     &:active {
       cursor: grabbing;
@@ -454,7 +471,7 @@ figure {
 }
 
 :deep(g.root) {
-  outline: 10px solid red;
+  /* outline: 10px solid red; */
 }
 
 :deep(foreignObject),

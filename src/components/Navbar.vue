@@ -5,7 +5,7 @@
       <Icon icon="ph:info-bold" height="1.5rem" />
     </Button>
   </h1>
-  <nav :class="orientation">
+  <nav :class="{ [orientation]: !isDescriptionCollapsed }">
     <div class="selected-timeline" @mouseleave="isOptionsVisible = false">
       <Button
         class="custom"
@@ -88,7 +88,7 @@
       </Button>
     </div>
   </nav>
-  <div :class="['side-buttons', orientation]">
+  <div :class="['side-buttons', { [orientation]: !isDescriptionCollapsed || isSmallScreen }]">
     <template v-if="!isLegendExpanded">
       <Button class="alt" sm-rounded @click="$emit('open-create-modal')">
         <Icon icon="ph:file-plus-bold" height="1.5rem" />
@@ -115,6 +115,7 @@ defineProps<{
   selectedTimeline: Timelines
   orientation: string
   isSmallScreen: boolean
+  isDescriptionCollapsed: boolean
 }>()
 const emit = defineEmits([
   'select-timeline',

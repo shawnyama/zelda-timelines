@@ -11,7 +11,7 @@
           :style="{
             backgroundColor: isCollapsed ? 'hsl(0, 0%, 96%, 0.7)' : 'hsl(0, 0%, 96%, 0.3)'
           }"
-          @click="isCollapsed = !isCollapsed"
+          @click="emits('toggle', !isCollapsed)"
         >
           <Icon
             :icon="isCollapsed ? 'ph:arrows-out-simple-bold' : 'ph:arrows-in-simple-bold'"
@@ -53,11 +53,13 @@ const attrs = useAttrs()
 
 const props = defineProps<{
   game: GameNode
-  isSmallScreen?: boolean
+  isSmallScreen: boolean
+  isCollapsed: boolean
 }>()
 
+const emits = defineEmits(['toggle'])
+
 const pRef = ref<HTMLElement | null>(null)
-const isCollapsed = ref(false)
 
 const icon = computed(() => {
   return props.game.useFallbackIcon
@@ -75,7 +77,7 @@ watch(
 watch(
   () => attrs.class,
   () => {
-    isCollapsed.value = false
+    emits('toggle', false)
   }
 )
 </script>
@@ -100,9 +102,6 @@ aside {
     & header {
       margin: 0;
       width: fit-content;
-      & > h2 {
-        margin-left: auto;
-      }
       & > h2 > span,
       & > .border-top,
       & > img {
@@ -115,16 +114,15 @@ aside {
     &.LR,
     &.TB {
       height: 0;
+      position: absolute;
     }
     &.LR {
-      position: absolute;
       bottom: 2.5rem;
       & header {
         margin: auto;
       }
     }
     &.TB {
-      width: 0;
       margin-top: 4rem;
       margin-left: 1rem;
     }
@@ -158,12 +156,7 @@ aside {
     flex: 1;
     margin-top: 6rem;
     margin-bottom: 0.5rem;
-    /* Alternative placement 
-    margin-top: auto;
-    margin-bottom: auto; 
-    */
     margin-left: 0.5rem;
-    height: fit-content;
     max-height: calc(100svh - 6.5rem);
 
     & > section {
@@ -180,6 +173,10 @@ aside {
     margin: 0.5rem;
     margin-top: 0;
     width: calc(100vw - 1rem);
+    /* 
+    TODO: When the screen goes beyond 90rem there is extra space and the user can't drag the diargram in this space.
+    Not really a big deal but maybe fix later?
+    */
     max-width: 90rem;
     align-self: center;
   }
@@ -198,7 +195,6 @@ aside {
       width: 100%;
       height: 100%;
       flex-direction: column;
-      justify-content: center;
       gap: 1rem;
       /* Article covers as much space as possible while not breaking out of the description */
       min-height: 0;
@@ -236,10 +232,10 @@ header {
   display: flex;
   flex: 1;
   align-items: center;
-  user-select: none;
   gap: 0.5rem;
 
   & > h2 {
+    max-width: 80%;
     font-size: 2.25rem;
     display: flex;
     align-items: center;
@@ -249,6 +245,11 @@ header {
     white-space: nowrap;
     text-overflow: ellipsis;
     text-shadow: 0 0 6px var(--dark-green);
+
+    & > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   & > .border-top {
@@ -282,6 +283,29 @@ For base styles see DescriptionModal.vue.
       height: 2.5rem;
     }
   }
+}
+
+@container (height < 300px) {
+  aside.LR > section {
+    & > figure {
+      scale: 0.8;
+    }
+    & > img {
+      scale: 0.8;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    margin-top: -1.15rem;
+    & > h2 {
+      font-size: 1.6rem;
+    }
+    & > img {
+      height: 2.5rem;
+    }
+  }
 
   aside.TB > section {
     padding: 0.5rem;
@@ -305,17 +329,6 @@ For base styles see DescriptionModal.vue.
           font-size: 0.75rem;
         }
       }
-    }
-  }
-}
-
-@container (height < 300px) {
-  aside.LR > section {
-    & > figure {
-      scale: 0.8;
-    }
-    & > img {
-      scale: 0.8;
     }
   }
 }

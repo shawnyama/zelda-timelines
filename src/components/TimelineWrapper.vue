@@ -4,6 +4,7 @@
     :selectedTimeline="selectedTimeline"
     :orientation="orientation"
     :is-small-screen="isSmallScreen"
+    :is-description-collapsed="isDescriptionCollapsed"
     @select-timeline="selectTimeline"
     @open-about-modal="emits('open-about-modal')"
     @open-create-modal="emits('open-create-modal')"
@@ -13,17 +14,7 @@
     @jump-to-end="timelineDiagramRef.jumpToEnd"
     @zoom-out="timelineDiagramRef.zoomOut"
   />
-  <main ref="mainRef" :class="orientation">
-    <timeline-diagram
-      ref="timelineDiagramRef"
-      :selected-game="selectedGame"
-      :selected-timeline="selectedTimeline"
-      :orientation="orientation"
-      :is-small-screen="isSmallScreen"
-      @select-game="selectGame"
-      @close-description-modal="selectGame(null)"
-      @update:is-small-screen="isSmallScreen = $event"
-    />
+  <main :class="orientation">
     <template v-if="selectedGame">
       <description-modal
         v-if="isSmallScreen"
@@ -35,8 +26,20 @@
         :class="orientation"
         :game="selectedGame"
         :is-small-screen="isSmallScreen"
+        :is-collapsed="isDescriptionCollapsed"
+        @toggle="(state: boolean) => toggleDescription(state)"
       />
     </template>
+    <timeline-diagram
+      ref="timelineDiagramRef"
+      :selected-game="selectedGame"
+      :selected-timeline="selectedTimeline"
+      :orientation="orientation"
+      :is-small-screen="isSmallScreen"
+      @select-game="selectGame"
+      @close-description-modal="selectGame(null)"
+      @update:is-small-screen="isSmallScreen = $event"
+    />
   </main>
 </template>
 
@@ -51,14 +54,18 @@ import type { GameNode } from '@/data/games'
 
 const emits = defineEmits(['open-about-modal', 'open-create-modal', 'open-references-modal'])
 
-const mainRef = ref<HTMLElement | null>(null)
 const timelineDiagramRef = ref<ComponentPublicInstance<typeof TimelineDiagram> | null>(null)
 const isSmallScreen = ref(window.innerWidth < 800) // Will be updated by TimelineDiagram.vue
+
+const isDescriptionCollapsed = ref(false)
+const toggleDescription = (state: boolean) => {
+  isDescriptionCollapsed.value = state
+}
 
 const selectedGame = ref<GameNode | null>(null)
 function selectGame(gameNode: GameNode | null) {
   selectedGame.value = gameNode
-  localStorage.setItem('selectedGameId', gameNode ? gameNode.id : '')
+  if (gameNode) localStorage.setItem('selectedGameId', gameNode.id)
 }
 
 function getLastSelectedTimeline(): Timelines {
@@ -119,14 +126,17 @@ main {
   display: flex;
 
   &.LR {
-    flex-direction: column;
+    flex-direction: column-reverse;
     &:deep(> figure) {
       height: calc(100svh - var(--description-height-LR) - 0.5rem);
+    }
+    &:deep(> aside.collapsed + figure) {
+      height: 100svh;
     }
   }
 
   &.TB {
-    flex-direction: row-reverse;
+    flex-direction: row;
     &:deep(> figure) {
       height: 100vh;
     }
@@ -134,8 +144,13 @@ main {
 }
 
 @media screen and (min-width: 800px) {
-  .TB:deep(> figure) {
-    width: 60vw;
+  .TB {
+    &:deep(> figure) {
+      width: 60vw;
+    }
+    &:deep(> aside.collapsed + figure) {
+      width: 100vw;
+    }
   }
 }
 
