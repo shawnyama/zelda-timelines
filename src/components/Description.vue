@@ -250,6 +250,9 @@ header {
     & > span {
       overflow: hidden;
       text-overflow: ellipsis;
+      /* Prevents text-shadow from being cut off */
+      padding: 0 6px;
+      margin: 0 -6px;
     }
   }
 
