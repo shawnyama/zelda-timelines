@@ -138,6 +138,7 @@ main {
   &.TB {
     flex-direction: row;
     &:deep(> figure) {
+      margin-left: auto; /* So rendering message looks right */
       height: 100vh;
     }
   }

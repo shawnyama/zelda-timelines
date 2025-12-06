@@ -13,8 +13,8 @@
       <span class="dashed-edge">Vast time gap</span>
     </div>
     <div>
-      <h4 class="title major-event">Timesplit event</h4>
-      <h4 class="title major-event what-if">What-if event</h4>
+      <span class="event major-event">Timesplit event</span>
+      <span class="event major-event what-if">What-if event</span>
     </div>
   </section>
 </template>

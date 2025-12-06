@@ -187,6 +187,7 @@ label {
   width: fit-content;
   &.TB {
     flex-direction: column;
+    /* left: 40%; */
     bottom: 0;
   }
 }

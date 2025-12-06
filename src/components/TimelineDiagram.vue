@@ -67,17 +67,17 @@ function generateDiagram() {
     return `${id}[
     <a class='${id}' href='/${props.selectedTimeline}#${id}'>
       <img class='${fallbackClass} ${safariClass}' src='${imagePath}' alt='Icon'></img>
-      <label class='title ${safariClass}'>${title}</label>
+      <div class='title ${safariClass}'>${title}</div>
     </a>]`
   }
 
   const generateEventNode = ({ id, title }: Node) => {
     if (timeSplitEvents.includes(title)) {
-      return `${id}[<h4 class='major-event title'>${title}</h4>]`
+      return `${id}[<div class='event major-event'>${title}</div]`
     } else if (whatIfEvents.includes(title)) {
-      return `${id}[<h4 class='major-event title what-if'>${title}</h4>]`
+      return `${id}[<div class='event major-event what-if'>${title}</div>]`
     }
-    return `${id}[<h4 class='title'>${title}</h4>]`
+    return `${id}[<div class='event'>${title}</div>]`
   }
 
   const removeSpaces = (str: string) => str.replaceAll(' ', '')
@@ -442,9 +442,11 @@ figure {
   }
 }
 
+/*
 :deep(g.root) {
-  /* outline: 10px solid red; */
+   outline: 10px solid red; 
 }
+*/
 
 :deep(foreignObject),
 :deep(svg) {
@@ -500,35 +502,28 @@ figure {
   width: 17.5rem; /* 280px */
 }
 
-:deep(label.title),
-:deep(label.fallback-title) {
+:deep(.title),
+:deep(.event) {
   font-family: 'Spectral', serif;
   font-weight: bold;
+  width: 18rem;
   font-size: 2rem;
-  text-wrap: wrap;
   line-height: 1.2;
-  cursor: pointer;
 }
 
-:deep(.selected-game label.title),
-:deep(foreignObject:hover label.title) {
+:deep(.selected-game .title),
+:deep(foreignObject:hover .title) {
   color: white;
   text-shadow: var(--dark-green) 0 0 1rem;
 }
 
-:deep(.selected-game label.title:not(.safari)) {
+:deep(.selected-game .title:not(.safari)) {
   scale: 1.2;
   margin-top: 0.5rem;
   animation: breathing-brightness 3s ease-in-out infinite;
 }
 
-:deep(label.fallback-title) {
-  margin-top: -1rem;
-}
-
-:deep(h4.title) {
-  font-size: 2rem;
-  min-width: 18rem;
+:deep(.event.major-event) {
   border-width: 12px;
   border-radius: 1rem;
 }
