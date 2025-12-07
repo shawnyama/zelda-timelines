@@ -80,23 +80,36 @@ const flowchart: Edge[] = [
   { source: GameIds.TheLegendOfZelda, target: GameIds.TheAdventureOfLink, style: EdgeStyle.Thick },
   {
     source: GameIds.TheAdventureOfLink,
-    target: GameIds.CDiGamesAndCartoon,
+    target: GameIds.TheLegendOfZeldaCartoon,
     extraDistance: EdgeDistance.SomeTimePasses
   },
   {
-    source: GameIds.CDiGamesAndCartoon,
-    target: Events.TheFirstGreatCalamity,
+    source: GameIds.TheLegendOfZeldaCartoon,
+    target: GameIds.ZeldaTheWandOfGamelon
+  },
+  {
+    source: GameIds.ZeldaTheWandOfGamelon,
+    target: GameIds.LinkTheFacesOfEvil,
+    style: EdgeStyle.Thick
+  },
+  {
+    source: GameIds.LinkTheFacesOfEvil,
+    target: GameIds.ZeldasAdventure
+  },
+  {
+    source: GameIds.ZeldasAdventure,
+    target: Events.TheAncientCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: EdgeDistance.ALongTimePasses
   },
   {
-    source: Events.TheFirstGreatCalamity,
-    target: Events.TheSecondGreatCalamity,
+    source: Events.TheAncientCalamity,
+    target: Events.TheGreatCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: EdgeDistance.ALongTimePasses
   },
   {
-    source: Events.TheSecondGreatCalamity,
+    source: Events.TheGreatCalamity,
     target: Events.TerrakoGoesBackInTime,
     style: EdgeStyle.Thick
   },

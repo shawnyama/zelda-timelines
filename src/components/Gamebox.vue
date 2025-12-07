@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import type { GameNode } from '@/data/games'
 import { Platforms, gameBoxDimensions, gameBoxColors, spineOnBottom } from '@/data/platforms'
 import { Image } from '@unpic/vue'
@@ -62,7 +62,7 @@ const props = defineProps<{
   selectedPlatform: Platforms
 }>()
 
-const gameBoxRef = ref<HTMLImageElement | null>(null)
+// const gameBoxRef = ref<HTMLImageElement | null>(null)
 
 const imagePathWebp = computed(() => `/assets/cover-art/${props.game?.id}.webp`)
 const imagePathJpg = computed(() => `/assets/cover-art/${props.game?.id}.jpg`)

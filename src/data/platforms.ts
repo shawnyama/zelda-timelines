@@ -7,12 +7,17 @@ export enum Platforms {
   Wii = 'Wii',
   WiiU = 'Wii U',
   Switch = 'Nintendo Switch',
+  Switch2 = 'Nintendo Switch 2',
   GB = 'Game Boy',
   GBC = 'Game Boy Color',
   GBA = 'Game Boy Advance',
   DS = 'Nintendo DS',
   N3DS = 'Nintendo 3DS',
-  CDi = 'Phillips CD-i'
+  CDi = 'Phillips CD-i',
+  GameAndWatch = 'Game & Watch',
+  NelsonicGameWatch = 'Nelsonic Game Watch',
+  TVSeries = 'TV Series',
+  Movie = 'Movie'
 }
 
 // Box dimensions in millimiters
@@ -60,6 +65,7 @@ export const gameBoxDimensions: any = {
   [Platforms.Wii]: DiscBoxDimensions,
   [Platforms.WiiU]: DiscBoxDimensions,
   [Platforms.Switch]: SwitchBoxDimensions,
+  [Platforms.Switch2]: SwitchBoxDimensions,
   [Platforms.GB]: DSBoxDimensions,
   [Platforms.GBC]: DSBoxDimensions,
   [Platforms.GBA]: DSBoxDimensions,
@@ -77,6 +83,7 @@ export const gameBoxColors: any = {
   [Platforms.Wii]: 'white',
   [Platforms.WiiU]: '#009ACD',
   [Platforms.Switch]: 'rgba(211, 211, 211, 0.5)',
+  [Platforms.Switch2]: '#E70009',
   [Platforms.GB]: '#1d1d1d',
   [Platforms.GBC]: '#1d1d1d',
   [Platforms.GBA]: '#1d1d1d',

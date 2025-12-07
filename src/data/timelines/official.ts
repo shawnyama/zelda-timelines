@@ -110,14 +110,14 @@ const flowchart: Edge[] = [
     style: EdgeStyle.Thick
   },
   {
-    source: Events.TheFirstGreatCalamity,
-    target: Events.TheSecondGreatCalamity,
+    source: Events.TheAncientCalamity,
+    target: Events.TheGreatCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: EdgeDistance.ALongTimePasses,
     subgraphToStart: Eras.EraOfTheWilds
   },
   {
-    source: Events.TheSecondGreatCalamity,
+    source: Events.TheGreatCalamity,
     target: GameIds.BreathOfTheWild,
     style: EdgeStyle.Thick
   },

@@ -37,18 +37,18 @@ const flowchart: Edge[] = [
   { source: Events.TheDemonThiefGanondorfIsExecuted, target: GameIds.TwilightPrincess },
   {
     source: GameIds.TwilightPrincess,
-    target: Events.TheFirstGreatCalamity,
+    target: Events.TheAncientCalamity,
     extraDistance: 3,
     style: EdgeStyle.Dotted
   },
   {
-    source: Events.TheFirstGreatCalamity,
-    target: Events.TheSecondGreatCalamity,
+    source: Events.TheAncientCalamity,
+    target: Events.TheGreatCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: 3
   },
   {
-    source: Events.TheSecondGreatCalamity,
+    source: Events.TheGreatCalamity,
     target: GameIds.BreathOfTheWild,
     style: EdgeStyle.Thick
   },

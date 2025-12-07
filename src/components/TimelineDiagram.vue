@@ -506,7 +506,7 @@ figure {
 :deep(.event) {
   font-family: 'Spectral', serif;
   font-weight: bold;
-  width: 18rem;
+  width: 19.5rem;
   font-size: 2rem;
   line-height: 1.2;
 }

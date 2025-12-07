@@ -167,14 +167,18 @@ export const gameNodes: GameNode[] = [
     id: GameIds.BreathOfTheWild,
     releases: [
       { platform: Platforms.WiiU, year: 2017 },
-      { platform: Platforms.Switch, year: 2017 }
+      { platform: Platforms.Switch, year: 2017 },
+      { platform: Platforms.Switch2, year: 2025 }
     ],
     description: `Link is awakened in a chamber by a voice beckoning to him. After leaving the cave, Link learns that he has been asleep for 100 years, after failing to stop a monster called Calamity Ganon, currently being held inside Hyrule Castle by Princess Zelda. However, Calamity Ganon's power continues to grow, and if not stopped it will eventually break free with enough power to destroy the entire world. Link's quest is ultimately to defeat Calamity Ganon and save both Hyrule and Zelda.`
   },
   {
     title: 'Tears of the Kingdom',
     id: GameIds.TearsOfTheKingdom,
-    releases: [{ platform: Platforms.Switch, year: 2023 }],
+    releases: [
+      { platform: Platforms.Switch, year: 2023 },
+      { platform: Platforms.Switch2, year: 2025 }
+    ],
     description: `Some time after defeating Calamity Ganon, Link and Princess Zelda investigate beneath Hyrule Castle for a dark substance known as gloom. They discover a mummified Ganondorf, sealed by a disembodied arm. Suddenly, the seal breaks, and the mummy attacks them with gloom and sends the castle soaring into the sky. The ground collapses, causing Zelda to plummet into an abyss where she mysteriously vanishes mid-fall. Link is rescued by the disembodied hand of the ancient king Rauru. With newfound Zonai abilities granted by Rauru, Link embarks on another adventure to find clues to save Hyrule from this Upheaval and to find Zelda.`
   },
   {
@@ -185,13 +189,90 @@ export const gameNodes: GameNode[] = [
   },
   // Side games
   {
-    title: 'CDi Games and Cartoon',
-    id: GameIds.CDiGamesAndCartoon,
-    releases: [{ platform: Platforms.CDi, year: 1989 }],
+    title: 'The Legend of Zelda Cartoon',
+    id: GameIds.TheLegendOfZeldaCartoon,
+    releases: [{ platform: Platforms.TVSeries, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
     noBoxArt: true,
     description: `The unmentionables. Ganon is at his weakest here.`
+  },
+  {
+    title: 'Zelda (Game & Watch)',
+    id: GameIds.ZeldaGameAndWatch,
+    releases: [{ platform: Platforms.GameAndWatch, year: 1989 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `A handheld LCD game featuring simplified Zelda gameplay on Nintendo's Game & Watch system.`
+  },
+  {
+    title: 'The Legend of Zelda Game Watch',
+    id: GameIds.TheLegendOfZeldaGameWatch,
+    releases: [{ platform: Platforms.NelsonicGameWatch, year: 1989 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `A wristwatch with a built-in mini Zelda game produced by Nelsonic.`
+  },
+  {
+    title: 'Link: The Faces of Evil',
+    id: GameIds.LinkTheFacesOfEvil,
+    releases: [{ platform: Platforms.CDi, year: 1993 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `Ganon has captured Princess Zelda and taken her to the island of Koridai. Link must travel to the island to rescue her and defeat Ganon.`
+  },
+  {
+    title: 'Zelda: The Wand of Gamelon',
+    id: GameIds.ZeldaTheWandOfGamelon,
+    releases: [{ platform: Platforms.CDi, year: 1993 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `King Harkinian and Link travel to aid Duke Onkled against Ganon's forces, but they do not return. Princess Zelda must set out on her own to save them and defeat Ganon.`
+  },
+  {
+    title: "Zelda's Adventure",
+    id: GameIds.ZeldasAdventure,
+    releases: [{ platform: Platforms.CDi, year: 1995 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    noBoxArt: true,
+    description: `Ganon captures Link and the Celestial Signs that protect the kingdom of Tolemac. Princess Zelda must collect the signs and rescue Link to defeat Ganon.`
+  },
+  {
+    title: "Freshly-Picked Tingle's Rosy Rupeeland",
+    id: GameIds.FreshlyPickedTinglesRosyRupeeland,
+    releases: [{ platform: Platforms.DS, year: 2006 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `An ordinary man is transformed into Tingle by Uncle Rupee and must collect rupees to reach the paradise of Rupeeland.`
+  },
+  {
+    title: "Tingle's Balloon Fight DS",
+    id: GameIds.TinglesBalloonFightDS,
+    releases: [{ platform: Platforms.DS, year: 2007 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `A DS remake of the classic Balloon Fight game featuring Tingle. Available exclusively through Club Nintendo in Japan.`
+  },
+  {
+    title: "Ripened Tingle's Balloon Trip of Love",
+    id: GameIds.RipenedTinglesBalloonTripofLove,
+    releases: [{ platform: Platforms.DS, year: 2009 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `Tingle is sucked into a storybook and must journey through various fairy tales to find his way home and win the heart of a princess.`
+  },
+  {
+    title: 'Too Much Tingle Pack',
+    id: GameIds.TooMuchTinglePack,
+    releases: [{ platform: Platforms.DS, year: 2009 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `A collection of DSiWare games featuring Tingle, including various mini-games and activities.`
   },
   {
     title: 'Ancient Stone Tablets',
@@ -217,6 +298,14 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     description: `Link is training with his crossbow in order to become a better archer.`
+  },
+  {
+    title: 'My Nintendo Picross: The Legend of Zelda: Twilight Princess',
+    id: GameIds.MyNintendoPicrossTheLegendOfZeldaTwilightPrincess,
+    releases: [{ platform: Platforms.N3DS, year: 2016 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `A Picross puzzle game.`
   },
   {
     title: 'Hyrule Warriors',
@@ -247,7 +336,7 @@ export const gameNodes: GameNode[] = [
   {
     title: 'Hyrule Warriors: Age of Imprisonment',
     id: GameIds.AgeofImprisonment,
-    releases: [{ platform: Platforms.Switch, year: 2025 }],
+    releases: [{ platform: Platforms.Switch2, year: 2025 }],
     isSpinOff: true,
     description: `The Imprisoning War that led to the events of Tears of the Kingdom.`
   }
