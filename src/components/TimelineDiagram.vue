@@ -278,15 +278,13 @@ defineExpose({
 function fallbackToNode() {
   // Initialize to fallback (first game node)
   let gameNodeId = displayedGameIds[0]
-  console.log(window.location.hash, 2)
 
   // If there is a selected game and its available in the diagram, select it ()
   if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
     gameNodeId = props.selectedGame.id
   }
-  // TODO: If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
+  // If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
   else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
-    console.log(9999) // This should run but it doesn't (no hash here)
     gameNodeId = window.location.hash.substring(1)
   }
   // On reload, go to the last selected game
@@ -378,12 +376,12 @@ function updateDimensions(isFreshRender = false) {
     .call(zoom as any) // Apply pan/zoom behaviour
     .on('dblclick.zoom', null) // Disable double click zoom
     .selectAll('a')
-    .on('click', ($event) => {
+    .on('click', (event: MouseEvent) => {
       /* This reselects the selected node which handles some edge-cases
        - Required for initialization/orientation changes
        - Required for re-opening description modal on small screens
        */
-      const gameNodeElement = $event.currentTarget as HTMLElement
+      const gameNodeElement = event.currentTarget as HTMLElement
       const gameNodeId = gameNodeElement.classList[0]
       if (gameNodeId === window.location.hash.substring(1)) {
         selectNode(gameNodeElement)

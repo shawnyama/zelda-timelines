@@ -73,9 +73,17 @@ const toggleDescriptionModal = (state: boolean) => {
 }
 
 const selectedGame = ref<GameNode | null>(null)
-function selectGame(gameNode: GameNode | null) {
+function selectGame(gameNode: GameNode) {
+  // Update selected game if it's different
+  if (selectedGame.value && selectedGame.value.id === gameNode.id) return
   selectedGame.value = gameNode
-  if (gameNode) localStorage.setItem('selectedGameId', gameNode.id)
+  // Also include the timeline in the history state rather than only the new hash that is added by the <a> tag
+  history.replaceState(
+    { selectedTimeline: selectedTimeline.value },
+    '',
+    `/${selectedTimeline.value}#${gameNode.id}`
+  )
+  localStorage.setItem('selectedGameId', gameNode.id)
 }
 
 function getLastSelectedTimeline(): Timelines {
@@ -93,8 +101,8 @@ function selectTimeline(timeline: Timelines) {
   // Update selected timeline if it's different
   if (selectedTimeline.value === timeline) return
   selectedTimeline.value = timeline
-  // Save browser history and local storage, preserving the hash
-  history.pushState({ selectedTimeline: timeline }, timeline, `/${timeline}${window.location.hash}`)
+  // Save browser history and local storage
+  history.pushState({ selectedTimeline: timeline }, '', `/${timeline}${window.location.hash}`)
   localStorage.setItem('selectedTimeline', timeline)
 }
 
@@ -124,7 +132,11 @@ onMounted(() => {
     : selectedTimeline.value
   selectTimeline(timeline)
   // Initialize/insure timeline route
-  history.replaceState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
+  history.replaceState(
+    { selectedTimeline: timeline },
+    timeline,
+    `/${timeline}${window.location.hash}`
+  )
   window.addEventListener('popstate', handlePopState)
 })
 
