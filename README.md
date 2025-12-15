@@ -1,6 +1,6 @@
 # Zelda timelines
 
-The Legend of Zelda franchise consists of various games. Each game can be enjoyed as a standalone experience. However those who played multiple titles might notice the games referencing each other from obvious to subtle ways. Fans that find satisfaction in contemplating and theorizing about Zelda lore and mythos came up with various arrangements that place the games in a chronology. This site is an interactive collection of Zelda timelines that provides an easy way to visualize, absorb and compare the timelines all in one place. Perhaps new conclusions can be made?
+The Legend of Zelda franchise consists of various games. Each game can be enjoyed as a standalone experience. However those who played multiple titles might notice the games referencing each other from obvious to subtle ways. Fans that find satisfaction in contemplating and theorizing about Zelda lore came up with various arrangements that order the games in a chronology. This site is an interactive collection of Zelda timelines that provides an easy way to visualize, absorb and compare the timelines all in one place. Perhaps this will inspire the imagination.
 
 ## Credits
 ### Supported timelines
@@ -27,8 +27,11 @@ Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the per
 
 ### Box art
 The box art and artwork images used in this project are the property of Nintendo. They are used here for illustrative purposes and to enhance the user experience. All rights, including copyright and trademarks, are owned by Nintendo. No infringement is intended.
-- Found at [The Cover Project](https://www.thecoverproject.net/index.php).
-- Other - [Ancient Stone Tablets art](https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2v04.jpg), [CDi game boxes](https://tvtropes.org/pmwiki/pmwiki.php/VideoGame/TheLegendOfZeldaCDiGames)
+- Found at [The Cover Project](https://www.thecoverproject.net/index.php) and [Launchbox Games Database](https://gamesdb.launchbox-app.com/)
+- Other 
+  - [Ancient Stone Tablets art](https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2v04.jpg)
+  - [The Legend of Zelda Cartoon art](https://www.imdb.com/title/tt0832330/)
+  - [The Legend of Zelda Game Watch packaging](https://zelda.fandom.com/wiki/The_Legend_of_Zelda_Game_Watch)
 
 ### Fonts
 - Found at [Zelda Universe](https://zeldauniverse.net/media/fonts/)
