@@ -43,18 +43,18 @@ const flowchart: Edge[] = [
   { source: Events.ANewHyruleKingdomIsFounded, target: GameIds.SpiritTracks },
   {
     source: GameIds.SpiritTracks,
-    target: Events.TheFirstGreatCalamity,
+    target: Events.TheAncientCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: 3
   },
   {
-    source: Events.TheFirstGreatCalamity,
-    target: Events.TheSecondGreatCalamity,
+    source: Events.TheAncientCalamity,
+    target: Events.TheGreatCalamity,
     style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
-    source: Events.TheSecondGreatCalamity,
+    source: Events.TheGreatCalamity,
     target: GameIds.BreathOfTheWild,
     style: EdgeStyle.Thick
   },

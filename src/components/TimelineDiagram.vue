@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, type ComponentPublicInstance } from 'vue'
+import { ref, onMounted, watch, onBeforeUnmount, type ComponentPublicInstance } from 'vue'
 import VueMermaidString from 'vue-mermaid-string'
 import * as d3 from 'd3'
 import endent from 'endent'
@@ -34,7 +34,7 @@ const props = defineProps<{
   // year: number // TODO: Implement year filtering
 }>()
 
-const emit = defineEmits(['select-game', 'close-description-modal', 'update:is-small-screen'])
+const emit = defineEmits(['select-game', 'open-description-modal', 'update:is-small-screen'])
 
 const mermaidContainer = ref<ComponentPublicInstance<typeof VueMermaidString> | null>(null)
 const showDiagram = ref(false)
@@ -53,6 +53,8 @@ let maxScaleY = 1
 let maxScale = 1
 let zoom: d3.ZoomBehavior<any, unknown>
 let fallbackTransform = { left: 0, right: 0, top: 0, bottom: 0 }
+
+let isInitializing = false
 
 // Tracks available game nodes
 let displayedGameIds: string[] = []
@@ -191,18 +193,17 @@ function applyTransform(
 }
 
 // Game nodes are only selectable now
-async function selectNode(event: MouseEvent) {
+function selectNode(nodeElement: Element) {
   if (!mermaidContainer.value) return
 
-  const gameNodeElement = event.currentTarget as HTMLElement
-  const id = gameNodeElement.classList[0]
+  const id = nodeElement.classList[0]
   const gameNode = gameNodes.find((gameNode) => gameNode.id === id) ?? null
   if (!gameNode) return
   emit('select-game', gameNode)
 
   // Move to node position
   // Capture the center position of the node in client (screen) coords
-  const gameNodeRect = gameNodeElement.getBoundingClientRect()
+  const gameNodeRect = nodeElement.getBoundingClientRect()
   const pt: SVGPoint = svg.node().createSVGPoint()
   // Assign page/client coords
   pt.x = gameNodeRect.left + gameNodeRect.width / 2
@@ -224,7 +225,6 @@ async function selectNode(event: MouseEvent) {
   const translateX = -untransformedX + centerOffsetX
   const translateY = -untransformedY + centerOffsetY
 
-  const isInitializing = event.detail === -1 // If we are initializing the position, due to timeline or orientation change
   const transformOptions = isInitializing ? { useTransition: false } : {} // { scale: transform.k } // Debugging with svgFactor
   applyTransform(translateX, translateY, transformOptions)
 
@@ -232,20 +232,20 @@ async function selectNode(event: MouseEvent) {
   // Add selected game class
   const prevGameNodeElement = mermaidContainer.value.$el.querySelector('.selected-game')
   if (prevGameNodeElement) prevGameNodeElement.classList.remove('selected-game')
-  gameNodeElement.classList.add('selected-game')
-  // Apply spin animation
-  if (isInitializing) return
-  const gameIconElement = gameNodeElement.querySelector('img')
+  nodeElement.classList.add('selected-game')
+
+  if (isInitializing) {
+    isInitializing = false
+    return
+  }
+  // Apply spin animation and open description modal
+  const gameIconElement = nodeElement.querySelector('img')
   if (!gameIconElement) return
   const spinClass = gameNode.isIconSlanted ? 'slanted-spin-on-game-select' : 'spin-on-game-select'
   gameIconElement.classList.add(spinClass)
   setTimeout(() => gameIconElement.classList.remove(spinClass), 800)
-}
 
-function jumpToNode(nodeElement: Element, options = { useTransition: true }) {
-  const detail = options.useTransition ? 0 : -1
-  nodeElement.dispatchEvent(new MouseEvent('click', { detail }))
-  if (props.isSmallScreen) emit('close-description-modal') // Closes description modal (we don't want to show the description immediately on mobile)
+  if (props.isSmallScreen) emit('open-description-modal')
 }
 
 function jumpToEdge(edge: 'start' | 'end') {
@@ -278,23 +278,27 @@ defineExpose({
 function fallbackToNode() {
   // Initialize to fallback (first game node)
   let gameNodeId = displayedGameIds[0]
-  // If there is a selected game and its available in the diagram, select it
+
+  // If there is a selected game and its available in the diagram, select it ()
   if (props.selectedGame && displayedGameIds.includes(props.selectedGame.id)) {
     gameNodeId = props.selectedGame.id
   }
-  // TODO: If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
-  // else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
-  //   gameNodeId = window.location.hash.substring(1)
-  // }
+  // If there is a hash in the URL and its available in the diagram, select it (this is for sharing links)
+  else if (window.location.hash && displayedGameIds.includes(window.location.hash.substring(1))) {
+    gameNodeId = window.location.hash.substring(1)
+  }
   // On reload, go to the last selected game
   else if (displayedGameIds.includes(localStorage.getItem('selectedGameId') as string)) {
     gameNodeId = localStorage.getItem('selectedGameId') as string
   }
-  const gameNode: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
-  if (gameNode) jumpToNode(gameNode, { useTransition: false })
+  const gameNodeElement: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
+  if (gameNodeElement) {
+    isInitializing = true
+    gameNodeElement.dispatchEvent(new MouseEvent('click')) // Either triggers handleHashChange or selects the node directly (reselection)
+  }
 }
 
-async function updateDimensions(isFreshRender = false) {
+function updateDimensions(isFreshRender = false) {
   if (!mermaidContainer.value) return
   // Get svg dimensions
   svgWidth = mermaidContainer.value.$el.clientWidth
@@ -371,9 +375,18 @@ async function updateDimensions(isFreshRender = false) {
   svg
     .call(zoom as any) // Apply pan/zoom behaviour
     .on('dblclick.zoom', null) // Disable double click zoom
-    // Listen for clicks on nodes so we can move to them
     .selectAll('a')
-    .on('click', selectNode)
+    .on('click', (event: MouseEvent) => {
+      /* This reselects the selected node which handles some edge-cases
+       - Required for initialization/orientation changes
+       - Required for re-opening description modal on small screens
+       */
+      const gameNodeElement = event.currentTarget as HTMLElement
+      const gameNodeId = gameNodeElement.classList[0]
+      if (gameNodeId === window.location.hash.substring(1)) {
+        selectNode(gameNodeElement)
+      }
+    })
 
   if (isFreshRender) {
     showDiagram.value = true
@@ -381,12 +394,16 @@ async function updateDimensions(isFreshRender = false) {
   }
 }
 
-watch(
-  () => props.isSmallScreen,
-  () => {
-    if (!props.isSmallScreen && !props.selectedGame) fallbackToNode()
+// Handles URL hash changes when node is selected/arrow navigation/when user types in URL
+function handleHashChange() {
+  const gameNodeId = window.location.hash.substring(1)
+  if (gameNodeId && displayedGameIds.includes(gameNodeId)) {
+    const gameNodeElement: Element = mermaidContainer.value?.$el.querySelector(`.${gameNodeId}`)
+    if (gameNodeElement) {
+      selectNode(gameNodeElement)
+    }
   }
-)
+}
 
 watch(
   () => [props.selectedTimeline, props.orientation],
@@ -410,6 +427,11 @@ const resizeObserver = new ResizeObserver(() => {
 
 onMounted(() => {
   if (mermaidContainer.value) resizeObserver.observe(mermaidContainer.value.$el)
+  window.addEventListener('hashchange', handleHashChange)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', handleHashChange)
 })
 </script>
 
@@ -506,7 +528,7 @@ figure {
 :deep(.event) {
   font-family: 'Spectral', serif;
   font-weight: bold;
-  width: 18rem;
+  width: 19.5rem;
   font-size: 2rem;
   line-height: 1.2;
 }
