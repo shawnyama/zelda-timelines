@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 async function extractMetadata() {
   const timelinesDir = path.join(__dirname, '../src/data/timelines');
   const files = fs.readdirSync(timelinesDir)
-    .filter(file => file.endsWith('.ts') && file !== 'new.ts');
+    .filter(file => file.endsWith('.ts') && file !== 'new.ts' && file !== 'debug.ts');
   
   const timelines = [];
   
