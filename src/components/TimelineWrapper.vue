@@ -17,12 +17,12 @@
   <main :class="orientation">
     <template v-if="selectedGame">
       <description-modal
-        v-if="isSmallScreen"
+        v-if="isSmallScreen && showDescriptionModal"
         :selected-game="selectedGame"
-        @close-description-modal="selectGame(null)"
+        @close-description-modal="toggleDescriptionModal(false)"
       />
       <description
-        v-else
+        v-else-if="!isSmallScreen"
         :class="orientation"
         :game="selectedGame"
         :is-small-screen="isSmallScreen"
@@ -37,8 +37,13 @@
       :orientation="orientation"
       :is-small-screen="isSmallScreen"
       @select-game="selectGame"
-      @close-description-modal="selectGame(null)"
-      @update:is-small-screen="isSmallScreen = $event"
+      @open-description-modal="toggleDescriptionModal(true)"
+      @update:is-small-screen="
+        (state: boolean) => {
+          isSmallScreen = state
+          if (!isSmallScreen) toggleDescriptionModal(false) // When resizing back and forth, ensure the description modal is closed
+        }
+      "
     />
   </main>
 </template>
@@ -62,10 +67,23 @@ const toggleDescription = (state: boolean) => {
   isDescriptionCollapsed.value = state
 }
 
+const showDescriptionModal = ref(false)
+const toggleDescriptionModal = (state: boolean) => {
+  showDescriptionModal.value = state
+}
+
 const selectedGame = ref<GameNode | null>(null)
-function selectGame(gameNode: GameNode | null) {
+function selectGame(gameNode: GameNode) {
+  // Update selected game if it's different
+  if (selectedGame.value && selectedGame.value.id === gameNode.id) return
   selectedGame.value = gameNode
-  if (gameNode) localStorage.setItem('selectedGameId', gameNode.id)
+  // Also include the timeline in the history state rather than only the new hash that is added by the <a> tag
+  history.replaceState(
+    { selectedTimeline: selectedTimeline.value },
+    '',
+    `/${selectedTimeline.value}#${gameNode.id}`
+  )
+  localStorage.setItem('selectedGameId', gameNode.id)
 }
 
 function getLastSelectedTimeline(): Timelines {
@@ -83,8 +101,8 @@ function selectTimeline(timeline: Timelines) {
   // Update selected timeline if it's different
   if (selectedTimeline.value === timeline) return
   selectedTimeline.value = timeline
-  // Save broswer history and local storage
-  history.pushState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
+  // Save browser history and local storage
+  history.pushState({ selectedTimeline: timeline }, '', `/${timeline}${window.location.hash}`)
   localStorage.setItem('selectedTimeline', timeline)
 }
 
@@ -99,7 +117,9 @@ function toggleOrientation() {
 }
 
 function handlePopState(event: PopStateEvent) {
-  if (event.state?.selectedTimeline) selectTimeline(event.state.selectedTimeline as Timelines)
+  if (event.state?.selectedTimeline) {
+    selectTimeline(event.state.selectedTimeline as Timelines)
+  }
 }
 
 onMounted(() => {
@@ -112,7 +132,11 @@ onMounted(() => {
     : selectedTimeline.value
   selectTimeline(timeline)
   // Initialize/insure timeline route
-  history.replaceState({ selectedTimeline: timeline }, timeline, `/${timeline}`)
+  history.replaceState(
+    { selectedTimeline: timeline },
+    timeline,
+    `/${timeline}${window.location.hash}`
+  )
   window.addEventListener('popstate', handlePopState)
 })
 

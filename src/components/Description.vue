@@ -245,14 +245,14 @@ header {
     color: white;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-shadow: 0 0 6px var(--dark-green);
+    text-shadow: 0 0 8px var(--dark-green);
 
     & > span {
       overflow: hidden;
       text-overflow: ellipsis;
       /* Prevents text-shadow from being cut off */
-      padding: 0 6px;
-      margin: 0 -6px;
+      padding: 8px;
+      margin: -8px;
     }
   }
 

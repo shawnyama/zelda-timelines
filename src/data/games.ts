@@ -11,7 +11,7 @@ export interface GameNode extends Node {
   isIconSlanted?: boolean
   isSpinOff?: boolean
   useFallbackIcon?: boolean
-  noBoxArt?: boolean
+  no3dBoxArt?: boolean
 }
 
 export const gameNodes: GameNode[] = [
@@ -167,14 +167,18 @@ export const gameNodes: GameNode[] = [
     id: GameIds.BreathOfTheWild,
     releases: [
       { platform: Platforms.WiiU, year: 2017 },
-      { platform: Platforms.Switch, year: 2017 }
+      { platform: Platforms.Switch, year: 2017 },
+      { platform: Platforms.Switch2, year: 2025 }
     ],
     description: `Link is awakened in a chamber by a voice beckoning to him. After leaving the cave, Link learns that he has been asleep for 100 years, after failing to stop a monster called Calamity Ganon, currently being held inside Hyrule Castle by Princess Zelda. However, Calamity Ganon's power continues to grow, and if not stopped it will eventually break free with enough power to destroy the entire world. Link's quest is ultimately to defeat Calamity Ganon and save both Hyrule and Zelda.`
   },
   {
     title: 'Tears of the Kingdom',
     id: GameIds.TearsOfTheKingdom,
-    releases: [{ platform: Platforms.Switch, year: 2023 }],
+    releases: [
+      { platform: Platforms.Switch, year: 2023 },
+      { platform: Platforms.Switch2, year: 2025 }
+    ],
     description: `Some time after defeating Calamity Ganon, Link and Princess Zelda investigate beneath Hyrule Castle for a dark substance known as gloom. They discover a mummified Ganondorf, sealed by a disembodied arm. Suddenly, the seal breaks, and the mummy attacks them with gloom and sends the castle soaring into the sky. The ground collapses, causing Zelda to plummet into an abyss where she mysteriously vanishes mid-fall. Link is rescued by the disembodied hand of the ancient king Rauru. With newfound Zonai abilities granted by Rauru, Link embarks on another adventure to find clues to save Hyrule from this Upheaval and to find Zelda.`
   },
   {
@@ -185,13 +189,87 @@ export const gameNodes: GameNode[] = [
   },
   // Side games
   {
-    title: 'CDi Games and Cartoon',
-    id: GameIds.CDiGamesAndCartoon,
-    releases: [{ platform: Platforms.CDi, year: 1989 }],
+    title: 'The Legend of Zelda Cartoon',
+    id: GameIds.TheLegendOfZeldaCartoon,
+    releases: [{ platform: Platforms.TVSeries, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
-    description: `The unmentionables. Ganon is at his weakest here.`
+    no3dBoxArt: true,
+    description: `Ganon and his minions repeatedly attempt to obtain the Triforce of Wisdom and conquer Hyrule. Link, accompanied by Princess Zelda and the fairy Spryte, must work together to thwart Ganon's plans while attempting to claim the Triforce of Power.`
+  },
+  {
+    title: 'Zelda Game & Watch',
+    id: GameIds.ZeldaGameAndWatch,
+    releases: [{ platform: Platforms.GameAndWatch, year: 1989 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `As the eight dragons cannot live in peace with humans, they decide to take over the world. Eventually, they kidnap Princess Zelda and lock her in a dungeon which can only be opened with the Triforce. Each of the dragons is located in their own labyrinth, and each guards a different fragment of the Triforce. Link sets out to destroy all eight dragons and reassemble the Triforce to free Zelda from the dragons' dungeon.`
+  },
+  {
+    title: 'The Legend of Zelda Game Watch',
+    id: GameIds.TheLegendOfZeldaGameWatch,
+    releases: [{ platform: Platforms.NelsonicGameWatch, year: 1989 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    no3dBoxArt: true,
+    description: `Link enters a cave unarmed to collect the pieces of the Triforce. He travels through four dungeons with four caves in each, while being attacked by Iron Balls, Keese, and at the end of each dungeon, Aquamentus.`
+  },
+  {
+    title: 'Link: The Faces of Evil',
+    id: GameIds.LinkTheFacesOfEvil,
+    releases: [{ platform: Platforms.CDi, year: 1993 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `The land of Hyrule is experiencing a period of peace, yet Link is feeling increasingly useless and bored with no adventures to go on. Suddenly a wizard named Gwonam arrives on his flying carpet, informing King Harkinian that Ganon's army have taken over the island of Koridai. Ganon and his minions have begun enslaving the islanders and transforming them into monsters. Although the King readily volunteers their aid, Gwonam explains that according to a written prophecy, Link is the only one who can defeat Ganon. As Link and Gwonam fly back to Koridai, the wizard tells him about the island's "Faces of Evil"; giant mountains and stone structures that are in the shape of Ganon's minions and are being controlled by them. Gwonam beseeches that Link must conquer each Face of Evil before facing Ganon himself, who has his own Face of Evil.`
+  },
+  {
+    title: 'Zelda: The Wand of Gamelon',
+    id: GameIds.ZeldaTheWandOfGamelon,
+    releases: [{ platform: Platforms.CDi, year: 1993 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `King Harkinian announces that Duke Onkled, ruler of the island of Gamelon, is under attack by the evil forces of Ganon, and that he is going to the island to aid him. Princess Zelda becomes worried for her father's safety, but Harkinian reassures her that he will take the Triforce of Courage to protect him. He tells Zelda to send Link for help if he does not return in a month. Impa also assures Zelda that her father will safely return, according to the Triforce of Wisdom's vision. An entire month passes without word from the King. As instructed, Zelda sends Link to find him, but he fails to return either. Zelda then decides to venture forth herself to search for Link and her father, taking Impa along with her.`
+  },
+  {
+    title: "Zelda's Adventure",
+    id: GameIds.ZeldasAdventure,
+    releases: [{ platform: Platforms.CDi, year: 1995 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `The lands of Hyrule and Tolemac, a region in southeastern Hyrule, are in the middle of an Age of Darkness; Ganon had captured Link and began exerting his influence over the land. He had stolen the seven Celestial Signs and hidden them away in Tolemac's Shrines, guarded by his followers, the Shrine Keepers. In need of a brave warrior to save the kingdom, the astronomer Gaspra summons Princess Zelda as his champion to undertake the dangerous task of relocating the Celestial Signs, to rescue Link, and to ultimately defeat Ganon and return peace to Tolemac. He gives her a magic pendant and bids her good luck.`
+  },
+  {
+    title: "Freshly-Picked Tingle's Rosy Rupeeland",
+    id: GameIds.FreshlyPickedTinglesRosyRupeeland,
+    releases: [{ platform: Platforms.DS, year: 2006 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `The story starts when Tingle, first appearing as an ordinary, middle-aged man, is offered a life in a paradise called Rupeeland. Tingle is guided by Uncle Rupee, who tells him to gather many Rupees and toss them into the Western Pool in order to gain access to Rupeeland. Pinkle, a Fairy that communicates to Tingle via a computer that resembles a Nintendo DS (as well as the Tingle Tuner) also helps him along his journey. As Tingle explores, he will find numerous treasures, which include collecting ingredients for concoctions such as Potions and meals that can be sold to the locals in nearby Port Town. Tingle hires bodyguards throughout the game to aid him in combat.`
+  },
+  {
+    title: "Tingle's Balloon Fight DS",
+    id: GameIds.TinglesBalloonFightDS,
+    releases: [{ platform: Platforms.DS, year: 2007 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `A remake of the classic Balloon Fight game featuring Tingle.`
+  },
+  {
+    title: "Ripened Tingle's Balloon Trip of Love",
+    id: GameIds.RipenedTinglesBalloonTripofLove,
+    releases: [{ platform: Platforms.DS, year: 2009 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    description: `An ordinary 35-year-old man watches a sales program on television. The man learns of a book called "Ripened Valiant Heroes Balloon Trip of Love". It is a story about a hero that leaves his parents to save a princess. The book, which normally costs 4800 Rupees, is being offered for only 2 Rupees. He orders the book, but he gets sucked into the world of a picture book when he opens it and transforms into Tingle. He learns that the only way to get out of the book is to dance with the princess of this world. However, the princess has been kidnapped by a demon king named Buriki, so Tingle must set out to rescue her.`
+  },
+  {
+    title: 'Too Much Tingle Pack',
+    id: GameIds.TooMuchTinglePack,
+    releases: [{ platform: Platforms.DS, year: 2009 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    no3dBoxArt: true,
+    description: `A collection of applications and mini-games featuring Tingle.`
   },
   {
     title: 'Ancient Stone Tablets',
@@ -199,7 +277,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.Satellaview, year: 1997 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
+    no3dBoxArt: true,
     description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
   },
   {
@@ -217,6 +295,15 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     description: `Link is training with his crossbow in order to become a better archer.`
+  },
+  {
+    title: 'My Nintendo Picross: The Legend of Zelda: Twilight Princess',
+    id: GameIds.MyNintendoPicrossTheLegendOfZeldaTwilightPrincess,
+    releases: [{ platform: Platforms.N3DS, year: 2016 }],
+    isSpinOff: true,
+    useFallbackIcon: true,
+    no3dBoxArt: true,
+    description: `Solve Picross puzzles with the assistance of Midna.`
   },
   {
     title: 'Hyrule Warriors',
@@ -247,13 +334,8 @@ export const gameNodes: GameNode[] = [
   {
     title: 'Hyrule Warriors: Age of Imprisonment',
     id: GameIds.AgeofImprisonment,
-    releases: [{ platform: Platforms.Switch, year: 2025 }],
+    releases: [{ platform: Platforms.Switch2, year: 2025 }],
     isSpinOff: true,
     description: `The Imprisoning War that led to the events of Tears of the Kingdom.`
   }
-  /*
-  - tingle games
-  - game & watch games
-  - books?
-  */
 ]
