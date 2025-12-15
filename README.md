@@ -20,7 +20,7 @@ The timelines only include games mentioned in these sources in case you are wond
 If you would like to submit a timeline you can do so [here](https://stackblitz.com/~/github.com/shawnyama/zelda-timelines/tree/submission-mode?file=src/data/GUIDE.md). 
 
 ### Game descriptions
-Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.org/wiki/Main_Page) and are licensed under the [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) license. I shortened some of their descriptions. Other descriptions were paraphrased from Nintendo Japan's [Zelda Portal](https://www.nintendo.com/jp/character/zelda/history/index.html).
+Descriptions of the games are sourced from [NIWA Network](https://niwanetwork.org/wiki/Main_Page) (licensed under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)) and [Zelda Wiki](https://zeldawiki.wiki/) (licensed under [GFDL 1.3](https://zeldawiki.wiki/wiki/Zelda_Wiki:GNU_Free_Documentation_License), see [LICENSE-DOCUMENTATION](LICENSE-DOCUMENTATION)). Some descriptions were shortened or paraphrased. Other descriptions were paraphrased from Nintendo Japan's [Zelda Portal](https://www.nintendo.com/jp/character/zelda/history/index.html).
 
 ### Icon allowance
 Joshua Lindquist of [Zelda Universe](https://zeldauniverse.net/) granted the permission of using the game icons found [here](https://zeldauniverse.net/games/).

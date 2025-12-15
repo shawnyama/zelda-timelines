@@ -195,7 +195,7 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     no3dBoxArt: true,
-    description: `The unmentionables. Ganon is at his weakest here.`
+    description: `Ganon and his minions repeatedly attempt to obtain the Triforce of Wisdom and conquer Hyrule. Link, accompanied by Princess Zelda and the fairy Spryte, must work together to thwart Ganon's plans while attempting to claim the Triforce of Power.`
   },
   {
     title: 'Zelda Game & Watch',
@@ -203,7 +203,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.GameAndWatch, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `A handheld LCD game featuring simplified Zelda gameplay on Nintendo's Game & Watch system.`
+    description: `As the eight dragons cannot live in peace with humans, they decide to take over the world. Eventually, they kidnap Princess Zelda and lock her in a dungeon which can only be opened with the Triforce. Each of the dragons is located in their own labyrinth, and each guards a different fragment of the Triforce. Link sets out to destroy all eight dragons and reassemble the Triforce to free Zelda from the dragons' dungeon.`
   },
   {
     title: 'The Legend of Zelda Game Watch',
@@ -212,7 +212,7 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     no3dBoxArt: true,
-    description: `A wristwatch with a built-in mini Zelda game produced by Nelsonic.`
+    description: `Link enters a cave unarmed to collect the pieces of the Triforce. He travels through four dungeons with four caves in each, while being attacked by Iron Balls, Keese, and at the end of each dungeon, Aquamentus.`
   },
   {
     title: 'Link: The Faces of Evil',
@@ -220,7 +220,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1993 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `Ganon has captured Princess Zelda and taken her to the island of Koridai. Link must travel to the island to rescue her and defeat Ganon.`
+    description: `The land of Hyrule is experiencing a period of peace, yet Link is feeling increasingly useless and bored with no adventures to go on. Suddenly a wizard named Gwonam arrives on his flying carpet, informing King Harkinian that Ganon's army have taken over the island of Koridai. Ganon and his minions have begun enslaving the islanders and transforming them into monsters. Although the King readily volunteers their aid, Gwonam explains that according to a written prophecy, Link is the only one who can defeat Ganon. As Link and Gwonam fly back to Koridai, the wizard tells him about the island's "Faces of Evil"; giant mountains and stone structures that are in the shape of Ganon's minions and are being controlled by them. Gwonam beseeches that Link must conquer each Face of Evil before facing Ganon himself, who has his own Face of Evil.`
   },
   {
     title: 'Zelda: The Wand of Gamelon',
@@ -228,7 +228,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1993 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `King Harkinian and Link travel to aid Duke Onkled against Ganon's forces, but they do not return. Princess Zelda must set out on her own to save them and defeat Ganon.`
+    description: `King Harkinian announces that Duke Onkled, ruler of the island of Gamelon, is under attack by the evil forces of Ganon, and that he is going to the island to aid him. Princess Zelda becomes worried for her father's safety, but Harkinian reassures her that he will take the Triforce of Courage to protect him. He tells Zelda to send Link for help if he does not return in a month. Impa also assures Zelda that her father will safely return, according to the Triforce of Wisdom's vision. An entire month passes without word from the King. As instructed, Zelda sends Link to find him, but he fails to return either. Zelda then decides to venture forth herself to search for Link and her father, taking Impa along with her.`
   },
   {
     title: "Zelda's Adventure",
@@ -236,7 +236,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1995 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `Ganon captures Link and the Celestial Signs that protect the kingdom of Tolemac. Princess Zelda must collect the signs and rescue Link to defeat Ganon.`
+    description: `The lands of Hyrule and Tolemac, a region in southeastern Hyrule, are in the middle of an Age of Darkness; Ganon had captured Link and began exerting his influence over the land. He had stolen the seven Celestial Signs and hidden them away in Tolemac's Shrines, guarded by his followers, the Shrine Keepers. In need of a brave warrior to save the kingdom, the astronomer Gaspra summons Princess Zelda as his champion to undertake the dangerous task of relocating the Celestial Signs, to rescue Link, and to ultimately defeat Ganon and return peace to Tolemac. He gives her a magic pendant and bids her good luck.`
   },
   {
     title: "Freshly-Picked Tingle's Rosy Rupeeland",
@@ -244,7 +244,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.DS, year: 2006 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `An ordinary man is transformed into Tingle by Uncle Rupee and must collect rupees to reach the paradise of Rupeeland.`
+    description: `The story starts when Tingle, first appearing as an ordinary, middle-aged man, is offered a life in a paradise called Rupeeland. Tingle is guided by Uncle Rupee, who tells him to gather many Rupees and toss them into the Western Pool in order to gain access to Rupeeland. Pinkle, a Fairy that communicates to Tingle via a computer that resembles a Nintendo DS (as well as the Tingle Tuner) also helps him along his journey. As Tingle explores, he will find numerous treasures, which include collecting ingredients for concoctions such as Potions and meals that can be sold to the locals in nearby Port Town. Tingle hires bodyguards throughout the game to aid him in combat.`
   },
   {
     title: "Tingle's Balloon Fight DS",
@@ -252,7 +252,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.DS, year: 2007 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `A DS remake of the classic Balloon Fight game featuring Tingle. Available exclusively through Club Nintendo in Japan.`
+    description: `A remake of the classic Balloon Fight game featuring Tingle.`
   },
   {
     title: "Ripened Tingle's Balloon Trip of Love",
@@ -260,7 +260,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.DS, year: 2009 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    description: `Tingle is sucked into a storybook and must journey through various fairy tales to find his way home and win the heart of a princess.`
+    description: `An ordinary 35-year-old man watches a sales program on television. The man learns of a book called "Ripened Valiant Heroes Balloon Trip of Love". It is a story about a hero that leaves his parents to save a princess. The book, which normally costs 4800 Rupees, is being offered for only 2 Rupees. He orders the book, but he gets sucked into the world of a picture book when he opens it and transforms into Tingle. He learns that the only way to get out of the book is to dance with the princess of this world. However, the princess has been kidnapped by a demon king named Buriki, so Tingle must set out to rescue her.`
   },
   {
     title: 'Too Much Tingle Pack',
@@ -269,7 +269,7 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     no3dBoxArt: true,
-    description: `A collection of DSiWare games featuring Tingle, including various mini-games and activities.`
+    description: `A collection of applications and mini-games featuring Tingle.`
   },
   {
     title: 'Ancient Stone Tablets',
@@ -303,7 +303,7 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     useFallbackIcon: true,
     no3dBoxArt: true,
-    description: `A Picross puzzle game.`
+    description: `Solve Picross puzzles with the assistance of Midna.`
   },
   {
     title: 'Hyrule Warriors',
