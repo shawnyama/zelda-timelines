@@ -338,9 +338,4 @@ export const gameNodes: GameNode[] = [
     isSpinOff: true,
     description: `The Imprisoning War that led to the events of Tears of the Kingdom.`
   }
-  /*
-  - tingle games
-  - game & watch games
-  - books?
-  */
 ]
