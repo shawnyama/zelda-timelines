@@ -8,6 +8,7 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 | Title | Creator | Sources | Last updated |
 |----------|---------|---------|--------------|
 | Absurd | AbsurdZeldaTheories a.k.a. Bird Keeper Toby | [video](https://www.youtube.com/watch?v=rPrqd6682gE) | Aug 9, 2024 |
+| Debug | Debug Timeline | No sources | Dec 13, 2025 |
 | Geekery | Frank Moussette of Geekery Collective | [playlist](https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg) | Jun 13, 2024 |
 | Lorulean | LoruleanHistorian, Instrutilus, Zelda Lore | [video](https://www.youtube.com/watch?v=7GAqIqYzqGQ) | Aug 9, 2024 |
 | Official | Nintendo | [NA site](https://www.zelda.com/about/), [JP site](https://www.nintendo.com/jp/character/zelda/history/index.html) | May 18, 2025 |

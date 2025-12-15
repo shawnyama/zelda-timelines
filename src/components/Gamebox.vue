@@ -1,13 +1,13 @@
 <template>
   <Image
-    v-if="game?.noBoxArt"
+    v-if="game?.no3dBoxArt"
     class="flat-image"
     :src="imagePathWebp"
     alt="Artwork"
     @error="onImageError"
   />
   <figure v-else>
-    <div ref="gameBoxRef" class="game-box">
+    <div class="game-box">
       <div class="top" />
       <div class="bottom">
         <Image
@@ -62,13 +62,10 @@ const props = defineProps<{
   selectedPlatform: Platforms
 }>()
 
-// const gameBoxRef = ref<HTMLImageElement | null>(null)
-
 const imagePathWebp = computed(() => `/assets/cover-art/${props.game?.id}.webp`)
-const imagePathJpg = computed(() => `/assets/cover-art/${props.game?.id}.jpg`)
 
 function onImageError(event: Event) {
-  ;(event.target as HTMLImageElement).src = imagePathJpg.value
+  ;(event.target as HTMLImageElement).src = `/assets/cover-art/the-legend-of-zelda.webp`
 }
 
 const height = computed(() => gameBoxDimensions[props.selectedPlatform].height * 1.5)
@@ -202,7 +199,8 @@ figure {
 }
 
 .flat-image {
-  height: 260px;
+  max-height: 250px;
+  max-width: 250px;
   margin: 1rem 0.5rem 1rem 0.5rem;
   animation: flat-float 3s ease-in-out infinite;
   filter: drop-shadow(0 8px 16px var(--shadow-color));

@@ -11,7 +11,7 @@ export interface GameNode extends Node {
   isIconSlanted?: boolean
   isSpinOff?: boolean
   useFallbackIcon?: boolean
-  noBoxArt?: boolean
+  no3dBoxArt?: boolean
 }
 
 export const gameNodes: GameNode[] = [
@@ -194,16 +194,15 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.TVSeries, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
+    no3dBoxArt: true,
     description: `The unmentionables. Ganon is at his weakest here.`
   },
   {
-    title: 'Zelda (Game & Watch)',
+    title: 'Zelda Game & Watch',
     id: GameIds.ZeldaGameAndWatch,
     releases: [{ platform: Platforms.GameAndWatch, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
     description: `A handheld LCD game featuring simplified Zelda gameplay on Nintendo's Game & Watch system.`
   },
   {
@@ -212,7 +211,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.NelsonicGameWatch, year: 1989 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
+    no3dBoxArt: true,
     description: `A wristwatch with a built-in mini Zelda game produced by Nelsonic.`
   },
   {
@@ -221,7 +220,6 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1993 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
     description: `Ganon has captured Princess Zelda and taken her to the island of Koridai. Link must travel to the island to rescue her and defeat Ganon.`
   },
   {
@@ -230,7 +228,6 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1993 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
     description: `King Harkinian and Link travel to aid Duke Onkled against Ganon's forces, but they do not return. Princess Zelda must set out on her own to save them and defeat Ganon.`
   },
   {
@@ -239,7 +236,6 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.CDi, year: 1995 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
     description: `Ganon captures Link and the Celestial Signs that protect the kingdom of Tolemac. Princess Zelda must collect the signs and rescue Link to defeat Ganon.`
   },
   {
@@ -272,6 +268,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.DS, year: 2009 }],
     isSpinOff: true,
     useFallbackIcon: true,
+    no3dBoxArt: true,
     description: `A collection of DSiWare games featuring Tingle, including various mini-games and activities.`
   },
   {
@@ -280,7 +277,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.Satellaview, year: 1997 }],
     isSpinOff: true,
     useFallbackIcon: true,
-    noBoxArt: true,
+    no3dBoxArt: true,
     description: `Six years after the events of A Link to the Past, after that incarnation of Link had defeated Ganon, returning peace to Hyrule and the Dark World to its proper state. Princess Zelda has been having dreams foretelling a coming evil. Both her and Aginah, the descendent of Sahasrahla, from A Link to the Past, investigate a bright light and find a mysterious character near the Eastern Palace. After they transport the person to Sahasrahla's hideout, Zelda states that she feels that the newcomer could be the "Hero of Light". After the hero wakes up, they must set out on a quest to defeat the monsters that have appeared in Hyrule while discovering the secret behind a set of stone tablets.`
   },
   {
@@ -305,6 +302,7 @@ export const gameNodes: GameNode[] = [
     releases: [{ platform: Platforms.N3DS, year: 2016 }],
     isSpinOff: true,
     useFallbackIcon: true,
+    no3dBoxArt: true,
     description: `A Picross puzzle game.`
   },
   {
