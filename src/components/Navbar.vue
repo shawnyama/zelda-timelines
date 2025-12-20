@@ -33,7 +33,8 @@
               <img :src="caret" alt="caret-icon" />
               <label>{{ timelineData[timeline].metadata.timelineTitle }}</label>
               <Button
-                @click.stop="emit('open-references-modal', timeline)"
+                v-if="!props.isSmallScreen"
+                @click.stop="props.isSmallScreen && emit('open-references-modal', timeline)"
                 icon
                 text
                 sm-rounded
@@ -42,6 +43,8 @@
               >
                 <Icon icon="ph:quotes-fill" height="1.3rem" />
               </Button>
+              <!-- Dummy for flex alignment -->
+              <div v-else />
             </a>
           </li>
         </ul>
@@ -111,7 +114,7 @@ import { Icon } from '@iconify/vue'
 import caret from '@/assets/caret-left.svg'
 import TimelineLegend from '@/components/TimelineLegend.vue'
 
-defineProps<{
+const props = defineProps<{
   selectedTimeline: Timelines
   orientation: string
   isSmallScreen: boolean
