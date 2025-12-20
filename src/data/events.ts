@@ -88,7 +88,15 @@ export enum Events {
   VattiIsDestroyed = 'Good Ending: Vatti is Destroyed',
   // Geekery events
   TheHeroIsAbsent = 'The Hero is Absent',
-  OldHyruleIsDiscovered = 'Old Hyrule is Discovered'
+  OldHyruleIsDiscovered = 'Old Hyrule is Discovered',
+  // Celeste events
+  VaatiIsDestroyedAndGanonIsSealed = 'Vaati is destroyed and Ganon is sealed',
+  DemiseHasBeenSlayedInThePastByLinkWithTheMS = 'Demise has been slayed in the past by Link using the Master Sword',
+  DemiseHasBeenErasedInThePresentByAWishToTheTriforce = 'Demise has been erased in the present by a wish to the Triforce',
+  TheHeroComesBackFromTheFutureAndReportsGanondorf = 'The Hero comes back from the future and reports Ganondorf',
+  TheHeroGoesBackToHisChildhoodAndLeavesTheKingdomWithoutProtection = 'The Hero goes back to his childhood and leaves the Kingdom without protection',
+  AnotherNewHyruleKindgomIsFounded = 'Another new Hyrule Kingdom is founded',
+  MeanwhileOnTheHyruleContinent = 'Meanwhile, on the Hyrule continent...'
 }
 
 // Create subgraphs
@@ -104,7 +112,12 @@ export const timeSplitEvents: string[] = [
   Events.Convergence,
   Events.Downfall,
   Events.TheHeroIsAbsent,
-  Events.TerrakoGoesBackInTime
+  Events.TerrakoGoesBackInTime,
+  Events.DemiseHasBeenSlayedInThePastByLinkWithTheMS,
+  Events.DemiseHasBeenErasedInThePresentByAWishToTheTriforce,
+  Events.TheHeroComesBackFromTheFutureAndReportsGanondorf,
+  Events.TheHeroGoesBackToHisChildhoodAndLeavesTheKingdomWithoutProtection,
+  Events.MeanwhileOnTheHyruleContinent
 ]
 
 export const whatIfEvents: string[] = [

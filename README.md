@@ -8,9 +8,11 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 | Title | Creator | Sources | Last updated |
 |----------|---------|---------|--------------|
 | Absurd | AbsurdZeldaTheories a.k.a. Bird Keeper Toby | [video](https://www.youtube.com/watch?v=rPrqd6682gE) | Aug 9, 2024 |
+| Celeste | Celeste | No sources | Dec 17, 2025 |
 | Geekery | Frank Moussette of Geekery Collective | [playlist](https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg) | Jun 13, 2024 |
 | Lorulean | LoruleanHistorian, Instrutilus, Zelda Lore | [video](https://www.youtube.com/watch?v=7GAqIqYzqGQ) | Aug 9, 2024 |
 | Official | Nintendo | [NA site](https://www.zelda.com/about/), [JP site](https://www.nintendo.com/jp/character/zelda/history/index.html) | May 18, 2025 |
+| Sabrblade | Sabrblade a.k.a. Miles Tinker | No sources | Dec 17, 2025 |
 | Triforce | Triforce Johnson of Empire Arcadia | [video](https://youtu.be/HPnvAt9bvAs), [playlist](https://www.youtube.com/playlist?list=PLYYZg45BvGCMoNCbPlhfV0296IOfrBUVz) | Aug 9, 2025 |
 
 

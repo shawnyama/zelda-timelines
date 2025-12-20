@@ -5,14 +5,18 @@ import triforce from './timelines/triforce'
 import lorulean from './timelines/lorulean'
 import geekery from './timelines/geekery'
 import absurd from './timelines/absurd'
+import celeste from './timelines/celeste'
+import sabrblade from './timelines/sabrblade'
 // import debug from './timelines/debug'
 // import newTimeline from './timelines/new'
 
 // Order of options is alphabetical
 export enum Timelines {
   Absurd = 'absurd',
+  Celeste = 'celeste',
   Geekery = 'geekery',
   Lorulean = 'lorulean',
+  Sabrblade = 'sabrblade',
   Triforce = 'triforce',
   Official = 'official'
   // Debug = 'debug'
@@ -41,8 +45,10 @@ export type Metadata = {
 
 export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Edge[] }> = {
   [Timelines.Absurd]: absurd,
+  [Timelines.Celeste]: celeste,
   [Timelines.Geekery]: geekery,
   [Timelines.Lorulean]: lorulean,
+  [Timelines.Sabrblade]: sabrblade,
   [Timelines.Triforce]: triforce,
   [Timelines.Official]: official
   // [Timelines.Debug]: debug
