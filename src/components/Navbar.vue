@@ -34,7 +34,7 @@
               <label>{{ timelineData[timeline].metadata.timelineTitle }}</label>
               <Button
                 v-if="!props.isSmallScreen"
-                @click.stop="props.isSmallScreen && emit('open-references-modal', timeline)"
+                @click.stop="emit('open-references-modal', timeline)"
                 icon
                 text
                 sm-rounded
