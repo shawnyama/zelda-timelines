@@ -30,10 +30,10 @@
         <ul>
           <li v-for="timeline in Timelines" :value="timeline">
             <a @click="selectTimeline(timeline)">
-              <img :src="caret" alt="caret-icon" />
+              <img v-if="!isSmallScreen" :src="caret" alt="caret-icon" />
               <label>{{ timelineData[timeline].metadata.timelineTitle }}</label>
               <Button
-                v-if="!props.isSmallScreen"
+                v-if="!isSmallScreen"
                 @click.stop="emit('open-references-modal', timeline)"
                 icon
                 text
@@ -43,8 +43,6 @@
               >
                 <Icon icon="ph:quotes-fill" height="1.3rem" />
               </Button>
-              <!-- Dummy for flex alignment -->
-              <div v-else />
             </a>
           </li>
         </ul>
@@ -348,7 +346,7 @@ nav {
           }
 
           & > label {
-            margin-top: 0.4rem;
+            margin: 0.4rem auto 0 auto;
             font-size: 2rem;
           }
 
