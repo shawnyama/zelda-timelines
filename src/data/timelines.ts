@@ -16,9 +16,9 @@ export enum Timelines {
   Celeste = 'celeste',
   Geekery = 'geekery',
   Lorulean = 'lorulean',
+  Official = 'official',
   Sabrblade = 'sabrblade',
-  Triforce = 'triforce',
-  Official = 'official'
+  Triforce = 'triforce'
   // Debug = 'debug'
   // New = 'new'
 }
@@ -48,9 +48,9 @@ export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Ed
   [Timelines.Celeste]: celeste,
   [Timelines.Geekery]: geekery,
   [Timelines.Lorulean]: lorulean,
+  [Timelines.Official]: official,
   [Timelines.Sabrblade]: sabrblade,
-  [Timelines.Triforce]: triforce,
-  [Timelines.Official]: official
+  [Timelines.Triforce]: triforce
   // [Timelines.Debug]: debug
   // [Timelines.New]: newTimeline
 }
