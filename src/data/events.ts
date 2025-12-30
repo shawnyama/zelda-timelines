@@ -231,7 +231,10 @@ export const timeSplitEvents: string[] = [
   Events.DemiseHasBeenErasedInThePresentByAWishToTheTriforce,
   Events.TheHeroComesBackFromTheFutureAndReportsGanondorf,
   Events.TheHeroGoesBackToHisChildhoodAndLeavesTheKingdomWithoutProtection,
-  Events.MeanwhileOnTheHyruleContinent
+  Events.MeanwhileOnTheHyruleContinent,
+  Events.MainTimeline,
+  Events.SplinterTimeline,
+  Events.TerrakoTravelsBackInTime
 ]
 
 export const whatIfEvents: string[] = [
