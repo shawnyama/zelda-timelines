@@ -17,7 +17,8 @@ const metadata: Metadata = {
       label: 'JP site',
       url: 'https://www.nintendo.com/jp/character/zelda/history/index.html'
     }
-  ]
+  ],
+  notes: null
 }
 
 const flowchart: Edge[] = [

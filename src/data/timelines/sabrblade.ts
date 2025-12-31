@@ -7,14 +7,23 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2025-12-29',
+  lastUpdatedOn: '2025-12-30',
   sources: [
     {
-      label:
-        'The games themselves, Creating A Champion, and Master Works 2. No What-if branches, no reincarnating Ganondorfs (FSAdorf is OOTdorf, but TOTKdorf is an entirely separate man with the same name), FSA follows FS, five spinoffs included, True Founding, and some minor retcons to smooth out the rougher edges.',
+      label: 'The games',
+      url: null
+    },
+    {
+      label: 'Creating a Champion',
+      url: null
+    },
+    {
+      label: 'Master Works 2',
       url: null
     }
-  ]
+  ],
+  notes:
+    'No What-if branches, no reincarnating Ganondorfs (FSAdorf is OOTdorf, but TOTKdorf is an entirely separate man with the same name), FSA follows FS, five spinoffs included, True Founding, and some minor retcons to smooth out the rougher edges.'
 }
 
 const flowchart: Edge[] = [
@@ -228,7 +237,7 @@ const flowchart: Edge[] = [
   {
     source: Events.OriginalGanondorfDrowns,
     target: Events.KokiriBecomeKoroks,
-    extraDistance: 1
+    extraDistance: 2
   },
   {
     source: Events.KokiriBecomeKoroks,
@@ -332,6 +341,10 @@ const flowchart: Edge[] = [
   },
   {
     source: GameIds.TwilightPrincess,
+    target: Events.GanondorfDeathTriforceSacredRealm
+  },
+  {
+    source: Events.GanondorfDeathTriforceSacredRealm,
     target: Events.HWTP1
   },
   {

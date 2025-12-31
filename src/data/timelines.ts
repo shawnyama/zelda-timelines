@@ -41,6 +41,7 @@ export type Metadata = {
   submittedOn: string
   lastUpdatedOn: string
   sources: { label: string; url: string | null }[]
+  notes: string | null
 }
 
 export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Edge[] }> = {

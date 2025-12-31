@@ -17,7 +17,8 @@ const metadata: Metadata = {
       label: 'type of source',
       url: '' // Put null if there is no URL
     }
-  ]
+  ],
+  notes: null // Put any additional notes here, or null if there are none
 }
 
 const flowchart: Edge[] = [

@@ -25,6 +25,10 @@
           </a>
         </li>
       </ul>
+      <template v-if="timelineData[timeline].metadata.notes">
+        <h4>Notes:</h4>
+        <p class="notes">{{ timelineData[timeline].metadata.notes }}</p>
+      </template>
       <div class="contribution">
         <p>
           Submitted by:
@@ -91,6 +95,10 @@ div[id^='references-'] {
 
 .blink-on-open {
   animation: blink 0.75s;
+}
+
+.notes {
+  margin-left: 1.25rem;
 }
 
 @keyframes blink {

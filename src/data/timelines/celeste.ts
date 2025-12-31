@@ -8,7 +8,8 @@ const metadata: Metadata = {
   submittedBy: 'Celeste',
   submittedOn: '2025-12-18',
   lastUpdatedOn: '2025-12-18',
-  sources: []
+  sources: [],
+  notes: null
 }
 
 const flowchart: Edge[] = [
