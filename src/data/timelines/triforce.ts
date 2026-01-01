@@ -14,7 +14,8 @@ const metadata: Metadata = {
       label: 'playlist',
       url: 'https://www.youtube.com/playlist?list=PLYYZg45BvGCMoNCbPlhfV0296IOfrBUVz'
     }
-  ]
+  ],
+  notes: null
 }
 
 const flowchart: Edge[] = [

@@ -38,9 +38,10 @@ function generateTable(timelines) {
   
   for (const timeline of timelines) {
     const creator = timeline.timelineCreator || 'Unknown';
-    const lastUpdated = new Date(timeline.lastUpdatedOn).toLocaleDateString('en-US', {
+    const [year, month, day] = timeline.lastUpdatedOn.split('-').map(Number);
+    const lastUpdated = new Date(year, month - 1, day).toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'short',
+      month: 'long',
       day: 'numeric'
     });
     

@@ -30,9 +30,10 @@
         <ul>
           <li v-for="timeline in Timelines" :value="timeline">
             <a @click="selectTimeline(timeline)">
-              <img :src="caret" alt="caret-icon" />
+              <img v-if="!isSmallScreen" :src="caret" alt="caret-icon" />
               <label>{{ timelineData[timeline].metadata.timelineTitle }}</label>
               <Button
+                v-if="!isSmallScreen"
                 @click.stop="emit('open-references-modal', timeline)"
                 icon
                 text
@@ -111,7 +112,7 @@ import { Icon } from '@iconify/vue'
 import caret from '@/assets/caret-left.svg'
 import TimelineLegend from '@/components/TimelineLegend.vue'
 
-defineProps<{
+const props = defineProps<{
   selectedTimeline: Timelines
   orientation: string
   isSmallScreen: boolean
@@ -345,7 +346,7 @@ nav {
           }
 
           & > label {
-            margin-top: 0.4rem;
+            margin: 0.4rem auto 0 auto;
             font-size: 2rem;
           }
 

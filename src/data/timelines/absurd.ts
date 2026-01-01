@@ -8,7 +8,8 @@ const metadata: Metadata = {
   submittedBy: 'Shawn Yama',
   submittedOn: '2024-08-10',
   lastUpdatedOn: '2024-08-10',
-  sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=rPrqd6682gE' }]
+  sources: [{ label: 'video', url: 'https://www.youtube.com/watch?v=rPrqd6682gE' }],
+  notes: null
 }
 
 const flowchart: Edge[] = [

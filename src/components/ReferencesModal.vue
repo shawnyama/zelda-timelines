@@ -25,6 +25,10 @@
           </a>
         </li>
       </ul>
+      <template v-if="timelineData[timeline].metadata.notes">
+        <h4>Notes:</h4>
+        <p class="notes">{{ timelineData[timeline].metadata.notes }}</p>
+      </template>
       <div class="contribution">
         <p>
           Submitted by:
@@ -49,7 +53,8 @@ const props = defineProps<{
 const emit = defineEmits(['close'])
 
 function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US', {
+  const [year, month, day] = date.split('-').map(Number)
+  return new Date(year, month - 1, day).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -90,6 +95,10 @@ div[id^='references-'] {
 
 .blink-on-open {
   animation: blink 0.75s;
+}
+
+.notes {
+  margin-left: 1.25rem;
 }
 
 @keyframes blink {

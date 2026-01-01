@@ -13,7 +13,8 @@ const metadata: Metadata = {
       label: 'playlist',
       url: 'https://www.youtube.com/playlist?list=PLdwzMC_Gye94WEBMT0--HneBOJXJaM1Mg'
     }
-  ]
+  ],
+  notes: null
 }
 
 const flowchart: Edge[] = [
