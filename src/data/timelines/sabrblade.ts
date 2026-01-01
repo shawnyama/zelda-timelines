@@ -7,10 +7,10 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2025-12-30',
+  lastUpdatedOn: '2025-12-31',
   sources: [
     {
-      label: 'The games',
+      label: 'The games/game manuals',
       url: null
     },
     {
@@ -18,12 +18,12 @@ const metadata: Metadata = {
       url: null
     },
     {
-      label: 'Master Works 2',
+      label: 'TOTK Master Works',
       url: null
     }
   ],
   notes:
-    'No What-if branches, no reincarnating Ganondorfs (FSAdorf is OOTdorf, but TOTKdorf is an entirely separate man with the same name), FSA follows FS, five spinoffs included, True Founding, and some minor retcons to smooth out the rougher edges.'
+    'This lengthy timeline features no hypothetical "what-if" branches, no reincarnating Ganondorfs (FSAdorf is OOTdorf, but TOTKdorf is an entirely separate man with the same name), FSA as a direct sequel to FS, five spinoff games, True Founding, and some minor retcons to help smooth out the rougher edges.'
 }
 
 const flowchart: Edge[] = [
@@ -58,14 +58,15 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.LanayruSea,
-    target: Events.DemiseWarAgainstHylia
+    target: Events.DemonTribeAndDemise,
+    extraDistance: 1
   },
   {
-    source: Events.DemiseWarAgainstHylia,
-    target: Events.HyliaRaisesHumansToSky
+    source: Events.DemonTribeAndDemise,
+    target: Events.HyliaRaisesSkyloft
   },
   {
-    source: Events.HyliaRaisesHumansToSky,
+    source: Events.HyliaRaisesSkyloft,
     target: Events.HyliaSealsDemise
   },
   {
@@ -75,10 +76,6 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.HWSS1,
-    target: Events.SkyloftIsFormed
-  },
-  {
-    source: Events.SkyloftIsFormed,
     target: Events.HWSS2,
     extraDistance: 3
   },
@@ -245,11 +242,11 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.KoroksIntegration,
-    target: Events.ZoraHylianRito,
+    target: Events.GreatSeaRito,
     extraDistance: 5
   },
   {
-    source: Events.ZoraHylianRito,
+    source: Events.GreatSeaRito,
     target: Events.GanondorfEscapesTheVoid,
     extraDistance: 9
   },
