@@ -94,6 +94,7 @@ type Edge = {
 #### Adding your own events
 - If you have some sort of event(s) that you want to add to the `Events` or `Eras` enumerators feel free to add them
 - Do not add to the `GameIds` enumerator
+- If you're providing a great amount of information in your timeline by adding events you may exceed the diagram's text limit. When it is exceeded you'll see a message in a pink box saying you've exceeded it instead of seeing your timeline. The limit used to be 50,000 characters (the default in order to ensure good browser performance). I have increased it to 55,000 to support the Sabrblade timeline. If you have exceeded 55,000 you can increase it by opening `src/components/TimelineDiagram.vue` and altering `:options="{ maxTextSize: 55000 }"` on line 12. However I suggest to keep your work within the limit that is already set. This high level of detail has yet to be supported more elegantly within the constraints of the flowchart diagram. I might consider supporting this better if this becomes a common theme in what people submit.
 
 
 ### 3c. Subgraphs (advanced)
