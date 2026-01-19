@@ -7,7 +7,7 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2025-12-31',
+  lastUpdatedOn: '2025-12-11',
   sources: [
     {
       label: 'The games/game manuals',
@@ -27,18 +27,16 @@ const metadata: Metadata = {
 }
 
 const flowchart: Edge[] = [
-  {
-    source: Events.TheVoidBeforeCreation,
-    target: Events.GoldenGoddessesCreateWorld
-  },
+  //Origin Era
   {
     source: Events.GoldenGoddessesCreateWorld,
-    target: Events.NullCreatesRiftsTrisRepairRifts
+    target: Events.NullRiftsTrisCreated
   },
   {
-    source: Events.NullCreatesRiftsTrisRepairRifts,
+    source: Events.NullRiftsTrisCreated,
     target: Events.TriforceAndSecretStonesCreated
   },
+  //Godly Era: Zonai Birth Period
   {
     source: Events.TriforceAndSecretStonesCreated,
     target: Events.HyliaTriforceSecretStonesZonai
@@ -46,8 +44,10 @@ const flowchart: Edge[] = [
   {
     source: Events.HyliaTriforceSecretStonesZonai,
     target: Events.ZonaiAscendToSky,
-    extraDistance: 3
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
+  //Godly Era: Pre-Skyloft Period
   {
     source: Events.ZonaiAscendToSky,
     target: Events.SheikahEyeSymbol
@@ -59,24 +59,32 @@ const flowchart: Edge[] = [
   {
     source: Events.LanayruSea,
     target: Events.DemonTribeAndDemise,
-    extraDistance: 1
+    style: EdgeStyle.Dotted,
+    extraDistance: 3
   },
   {
     source: Events.DemonTribeAndDemise,
-    target: Events.HyliaRaisesSkyloft
+    target: Events.HyliaRaisesHumansToSky
   },
   {
-    source: Events.HyliaRaisesSkyloft,
+    source: Events.HyliaRaisesHumansToSky,
     target: Events.HyliaSealsDemise
   },
   {
     source: Events.HyliaSealsDemise,
-    target: Events.HWSS1,
+    target: Events.LanayruDesert,
+    style: EdgeStyle.Dotted,
     extraDistance: 3
+  },
+  //Godly Era: Skyloft Period
+  {
+    source: Events.LanayruDesert,
+    target: Events.HWSS1
   },
   {
     source: Events.HWSS1,
     target: Events.HWSS2,
+    style: EdgeStyle.Dotted,
     extraDistance: 3
   },
   {
@@ -88,22 +96,45 @@ const flowchart: Edge[] = [
     target: Events.SkyloftiansReturnToSurface,
     style: EdgeStyle.Thick
   },
+  //Godly Era: Post-Skyloft Period
   {
     source: Events.SkyloftiansReturnToSurface,
     target: Events.NewTribesFormed
   },
   {
     source: Events.NewTribesFormed,
-    target: Events.StormwindArkOtherStructures
+    target: Events.GerudoTribe
+  },
+  {
+    source: Events.GerudoTribe,
+    target: Events.ZonaiExtinctionMingle,
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
+  },
+  //Godly Era: Zonai Heavenly Period
+  {
+    source: Events.ZonaiAscendToSky,
+    target: Events.ZonaiProsperInTheSky,
+    style: EdgeStyle.Dotted
+  },
+  {
+    source: Events.ZonaiProsperInTheSky,
+    target: Events.StormwindArkOtherStructures,
+    style: EdgeStyle.Dotted,
+    extraDistance: 9
   },
   {
     source: Events.StormwindArkOtherStructures,
-    target: Events.ZonaiExtinctionMingle
+    target: Events.ZonaiExtinctionMingle,
+    style: EdgeStyle.Dotted,
+    extraDistance: 4
   },
+  //Godly Era: Hyrule Kingdom Founding Period
   {
     source: Events.ZonaiExtinctionMingle,
     target: Events.RauruMarriesSonia,
-    extraDistance: 3
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
   {
     source: Events.RauruMarriesSonia,
@@ -119,18 +150,24 @@ const flowchart: Edge[] = [
   },
   {
     source: GameIds.AgeofImprisonment,
-    target: Events.NewCastleBuiltDemonKingErasure,
-    extraDistance: 3
+    target: Events.GreatSkyIsland
   },
+  {
+    source: Events.GreatSkyIsland,
+    target: Events.NewCastleBuiltDemonKingErasure
+  },
+  //Force Era: Minish Period
   {
     source: Events.NewCastleBuiltDemonKingErasure,
     target: Events.MalladusVersusGod,
-    extraDistance: 5
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
   {
     source: Events.MalladusVersusGod,
     target: Events.MinishLegendPicoriBladeLightForce,
-    extraDistance: 5
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
   {
     source: Events.MinishLegendPicoriBladeLightForce,
@@ -143,17 +180,19 @@ const flowchart: Edge[] = [
   {
     source: Events.HyruleWindTribeRelations,
     target: Events.WindTribeAscendsToTheSky,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
     source: Events.WindTribeAscendsToTheSky,
     target: GameIds.TheMinishCap,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
     source: GameIds.TheMinishCap,
     target: Events.WindTribeSkyPeople,
-    extraDistance: 1
+    extraDistance: 3
   },
   {
     source: Events.WindTribeSkyPeople,
@@ -162,21 +201,25 @@ const flowchart: Edge[] = [
   {
     source: Events.CityInTheSky,
     target: Events.DarkTribeTwilightRealm,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
     source: Events.DarkTribeTwilightRealm,
     target: Events.SagesSealSacredRealm
   },
+  //Force Era: Four Sword Period
   {
     source: Events.SagesSealSacredRealm,
     target: Events.VaatiSealedInFourSword,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
     source: Events.VaatiSealedInFourSword,
     target: Events.NewGanondorfBorn,
-    extraDistance: 3
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
   {
     source: Events.NewGanondorfBorn,
@@ -196,14 +239,20 @@ const flowchart: Edge[] = [
   {
     source: GameIds.FourSwordsAdventures,
     target: Events.GanonEscapesFourSword,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
+  //Era of the Hero of Time
   {
     source: Events.GanonEscapesFourSword,
     target: Events.GanondorfKingOfThieves
   },
   {
     source: Events.GanondorfKingOfThieves,
+    target: Events.GerudoEars
+  },
+  {
+    source: Events.GerudoEars,
     target: Events.FierceWar
   },
   {
@@ -211,7 +260,7 @@ const flowchart: Edge[] = [
     target: GameIds.OcarinaOfTime,
     style: EdgeStyle.Thick
   },
-  //Splinter timeline
+  //Splinter timeline: Pre-Flood Period
   {
     source: GameIds.OcarinaOfTime,
     target: Events.SplinterTimeline,
@@ -220,8 +269,11 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.SplinterTimeline,
-    target: Events.OriginalGanondorfBreaksSeal,
-    extraDistance: 1
+    target: Events.NewHyruleCastle
+  },
+  {
+    source: Events.NewHyruleCastle,
+    target: Events.OriginalGanondorfBreaksSeal
   },
   {
     source: Events.OriginalGanondorfBreaksSeal,
@@ -231,10 +283,11 @@ const flowchart: Edge[] = [
     source: Events.HyruleIsFlooded,
     target: Events.OriginalGanondorfDrowns
   },
+  //Great Sea Era: Post-Flood Period
   {
     source: Events.OriginalGanondorfDrowns,
     target: Events.KokiriBecomeKoroks,
-    extraDistance: 2
+    extraDistance: 1
   },
   {
     source: Events.KokiriBecomeKoroks,
@@ -243,13 +296,16 @@ const flowchart: Edge[] = [
   {
     source: Events.KoroksIntegration,
     target: Events.GreatSeaRito,
-    extraDistance: 5
+    style: EdgeStyle.Dotted,
+    extraDistance: 9
   },
   {
     source: Events.GreatSeaRito,
     target: Events.GanondorfEscapesTheVoid,
+    style: EdgeStyle.Dotted,
     extraDistance: 9
   },
+  //Great Sea Era: Wind Waker Period
   {
     source: Events.GanondorfEscapesTheVoid,
     target: Events.HWTWW
@@ -274,16 +330,18 @@ const flowchart: Edge[] = [
     style: EdgeStyle.Thick,
     extraDistance: 1
   },
+  //New Hyrule Era
   {
     source: Events.NewLandNewHyruleNewFounding,
     target: GameIds.SpiritTracks,
+    style: EdgeStyle.Dotted,
     extraDistance: 4
   },
   {
     source: GameIds.SpiritTracks,
     target: GameIds.TriforceHeroes
   },
-  //Main timeline
+  //Main timeline: Era of the Hero of Time
   {
     source: GameIds.OcarinaOfTime,
     target: Events.MainTimeline,
@@ -333,8 +391,14 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.NewZorasDomainRutoNabooruSages,
-    target: GameIds.TwilightPrincess,
+    target: Events.ChickensInTheSky,
+    style: EdgeStyle.Dotted,
     extraDistance: 4
+  },
+  //Twilight Era
+  {
+    source: Events.ChickensInTheSky,
+    target: GameIds.TwilightPrincess
   },
   {
     source: GameIds.TwilightPrincess,
@@ -346,8 +410,13 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.HWTP1,
+    target: Events.ZantIsRevived
+  },
+  {
+    source: Events.ZantIsRevived,
     target: Events.HWTP2
   },
+  //Golden Era: Imprisoning War Period
   {
     source: Events.HWTP2,
     target: Events.GanondorfResurrectedOffscreen,
@@ -356,16 +425,18 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.GanondorfResurrectedOffscreen,
-    target: Events.ALTTPBackstory
+    target: Events.GanondorfBecomesGanon
   },
   {
-    source: Events.ALTTPBackstory,
+    source: Events.GanondorfBecomesGanon,
     target: Events.ALTTPImprisoningWar
   },
+  //Golden Era: Great Cataclysm Period
   {
     source: Events.ALTTPImprisoningWar,
     target: Events.AgahnimConquersHyrule,
-    extraDistance: 5
+    style: EdgeStyle.Dotted,
+    extraDistance: 6
   },
   {
     source: Events.AgahnimConquersHyrule,
@@ -386,6 +457,7 @@ const flowchart: Edge[] = [
     target: Events.DarkRitesTriforceSplits,
     style: EdgeStyle.Thick
   },
+  //Golden Era: Post-Great Cataclysm Period (Hyrule)
   {
     source: Events.DarkRitesTriforceSplits,
     target: Events.SahasrahlaSearchesForLink,
@@ -399,6 +471,7 @@ const flowchart: Edge[] = [
     source: GameIds.AncientStoneTablets,
     target: Events.LinkReturnsHome
   },
+  //Golden Era: Post-Great Cataclysm Period (Koholint Island)
   {
     source: Events.DarkRitesTriforceSplits,
     target: Events.LinkLeavesHyrule,
@@ -415,15 +488,18 @@ const flowchart: Edge[] = [
     target: Events.LinkReturnsHome,
     style: EdgeStyle.Thick
   },
+  //Golden Era: Lorule Invasion Period
   {
     source: Events.LinkReturnsHome,
     target: GameIds.ALinkBetweenWorlds,
+    style: EdgeStyle.Dotted,
     extraDistance: 2
   },
   {
     source: GameIds.ALinkBetweenWorlds,
     target: Events.PrimeEnergyHiddenDekuTree
   },
+  //Golden Era: Rifts Period
   {
     source: Events.PrimeEnergyHiddenDekuTree,
     target: Events.NullCreatesMassiveRifts,
@@ -438,6 +514,7 @@ const flowchart: Edge[] = [
     source: Events.GanonCopiedByNull,
     target: GameIds.EchoesOfWisdom
   },
+  //Golden Era: Age of Prosperity
   {
     source: GameIds.EchoesOfWisdom,
     target: Events.GreatKingTriforce,
@@ -448,9 +525,11 @@ const flowchart: Edge[] = [
     source: Events.GreatKingTriforce,
     target: Events.SleepingPrincessZelda
   },
+  //Era of Decline: Ganon Invasion Period
   {
     source: Events.SleepingPrincessZelda,
     target: Events.GanonInvadesHyrule,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
@@ -470,14 +549,18 @@ const flowchart: Edge[] = [
     target: GameIds.TheAdventureOfLink,
     style: EdgeStyle.Thick
   },
+  //Era of Myth: Period of Legend
   {
     source: GameIds.TheAdventureOfLink,
     target: Events.GanondorfSpiritSplitFourFragments,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
+  //Era of Myth: War Across the Ages
   {
     source: Events.GanondorfSpiritSplitFourFragments,
     target: Events.CiaWatchesOverTriforce,
+    style: EdgeStyle.Dotted,
     extraDistance: 6
   },
   {
@@ -488,6 +571,7 @@ const flowchart: Edge[] = [
     source: GameIds.HyruleWarriors,
     target: Events.CiaAndLanaWatchOverTriforce
   },
+  //Era of Myth: Early Sheikah Period
   {
     source: Events.CiaAndLanaWatchOverTriforce,
     target: Events.GateOfSoulsSheikah,
@@ -503,6 +587,7 @@ const flowchart: Edge[] = [
     target: Events.CalamityGanon,
     extraDistance: 6
   },
+  //Wilds Era: Advanced Shiekah Period
   {
     source: Events.CalamityGanon,
     target: Events.ZoraSettleInLanayru,
@@ -513,6 +598,7 @@ const flowchart: Edge[] = [
     source: Events.ZoraSettleInLanayru,
     target: Events.SheikahTechnology
   },
+  //Wilds Era: Ancient Calamity Period
   {
     source: Events.SheikahTechnology,
     target: Events.EastReservoirLake,
@@ -527,11 +613,17 @@ const flowchart: Edge[] = [
     source: Events.AncientCalamity,
     target: Events.YigaClanFormed
   },
+  //Wilds Era: Great Calamity Period
   {
     source: Events.YigaClanFormed,
-    target: Events.GreatCalamity,
+    target: Events.GreatCalamityPreparations,
     style: EdgeStyle.Dotted,
     extraDistance: 9
+  },
+  {
+    source: Events.GreatCalamityPreparations,
+    target: Events.GreatCalamity,
+    style: EdgeStyle.Thick
   },
   {
     source: Events.GreatCalamity,
