@@ -97,9 +97,20 @@ export enum Events {
   TheHeroGoesBackToHisChildhoodAndLeavesTheKingdomWithoutProtection = 'The Hero goes back to his childhood and leaves the Kingdom without protection',
   AnotherNewHyruleKindgomIsFounded = 'Another new Hyrule Kingdom is founded',
   MeanwhileOnTheHyruleContinent = 'Meanwhile, on the Hyrule continent...',
+  // Founding Split
+  BattleForSacredRealm = 'Battle for the Sacred Realm',
+  BanishmentOfTheTwili = 'Banishment of the Interlopers to the Twilight Realm',
+  ZonaiEstablishHyrule = 'The Kingdom of Hyrule is Founded by Rauru and Sonia',
+  OoccaEstablishHyrule = 'The Kingdom of Hyrule is Founded with Aid of the Oocca',
+  FSVaatiIsSealed = 'Vaati is Sealed',
+  FSVaatiIsDestroyed = 'Vaati is Destroyed',
+  HylianVictory = 'Hylian Victory: The Kingdom is Unified',
+  HylianDefeat = 'Hylian Defeat: The Kingdom is Fractured',
+  HeroOfMenTriumphant = 'The Hero of Men is Triumphant',
+  HeroOfMenDefeated = 'The Hero of Men is Defeated',
+  TerrakoTimeSplinter = 'Terrako Travels Back in Time',
   // Sabrblade events
-  GoldenGoddessesCreateWorld = 'In the void of chaos before Creation, Null consumes all life. The three Golden Goddesses create the World to seal Null away - ALTTP OOT/TP/EOW',
-  NullRiftsTrisCreated = 'Null tries to break free of the seal via reality-consuming Rifts. The Tris are created to repair the Rifts and keep Null sealed - EOW',
+  GoldenGoddessesCreateWorld = 'In the void of chaos before Creation, Null consumes all life. The Golden Goddesses create the World to imprison Null. The Tris are created to keep Null sealed - ALTTP/OOT/TP/EOW',
   TriforceAndSecretStonesCreated = 'The Golden Goddesses create the Triforce and the Secret Stones. The land is entrusted to the Goddess Hylia - ALTTP/OOT/TP ALBW/SS/MW2',
 
   HyliaTriforceSecretStonesZonai = 'Hylia protects the Triforce and entrusts the Secret Stones to the Zonai Tribe, who mine the Depths and prosper on the Surface - SS/MW2',
@@ -195,7 +206,7 @@ export enum Events {
   LinkReturnsHome = 'Stranded out at sea, Link is presumably found, rescued, and brought back home by Sahasrahla - minor retcon',
 
   PrimeEnergyHiddenDekuTree = 'The full Triforce is hidden away by the royal family in a chamber beneath the Deku Tree, in the Eternal Forest. Its name is forgotten over time, remembered only as the Prime Energy - EOW',
-  NullCreatesMassiveRifts = 'Null is able to exert enough power to make huge Rifts that consume large sections of Hyrule. Null also absorbs many Tris, gaining their Echo-creating ability - EOW',
+  NullCreatesMassiveRifts = 'Null is able to exert enough power to create massive Rifts that consume large sections of Hyrule. Null also absorbs many Tris, gaining their Echo-creating ability - EOW',
   GanonCopiedByNull = 'Ganon somehow returns in an age where he is forgotten. An Echo of him is made and used by Null to kidnap the Princess Zelda of this age - EOW',
 
   GreatKingTriforce = 'In an age of peace, a great King uses the full Triforce to maintain order in Hyrule. Upon his passing, his son inherits an incomplete Triforce. The Prince questions his sister, Princess Zelda, about the rest of the Triforce, but she reveals nothing - TAOL',
@@ -222,10 +233,10 @@ export enum Events {
   GreatCalamityPreparations = 'Calamity Ganon is predicted to return. The ancient Sheikah tech is excavated and new Champions are chosen - BOTW/CAC',
   GreatCalamity = 'Despite the preparations, the Great Calamity devastates Hyrule - BOTW/CAC/AOC',
 
-  TerrakoTravelsBackInTime = 'Splinter Timeline 2: Terrako travels back in time to before the Great Calamity',
+  AOCSplinterTimeline2 = 'Splinter Timeline 2: Terrako travels back in time to before the Great Calamity',
 
   ChampionsGoBackInTime = 'The four new Champions are summoned to the altered past by Terrako. They help stop the Great Calamity there and return back to their native time and dimension - AOC',
-  OriginalGanondorfFinallyBreaksSeal = 'After literal eons, the original Ganondorf is finally able to break his seal, due to extensive damage Hyrule Castle suffered during the Great Calamity - TOTK'
+  OriginalGanondorfFinallyBreaksSeal = 'After literal eons, the original Ganondorf is finally able to break his ancient seal, due to extensive damage the base of Hyrule Castle suffered during the Great Calamity - TOTK'
 }
 
 // Create subgraphs
@@ -249,7 +260,16 @@ export const timeSplitEvents: string[] = [
   Events.MeanwhileOnTheHyruleContinent,
   Events.MainTimeline,
   Events.SplinterTimeline,
-  Events.TerrakoTravelsBackInTime
+  Events.AOCSplinterTimeline2,
+  Events.FSVaatiIsDestroyed,
+  Events.FSVaatiIsSealed,
+  Events.HylianVictory,
+  Events.HylianDefeat,
+  Events.OoccaEstablishHyrule,
+  Events.ZonaiEstablishHyrule,
+  Events.HeroOfMenTriumphant,
+  Events.HeroOfMenDefeated,
+  Events.TerrakoTimeSplinter
 ]
 
 export const whatIfEvents: string[] = [

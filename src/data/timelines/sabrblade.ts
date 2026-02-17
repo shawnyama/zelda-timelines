@@ -7,7 +7,7 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2026-01-11',
+  lastUpdatedOn: '2026-01-29',
   sources: [
     {
       label: 'The games/game manuals',
@@ -30,10 +30,6 @@ const flowchart: Edge[] = [
   //Origin Era
   {
     source: Events.GoldenGoddessesCreateWorld,
-    target: Events.NullRiftsTrisCreated
-  },
-  {
-    source: Events.NullRiftsTrisCreated,
     target: Events.TriforceAndSecretStonesCreated
   },
   //Godly Era: Zonai Birth Period
@@ -648,12 +644,12 @@ const flowchart: Edge[] = [
   },
   //Age of Calamity
   {
-    source: Events.TerrakoTravelsBackInTime,
+    source: Events.AOCSplinterTimeline2,
     target: Events.GreatCalamity,
     style: EdgeStyle.Thick
   },
   {
-    source: Events.TerrakoTravelsBackInTime,
+    source: Events.AOCSplinterTimeline2,
     target: GameIds.AgeOfCalamity,
     style: EdgeStyle.Thick
   }
