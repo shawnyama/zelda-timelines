@@ -3,7 +3,7 @@ import { EdgeStyle, EdgeDistance } from '../edge-decor'
 import type { Edge, Metadata } from '../timelines'
 
 const metadata: Metadata = {
-  timelineTitle: 'founding split',
+  timelineTitle: 'Founding Split',
   timelineCreator: 'Mana',
   submittedBy: 'Mana',
   submittedOn: '2026-02-14',
