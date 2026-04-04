@@ -7,7 +7,7 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2026-01-29',
+  lastUpdatedOn: '2026-03-30',
   sources: [
     {
       label: 'The games/game manuals',
@@ -219,8 +219,7 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.NewGanondorfBorn,
-    target: GameIds.FourSwords,
-    style: EdgeStyle.Thick
+    target: GameIds.FourSwords
   },
   {
     source: GameIds.FourSwords,
@@ -283,7 +282,7 @@ const flowchart: Edge[] = [
   {
     source: Events.OriginalGanondorfDrowns,
     target: Events.KokiriBecomeKoroks,
-    extraDistance: 1
+    extraDistance: 2
   },
   {
     source: Events.KokiriBecomeKoroks,
@@ -417,7 +416,7 @@ const flowchart: Edge[] = [
     source: Events.HWTP2,
     target: Events.GanondorfResurrectedOffscreen,
     style: EdgeStyle.Dotted,
-    extraDistance: 4
+    extraDistance: 5
   },
   {
     source: Events.GanondorfResurrectedOffscreen,
@@ -484,7 +483,7 @@ const flowchart: Edge[] = [
     target: Events.LinkReturnsHome,
     style: EdgeStyle.Thick
   },
-  //Golden Era: Lorule Invasion Period
+  //Golden Era: Lorule Interaction Period
   {
     source: Events.LinkReturnsHome,
     target: GameIds.ALinkBetweenWorlds,
@@ -530,15 +529,13 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.GanonInvadesHyrule,
-    target: Events.ZeldaSplitsTriforceOfWisdom
+    target: Events.ZeldaSplitsTriforceOfWisdom,
+    style: EdgeStyle.Thick
   },
   {
     source: Events.ZeldaSplitsTriforceOfWisdom,
-    target: Events.ZeldaIsCaptured
-  },
-  {
-    source: Events.ZeldaIsCaptured,
-    target: GameIds.TheLegendOfZelda
+    target: GameIds.TheLegendOfZelda,
+    style: EdgeStyle.Thick
   },
   {
     source: GameIds.TheLegendOfZelda,
