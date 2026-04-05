@@ -8,6 +8,7 @@ import absurd from './timelines/absurd'
 import celeste from './timelines/celeste'
 import sabrblade from './timelines/sabrblade'
 import foundingSplit from './timelines/founding-split'
+import imprisoningSplit from './timelines/imprisoning-split'
 // import debug from './timelines/debug'
 // import newTimeline from './timelines/new'
 
@@ -17,6 +18,7 @@ export enum Timelines {
   Celeste = 'celeste',
   FoundingSplit = 'founding-split',
   Geekery = 'geekery',
+  ImprisoningSplit = 'imprisoning-split',
   Lorulean = 'lorulean',
   Official = 'official',
   Sabrblade = 'sabrblade',
@@ -51,6 +53,7 @@ export const timelineData: Record<Timelines, { metadata: Metadata; flowchart: Ed
   [Timelines.Celeste]: celeste,
   [Timelines.FoundingSplit]: foundingSplit,
   [Timelines.Geekery]: geekery,
+  [Timelines.ImprisoningSplit]: imprisoningSplit,
   [Timelines.Lorulean]: lorulean,
   [Timelines.Official]: official,
   [Timelines.Sabrblade]: sabrblade,

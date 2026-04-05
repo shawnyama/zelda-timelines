@@ -109,6 +109,13 @@ export enum Events {
   HeroOfMenTriumphant = 'The Hero of Men is Triumphant',
   HeroOfMenDefeated = 'The Hero of Men is Defeated',
   TerrakoTimeSplinter = 'Terrako Travels Back in Time',
+  // Imprisoning Split
+  GodlyEra = 'Origin of the Zonai and Ascension to the Sky Islands',
+  HyruleFounding = 'King Rauru and Queen Sonia establish the kingdom of Hyrule',
+  ZonaiCrisis = 'The Zonai civilization is detroyed by rogue Constructs',
+  AncientArrival = 'Zelda arrives from the Far Future to aid Hyrule.',
+  FallOfHyrule = 'Hyrule is destroyed by Ganondorf, the Bringer of Demise.',
+  EraOfPeace = 'Hyrule enjoys 10,000 years of peace.',
   // Sabrblade events
   GoldenGoddessesCreateWorld = 'In the void of chaos before Creation, Null consumes all life. The Golden Goddesses create the World to imprison Null. The Tris are created to keep Null sealed - ALTTP/OOT/TP/EOW',
   TriforceAndSecretStonesCreated = 'The Three Golden Goddesses create the Triforce and the Secret Stones. The land is entrusted to the Goddess Hylia - ALTTP/OOT/TP ALBW/SS/MW2',
