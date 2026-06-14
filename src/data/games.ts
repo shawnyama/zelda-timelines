@@ -30,7 +30,8 @@ export const gameNodes: GameNode[] = [
     id: GameIds.OcarinaOfTime,
     releases: [
       { platform: Platforms.N64, year: 1998 },
-      { platform: Platforms.N3DS, year: 2011 }
+      { platform: Platforms.N3DS, year: 2011 },
+      { platform: Platforms.Switch2, year: 2026 }
     ],
     isIconSlanted: true,
     description: `Link, a boy living in Kokiri Forest who doesn't have a fairy companion dreams about a girl being chased away by an evil-looking man. The Great Deku Tree sends the fairy Navi to test the boy, and after Link gets a sword and shield he must try and save the Deku Tree from death. Although he cannot, the Deku Tree gives Link the Kokiri Emerald and tells him to go to Princess Zelda. At Hyrule Castle, Link sneaks in and meets with the princess, who tells him about the evil intentions of Ganondorf and tasks him with finding the other Spiritual Stones. After finding the stones, Zelda is chased out of Hyrule Castle by Ganondorf, Zelda tossing the Ocarina of Time over to Link. Using the stones and the ocarina, Link can open the door in the Temple of Time to find the Master Sword. After pulling it, Link is taken seven years into the future, after Ganondorf has entered the Sacred Realm, obtained the power of the Triforce of Power, and conquered Hyrule. Now, Link must awaken the six sages and obtain their power to defeat Ganondorf once and for all.`

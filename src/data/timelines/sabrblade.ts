@@ -7,7 +7,7 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2026-03-30',
+  lastUpdatedOn: '2026-05-05',
   sources: [
     {
       label: 'The games/game manuals',
@@ -26,6 +26,7 @@ const metadata: Metadata = {
     'This lengthy timeline features no hypothetical "what-if" branches, no reincarnating Ganondorfs (FSAdorf is OOTdorf, but TOTKdorf is an entirely separate man with the same name), FSA as a direct sequel to FS, five spinoff games, True Founding, and some minor retcons to help smooth out the rougher edges.'
 }
 
+
 const flowchart: Edge[] = [
   //Origin Era
   {
@@ -35,7 +36,7 @@ const flowchart: Edge[] = [
   //Godly Era: Zonai Birth Period
   {
     source: Events.TriforceAndSecretStonesCreated,
-    target: Events.HyliaTriforceSecretStonesZonai
+    target: Events.HyliaTriforceSecretStonesZonai,
   },
   {
     source: Events.HyliaTriforceSecretStonesZonai,
@@ -72,10 +73,10 @@ const flowchart: Edge[] = [
     style: EdgeStyle.Dotted,
     extraDistance: 3
   },
-  //Godly Era: Skyloft Period
+    //Godly Era: Skyloft Period
   {
     source: Events.LanayruDesert,
-    target: Events.HWSS1
+    target: Events.HWSS1,
   },
   {
     source: Events.HWSS1,
@@ -150,7 +151,7 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.GreatSkyIsland,
-    target: Events.NewCastleBuiltDemonKingErasure
+    target: Events.NewCastleBuiltDemonKingErasure,
   },
   //Force Era: Minish Period
   {
@@ -202,7 +203,7 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.DarkTribeTwilightRealm,
-    target: Events.SagesSealSacredRealm
+    target: Events.SagesSealSacredRealm,
   },
   //Force Era: Four Sword Period
   {
@@ -268,7 +269,7 @@ const flowchart: Edge[] = [
   },
   {
     source: Events.NewHyruleCastle,
-    target: Events.OriginalGanondorfBreaksSeal
+    target: Events.OriginalGanondorfBreaksSeal,
   },
   {
     source: Events.OriginalGanondorfBreaksSeal,

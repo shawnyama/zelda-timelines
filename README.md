@@ -14,7 +14,7 @@ The Legend of Zelda franchise consists of various games. Each game can be enjoye
 | Imprisoning Split | Tabun | [Original article](https://note.com/ohyoso_tabun/n/n9c210ebca848), [AI Translated Google Doc](https://docs.google.com/document/d/1GNVlLvR2Tam1eRYkyw_ZX3kjbwyqQT_TX3_bK4BYoBw/edit?tab=t.0) | April 5, 2026 |
 | Lorulean | LoruleanHistorian, Instrutilus, Zelda Lore | [video](https://www.youtube.com/watch?v=7GAqIqYzqGQ) | August 10, 2024 |
 | Official | Nintendo | [NA site](https://www.zelda.com/about/), [JP site](https://www.nintendo.com/jp/character/zelda/history/index.html) | May 19, 2025 |
-| Sabrblade | Sabrblade a.k.a. Miles Tinker | The games/game manuals, Creating a Champion, TOTK Master Works | March 30, 2026 |
+| Sabrblade | Sabrblade a.k.a. Miles Tinker | The games/game manuals, Creating a Champion, TOTK Master Works | May 5, 2026 |
 | Triforce | Triforce Johnson of Empire Arcadia | [video](https://youtu.be/HPnvAt9bvAs), [playlist](https://www.youtube.com/playlist?list=PLYYZg45BvGCMoNCbPlhfV0296IOfrBUVz) | August 10, 2025 |
 
 
