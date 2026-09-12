@@ -9,7 +9,7 @@
         visibility: showDiagram ? 'visible' : 'hidden'
       }"
       :value="generateDiagram()"
-      :options="{ maxTextSize: 55000 }"
+      :options="{ maxTextSize: 60000 }"
       @rendered="updateDimensions(true)"
     />
   </figure>

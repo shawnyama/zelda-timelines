@@ -15,7 +15,7 @@ const metadata: Metadata = {
     },
     {
       label: 'JP site',
-      url: 'https://www.nintendo.com/jp/character/zelda/history/index.html'
+      url: 'https://www.nintendo.com/jp/character/zelda/chronicle/index.html'
     }
   ],
   notes: null

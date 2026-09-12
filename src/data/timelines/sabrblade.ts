@@ -7,7 +7,7 @@ const metadata: Metadata = {
   timelineCreator: 'Sabrblade a.k.a. Miles Tinker',
   submittedBy: 'Miles Tinker',
   submittedOn: '2025-12-18',
-  lastUpdatedOn: '2026-05-05',
+  lastUpdatedOn: '2026-06-29',
   sources: [
     {
       label: 'The games/game manuals',

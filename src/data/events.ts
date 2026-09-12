@@ -47,7 +47,7 @@ export enum Events {
   AReturnToTheSurface = 'A Return to the Surface',
   TheSacredRealmIsSealed = 'The Sacred Realm is Sealed',
   TheEstablishmentOfHyruleKingdom = 'The Establishment of Hyrule Kingdom',
-  TheRiseOfTheEvilVatti = 'The Rise of the Evil Vatti',
+  TheRiseOfTheEvilVaati = 'The Rise of the Evil Vaati',
   TheResurrectionOfVaati = 'The Resurrection of Vaati',
   HyruleanCivilWar = 'Hyrulean Civil War',
   TheSacredRealmBecomesTheDarkWorld = 'The Sacred Realm becomes the Dark World',
@@ -84,8 +84,8 @@ export enum Events {
   Divergence = 'Divergence: Zelda sends Link back to his childhood',
   Convergence = 'Convergence: In A Link to the Past, Link wishes on the Triforce for everything to return to normal',
   // Lorulean events
-  VattiIsSealed = 'Bad Ending: Vatti is Sealed',
-  VattiIsDestroyed = 'Good Ending: Vatti is Destroyed',
+  VaatiIsSealed = 'Bad Ending: Vaati is Sealed',
+  VaatiIsDestroyed = 'Good Ending: Vaati is Destroyed',
   // Geekery events
   TheHeroIsAbsent = 'The Hero is Absent',
   OldHyruleIsDiscovered = 'Old Hyrule is Discovered',
@@ -117,7 +117,7 @@ export enum Events {
   FallOfHyrule = 'Hyrule is destroyed by Ganondorf, the Bringer of Demise.',
   EraOfPeace = 'Hyrule enjoys 10,000 years of peace.',
   // Sabrblade events
-  GoldenGoddessesCreateWorld = 'In the void of chaos before Creation, Null consumes all. The Three Golden Goddesses create the World to imprison Null. The Tris are created to keep Null sealed - ALTTP/OOT/TP/EOW',
+  GoldenGoddessesCreateWorld = 'In the void of chaos before Creation, Null consumes all. The Three Golden Goddesses create the World to imprison Null. The Tris are created to keep Null sealed - ALTTP OOT/TP/EOW',
   TriforceAndSecretStonesCreated = 'The Golden Goddesses create the Triforce and the Secret Stones. The land is entrusted to the Goddess Hylia - ALTTP/OOT/TP ALBW/SS/MW2',
 
   HyliaTriforceSecretStonesZonai = 'Hylia protects the Triforce and entrusts the Secret Stones to the Zonai Tribe, who mine the Depths and prosper on the Surface - SS/MW2',
@@ -281,8 +281,8 @@ export const timeSplitEvents: string[] = [
 export const whatIfEvents: string[] = [
   Events.TheHeroIsTriumphant,
   Events.TheHeroIsDefeated,
-  Events.VattiIsSealed,
-  Events.VattiIsDestroyed
+  Events.VaatiIsSealed,
+  Events.VaatiIsDestroyed
 ]
 
 export const majorEvents: string[] = [...timeSplitEvents, ...whatIfEvents]

@@ -19,8 +19,8 @@ const flowchart: Edge[] = [
   { source: Events.TheEstablishmentOfHyruleKingdom, target: Events.WarOfTheBoundChest },
   { source: Events.WarOfTheBoundChest, target: GameIds.TheMinishCap },
   // Good ending
-  { source: GameIds.TheMinishCap, target: Events.VattiIsDestroyed },
-  { source: Events.VattiIsDestroyed, target: Events.HyruleanCivilWar },
+  { source: GameIds.TheMinishCap, target: Events.VaatiIsDestroyed },
+  { source: Events.VaatiIsDestroyed, target: Events.HyruleanCivilWar },
   { source: Events.HyruleanCivilWar, target: GameIds.OcarinaOfTime, style: EdgeStyle.Thick },
   // Adult timeline
   { source: GameIds.OcarinaOfTime, target: Events.AdultTimeline },
@@ -59,8 +59,8 @@ const flowchart: Edge[] = [
     style: EdgeStyle.Thick
   },
   // Bad ending
-  { source: GameIds.TheMinishCap, target: Events.VattiIsSealed },
-  { source: Events.VattiIsSealed, target: GameIds.FourSwords },
+  { source: GameIds.TheMinishCap, target: Events.VaatiIsSealed },
+  { source: Events.VaatiIsSealed, target: GameIds.FourSwords },
   { source: GameIds.FourSwords, target: GameIds.FourSwordsAdventures },
   { source: GameIds.FourSwordsAdventures, target: Events.TheImprisoningWar },
   { source: Events.TheImprisoningWar, target: GameIds.ALinkToThePast },
