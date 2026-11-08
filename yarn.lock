@@ -4272,10 +4272,10 @@ vue-eslint-parser@^10.4.0:
     esquery "^1.6.0"
     semver "^7.6.3"
 
-vue-mermaid-string@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/vue-mermaid-string/-/vue-mermaid-string-7.0.0.tgz"
-  integrity sha512-bpOXTO6ppZ/hwHOkKJOUhRI98i5xZmroDXmyBSnUJC2IO1IsXZJE0EL+YleDs5EtuOH25Db4m7OVVkFgQaLYqg==
+vue-mermaid-string@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/vue-mermaid-string/-/vue-mermaid-string-8.0.2.tgz#477b00b9ade7d92478ec18f6bce39403d291eb82"
+  integrity sha512-JwGgXcM2JEN2DkgVRSM7gNPApv0ZrjZ14UUMTUvaf8FEiW8PYjTT7HPICt7KUDDS4JanzO//jJ2nQ/RYUmsJtQ==
   dependencies:
     mermaid "^11.4.0"
     nanoid "^5.0.8"
